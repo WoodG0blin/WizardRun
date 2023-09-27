@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f316a2f5f5c19a2498b17e61a93a296a, type: 3}
+  m_Name: Portal
+  m_EditorClassIdentifier: 
+  _name: Portal
+  _prefab: {fileID: 270425611758689274, guid: e44f1600547e87a4bbc5c8df77e02d43, type: 3}
+  _animations:
+  - State: 0
+    Speed: 15
+    Loop: 1
+    Sprites:
+    - {fileID: -979051267, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 1917064820, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: -1531193133, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 1931219911, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: -1725306045, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 1945845246, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 2094700677, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 1851115746, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 1156638107, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: -577412290, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 1342792424, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: -892308360, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 628000389, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 1194283859, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 1124428451, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 394620383, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 577749976, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: -1188467413, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 153461453, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 278630977, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: -1411436255, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 511519457, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: -126724903, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 1234382450, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 1047704374, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: -631173561, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 1929496420, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: -932420377, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: -656926569, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+    - {fileID: 1342481500, guid: 9da3a22d23b4ad049b470d128d271df8, type: 3}
+  _maxHealth: 0
+  _speed: 0
+  _weaponConfig: {fileID: 0}
+  _bonusesOnKill: 0

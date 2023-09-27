@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b70b719b3364f664fbded621bcb985aa, type: 3}
+  m_Name: PlayerRangedWeapon
+  m_EditorClassIdentifier: 
+  _name: PlayerRangedWeapon
+  _ammo: {fileID: 5613963724177010042, guid: 527ffee76cfe6484a9be1da2dcefedab, type: 3}
+  _isRanged: 1
+  _damage: 10
+  _attackDistance: 20
+  _cooldown: 0.5
+  _fireForce: 1.2

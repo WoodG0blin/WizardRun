@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Demon
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 455f4f3862ec7d74084c03c465478d05, type: 3}
+    - {fileID: 2800000, guid: 63b8b1dd020e28247b6bc86209174982, type: 3}
+    - {fileID: 2800000, guid: 29a05777a5aa46f4ab0fae3edbcedd09, type: 3}
+    - {fileID: 2800000, guid: 124ea3405c936cd47b7bce1de8d15a72, type: 3}
+    - {fileID: 2800000, guid: c57b0d01146da134f8c80df4143d8789, type: 3}
+    - {fileID: 2800000, guid: 2702028e9710bc349a91afda93945419, type: 3}
+    - {fileID: 2800000, guid: 2dec130089fa9ac40adb1c2d5872f2e8, type: 3}
+    - {fileID: 2800000, guid: f1a427f68f1f25b489831d27df549db7, type: 3}
+    - {fileID: 2800000, guid: 2618f318535a99742ba316b47d5323ab, type: 3}
+    - {fileID: 2800000, guid: 1c972a8b7334a284eb7f9e842eaf21fe, type: 3}
+    - {fileID: 2800000, guid: 1342c4f6a97ae7e4db7c81c3844cd508, type: 3}
+    - {fileID: 2800000, guid: e33436302ce5ad448934c8b352a74a15, type: 3}
+    - {fileID: 2800000, guid: 48e72abc66f52f549a1c7a75f544c1c0, type: 3}
+    - {fileID: 2800000, guid: 8896b4624c937314a974cf2cff3b4cdb, type: 3}
+    - {fileID: 2800000, guid: 1107d8de59e812143a976c57f25ea52c, type: 3}
+    - {fileID: 2800000, guid: bf3b645610140754bbc0790ff7c4ec73, type: 3}
+    - {fileID: 2800000, guid: 25d10aac9e6a33e4280d697ef92f163b, type: 3}
+    - {fileID: 2800000, guid: bd7a83d4ed2c4604f953ca78a47f6994, type: 3}
+    - {fileID: 2800000, guid: d4fdafddc1b0a6f408f274d46cc3adb5, type: 3}
+    - {fileID: 2800000, guid: 84d9807394725cd408383177d14932a0, type: 3}
+    - {fileID: 2800000, guid: c6433700a1c7c564aa64e646bd9ff727, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 2dec130089fa9ac40adb1c2d5872f2e8, type: 3}
+  - {fileID: 21300000, guid: c6433700a1c7c564aa64e646bd9ff727, type: 3}
+  - {fileID: 21300000, guid: e33436302ce5ad448934c8b352a74a15, type: 3}
+  - {fileID: 21300000, guid: 124ea3405c936cd47b7bce1de8d15a72, type: 3}
+  - {fileID: 21300000, guid: c57b0d01146da134f8c80df4143d8789, type: 3}
+  - {fileID: 21300000, guid: 8896b4624c937314a974cf2cff3b4cdb, type: 3}
+  - {fileID: 21300000, guid: 84d9807394725cd408383177d14932a0, type: 3}
+  - {fileID: 21300000, guid: bd7a83d4ed2c4604f953ca78a47f6994, type: 3}
+  - {fileID: 21300000, guid: bf3b645610140754bbc0790ff7c4ec73, type: 3}
+  - {fileID: 21300000, guid: 1342c4f6a97ae7e4db7c81c3844cd508, type: 3}
+  - {fileID: 21300000, guid: f1a427f68f1f25b489831d27df549db7, type: 3}
+  - {fileID: 21300000, guid: 29a05777a5aa46f4ab0fae3edbcedd09, type: 3}
+  - {fileID: 21300000, guid: 2618f318535a99742ba316b47d5323ab, type: 3}
+  - {fileID: 21300000, guid: 455f4f3862ec7d74084c03c465478d05, type: 3}
+  - {fileID: 21300000, guid: 1c972a8b7334a284eb7f9e842eaf21fe, type: 3}
+  - {fileID: 21300000, guid: 25d10aac9e6a33e4280d697ef92f163b, type: 3}
+  - {fileID: 21300000, guid: 48e72abc66f52f549a1c7a75f544c1c0, type: 3}
+  - {fileID: 21300000, guid: 63b8b1dd020e28247b6bc86209174982, type: 3}
+  - {fileID: 21300000, guid: d4fdafddc1b0a6f408f274d46cc3adb5, type: 3}
+  - {fileID: 21300000, guid: 2702028e9710bc349a91afda93945419, type: 3}
+  - {fileID: 21300000, guid: 1107d8de59e812143a976c57f25ea52c, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Death3
+  - Walk6
+  - Hurt2
+  - Attack4
+  - Death1
+  - Idle2
+  - Walk5
+  - Walk3
+  - Walk1
+  - Hurt1
+  - Death4
+  - Attack3
+  - Death5
+  - Attack1
+  - Death6
+  - Walk2
+  - Idle1
+  - Attack2
+  - Walk4
+  - Death2
+  - Idle3
+  m_RenderDataMap: {}
+  m_Tag: Demon
+  m_IsVariant: 0
