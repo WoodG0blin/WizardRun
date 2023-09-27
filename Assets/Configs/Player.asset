@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f316a2f5f5c19a2498b17e61a93a296a, type: 3}
+  m_Name: Player
+  m_EditorClassIdentifier: 
+  _name: Player
+  _prefab: {fileID: 6223850499296179106, guid: b1d31c8adf74feb459de6ad5df8ca0de, type: 3}
+  _animations:
+  - State: 0
+    Speed: 5
+    Loop: 1
+    Sprites:
+    - {fileID: 21300000, guid: 7d5a151833b6e864e9666bf59deb86d5, type: 3}
+    - {fileID: 21300000, guid: e1d29a64e0930b14a8fc14c0bf3d8ed7, type: 3}
+    - {fileID: 21300000, guid: 223f66fca4a22f04892e680d211b4146, type: 3}
+    - {fileID: 21300000, guid: 7f8d8c3c15a53c14faa1f49c0a7d2adc, type: 3}
+    - {fileID: 21300000, guid: 14e91987ccc40304193495359d6bc21b, type: 3}
+  - State: 1
+    Speed: 5
+    Loop: 1
+    Sprites:
+    - {fileID: 21300000, guid: 4c373ef8f06b31e468f813810547cd85, type: 3}
+    - {fileID: 21300000, guid: 3b7f9d01f1c8a0e4981e8c568f2096b0, type: 3}
+    - {fileID: 21300000, guid: 15f0449db2ef5e04ead1db62a220ca3f, type: 3}
+    - {fileID: 21300000, guid: 6eaf33d4334889e4584010e70fb4a2e6, type: 3}
+    - {fileID: 21300000, guid: dfe730aa3d5a38144953f1cb3c4a0f92, type: 3}
+  - State: 4
+    Speed: 5
+    Loop: 0
+    Sprites:
+    - {fileID: 21300000, guid: 4b91d29cadefc6940bfc2d48c48ef4cd, type: 3}
+    - {fileID: 21300000, guid: 7c8c1d8cec3e1264f93447194b3cbabf, type: 3}
+    - {fileID: 21300000, guid: 60726062deb83624ab439d01ede6e0ce, type: 3}
+    - {fileID: 21300000, guid: 9dc2c954775472b459ca70cc8d603312, type: 3}
+    - {fileID: 21300000, guid: 90b47ba4f4b235246a69370c61a3c216, type: 3}
+  - State: 5
+    Speed: 5
+    Loop: 0
+    Sprites:
+    - {fileID: 21300000, guid: 7ab8b622a4c3a9a449202235814bd512, type: 3}
+    - {fileID: 21300000, guid: 31ccc1ba03030c8498a582fe8dd63fb9, type: 3}
+    - {fileID: 21300000, guid: accdcbd26676f4c488d923b0520dcf45, type: 3}
+    - {fileID: 21300000, guid: 724174ba02d9b9041a3cd129fd459215, type: 3}
+    - {fileID: 21300000, guid: 3e618d07f24aa6b4eb32646618f6d0e0, type: 3}
+  - State: 6
+    Speed: 5
+    Loop: 0
+    Sprites:
+    - {fileID: 21300000, guid: 30fabb5b5c1ef1843bd9724ff351c526, type: 3}
+    - {fileID: 21300000, guid: 25370f65addc86c469b6de285e4cb240, type: 3}
+    - {fileID: 21300000, guid: e05e33e0d958a8b4aa0925b32e9820d8, type: 3}
+    - {fileID: 21300000, guid: 30e6012171f29df4a8768a0be005caff, type: 3}
+    - {fileID: 21300000, guid: 000671a1a221eef428df406eeadc0f68, type: 3}
+  - State: 3
+    Speed: 5
+    Loop: 0
+    Sprites:
+    - {fileID: 21300000, guid: 9f8e6509724eb52468683f78489c2f77, type: 3}
+    - {fileID: 21300000, guid: 7825747e1d4a2074ab2e150fc324d1db, type: 3}
+    - {fileID: 21300000, guid: 8d67d46314f424343ab84f662910c639, type: 3}
+    - {fileID: 21300000, guid: 7270b0fa46abcb34caecb2736900cdd5, type: 3}
+    - {fileID: 21300000, guid: f43a24b629d770d459b8bb9d0f4dee9f, type: 3}
+  - State: 2
+    Speed: 5
+    Loop: 1
+    Sprites:
+    - {fileID: 21300000, guid: c2e4b0f5b1b5ee3469028a892df114c5, type: 3}
+    - {fileID: 21300000, guid: 1e1a74356963e564787334fb3c4148ff, type: 3}
+    - {fileID: 21300000, guid: f4955fd533b006943a76dfdd26260abb, type: 3}
+    - {fileID: 21300000, guid: 16f2c1a16b799a24997b4caf99ac2d01, type: 3}
+    - {fileID: 21300000, guid: d990dc1ba133aa2438660eff4e547254, type: 3}
+  _maxHealth: 1000
+  _speed: 3
+  _weaponConfig: {fileID: 11400000, guid: c591f2b43c61a55418ef45456545188f, type: 2}
+  _bonusesOnKill: 0

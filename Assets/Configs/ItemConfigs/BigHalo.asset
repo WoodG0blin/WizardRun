@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f4c5eef8ba33d43bf20ed72e6abf11, type: 3}
+  m_Name: BigHalo
+  m_EditorClassIdentifier: 
+  <ID>k__BackingField: BigHalo001
+  <Name>k__BackingField: SpeedIncrease4
+  <Icon>k__BackingField: {fileID: 21300000, guid: 2794efd5d36dfef4d9be253789a9229c, type: 3}
+  <LevelView>k__BackingField: {fileID: 0}
+  <IsUpgrade>k__BackingField: 1
+  <Upgrade>k__BackingField:
+    <Activator>k__BackingField: 0
+    <Upgrade>k__BackingField: 0
+    <Description>k__BackingField: 
+    <Value>k__BackingField: 4

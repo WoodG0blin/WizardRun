@@ -1,0 +1,417 @@
+fileFormatVersion: 2
+guid: b9b3907eb1416bf4eaaf119212c7bd6a
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 150
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Winds_2
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 410
+        width: 220
+        height: 150
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8effad14f55815f43b0f5290be93a612
+      internalID: 1059253587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Winds_3
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 410
+        width: 220
+        height: 150
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7d5bfa7b82cf3341b5c73cf0466c137
+      internalID: -1643711791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Winds_1
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 410
+        width: 220
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34fc09dd9cea3124099ec24df0061b97
+      internalID: 122010881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Winds_0
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 424
+        width: 220
+        height: 150
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8835e7fd60454dc4eb30587fb5d6ca5e
+      internalID: -1718684461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Winds_5
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 236
+        width: 220
+        height: 150
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28fd70d429f35b548b6f664351b3c5ea
+      internalID: 1641060485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Winds_6
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 220
+        width: 220
+        height: 150
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75fbf484df895ce40bc3e0f33484ead5
+      internalID: 216018069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Winds_7
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 220
+        width: 220
+        height: 150
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d35e9303903f3f43a91f057942f6d5f
+      internalID: -467609108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Winds_10
+      rect:
+        serializedVersion: 2
+        x: 627
+        y: 33
+        width: 220
+        height: 150
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5572e3c73405d0e41b7c782ff2fad6df
+      internalID: -1855329872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Winds_8
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 36
+        width: 220
+        height: 150
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abc3b011aec475b4898811ff07ec48e3
+      internalID: 1669519056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Winds_9
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 39
+        width: 220
+        height: 150
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1dba4eea5ec9266459d18fc77448f04c
+      internalID: 1136115310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Winds_36: -1464941288
+      Winds_20: 2013173026
+      Winds_10: -1855329872
+      Winds_51: -211024979
+      Winds_58: 130272749
+      Winds_61: 2033451001
+      Winds_35: 816689741
+      Winds_22: 53997678
+      Winds_43: 1994161565
+      Winds_49: 1989363128
+      Winds_78: -1456477715
+      Winds_29: 2123645052
+      Winds_67: 457305947
+      Winds_34: 222361949
+      Winds_69: 1743000139
+      Winds_77: -1135235715
+      Winds_52: -651371231
+      Winds_68: 1730326783
+      Winds_9: 1136115310
+      Winds_23: 2060393935
+      Winds_21: -524662894
+      Winds_11: 771406136
+      Winds_15: -1965573229
+      Winds_73: -540010456
+      Winds_14: -1813034892
+      Winds_8: 1669519056
+      Winds_70: 1929649124
+      Winds_38: -454227248
+      Winds_59: 1605443400
+      Winds_33: 333575355
+      Winds_66: 178397915
+      Winds_30: -2078193150
+      Winds_39: -896709824
+      Winds_12: 16186564
+      Winds_48: 1024009921
+      Winds_13: 567230512
+      Winds_47: -1235343579
+      Winds_71: -858400711
+      Winds_27: -29804746
+      Winds_3: -1643711791
+      Winds_6: 216018069
+      Winds_44: -1147500029
+      Winds_53: 914914910
+      Winds_40: -477258273
+      Winds_74: 1118733280
+      Winds_50: 627580117
+      Winds_64: -903165604
+      Winds_7: -467609108
+      Winds_76: -97668586
+      Winds_79: -1086513311
+      Winds_57: -338247
+      Winds_0: -1718684461
+      Winds_5: 1641060485
+      Winds_31: 1921148999
+      Winds_28: 1508066257
+      Winds_37: -100763808
+      Winds_65: -976981036
+      Winds_24: 249787477
+      Winds_54: 1705091048
+      Winds_55: 211212759
+      Winds_63: -1866808177
+      Winds_17: -1242923712
+      Winds_41: -2072119968
+      Winds_62: -1154760622
+      Winds_26: 86124624
+      Winds_32: 1955250206
+      Winds_75: -344330948
+      Winds_1: 122010881
+      Winds_46: 270897718
+      Winds_56: -208228439
+      Winds_2: 1059253587
+      Winds_60: -31713019
+      Winds_16: -1718684461
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

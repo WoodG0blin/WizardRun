@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5391886ab9cedf47ae24e41e96df074, type: 3}
+  m_Name: InputConfig
+  m_EditorClassIdentifier: 
+  <MobileInputPrefab>k__BackingField: {fileID: 8156973354796083963, guid: e0a25972223509f4fbe4a4ee58d41b38, type: 3}
+  <KeyboardInputPrefab>k__BackingField: {fileID: 8156973354796083963, guid: b64e497af6b5990449d9c34b2200bf0b, type: 3}
