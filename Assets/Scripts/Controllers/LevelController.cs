@@ -1,5 +1,4 @@
 using UnityEngine;
-using JoostenProductions;
 using System.Collections.Generic;
 
 namespace WizardsPlatformer
@@ -44,7 +43,7 @@ namespace WizardsPlatformer
             _bonuses = _levelModel.GroundsModel.Bonuses;
 
             Init();
-            UpdateManager.SubscribeToUpdate(Update);
+            //UpdateManager.SubscribeToUpdate(Update);
 
             _gameModel.AnalyticsManager.OnLevelStart();
         }

@@ -1,4 +1,3 @@
-using JoostenProductions;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -97,7 +96,7 @@ namespace WizardsPlatformer
         }
         protected override void OnDispose()
         {
-            UpdateManager.UnsubscribeFromUpdate(Move);
+            //UpdateManager.UnsubscribeFromUpdate(Move);
             _levelModel.HorizontalMove.UnsubscribeOnValueChange(OnHorizontalMove);
             _levelModel.Jump.UnsubscribeOnValueChange(OnJump);
             _levelModel.Fire.UnsubscribeOnValueChange(OnFire);

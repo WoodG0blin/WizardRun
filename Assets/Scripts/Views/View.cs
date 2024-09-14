@@ -1,4 +1,3 @@
-using JoostenProductions;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -130,13 +129,13 @@ namespace WizardsPlatformer
 
         protected void RegisterOnUpdate()
         {
-            UpdateManager.SubscribeToUpdate(OnUpdate);
+            //UpdateManager.SubscribeToUpdate(OnUpdate);
             _subscribedToUpdate= true;
         }
 
         protected void UnRegisterFromUpdate()
         {
-            if(_subscribedToUpdate) UpdateManager.UnsubscribeFromUpdate(OnUpdate);
+            //if(_subscribedToUpdate) UpdateManager.UnsubscribeFromUpdate(OnUpdate);
             _subscribedToUpdate= false;
         }
         protected virtual void OnUpdate() { }

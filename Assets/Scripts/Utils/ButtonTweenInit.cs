@@ -9,8 +9,9 @@ namespace WizardsPlatformer
         {
             if (target == null) return;
 
-            if (target.TryGetComponent<TweenAnimation>(out TweenAnimation anim)) anim.OnClickEnd += new DG.Tweening.TweenCallback(action);
-            else target.onClick.AddListener(() => action.Invoke());
+            //if (target.TryGetComponent<TweenAnimation>(out TweenAnimation anim)) anim.OnClickEnd += new DG.Tweening.TweenCallback(action);
+            //else target.onClick.AddListener(() => action.Invoke());
+            target.onClick.AddListener(() => action.Invoke());
         }
     }
 }

@@ -1,4 +1,3 @@
-using DG.Tweening;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,11 +19,11 @@ namespace WizardsPlatformer
         private Button _button;
 
         [SerializeField] protected TweenType tweenType;
-        [SerializeField] protected Ease ease;
+        //[SerializeField] protected Ease ease;
         [SerializeField, Min(MIN_DURATION)] protected float duration;
         [SerializeField, Range(MIN_POWER, MAX_POWER)] protected float power;
 
-        public event TweenCallback OnClickEnd;
+        //public event TweenCallback OnClickEnd;
 
         private void Awake()
         {
@@ -35,11 +34,11 @@ namespace WizardsPlatformer
 
         protected void PlayAnimation()
         {
-            switch (tweenType)
-            {
-                case TweenType.position: _rectTransform?.DOShakeAnchorPos(duration, power).OnComplete(OnClickEnd); break;
-                case TweenType.rotation: _rectTransform?.DOShakeRotation(duration, power).OnComplete(OnClickEnd); break;
-            }
+            //switch (tweenType)
+            //{
+            //    case TweenType.position: _rectTransform?.DOShakeAnchorPos(duration, power).OnComplete(OnClickEnd); break;
+            //    case TweenType.rotation: _rectTransform?.DOShakeRotation(duration, power).OnComplete(OnClickEnd); break;
+            //}
         }
 
         private void OnDestroy()
