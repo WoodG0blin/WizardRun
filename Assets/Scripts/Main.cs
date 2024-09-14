@@ -8,7 +8,7 @@ namespace WizardsPlatformer
     {
         [SerializeField] private Transform _UIContainer;
         [SerializeField] private AnalyticsManager _analyticsManager;
-        [SerializeField] private AdsManager _adsManager;
+        //[SerializeField] private AdsManager _adsManager;
 
         private const GameState INITIAL_STATE = GameState.MainMenu;
         
@@ -22,7 +22,7 @@ namespace WizardsPlatformer
         private void OnDestroy()
         {
             _gameController.Dispose();
-            _adsManager?.OnInitialized.RemoveListener(_adsManager.InterstitialPlayer.Play);
+            //_adsManager?.OnInitialized.RemoveListener(_adsManager.InterstitialPlayer.Play);
         }
 
     }

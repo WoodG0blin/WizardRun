@@ -28,8 +28,8 @@ namespace WizardsPlatformer
 
             _GameModel.AnalyticsManager.OnMenuEnter();
 
-            if (_GameModel.AdsManager.IsInitialized) _GameModel.AdsManager.InterstitialPlayer.Play();
-            else _GameModel.AdsManager.OnInitialized.AddListener(_GameModel.AdsManager.InterstitialPlayer.Play);
+            //if (_GameModel.AdsManager.IsInitialized) _GameModel.AdsManager.InterstitialPlayer.Play();
+            //else _GameModel.AdsManager.OnInitialized.AddListener(_GameModel.AdsManager.InterstitialPlayer.Play);
         }
 
         private void OnGameStart() => _GameModel.CurrentState.Value = GameState.Game;

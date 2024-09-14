@@ -12,7 +12,7 @@ namespace WizardsPlatformer
         internal LevelModel LevelModel { get; }
         internal InventoryModel InventoryModel { get; }
         internal AnalyticsManager AnalyticsManager { get; }
-        internal AdsManager AdsManager { get; }
+        //internal AdsManager AdsManager { get; }
 
         public GameModel(GameState initialState)
         {
@@ -21,7 +21,7 @@ namespace WizardsPlatformer
             InventoryModel = new InventoryModel();
             LevelModel = new LevelModel(CurrentState, AddBonus);
             AnalyticsManager = GameObject.FindObjectOfType<AnalyticsManager>();
-            AdsManager= GameObject.FindObjectOfType<AdsManager>();
+            //AdsManager= GameObject.FindObjectOfType<AdsManager>();
             Bonuses = new BonusStats(true);
         }
 

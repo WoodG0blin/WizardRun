@@ -18,8 +18,8 @@ namespace WizardsPlatformer
             GameObject temp = GameObject.Instantiate(ResourceLoader.LoadPrefab(_assetPath), _UIContainer);
             ShopView _shopView = temp.GetComponent<ShopView>() ?? temp.AddComponent<ShopView>();
             _shopView.OnReturn = OnReturn;
-            _GameModel.AdsManager.RewardedPlayer.Finished += OnAdsFinished;
-            _shopView.OnAddRequest = _GameModel.AdsManager.RewardedPlayer.Play;
+            //_GameModel.AdsManager.RewardedPlayer.Finished += OnAdsFinished;
+            //_shopView.OnAddRequest = _GameModel.AdsManager.RewardedPlayer.Play;
             _shopView.OnRewardCollection += (type, value) => _GameModel.AddBonus(type, value);
             Register(_shopView);
         }
@@ -28,7 +28,7 @@ namespace WizardsPlatformer
         private void OnAdsFinished() => Debug.Log("Ad was watched, bonuses will be added");
         protected override void OnDispose()
         {
-            _GameModel.AdsManager.RewardedPlayer.Finished -= OnAdsFinished;
+            //_GameModel.AdsManager.RewardedPlayer.Finished -= OnAdsFinished;
         }
     }
 }
