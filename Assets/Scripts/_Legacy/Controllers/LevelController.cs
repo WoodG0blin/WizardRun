@@ -45,7 +45,7 @@ namespace WizardsPlatformer
             Init();
             //UpdateManager.SubscribeToUpdate(Update);
 
-            _gameModel.AnalyticsManager.OnLevelStart();
+            //_gameModel.AnalyticsManager.OnLevelStart();
         }
 
         private void Init()

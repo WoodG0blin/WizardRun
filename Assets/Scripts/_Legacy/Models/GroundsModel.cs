@@ -42,6 +42,18 @@ namespace WizardsPlatformer
             Reset();
         }
 
+        public GroundsModel(int maxLength)
+        {
+            _maxLength = maxLength;
+
+            _elements = new List<LevelElement>();
+            _levelObjects = new List<LevelObject>();
+
+            Bonuses = new BonusStats();
+
+            Reset();
+        }
+
         private void Generate()
         {
             int platformLength, platformHeight, gapLength;
