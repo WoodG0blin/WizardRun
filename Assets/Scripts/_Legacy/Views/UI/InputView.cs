@@ -5,19 +5,19 @@ using System;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityStandardAssets.CrossPlatformInput;
+using UnityEngine.PlayerLoop;
 
 namespace WizardsPlatformer
 {
-    internal interface IInputView : IView
+    internal interface IInputView
     {
         Action OnPauseMenu { set; }
-
-        event Action OnFireInput;
-        event Action<float> OnHorizontalMoveInput;
-        event Action OnJumpInput;
+        Action OnFireInput { set; }
+        Action<float> OnHorizontalMoveInput { set; }
+        Action OnJumpInput { set; }
     }
 
-    internal class InputView : View, IInputView
+    internal class InputView : MonoBehaviour, IInputView
     {
         [SerializeField] private Button _pauseMenuButton;
         private Action _onEsc;
@@ -30,16 +30,12 @@ namespace WizardsPlatformer
             }
         }
 
-        public event Action<float> OnHorizontalMoveInput;
-        public event Action OnJumpInput;
-        public event Action OnFireInput;
+        public Action<float> OnHorizontalMoveInput { private get; set; }
+        public Action OnJumpInput { private get; set; }
+        public Action OnFireInput { private get; set; }
 
-        private void Awake()
-        {
-            RegisterOnUpdate();
-        }
-
-        protected override void OnUpdate()
+        
+        private void Update()
         {
             OnHorizontalMoveInput?.Invoke(CrossPlatformInputManager.GetAxis("Horizontal"));
 
@@ -50,6 +46,13 @@ namespace WizardsPlatformer
 #endif
         }
 
-        protected override void OnDestruction() => _pauseMenuButton?.onClick.RemoveAllListeners();
+        private void OnDestroy()
+        {
+            OnFireInput = null;
+            OnJumpInput = null;
+            OnPauseMenu = null;
+            OnHorizontalMoveInput = null;
+            _pauseMenuButton.onClick.RemoveAllListeners();
+        }
     }
 }

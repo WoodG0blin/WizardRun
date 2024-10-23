@@ -19,7 +19,17 @@ namespace WizardsPlatformer
             _level.PlayerPosition.SubscribeOnValueChange(OnPlayerPositionChange);
         }
 
-        public void SetActive(bool active) => _camera.SetActive(active);
+        public CameraController(Camera camera)
+        {
+            if (!camera.TryGetComponent<ICameraView>(out _camera)) _camera = camera.transform.AddComponent<CameraView>();
+        }
+
+        public void UpdateToPlayerPosition(Vector3 newPosition)
+        {
+            float targetX = newPosition.x;
+            float targetY = Mathf.Clamp(newPosition.y, -3.5f, 3.5f);
+            _camera.SetNewTargetPosition(targetX, targetY);
+        }
 
         protected override void OnDispose() =>
             _level.PlayerPosition.UnsubscribeOnValueChange(OnPlayerPositionChange);

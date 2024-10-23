@@ -1,17 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
-using UnityEngine.UIElements;
 
 namespace WizardsPlatformer
 {
-    internal interface ICameraView : IView
+    internal interface ICameraView
     {
         void SetNewTargetPosition(float targetX, float targetY);
     }
 
-    internal class CameraView : View, ICameraView
+    internal class CameraView : MonoBehaviour, ICameraView
     {
         private float _targetX;
         private float _targetY;
@@ -29,7 +27,6 @@ namespace WizardsPlatformer
         {
             _cameraPosition= transform.position;
             _backGround = new BackGroundManager(transform, _backGrounds);
-            RegisterOnUpdate();
         }
 
         public void Init(float speed, Transform[] backGrounds)
@@ -46,7 +43,7 @@ namespace WizardsPlatformer
             _targetY = targetY;
         }
 
-        protected override void OnUpdate()
+        private void Update()
         {
             //_targetX = _player.transform.position.x;
             //if (Mathf.Abs(_player.rigidbody.velocity.x) > _offsetThreshold) _targetX += _offset * Mathf.Sign(_player.rigidbody.velocity.x);

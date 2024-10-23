@@ -12,11 +12,14 @@ namespace WizardsPlatformer
         internal LevelModel LevelModel { get; }
         internal InventoryModel InventoryModel { get; }
 
+        internal PlayerModel PlayerModel { get; private set; }
+
         public GameModel(GameState initialState)
         {
+            InventoryModel = new InventoryModel();
+
             CurrentState = new SubscribrablePropertyWithEqualsCheck <GameState>();
             CurrentState.Value = initialState;
-            InventoryModel = new InventoryModel();
             LevelModel = new LevelModel(CurrentState, AddBonus);
             //AnalyticsManager = GameObject.FindObjectOfType<AnalyticsManager>();
             //AdsManager= GameObject.FindObjectOfType<AdsManager>();
@@ -26,13 +29,13 @@ namespace WizardsPlatformer
         public GameModel()
         {
             InventoryModel = new InventoryModel();
+            PlayerModel = new();
             Bonuses = new BonusStats(true);
         }
 
         public void AddBonus(BonusType type, int value) => Bonuses[type] += value;
 
         public GroundsModel GetGroundsModel() => new GroundsModel(CalculateGroundsLenght());
-
 
         private int CalculateGroundsLenght() => 100;
     }

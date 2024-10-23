@@ -10,7 +10,7 @@ namespace WizardsPlatformer
         public IReadOnlyList<UpgradeConfig> Upgrades => _upgrades;
         public LevelModel LevelModel { get; private set; }
         public PlayerModel(LevelModel levelModel) => LevelModel = levelModel;
-
+        public PlayerModel() { }
         public void AddUpgrade(UpgradeConfig upgrade)
         {
             _upgrades ??= new List<UpgradeConfig>();

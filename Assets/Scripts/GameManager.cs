@@ -20,6 +20,7 @@ namespace WizardsPlatformer
         private bool _sceneLoadComplete;
 
         internal GroundsModel GetGroundsModel() => _gameModel.GetGroundsModel();
+        internal PlayerModel PlayerModel => _gameModel.PlayerModel;
         public void FinishSceneLoad() => _sceneLoadComplete = true;
 
         private void Awake() => DontDestroyOnLoad(this);

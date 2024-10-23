@@ -15,7 +15,7 @@ namespace WizardsPlatformer
         {
             GameObject temp = GameObject.Instantiate(config.Prefab);
             InputView input = temp.GetComponent<InputView>() ?? temp.AddComponent<InputView>();
-            RegisterOnDispose(input);
+            //RegisterOnDispose(input);
 
             Controller = new InputController(levelModel, input);
             RegisterOnDispose(Controller);

@@ -21,22 +21,22 @@ namespace WizardsPlatformer
         private PlayerView _playerView;
         private IWeapon _weapon;
 
-        public IPlayerView PlayerView { get => _playerView; }
         public Stats Stats { get => _stats; }
+        public Action<Vector3> OnPlayerPositionChange;
 
         Dictionary<ActivatorType, IUpgrade> IUpgradable.Upgrades => _upgrades;
         Stats IUpgradable.Stats => _stats;
-        IJump IUpgradable.Jumper => PlayerView;
+        IJump IUpgradable.Jumper => _playerView;
         IWeapon IUpgradable.Weapon => _weapon;
 
         public PlayerController(PlayerModel playerModel, PlayerView playerView, ILevelObjectConfig config)
         {
             _playerModel = playerModel;
 
-            _levelModel = _playerModel.LevelModel;
-            _levelModel.HorizontalMove.SubscribeOnValueChange(OnHorizontalMove);
-            _levelModel.Jump.SubscribeOnValueChange(OnJump);
-            _levelModel.Fire.SubscribeOnValueChange(OnFire);
+            //_levelModel = _playerModel.LevelModel;
+            //_levelModel.HorizontalMove.SubscribeOnValueChange(OnHorizontalMove);
+            //_levelModel.Jump.SubscribeOnValueChange(OnJump);
+            //_levelModel.Fire.SubscribeOnValueChange(OnFire);
 
             _playerView = playerView;
             (_playerView as IDamagable).OnReceiveDamage += ReceiveDamage;
@@ -65,7 +65,8 @@ namespace WizardsPlatformer
             _doWalk = Mathf.Abs(_input) > _moveThreshold;
             if (_doWalk) _playerView.SetVelocity(_input * _stats.Speed);
 
-            _levelModel.PlayerPosition.Value = _playerView.Position;
+            //_levelModel.PlayerPosition.Value = _playerView.Position;
+            OnPlayerPositionChange?.Invoke(_playerView.Position);
         }
 
         public void OnHorizontalMove(float newValue)
@@ -73,14 +74,14 @@ namespace WizardsPlatformer
             _input = newValue;
             Move();
         }
-        public void OnJump(bool jump)
+        public void OnJump()
         {
-            if (PlayerView.AccessContacts().HasContactDown) PlayerView.Jump(_stats.JumpForce);
+            if (_playerView.AccessContacts().HasContactDown) _playerView.Jump(_stats.JumpForce);
 
             _upgrades[ActivatorType.OnJump].Activate();
         }
 
-        public void OnFire(bool fire)
+        public void OnFire()
         {
             _weapon.SetDirection(new Vector3(_playerView.XDirection, 0, 0));
             if(_weapon.WeaponReady) _weapon.Fire();
@@ -97,10 +98,10 @@ namespace WizardsPlatformer
         protected override void OnDispose()
         {
             //UpdateManager.UnsubscribeFromUpdate(Move);
-            _levelModel.HorizontalMove.UnsubscribeOnValueChange(OnHorizontalMove);
-            _levelModel.Jump.UnsubscribeOnValueChange(OnJump);
-            _levelModel.Fire.UnsubscribeOnValueChange(OnFire);
-            GameObject.Destroy((PlayerView as View).gameObject);
+            //_levelModel.HorizontalMove.UnsubscribeOnValueChange(OnHorizontalMove);
+            //_levelModel.Jump.UnsubscribeOnValueChange(OnJump);
+            //_levelModel.Fire.UnsubscribeOnValueChange(OnFire);
+            GameObject.Destroy((_playerView as View).gameObject);
             _stats.OnDeath -= OnDeath;
             (_playerView as IDamagable).OnReceiveDamage -= ReceiveDamage;
         }
