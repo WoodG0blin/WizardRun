@@ -14,9 +14,8 @@ namespace WizardsPlatformer
 
     internal class GroundsView : View, IGroundsView
     {
-        [SerializeField] private Tile[] _groundTiles;
         [SerializeField] private Tilemap _groundTilemap;
-
+        
         private Dictionary<string, Tile> _tiles;
         private List<ILevelObjectView> _levelObjectViews;
         private Vector2 _screenOffset;
@@ -26,10 +25,16 @@ namespace WizardsPlatformer
         public event Action onLevelEnd;
         public event Action<BonusType, int> OnBonusCollect;
 
-        public void DrawGrounds(SquaresGrid grid, IReadOnlyList<LevelObject> levelObjects, IReadOnlyDictionary<string, ILevelObjectConfig> configs)
+        public void Init(Tile[] tiles)
         {
             _tiles = new Dictionary<string, Tile>();
-            foreach (Tile tile in _groundTiles) _tiles.Add(tile.name, tile);
+            foreach (Tile tile in tiles) _tiles.Add(tile.name, tile);
+        }
+
+        public void DrawGrounds(SquaresGrid grid, IReadOnlyList<LevelObject> levelObjects, IReadOnlyDictionary<string, ILevelObjectConfig> configs)
+        {
+            //_tiles = new Dictionary<string, Tile>();
+            //foreach (Tile tile in _groundTiles) _tiles.Add(tile.name, tile);
 
             _screenOffset = new Vector2(_groundTilemap.transform.localPosition.x +0.5f, _groundTilemap.transform.localPosition.y+0.5f);
 

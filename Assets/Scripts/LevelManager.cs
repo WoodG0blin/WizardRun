@@ -8,33 +8,17 @@ namespace WizardsPlatformer
         [Header("CONFIGS")]
         [SerializeField] private GroundsConfig _groundsConfig;
         [SerializeField] private InputConfig _inputConfig;
-        [SerializeField] private LevelObjectConfig _playerConfig;
 
         [Header("VIEWS")]
         [SerializeField] private GroundsView _groundsView;
 
 
         private GameManager _gameManager;
+
         private GroundsController _groundsController;
         private InputController _inputController;
         private PlayerController _playerController;
         private CameraController _cameraController;
-
-        //private LevelModel _levelModel;
-        //private LevelConfig _config;
-        //private View _levelObjectContainer;
-        //private Transform _UIContainer;
-
-        private GroundsMVC _grounds;
-        //private InputMVC _input;
-        private PlayerMVC _player;
-        private CameraController _camera;
-        private LevelDisplayController _display;
-        private PauseMenuController _pauseMenu;
-
-        private bool _initiated;
-        private BonusStats _bonuses;
-
 
         private void Awake()
         {
@@ -44,30 +28,26 @@ namespace WizardsPlatformer
             _gameManager.FinishSceneLoad();
         }
 
-        void Start()
-        {
-        }
-        void Update()
-        {
-        }
 
         private void Init()
         {
-            _groundsController = new(_gameManager.GetGroundsModel(), _groundsView, new(_groundsConfig.LevelObjectsConfigs.Configs), OnGroundsCleared);
+            // replace with DIc
+            GameObject temp = GameObject.Instantiate(_gameManager.PlayerModel.Prefab);
+            PlayerView _playerView = temp.GetComponent<PlayerView>() ?? temp.AddComponent<PlayerView>();
 
-            GameObject temp = GameObject.Instantiate(_inputConfig.Prefab);
+            _groundsController = new(_gameManager.GetGroundsModel(), _groundsView, _groundsConfig, OnGroundsCleared);
+            _cameraController = new(Camera.main, _groundsConfig.BackGroundSprites);
+
+            temp = GameObject.Instantiate(_inputConfig.Prefab);
             _inputController = new InputController(temp.GetComponent<InputView>() ?? temp.AddComponent<InputView>());
 
-            temp = GameObject.Instantiate(_playerConfig.Prefab);
-            PlayerView _playerView = temp.GetComponent<PlayerView>() ?? temp.AddComponent<PlayerView>();
-            _playerView.InitiateAnimations(_playerConfig.Animations);
-            _playerController = new PlayerController(_gameManager.PlayerModel, _playerView, _playerConfig, _groundsController.GetStartPosition());
+            _playerView.InitiateAnimations(_gameManager.PlayerModel.Animations);
+            _playerController = new PlayerController(_gameManager.PlayerModel, _playerView, _groundsController.GetStartPosition());
 
             _inputController.OnHorizontalInput = _playerController.OnHorizontalMove;
             _inputController.OnJumpInput = _playerController.OnJump;
             _inputController.OnFireInput = _playerController.OnFire;
 
-            _cameraController = new(Camera.main);
 
             _playerController.OnPlayerPositionChange += _cameraController.UpdateToPlayerPosition;
             _playerController.OnPlayerPositionChange += _groundsController.UpdatePlayerposition;
@@ -92,6 +72,8 @@ namespace WizardsPlatformer
         }
         private void OnGroundsCleared()
         {
+            Debug.Log("Level finished");
+            _gameManager.ExitScene();
         }
 
     }

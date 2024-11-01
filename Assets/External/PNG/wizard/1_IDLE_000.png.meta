@@ -3,7 +3,7 @@ guid: 7d5a151833b6e864e9666bf59deb86d5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,7 +20,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -44,15 +44,15 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 350
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -63,6 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -112,14 +113,53 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
-    physicsShape: []
+    outline:
+    - - {x: -193.5, y: -175}
+      - {x: -192.5, y: 175}
+      - {x: 193.5, y: 175}
+      - {x: 193.5, y: -175}
+    physicsShape:
+    - - {x: -130.5, y: -168}
+      - {x: -138.5, y: -140}
+      - {x: -175.5, y: -99}
+      - {x: -153.5, y: -66}
+      - {x: -153.68916, y: -46.894424}
+      - {x: -107.5, y: -29}
+      - {x: -97.5, y: 7}
+      - {x: -148.5, y: 16}
+      - {x: -160.5, y: 37}
+      - {x: -150.5, y: 55}
+      - {x: -95.5, y: 68}
+      - {x: -82.5, y: 105}
+      - {x: -28.5, y: 148}
+      - {x: 6.5, y: 148}
+      - {x: -0.5, y: 107}
+      - {x: 30.5, y: 81}
+      - {x: 71.5, y: 75}
+      - {x: 76.5, y: 134}
+      - {x: 133.5, y: 159}
+      - {x: 186.5, y: 124}
+      - {x: 184.5, y: 78}
+      - {x: 149.5, y: 39}
+      - {x: 88.5, y: -169}
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 0
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []

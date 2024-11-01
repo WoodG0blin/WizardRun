@@ -12,7 +12,7 @@ namespace WizardsPlatformer
 
         private SubscribtableProperty<Vector3> _playerPosition;
 
-        public GroundsController(GroundsModel groundsModel, GroundsView groundsView, LevelObjectsRepository levelObjectsRepository, Action onGroundsCleared)
+        public GroundsController(GroundsModel groundsModel, GroundsView groundsView, GroundsConfig config, Action onGroundsCleared)
         {
             LevelModel _levelModel = groundsModel.LevelModel;
             _groundsModel = groundsModel;
@@ -21,7 +21,9 @@ namespace WizardsPlatformer
 
             _playerPosition = new();
 
-            _groundsView.DrawGrounds(_groundsModel.Grid, _groundsModel.LevelObjects, levelObjectsRepository.Items);
+            _groundsView.Init(config.GroundTiles);
+
+            _groundsView.DrawGrounds(_groundsModel.Grid, _groundsModel.LevelObjects, config.LevelObjectsRepository.Items);
             _groundsView.Init(
                 _playerPosition,
                 onGroundsCleared,

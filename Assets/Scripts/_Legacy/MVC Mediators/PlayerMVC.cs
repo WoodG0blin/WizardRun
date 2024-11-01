@@ -17,8 +17,8 @@ namespace WizardsPlatformer
             _playerView.InitiateAnimations(playerConfig.Animations);
             RegisterOnDispose(_playerView);
 
-            Controller = new PlayerController(levelModel.PlayerModel, _playerView, playerConfig, startPosition);
-            RegisterOnDispose(Controller);
+            //Controller = new PlayerController(levelModel.PlayerModel, _playerView, playerConfig, startPosition);
+            //RegisterOnDispose(Controller);
         }
         public void SetActive(bool active) => Controller.SetActive(active);
     }

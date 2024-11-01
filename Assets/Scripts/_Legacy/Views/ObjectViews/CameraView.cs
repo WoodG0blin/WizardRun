@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace WizardsPlatformer
 {
     internal interface ICameraView
     {
         void SetNewTargetPosition(float targetX, float targetY);
+        public void Init(Sprite[] backGroundSprites);
     }
 
     internal class CameraView : MonoBehaviour, ICameraView
@@ -29,12 +31,10 @@ namespace WizardsPlatformer
             _backGround = new BackGroundManager(transform, _backGrounds);
         }
 
-        public void Init(float speed, Transform[] backGrounds)
+        public void Init(Sprite[] backGroundSprites)
         {
-            _cameraPosition = transform.position;
-            _speed = speed;
-            _backGrounds = backGrounds;
-            _backGround = new BackGroundManager(transform, _backGrounds);
+            for(int i = 0; i < Mathf.Min(_backGrounds.Length, backGroundSprites.Length); i++)
+                _backGrounds[i].GetComponent<SpriteRenderer>().sprite = backGroundSprites[i];
         }
 
         public void SetNewTargetPosition(float targetX, float targetY)

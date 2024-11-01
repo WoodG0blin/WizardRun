@@ -16,6 +16,9 @@ public class StartUIView : MonoBehaviour
     {
         _startButton.onClick.AddListener(() => OnStartClick?.Invoke());
         _exitButton.onClick.AddListener(() => OnExitClick?.Invoke());
+        //_testButton.onClick.AddListener(() => Debug.Log("test click"));
+        //var test = _testButton.transform.GetComponent<Image>();
+        //test.alphaHitTestMinimumThreshold = 0.5f;
     }
 
     private void OnDestroy()

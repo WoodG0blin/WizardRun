@@ -16,15 +16,15 @@ namespace WizardsPlatformer
         {
             _levelModel = levelModel;
 
-            GameObject temp = GameObject.Instantiate(config.Prefab);
-            GroundsView _groundsView = temp.GetComponent<GroundsView>();
-            RegisterOnDispose(_groundsView);
+            //GameObject temp = GameObject.Instantiate(config.Prefab);
+            //GroundsView _groundsView = temp.GetComponent<GroundsView>();
+            //RegisterOnDispose(_groundsView);
 
-            LevelObjectsRepository _levelObjectsRepository = new LevelObjectsRepository(config.LevelObjectsConfigs.Configs);
-            RegisterOnDispose(_levelObjectsRepository);
+            //LevelObjectsRepository _levelObjectsRepository = new LevelObjectsRepository(config.LevelObjectsConfigs.Configs);
+            //RegisterOnDispose(_levelObjectsRepository);
 
-            Controller = new GroundsController(levelModel.GroundsModel, _groundsView, _levelObjectsRepository, OnGroundsCleared);
-            RegisterOnDispose(Controller);
+            //Controller = new GroundsController(levelModel.GroundsModel, _groundsView, _levelObjectsRepository, OnGroundsCleared);
+            //RegisterOnDispose(Controller);
 
             Bonuses = levelModel.GroundsModel.Bonuses;
         }

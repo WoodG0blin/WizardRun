@@ -9,7 +9,6 @@ namespace WizardsPlatformer
         string Name { get; }
         AnimationSequence[] Animations { get; }
         GameObject Prefab { get; }
-        bool HasStats { get; }
         float MaxHealth { get; }
         float Speed { get; }
         bool HasWeapon { get; }
@@ -39,7 +38,6 @@ namespace WizardsPlatformer
         public string Name { get => _name; }
         public GameObject  Prefab{ get => _prefab; }
         public AnimationSequence[] Animations { get => _animations; }
-        public bool HasStats { get => MaxHealth > 0; }
         public float MaxHealth { get => _maxHealth; }
         public float Speed { get => _speed; }
         public bool HasWeapon { get => _weaponConfig != null; }

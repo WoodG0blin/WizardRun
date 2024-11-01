@@ -15,6 +15,9 @@ namespace WizardsPlatformer
         [SerializeField] private StartUIView _startUI;
         [SerializeField] private LoadScreenView _loadScreen;
 
+        [Header("CONFIGS")]
+        [SerializeField] private LevelObjectConfig _playerConfig;
+
 
         private GameModel _gameModel;
         private bool _sceneLoadComplete;
@@ -22,11 +25,18 @@ namespace WizardsPlatformer
         internal GroundsModel GetGroundsModel() => _gameModel.GetGroundsModel();
         internal PlayerModel PlayerModel => _gameModel.PlayerModel;
         public void FinishSceneLoad() => _sceneLoadComplete = true;
+        public void ExitScene()
+        {
+            _startUI.SetActive(true);
+            StartCoroutine(LoadScene(START_SCENE));
+            _sceneLoadComplete = true;
+        }
 
         private void Awake() => DontDestroyOnLoad(this);
         private void Start()
         {
             _gameModel = new();
+            _gameModel.PlayerModel.SetConfig(_playerConfig);
 
             _startUI.OnStartClick = OnStart;
             _startUI.OnExitClick = OnExit;

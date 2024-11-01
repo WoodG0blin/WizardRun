@@ -1421,7 +1421,7 @@ MonoBehaviour:
   GAME_SCENE: GameScene
   _startUI: {fileID: 1229938324}
   _loadScreen: {fileID: 871679689}
-  _mainUICanvas: {fileID: 338611530}
+  _playerConfig: {fileID: 11400000, guid: 34f946c666cdba541b79e6f86774f102, type: 2}
 --- !u!1 &1325845776
 GameObject:
   m_ObjectHideFlags: 0

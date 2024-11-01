@@ -19,9 +19,10 @@ namespace WizardsPlatformer
             _level.PlayerPosition.SubscribeOnValueChange(OnPlayerPositionChange);
         }
 
-        public CameraController(Camera camera)
+        public CameraController(Camera camera, Sprite[] backGroundSprites)
         {
             if (!camera.TryGetComponent<ICameraView>(out _camera)) _camera = camera.transform.AddComponent<CameraView>();
+            _camera.Init(backGroundSprites);
         }
 
         public void UpdateToPlayerPosition(Vector3 newPosition)

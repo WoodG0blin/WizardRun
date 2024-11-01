@@ -4,22 +4,40 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class PlayerModel : Model
+    internal class PlayerModel
     {
-        private List<UpgradeConfig> _upgrades = new List<UpgradeConfig>();
+        private LevelObjectConfig _config;
+        private List<UpgradeConfig> _upgrades;
+        private IWeaponConfig _weaponConfig;
+
+        public string Name { get; private set; }
+        public float MaxHealth {get; private set; }
+        public float Speed { get; private set; }
+
+        public int Bonuses { get; private set; }
+
+
         public IReadOnlyList<UpgradeConfig> Upgrades => _upgrades;
-        public LevelModel LevelModel { get; private set; }
-        public PlayerModel(LevelModel levelModel) => LevelModel = levelModel;
-        public PlayerModel() { }
-        public void AddUpgrade(UpgradeConfig upgrade)
+        public GameObject Prefab => _config.Prefab;
+        public AnimationSequence[] Animations => _config.Animations;
+        public IWeapon GetWeaponTo(Transform barrel) => Weapon.GetWeapon(barrel, _weaponConfig);
+
+
+
+        public PlayerModel(LevelModel levelModel) { }
+        public PlayerModel()
         {
-            _upgrades ??= new List<UpgradeConfig>();
-            _upgrades.Add(upgrade);
+            _upgrades = new List<UpgradeConfig>();
         }
 
-        public void Reset()
+        public void SetConfig(LevelObjectConfig config)
         {
-            _upgrades.Clear();
+            _config = config;
+            _weaponConfig = config.WeaponConfig;
         }
+
+        public void AddUpgrade(UpgradeConfig upgrade) => _upgrades.Add(upgrade);
+        public void Reset() => _upgrades.Clear();
+        public void AddBonuses(int value) => Bonuses += value;
     }
 }

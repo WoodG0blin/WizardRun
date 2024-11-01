@@ -11,7 +11,7 @@ namespace WizardsPlatformer
 
         public UpgradesManager(IEnumerable<UpgradeConfig> configs)
         {
-            _upgradeRepository= new UpgradeRepository(configs);
+            _upgradeRepository = new UpgradeRepository(configs);
             Register(_upgradeRepository);
         }
 

@@ -6,8 +6,6 @@ namespace WizardsPlatformer
 {
     internal class PlayerController : Controller, IUpgradable
     {
-        private readonly LevelModel _levelModel;
-
         private PlayerModel _playerModel;
         private Stats _stats;
         private UpgradesManager _upgradesManager;
@@ -29,7 +27,8 @@ namespace WizardsPlatformer
         IJump IUpgradable.Jumper => _playerView;
         IWeapon IUpgradable.Weapon => _weapon;
 
-        public PlayerController(PlayerModel playerModel, PlayerView playerView, ILevelObjectConfig config)
+
+        public PlayerController(PlayerModel playerModel, PlayerView playerView, Vector3 startPosition)
         {
             _playerModel = playerModel;
 
@@ -41,12 +40,14 @@ namespace WizardsPlatformer
             _playerView = playerView;
             (_playerView as IDamagable).OnReceiveDamage += ReceiveDamage;
 
-            if (config.HasWeapon)
-            {
-                _weapon = Weapon.GetWeapon(playerView.GetWeapon(), config.WeaponConfig);
-            }
+            _weapon = _playerModel.GetWeaponTo(playerView.GetWeapon());
 
-            _stats = new Stats(health: config.MaxHealth, parent: playerView.transform);
+            //if (config.HasWeapon)
+            //{
+            //    _weapon = Weapon.GetWeapon(playerView.GetWeapon(), config.WeaponConfig);
+            //}
+
+            _stats = new Stats(health: _playerModel.MaxHealth, parent: playerView.transform);
             _stats.OnDeath += OnDeath;
 
             (this as IUpgradable).Reset();
@@ -54,10 +55,10 @@ namespace WizardsPlatformer
             _upgradesManager.SetUpgrades(this);
 
             _upgrades[ActivatorType.OnStats].Activate();
-        }
 
-        public PlayerController(PlayerModel playerModel, PlayerView playerView, ILevelObjectConfig config, Vector3 startPosition) : this(playerModel, playerView, config) =>
             SetPosition(startPosition);
+        }
+            
 
         public void SetActive(bool active) => _playerView.SetActive(active);
         private void Move()
@@ -84,7 +85,7 @@ namespace WizardsPlatformer
         public void OnFire()
         {
             _weapon.SetDirection(new Vector3(_playerView.XDirection, 0, 0));
-            if(_weapon.WeaponReady) _weapon.Fire();
+            if (_weapon.WeaponReady) _weapon.Fire();
 
             _upgrades[ActivatorType.OnAttack].Activate();
         }
@@ -106,7 +107,8 @@ namespace WizardsPlatformer
             (_playerView as IDamagable).OnReceiveDamage -= ReceiveDamage;
         }
 
-        private void OnDeath() => _levelModel.LevelState.Value = LevelState.Finished;
+        private void OnDeath() {}
+            //_levelModel.LevelState.Value = LevelState.Finished;
 
         void IUpgradable.Reset()
         {
