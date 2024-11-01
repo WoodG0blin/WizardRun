@@ -37,6 +37,6 @@ namespace WizardsPlatformer
 
         public GroundsModel GetGroundsModel() => new GroundsModel(CalculateGroundsLenght());
 
-        private int CalculateGroundsLenght() => 100;
+        private int CalculateGroundsLenght() => 10;
     }
 }

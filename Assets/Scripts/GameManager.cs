@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,6 @@ namespace WizardsPlatformer
         [SerializeField] private string GAME_SCENE = "GameScene";
 
         [Header("CONTROLS")]
-        [SerializeField] private StartUIView _startUI;
         [SerializeField] private LoadScreenView _loadScreen;
 
         [Header("CONFIGS")]
@@ -24,10 +24,18 @@ namespace WizardsPlatformer
 
         internal GroundsModel GetGroundsModel() => _gameModel.GetGroundsModel();
         internal PlayerModel PlayerModel => _gameModel.PlayerModel;
-        public void FinishSceneLoad() => _sceneLoadComplete = true;
+
+        public void FinishSceneLoad()
+        {
+            _sceneLoadComplete = true;
+            Debug.Log("scene load finish requested");
+        }
+        public void LoadLevel()
+        {
+            StartCoroutine(LoadScene(GAME_SCENE));
+        }
         public void ExitScene()
         {
-            _startUI.SetActive(true);
             StartCoroutine(LoadScene(START_SCENE));
             _sceneLoadComplete = true;
         }
@@ -38,22 +46,7 @@ namespace WizardsPlatformer
             _gameModel = new();
             _gameModel.PlayerModel.SetConfig(_playerConfig);
 
-            _startUI.OnStartClick = OnStart;
-            _startUI.OnExitClick = OnExit;
-
-            _loadScreen.FinishLoad();
-        }
-
-        private async void OnStart()
-        {
-            _startUI.SetActive(false);
-            StartCoroutine(LoadScene(GAME_SCENE));
-        }
-
-        private void OnExit()
-        {
-            Debug.Log("Closing game");
-            Application.Quit();
+            StartCoroutine(LoadScene(START_SCENE));
         }
 
 
