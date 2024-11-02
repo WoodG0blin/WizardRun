@@ -7,49 +7,39 @@ namespace WizardsPlatformer
 {
     internal abstract class Weapon : IWeapon
     {
-        protected Transform _barrel;
+        protected IWeaponConfig config;
+        protected Transform barrel;
+        protected Vector3 direction;
 
-        protected bool _weaponReady;
-        protected Vector3 _direction;
+        public bool WeaponReady {get; private set;}
 
-        protected float _attackDistance;
-        protected float _damage;
-
-        private float _coolDown;
-        public bool WeaponReady {get => _weaponReady;}
-
-        public Weapon(Transform barrel, float attackDistance, float damage, float cooldown)
+        public Weapon(IWeaponConfig config, Transform barrel)
         {
-            _barrel = barrel;
+            this.config = config;
+            this.barrel = barrel;
 
-            _weaponReady = true;
-            _direction = Vector3.zero;
-
-            _attackDistance = attackDistance;
-            _damage = damage;
-            _coolDown = cooldown;
+            WeaponReady = true;
+            direction = Vector3.zero;
         }
+        public void SetDirection(Vector3 direction) => this.direction = direction;
 
         public async void Fire()
         {
-            if (_weaponReady)
+            if (WeaponReady)
             {
-                _weaponReady = false;
+                WeaponReady = false;
                 OnFire();
-                await Task.Delay(Mathf.RoundToInt(_coolDown * 1000));
-                _weaponReady = true;
+                await Task.Delay(Mathf.RoundToInt(config.CoolDown * 1000));
+                WeaponReady = true;
             }
         }
-
-        public void SetDirection(Vector3 direction) => _direction = direction;
-
         protected abstract void OnFire();
+
 
         public static IWeapon GetWeapon(Transform barrel, IWeaponConfig config)
         {
-            if (!config.IsRanged) return new MeleeWeapon(barrel, config.AttackDistance, config.Damage, config.CoolDown);
-            else return new RangedWeapon(barrel, GameObject.Instantiate(config.AmmoPrefab, barrel.transform.parent).GetComponent<AmmoView>(),
-                config.AttackDistance, config.Damage, config.FireForce, config.CoolDown, barrel.transform.parent.CompareTag("Player"));
+            if (!config.IsRanged) return new MeleeWeapon(config, barrel);
+            else return new RangedWeapon(config, barrel, barrel.transform.parent.CompareTag("Player"));
         }
     }
 }

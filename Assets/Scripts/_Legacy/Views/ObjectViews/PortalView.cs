@@ -6,7 +6,7 @@ using WizardsPlatformer;
 
 namespace WizardsPlatformer
 {
-    internal class PortalView : View, ILevelObjectView, IInteractive, IAnimated, ILevelStateObserver
+    internal class PortalView : View, ILevelObjectView, IInteractive, IAnimatedView, ILevelStateObserver
     {
         private AnimationController _animator;
         private SubscribtableProperty<GameState> _gameState;

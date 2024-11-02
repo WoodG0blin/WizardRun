@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 namespace WizardsPlatformer
 {
-    internal class DemonView : LevelObjectView, IPlayerPositionObserver, IAnimated, IKillable
+    internal class DemonView : LevelObjectView, IPlayerPositionObserver, IAnimatedView, IKillable
     {
         //TODO set into config
         private const float _patrolDistance = 3f;

@@ -56,7 +56,7 @@ namespace WizardsPlatformer
 
                 ILevelObjectView view = levelObject.InitiateView(GameObject.Instantiate(config.Prefab, prefabPosition, Quaternion.identity, transform), config);
 
-                if(view is IAnimated animView) animView.InitiateAnimations(config.Animations);
+                if(view is IAnimatedView animView) animView.InitiateAnimations(config.Animations);
 
                 _levelObjectViews.Add(view);
             }

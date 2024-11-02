@@ -7,7 +7,7 @@ using UnityEngine.Windows;
 
 namespace WizardsPlatformer
 {
-    internal interface IPlayerView: IAnimated, IJump, IDamagable
+    internal interface IPlayerView: IAnimatedView, IJump, IDamagable
     {
         void SetVelocity(float newVelocityX);
     }
@@ -35,7 +35,7 @@ namespace WizardsPlatformer
             _animator.AnimationState(ActionState.Jump, true);
         }
 
-        protected override void OnUpdate()
+        private void Update()
         {
             //if (Position.y < -15f) ReceiveDamage(1000f);
 

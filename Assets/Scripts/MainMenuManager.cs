@@ -11,13 +11,14 @@ namespace WizardsPlatformer
         [Header("CONTROLS")]
         [SerializeField] private StartUIView _startUI;
 
-        private GameManager _gameManager;
+        private IMenuInfo _menuInfo;
 
         private void Awake()
         {
-            _gameManager = FindObjectOfType<GameManager>();
+            //Replace with DIc
+            _menuInfo = FindObjectOfType<GameManager>();
             Init();
-            _gameManager.FinishSceneLoad();
+            _menuInfo.SceneLoader.FinishSceneLoad();
         }
 
         private void Init()
@@ -29,7 +30,7 @@ namespace WizardsPlatformer
         private void OnStart()
         {
             _startUI.SetActive(false);
-            _gameManager.LoadLevel();
+            _menuInfo.SceneLoader.LoadLevel();
         }
 
         private void OnExit()

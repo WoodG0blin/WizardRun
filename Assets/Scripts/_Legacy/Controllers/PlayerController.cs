@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class PlayerController : Controller, IUpgradable
+    internal class PlayerController : IUpgradable
     {
         private PlayerModel _playerModel;
         private Stats _stats;
@@ -16,11 +16,12 @@ namespace WizardsPlatformer
 
         private Dictionary<ActivatorType, IUpgrade> _upgrades;
 
-        private PlayerView _playerView;
+        private IPlayerView _playerView;
         private IWeapon _weapon;
 
         public Stats Stats { get => _stats; }
         public Action<Vector3> OnPlayerPositionChange;
+        public Action OnPlayerDeath;
 
         Dictionary<ActivatorType, IUpgrade> IUpgradable.Upgrades => _upgrades;
         Stats IUpgradable.Stats => _stats;
@@ -32,20 +33,10 @@ namespace WizardsPlatformer
         {
             _playerModel = playerModel;
 
-            //_levelModel = _playerModel.LevelModel;
-            //_levelModel.HorizontalMove.SubscribeOnValueChange(OnHorizontalMove);
-            //_levelModel.Jump.SubscribeOnValueChange(OnJump);
-            //_levelModel.Fire.SubscribeOnValueChange(OnFire);
-
             _playerView = playerView;
-            (_playerView as IDamagable).OnReceiveDamage += ReceiveDamage;
+            _playerView.OnReceiveDamage += ReceiveDamage;
 
             _weapon = _playerModel.GetWeaponTo(playerView.GetWeapon());
-
-            //if (config.HasWeapon)
-            //{
-            //    _weapon = Weapon.GetWeapon(playerView.GetWeapon(), config.WeaponConfig);
-            //}
 
             _stats = new Stats(health: _playerModel.MaxHealth, parent: playerView.transform);
             _stats.OnDeath += OnDeath;
@@ -66,7 +57,6 @@ namespace WizardsPlatformer
             _doWalk = Mathf.Abs(_input) > _moveThreshold;
             if (_doWalk) _playerView.SetVelocity(_input * _stats.Speed);
 
-            //_levelModel.PlayerPosition.Value = _playerView.Position;
             OnPlayerPositionChange?.Invoke(_playerView.Position);
         }
 
@@ -90,25 +80,20 @@ namespace WizardsPlatformer
             _upgrades[ActivatorType.OnAttack].Activate();
         }
 
-        public void SetPosition(Vector3 position) { _playerView.transform.position = position; }
+        public void SetPosition(Vector3 position) => _playerView.SetPosition(position);
 
         public void ReceiveDamage(float damage)
         {
             _stats.Health -= damage;
         }
-        protected override void OnDispose()
+
+        private void OnDeath()
         {
-            //UpdateManager.UnsubscribeFromUpdate(Move);
-            //_levelModel.HorizontalMove.UnsubscribeOnValueChange(OnHorizontalMove);
-            //_levelModel.Jump.UnsubscribeOnValueChange(OnJump);
-            //_levelModel.Fire.UnsubscribeOnValueChange(OnFire);
             GameObject.Destroy((_playerView as View).gameObject);
             _stats.OnDeath -= OnDeath;
             (_playerView as IDamagable).OnReceiveDamage -= ReceiveDamage;
+            OnPlayerDeath?.Invoke();
         }
-
-        private void OnDeath() {}
-            //_levelModel.LevelState.Value = LevelState.Finished;
 
         void IUpgradable.Reset()
         {

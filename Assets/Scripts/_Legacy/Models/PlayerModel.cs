@@ -28,6 +28,7 @@ namespace WizardsPlatformer
         public PlayerModel()
         {
             _upgrades = new List<UpgradeConfig>();
+            MaxHealth = 300;
         }
 
         public void SetConfig(LevelObjectConfig config)

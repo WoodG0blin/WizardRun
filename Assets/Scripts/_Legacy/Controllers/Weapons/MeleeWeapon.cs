@@ -7,17 +7,17 @@ namespace WizardsPlatformer
 {
     internal class MeleeWeapon : Weapon
     {
-        public MeleeWeapon(Transform barrel, float attackDistance, float damage, float coolodwn) : base(barrel, attackDistance, damage, coolodwn) { }
+        public MeleeWeapon(IWeaponConfig config, Transform barrel) : base(config, barrel) { }
 
         protected override void OnFire()
         {
-            var hit = Physics2D.RaycastAll(_barrel.position, _direction, _attackDistance)
+            var hit = Physics2D.RaycastAll(barrel.position, direction, config.AttackDistance)
                     .Where(hit => hit.transform.CompareTag("Player"))
                     .FirstOrDefault();
 
             if (hit.collider != null)
             {
-                (hit.transform.GetComponent<View>() as IDamagable)?.ReceiveDamage(_damage);
+                (hit.transform.GetComponent<View>() as IDamagable)?.ReceiveDamage(config.Damage);
             }
         }
     }

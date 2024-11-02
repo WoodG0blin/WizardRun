@@ -13,7 +13,7 @@ namespace WizardsPlatformer
         [SerializeField] private GroundsView _groundsView;
 
 
-        private GameManager _gameManager;
+        private ILevelInfo _levelInfo;
 
         private GroundsController _groundsController;
         private InputController _inputController;
@@ -22,27 +22,28 @@ namespace WizardsPlatformer
 
         private void Awake()
         {
-            _gameManager = FindObjectOfType<GameManager>();
+            //Replace with DIc
+            _levelInfo = FindObjectOfType<GameManager>();
             Init();
             Debug.Log("Finish scene model load");
-            _gameManager.FinishSceneLoad();
+            _levelInfo.SceneLoader.FinishSceneLoad();
         }
 
 
         private void Init()
         {
             // replace with DIc
-            GameObject temp = GameObject.Instantiate(_gameManager.PlayerModel.Prefab);
+            GameObject temp = GameObject.Instantiate(_levelInfo.GetPlayerModel().Prefab);
             PlayerView _playerView = temp.GetComponent<PlayerView>() ?? temp.AddComponent<PlayerView>();
 
-            _groundsController = new(_gameManager.GetGroundsModel(), _groundsView, _groundsConfig, OnGroundsCleared);
+            _groundsController = new(_levelInfo.GetGroundsModel(), _groundsView, _groundsConfig, OnGroundsCleared);
             _cameraController = new(Camera.main, _groundsConfig.BackGroundSprites);
 
             temp = GameObject.Instantiate(_inputConfig.Prefab);
             _inputController = new InputController(temp.GetComponent<InputView>() ?? temp.AddComponent<InputView>());
 
-            _playerView.InitiateAnimations(_gameManager.PlayerModel.Animations);
-            _playerController = new PlayerController(_gameManager.PlayerModel, _playerView, _groundsController.GetStartPosition());
+            _playerView.InitiateAnimations(_levelInfo.GetPlayerModel().Animations);
+            _playerController = new PlayerController(_levelInfo.GetPlayerModel(), _playerView, _groundsController.GetStartPosition());
 
             _inputController.OnHorizontalInput = _playerController.OnHorizontalMove;
             _inputController.OnJumpInput = _playerController.OnJump;
@@ -51,30 +52,31 @@ namespace WizardsPlatformer
 
             _playerController.OnPlayerPositionChange += _cameraController.UpdateToPlayerPosition;
             _playerController.OnPlayerPositionChange += _groundsController.UpdatePlayerposition;
+            _playerController.OnPlayerDeath += FinishLevel;
 
-            //_grounds = new GroundsMVC(_config.Grounds, _levelModel);
-            //Register(_grounds);
-            //_input = new InputMVC(_config.Inputs, _levelModel, _UIContainer);
-            //Register(_input);
-
-            //_player = new PlayerMVC(_config.Player, _levelModel, _grounds.Controller.GetStartPosition());
-            //Register(_player);
-            //_camera = new CameraController(Camera.main, _levelModel);
-            //Register(_camera);
-
-            //_display = new LevelDisplayController(_config.LevelDisplay, _UIContainer);
-            //_player.Controller.Stats.HealthProperty.SubscribeOnValueChange(_display.OnHealthChange);
             //_grounds.Bonuses.onBonusChange += _display.OnBonusChange;
             //_grounds.Bonuses.RefreshValues();
             //Register(_display);
-
-            //SetActive(true);
         }
+
         private void OnGroundsCleared()
         {
             Debug.Log("Level finished");
-            _gameManager.ExitScene();
+            _levelInfo.SceneLoader.LoadMainMenu();
         }
 
+        private void FinishLevel()
+        {
+            _inputController.OnHorizontalInput = null;
+            _inputController.OnJumpInput = null;
+            _inputController.OnFireInput = null;
+
+
+            _playerController.OnPlayerPositionChange -= _cameraController.UpdateToPlayerPosition;
+            _playerController.OnPlayerPositionChange -= _groundsController.UpdatePlayerposition;
+
+            Debug.Log("You died");
+            OnGroundsCleared();
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace WizardsPlatformer
         ContactsPuller AccessContacts();
     }
 
-    internal interface IAnimated : IView
+    internal interface IAnimatedView : IView
     {
         ActionState animationState { get; set; }
         void InitiateAnimations(AnimationSequence[] animations);

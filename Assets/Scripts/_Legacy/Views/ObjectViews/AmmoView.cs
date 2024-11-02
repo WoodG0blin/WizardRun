@@ -6,8 +6,10 @@ namespace WizardsPlatformer
 {
     internal abstract class AmmoView : View
     {
-        [SerializeField] protected float _lifetime = 5.0f;
-        protected bool _isFromPlayer = false;
+        [SerializeField] protected float lifetime = 5.0f;
+        protected bool isFromPlayer = false;
+
+        private TrailRenderer _trailRenderer;
 
         protected Transform _barrel;
 
@@ -29,13 +31,14 @@ namespace WizardsPlatformer
             _damage = damage;
             _speed = speed;
             _baseGravity = rigidbody.gravityScale;
+            transform.TryGetComponent<TrailRenderer>(out _trailRenderer);
             Ready = true;
             ReturnToBase();
         }
 
         public void ResetToPlayer()
         {
-            _isFromPlayer = true;
+            isFromPlayer = true;
             OnResetToPlayer();
         }
 
@@ -45,10 +48,11 @@ namespace WizardsPlatformer
         {
             if (Ready)
             {
+                transform.SetParent(null);
                 rigidbody.gravityScale = _baseGravity;
                 Ready = false;
                 SetActive(true);
-                _currentTimer = StartCoroutine(DestroyAfterTime(_lifetime));
+                _currentTimer = StartCoroutine(DestroyAfterTime(lifetime));
                 OnFire(direction);
             }
         }
@@ -57,6 +61,7 @@ namespace WizardsPlatformer
         private void ReturnToBase()
         {
             SetActive(false);
+            _trailRenderer?.Clear();
 
             if (_currentTimer != null) StopCoroutine(_currentTimer);
             _currentTimer = null;
@@ -66,6 +71,8 @@ namespace WizardsPlatformer
             rigidbody.velocity = Vector3.zero;
             rigidbody.angularVelocity = 0;
             SetRotation(Quaternion.identity);
+
+            transform.SetParent(_barrel);
             
             Ready = true;
 

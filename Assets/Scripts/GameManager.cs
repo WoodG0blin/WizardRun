@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace WizardsPlatformer
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : MonoBehaviour, ISceneLoader, ILevelInfo, IMenuInfo
     {
         [Header("SCENES")]
         [SerializeField] private string START_SCENE = "StartScene";
@@ -22,33 +22,29 @@ namespace WizardsPlatformer
         private GameModel _gameModel;
         private bool _sceneLoadComplete;
 
-        internal GroundsModel GetGroundsModel() => _gameModel.GetGroundsModel();
-        internal PlayerModel PlayerModel => _gameModel.PlayerModel;
-
-        public void FinishSceneLoad()
-        {
-            _sceneLoadComplete = true;
-            Debug.Log("scene load finish requested");
-        }
-        public void LoadLevel()
-        {
-            StartCoroutine(LoadScene(GAME_SCENE));
-        }
-        public void ExitScene()
-        {
-            StartCoroutine(LoadScene(START_SCENE));
-            _sceneLoadComplete = true;
-        }
 
         private void Awake() => DontDestroyOnLoad(this);
         private void Start()
         {
+            Init();
+            LoadMainMenu();
+        }
+        private void Init()
+        {
             _gameModel = new();
             _gameModel.PlayerModel.SetConfig(_playerConfig);
-
-            StartCoroutine(LoadScene(START_SCENE));
         }
 
+        public ISceneLoader SceneLoader => this;
+
+        public void LoadLevel() => StartCoroutine(LoadScene(GAME_SCENE));
+        public void LoadMainMenu() => StartCoroutine(LoadScene(START_SCENE));
+        public void FinishSceneLoad() => _sceneLoadComplete = true;
+
+
+        GroundsModel ILevelInfo.GetGroundsModel() => _gameModel.GetGroundsModel();
+        PlayerModel ILevelInfo.GetPlayerModel() => _gameModel.PlayerModel;
+        
 
         IEnumerator LoadScene(string sceneName)
         {

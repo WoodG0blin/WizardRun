@@ -22,7 +22,7 @@ namespace WizardsPlatformer
         public CameraController(Camera camera, Sprite[] backGroundSprites)
         {
             if (!camera.TryGetComponent<ICameraView>(out _camera)) _camera = camera.transform.AddComponent<CameraView>();
-            _camera.Init(backGroundSprites);
+            _camera.InitBackGrounds(backGroundSprites);
         }
 
         public void UpdateToPlayerPosition(Vector3 newPosition)

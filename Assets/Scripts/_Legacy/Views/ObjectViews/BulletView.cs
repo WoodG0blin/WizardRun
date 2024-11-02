@@ -9,7 +9,7 @@ namespace WizardsPlatformer
         protected override void OnResetToPlayer()
         {
             //TODO delete after player get bullet pool
-            _lifetime /= 3;
+            lifetime /= 3;
         }
         protected override void OnFire(Vector2 direction)
         {
@@ -18,8 +18,8 @@ namespace WizardsPlatformer
 
         protected override void OnTriggerExtention(IDamagable target, string tag)
         {
-            if (!_isFromPlayer && !tag.Equals("Player")) return;
-            if (_isFromPlayer && tag.Equals("Player")) return;
+            if (!isFromPlayer && !tag.Equals("Player")) return;
+            if (isFromPlayer && tag.Equals("Player")) return;
             target.ReceiveDamage(_damage);
         }
     }

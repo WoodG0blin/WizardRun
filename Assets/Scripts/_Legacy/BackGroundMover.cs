@@ -5,16 +5,14 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    public class BackGroundManager :IDisposable
+    public class BackGroundMover :IDisposable
     {
-        Transform _camera;
         List<Transform> _backgrounds;
         List<Transform> _mirrors;
         Rect _screen;
-        public BackGroundManager(Transform camera, Transform[] backgrounds)
-        {
-            _camera = camera;
 
+        public BackGroundMover(Transform[] backgrounds)
+        {
             _backgrounds = new List<Transform>();
             _backgrounds.AddRange(backgrounds);
             _mirrors = new List<Transform>();
@@ -58,6 +56,5 @@ namespace WizardsPlatformer
                 }
             }
         }
-
     }
 }
