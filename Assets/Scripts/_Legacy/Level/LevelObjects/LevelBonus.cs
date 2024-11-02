@@ -6,17 +6,11 @@ namespace WizardsPlatformer
 {
     internal class LevelBonus : LevelObject
     {
-        private bool _collected = false;
-        public LevelBonus(Vector2Int positionOnElement) : base("Bonus", positionOnElement)
-        {
-            _collected = false;
-        }
+        public LevelBonus(Vector2Int positionOnElement) : base("Bonus", positionOnElement) { }
 
         protected override void OnInitiateView(GameObject gameObject)
         {
-            if(!_collected) gameObject.AddComponent<BonusView>().Init(new Bonus(BonusType.coin, 1), () => _collected = true);
-            else gameObject.SetActive(false);
+            gameObject.AddComponent<BonusView>().Init(new Bonus(BonusType.coin, 1));
         }
-        public void Renew() => _collected = false;
     }
 }

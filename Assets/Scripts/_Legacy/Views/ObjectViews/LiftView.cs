@@ -20,10 +20,9 @@ namespace WizardsPlatformer
             _minY = Mathf.Min(position.y, position.y + deltaHeight);
             _maxY = Mathf.Max(position.y, position.y + deltaHeight);
             _goingUp = Mathf.Approximately(position.y, _minY);
-            RegisterOnUpdate();
         }
 
-        protected override void OnUpdate()
+        void Update()
         {
             float positionY = transform.position.y;
 

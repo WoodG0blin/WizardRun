@@ -37,8 +37,6 @@ namespace WizardsPlatformer
 
         private void Update()
         {
-            //if (Position.y < -15f) ReceiveDamage(1000f);
-
             if (Mathf.Abs(rigidbody.velocity.x) < 0.1f) _animator.AnimationState(ActionState.Idle);
             else if (Mathf.Abs(rigidbody.velocity.x) < 1f) _animator.AnimationState(ActionState.Walk);
             else _animator.AnimationState(ActionState.Run);
@@ -48,7 +46,6 @@ namespace WizardsPlatformer
 
         public void InitiateAnimations(AnimationSequence[] animations)
         {
-            RegisterOnUpdate();
             _animator = new AnimationController(
                 renderer,
                 animations ?? new AnimationSequence[] { new AnimationSequence() { Sprites = new List<Sprite>() { renderer.sprite } } }
@@ -57,6 +54,6 @@ namespace WizardsPlatformer
 
         public void ReceiveDamage(float damage) => OnReceiveDamage?.Invoke(damage);
 
-        public Transform GetWeapon() { return _barrel ?? visualBody.Find("Weapon"); }
+        public Transform GetBarrelObject() { return _barrel ?? visualBody.Find("Weapon"); }
     }
 }

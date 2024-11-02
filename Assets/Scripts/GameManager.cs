@@ -44,11 +44,15 @@ namespace WizardsPlatformer
 
         GroundsModel ILevelInfo.GetGroundsModel() => _gameModel.GetGroundsModel();
         PlayerModel ILevelInfo.GetPlayerModel() => _gameModel.PlayerModel;
+        void ILevelInfo.AccountForBonuses(Dictionary<BonusType, int> bonuses)
+        {
+            foreach(KeyValuePair<BonusType, int> b in bonuses) _gameModel.AddBonus(b.Key, b.Value);
+        }
         
 
         IEnumerator LoadScene(string sceneName)
         {
-            Debug.Log("start loading");
+            Debug.Log($"start loading {sceneName}");
             _loadScreen.StartLoad();
             _sceneLoadComplete = false;
 
@@ -57,13 +61,10 @@ namespace WizardsPlatformer
 
             while (res.progress < 0.9f) yield return null;
 
-            Debug.Log($"loading is complete {res.progress}");
-
             res.allowSceneActivation = true;
 
             while (!_sceneLoadComplete) yield return null;
 
-            Debug.Log($"finish loading");
             _loadScreen.FinishLoad();
         }
     }

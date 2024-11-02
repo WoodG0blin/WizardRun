@@ -22,25 +22,10 @@ namespace WizardsPlatformer
 
         private Vector2 _localStartPosition;
 
-        public LevelModel LevelModel { get; private set; }
         public IReadOnlyList<LevelObject> LevelObjects => _levelObjects;
         public SquaresGrid Grid { get => _grid; }
         public Vector2 LocalStartPosition { get => _localStartPosition; }
-        public BonusStats Bonuses { get; private set; }
 
-        public GroundsModel(LevelModel levelModel, int maxLength)
-        {
-            LevelModel = levelModel;
-
-            _maxLength = maxLength;
-
-            _elements = new List<LevelElement>();
-            _levelObjects = new List<LevelObject>();
-
-            Bonuses = new BonusStats();
-
-            Reset();
-        }
 
         public GroundsModel(int maxLength)
         {
@@ -49,9 +34,21 @@ namespace WizardsPlatformer
             _elements = new List<LevelElement>();
             _levelObjects = new List<LevelObject>();
 
-            Bonuses = new BonusStats();
+            SetModel();
+        }
 
-            Reset();
+        private void SetModel()
+        {
+            _lenthCounter = 0;
+
+            _elements.Clear();
+            _levelObjects.Clear();
+
+            Generate();
+            SetDrawingGrid();
+            SetJointsAndLevelObjects();
+
+            _localStartPosition = new Vector2(1, _elements[0].Height + 2f);
         }
 
         private void Generate()
@@ -109,30 +106,6 @@ namespace WizardsPlatformer
                 if (count >= lengthPosition) return _elements[i];
             }
             return _elements[_elements.Count - 1];
-        }
-
-        public void Reset()
-        {
-            Bonuses = new BonusStats();
-
-            _lenthCounter = 0;
-
-            _elements.Clear();
-            _levelObjects.Clear();
-
-            Generate();
-            SetDrawingGrid();
-            SetJointsAndLevelObjects();
-
-            _localStartPosition = new Vector2(1, _elements[0].Height + 2f);
-        }
-
-        public void Renew()
-        {
-            Bonuses = new BonusStats();
-
-            foreach(LevelObject obj in _levelObjects)
-                if(obj is LevelBonus bonus) bonus.Renew();
         }
     }
 }

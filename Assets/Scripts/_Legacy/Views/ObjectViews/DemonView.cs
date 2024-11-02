@@ -79,7 +79,6 @@ namespace WizardsPlatformer
             _bonusesOnKill = config.BonusesOnKill;
 
             _layerMask = LayerMask.GetMask("Background");
-            RegisterOnUpdate();
 
             SetNewState(DemonStates.Idle);
         }
@@ -98,7 +97,7 @@ namespace WizardsPlatformer
             _playerPositionProperty.SubscribeOnValueChange(OnPlayerPositionChange);
         }
 
-        protected override void OnUpdate()
+        void Update()
         {
             PositionVector = Position;
             _currentState.Act();
@@ -176,7 +175,6 @@ namespace WizardsPlatformer
         {
             OnKilled?.Invoke(BonusType.coin ,_bonusesOnKill);
             _currentState.Stop();
-            UnRegisterFromUpdate();
             gameObject.SetActive(false);
         }
     }

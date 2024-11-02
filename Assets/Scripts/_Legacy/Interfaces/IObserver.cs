@@ -12,14 +12,13 @@ namespace WizardsPlatformer
         void RegisterObserveTarget(SubscribtableProperty<Vector3> observeTarget);
     }
 
-    internal interface ILevelStateObserver
+    internal interface IPortal
     {
-        void RegisterLevelState(SubscribtableProperty<GameState> gameState);
-        event Action onPortalEnter;
+        Action onPortalEnter { get; set; }
     }
 
     internal interface IBonus
     {
-        event Action<BonusType, int> onBonusCollect;
+        Action<BonusType, int> onBonusCollect { get; set; }
     }
 }

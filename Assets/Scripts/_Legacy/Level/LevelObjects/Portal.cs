@@ -9,12 +9,7 @@ namespace WizardsPlatformer
         public Portal(Vector2Int positionOnElement) : base("Portal", positionOnElement) { }
 
         protected override void OnInitiateView(GameObject gameObject) =>
-            gameObject.AddComponent<PortalView>().Init(OnTrigger);
+            gameObject.AddComponent<PortalView>();
 
-        private void OnTrigger(IInteractive view)
-        {
-            Debug.Log("Level FINISHED");
-            //TODO - endGame
-        }
     }
 }

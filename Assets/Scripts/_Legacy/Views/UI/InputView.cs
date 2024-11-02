@@ -26,7 +26,7 @@ namespace WizardsPlatformer
             set
             {
                 _onEsc = value;
-                _pauseMenuButton.onClick.AddListener(() => value.Invoke());
+                _pauseMenuButton?.onClick.AddListener(() => value.Invoke());
             }
         }
 
@@ -52,7 +52,7 @@ namespace WizardsPlatformer
             OnJumpInput = null;
             OnPauseMenu = null;
             OnHorizontalMoveInput = null;
-            _pauseMenuButton.onClick.RemoveAllListeners();
+            _pauseMenuButton?.onClick.RemoveAllListeners();
         }
     }
 }

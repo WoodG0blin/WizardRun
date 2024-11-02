@@ -14,8 +14,6 @@ namespace WizardsPlatformer
         public float MaxHealth {get; private set; }
         public float Speed { get; private set; }
 
-        public int Bonuses { get; private set; }
-
 
         public IReadOnlyList<UpgradeConfig> Upgrades => _upgrades;
         public GameObject Prefab => _config.Prefab;
@@ -23,8 +21,6 @@ namespace WizardsPlatformer
         public IWeapon GetWeaponTo(Transform barrel) => Weapon.GetWeapon(barrel, _weaponConfig);
 
 
-
-        public PlayerModel(LevelModel levelModel) { }
         public PlayerModel()
         {
             _upgrades = new List<UpgradeConfig>();
@@ -39,6 +35,5 @@ namespace WizardsPlatformer
 
         public void AddUpgrade(UpgradeConfig upgrade) => _upgrades.Add(upgrade);
         public void Reset() => _upgrades.Clear();
-        public void AddBonuses(int value) => Bonuses += value;
     }
 }

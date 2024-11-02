@@ -13,37 +13,30 @@ namespace WizardsPlatformer
         float Speed { get; }
         bool HasWeapon { get; }
         IWeaponConfig WeaponConfig { get; }
-        bool IsKillable { get; }
         int BonusesOnKill { get; }
     }
 
     [CreateAssetMenu(fileName = nameof(LevelObjectConfig), menuName = "Configs/" + nameof(LevelObjectConfig), order = 5)]
     internal class LevelObjectConfig : ScriptableObject, ILevelObjectConfig
     {
-        [SerializeField] protected string _name;
-        [SerializeField] protected GameObject _prefab;
-        [SerializeField] protected AnimationSequence[] _animations;
+        [SerializeField] private string _name;
+        [field: SerializeField] public GameObject Prefab { get; private set; }
+        [field: SerializeField] public AnimationSequence[] Animations { get; private set; }
+
+        [field: Space(10)]
+        [field: SerializeField] public float MaxHealth { get; private set; }
+        [field: SerializeField] public float Speed { get; private set; }
 
         [Space(10)]
-        [SerializeField] protected float _maxHealth;
-        [SerializeField] protected float _speed;
+        [SerializeField] private WeaponConfig _weaponConfig;
 
-        [Space(10)]
-        [SerializeField] protected WeaponConfig _weaponConfig;
-
-        [Space(10)]
-        [SerializeField] protected int _bonusesOnKill;
+        [field: Space(10)]
+        [field: SerializeField] public int BonusesOnKill { get; private set; }
 
 
         public string Name { get => _name; }
-        public GameObject  Prefab{ get => _prefab; }
-        public AnimationSequence[] Animations { get => _animations; }
-        public float MaxHealth { get => _maxHealth; }
-        public float Speed { get => _speed; }
-        public bool HasWeapon { get => _weaponConfig != null; }
+        public bool HasWeapon { get => WeaponConfig != null; }
         public IWeaponConfig WeaponConfig { get => _weaponConfig; }
-        public bool IsKillable { get => _bonusesOnKill > 0; }
-        public int BonusesOnKill { get => _bonusesOnKill; }
 
 
         public IReadOnlyList<LevelObjectConfig> Configs => new List<LevelObjectConfig>() { this};

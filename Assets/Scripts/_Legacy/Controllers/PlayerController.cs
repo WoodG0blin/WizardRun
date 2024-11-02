@@ -36,7 +36,7 @@ namespace WizardsPlatformer
             _playerView = playerView;
             _playerView.OnReceiveDamage += ReceiveDamage;
 
-            _weapon = _playerModel.GetWeaponTo(playerView.GetWeapon());
+            _weapon = _playerModel.GetWeaponTo(playerView.GetBarrelObject());
 
             _stats = new Stats(health: _playerModel.MaxHealth, parent: playerView.transform);
             _stats.OnDeath += OnDeath;

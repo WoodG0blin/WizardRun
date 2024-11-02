@@ -42,11 +42,9 @@ namespace WizardsPlatformer
             stats.OnDeath += OnDeath;
 
             _bonusesOnKill = config.BonusesOnKill;
-
-            RegisterOnUpdate();
         }
 
-        protected override void OnUpdate()
+        void Update()
         {
             if (_ready)
             {
@@ -70,7 +68,6 @@ namespace WizardsPlatformer
         private void OnDeath()
         {
             OnKilled?.Invoke(BonusType.coin, _bonusesOnKill);
-            UnRegisterFromUpdate();
             gameObject.SetActive(false);
         }
 

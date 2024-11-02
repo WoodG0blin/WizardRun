@@ -25,7 +25,7 @@ namespace WizardsPlatformer
         public event Action onLevelEnd;
         public event Action<BonusType, int> OnBonusCollect;
 
-        public void Init(Tile[] tiles)
+        public void InitTiles(Tile[] tiles)
         {
             _tiles = new Dictionary<string, Tile>();
             foreach (Tile tile in tiles) _tiles.Add(tile.name, tile);
@@ -33,9 +33,6 @@ namespace WizardsPlatformer
 
         public void DrawGrounds(SquaresGrid grid, IReadOnlyList<LevelObject> levelObjects, IReadOnlyDictionary<string, ILevelObjectConfig> configs)
         {
-            //_tiles = new Dictionary<string, Tile>();
-            //foreach (Tile tile in _groundTiles) _tiles.Add(tile.name, tile);
-
             _screenOffset = new Vector2(_groundTilemap.transform.localPosition.x +0.5f, _groundTilemap.transform.localPosition.y+0.5f);
 
             for (int i = 0; i < grid.GetLength(0); i++)
@@ -69,7 +66,7 @@ namespace WizardsPlatformer
             foreach (ILevelObjectView levelObjectView in _levelObjectViews)
             {
                 if (levelObjectView is IPlayerPositionObserver playerObserver) playerObserver.RegisterObserveTarget(observeTarget);
-                if (levelObjectView is ILevelStateObserver levelObserver) levelObserver.onPortalEnter += onLevelEnd;
+                if (levelObjectView is IPortal levelObserver) levelObserver.onPortalEnter += onLevelEnd;
                 if (levelObjectView is IBonus bonus) bonus.onBonusCollect += onBonusCollect;
                 if (levelObjectView is IKillable killable) killable.OnKilled += onBonusCollect;
             }

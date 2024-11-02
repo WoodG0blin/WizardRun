@@ -32,8 +32,6 @@ namespace WizardsPlatformer
             stats.OnDeath += OnDeath;
 
             _bonusesOnKill = config.BonusesOnKill;
-
-            RegisterOnUpdate();
         }
 
         public void RegisterObserveTarget(SubscribtableProperty<Vector3> observeTarget)
@@ -42,7 +40,7 @@ namespace WizardsPlatformer
             _playerPositionProperty.SubscribeOnValueChange(OnPlayerPositionChange);
         }
 
-        protected override void OnUpdate()
+        void Update()
         {
             if (_weapon.WeaponReady && _aim.InDistance) _weapon.Fire();
         }
@@ -66,7 +64,6 @@ namespace WizardsPlatformer
         private void OnDeath()
         {
             OnKilled?.Invoke(BonusType.coin, _bonusesOnKill);
-            UnRegisterFromUpdate();
             gameObject.SetActive(false);
         }
     }

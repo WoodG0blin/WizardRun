@@ -28,7 +28,7 @@ namespace WizardsPlatformer
 
     internal interface IInteractive : IView
     {
-        event Action<IInteractive> onTrigger;
+        Action<IInteractive> onTrigger { get; set; }
         void Interact(Controller target);
     }
 
@@ -45,7 +45,6 @@ namespace WizardsPlatformer
 
         private ContactsPuller _contacts;
 
-        private bool _subscribedToUpdate = false;
         private bool _disposed = false;
 
         public Vector3 Position { get => transform.position; }
@@ -120,24 +119,10 @@ namespace WizardsPlatformer
             if (_disposed) return;
 
             OnDestruction();
-            UnRegisterFromUpdate();
             _disposed = true;
             GameObject.Destroy(gameObject);
         }
 
         protected virtual void OnDestruction() { }
-
-        protected void RegisterOnUpdate()
-        {
-            //UpdateManager.SubscribeToUpdate(OnUpdate);
-            _subscribedToUpdate= true;
-        }
-
-        protected void UnRegisterFromUpdate()
-        {
-            //if(_subscribedToUpdate) UpdateManager.UnsubscribeFromUpdate(OnUpdate);
-            _subscribedToUpdate= false;
-        }
-        protected virtual void OnUpdate() { }
     }
 }

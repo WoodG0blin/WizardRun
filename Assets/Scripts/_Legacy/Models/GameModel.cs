@@ -9,22 +9,9 @@ namespace WizardsPlatformer
     {
         public SubscribtableProperty<GameState> CurrentState { get; }
         public BonusStats Bonuses { get; private set; }
-        internal LevelModel LevelModel { get; }
         internal InventoryModel InventoryModel { get; }
 
         internal PlayerModel PlayerModel { get; private set; }
-
-        public GameModel(GameState initialState)
-        {
-            InventoryModel = new InventoryModel();
-
-            CurrentState = new SubscribrablePropertyWithEqualsCheck <GameState>();
-            CurrentState.Value = initialState;
-            LevelModel = new LevelModel(CurrentState, AddBonus);
-            //AnalyticsManager = GameObject.FindObjectOfType<AnalyticsManager>();
-            //AdsManager= GameObject.FindObjectOfType<AdsManager>();
-            Bonuses = new BonusStats(true);
-        }
 
         public GameModel()
         {
@@ -37,6 +24,6 @@ namespace WizardsPlatformer
 
         public GroundsModel GetGroundsModel() => new GroundsModel(CalculateGroundsLenght());
 
-        private int CalculateGroundsLenght() => 10;
+        private int CalculateGroundsLenght() => 20;
     }
 }

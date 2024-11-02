@@ -7,7 +7,7 @@ namespace WizardsPlatformer
 {
     internal class InventoryController : Controller
     {
-        private readonly GameModel _gameModel;
+        private readonly IMenuInfo _gameModel;
 
         private readonly InventoryModel _inventoryModel;
         private readonly IInventoryView _inventoryView;
@@ -16,12 +16,12 @@ namespace WizardsPlatformer
         private readonly string _assetPath = "UI/Inventory";
         private readonly string _DataSourcePath = "ItemConfigs";
 
-        public InventoryController(Transform UIContainer, GameModel gameModel)
+        public InventoryController(Transform UIContainer, IMenuInfo gameModel)
         {
             _gameModel = gameModel;
-            _inventoryModel = _gameModel.InventoryModel;
+            //_inventoryModel = _gameModel.InventoryModel;
             _inventoryView = GameObject.Instantiate(ResourceLoader.Load<GameObject>(_assetPath)).GetComponent<InventoryView>();
-            _inventoryView.OnReturn = () => { _gameModel.CurrentState.Value = GameState.MainMenu; };
+            //_inventoryView.OnReturn = () => { _gameModel.CurrentState.Value = GameState.MainMenu; };
             _inventoryView.OnApply = () => ApplyChangesToPlayer();
             Register(_inventoryView);
             _itemsRepository = new ItemsRepository(ResourceLoader.LoadFromDataSource<AllItemConfigs, ItemConfig>(_DataSourcePath));
@@ -34,15 +34,15 @@ namespace WizardsPlatformer
 
         private void ApplyChangesToPlayer()
         {
-            _gameModel.LevelModel.PlayerModel.Reset();
+            //_gameModel.GetPlayerModel().Reset();
 
             foreach (string item in _inventoryModel.EquippedItems)
             {
                 var temp = _itemsRepository.Items[item];
-                if (temp.IsUpgrade) _gameModel.LevelModel.PlayerModel.AddUpgrade(temp.Upgrade);
+               // if (temp.IsUpgrade) _gameModel.LevelModel.PlayerModel.AddUpgrade(temp.Upgrade);
             }
 
-            _gameModel.CurrentState.Value = GameState.MainMenu;
+            //_gameModel.CurrentState.Value = GameState.MainMenu;
         }
 
         private void OnItemClicked(string ItemID)
