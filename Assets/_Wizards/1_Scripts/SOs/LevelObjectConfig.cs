@@ -9,8 +9,8 @@ namespace WizardsPlatformer
         string Name { get; }
         AnimationSequence[] Animations { get; }
         GameObject Prefab { get; }
-        float MaxHealth { get; }
-        float Speed { get; }
+        int MaxHealth { get; }
+        int Speed { get; }
         bool HasWeapon { get; }
         IWeaponConfig WeaponConfig { get; }
         int BonusesOnKill { get; }
@@ -24,8 +24,8 @@ namespace WizardsPlatformer
         [field: SerializeField] public AnimationSequence[] Animations { get; private set; }
 
         [field: Space(10)]
-        [field: SerializeField] public float MaxHealth { get; private set; }
-        [field: SerializeField] public float Speed { get; private set; }
+        [field: SerializeField] public int MaxHealth { get; private set; }
+        [field: SerializeField] public int Speed { get; private set; }
 
         [Space(10)]
         [SerializeField] private WeaponConfig _weaponConfig;

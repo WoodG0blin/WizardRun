@@ -5,16 +5,16 @@ namespace WizardsPlatformer
 {
     internal class IncreasedJump : Upgrade, IStatsUpgrade
     {
-        private Stats _stats;
+        private CharacterStats _stats;
         private bool activated = false;
 
         public IncreasedJump(UpgradeConfig config) : base(config) { activated = false; }
-        public void Init(Stats stats) => _stats = stats;
+        public void Init(CharacterStats stats) => _stats = stats;
         protected override void OnActivation()
         {
             if (!activated)
             {
-                _stats.JumpForce += Config.Value;
+                _stats.AddStatsModifier(CharacterStatType.JumpForce, Config.Value);
                 activated = true;
             }
         }

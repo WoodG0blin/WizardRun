@@ -7,7 +7,7 @@ namespace WizardsPlatformer
     internal class PlayerController : IUpgradable
     {
         private PlayerModel _playerModel;
-        private Stats _stats;
+        private CharacterStats _stats;
         private UpgradesManager _upgradesManager;
 
         private float _moveThreshold = 0.02f;
@@ -19,12 +19,12 @@ namespace WizardsPlatformer
         private IPlayerView _playerView;
         private IWeapon _weapon;
 
-        public Stats Stats { get => _stats; }
+        public CharacterStats Stats { get => _stats; }
         public Action<Vector3> OnPlayerPositionChange;
         public Action OnPlayerDeath;
 
         Dictionary<ActivatorType, IUpgrade> IUpgradable.Upgrades => _upgrades;
-        Stats IUpgradable.Stats => _stats;
+        CharacterStats IUpgradable.Stats => _stats;
         IJump IUpgradable.Jumper => _playerView;
         IWeapon IUpgradable.Weapon => _weapon;
 
@@ -38,7 +38,7 @@ namespace WizardsPlatformer
 
             _weapon = _playerModel.GetWeaponTo(playerView.GetBarrelObject());
 
-            _stats = new Stats(health: _playerModel.MaxHealth, parent: playerView.transform);
+            _stats = new CharacterStats(health: _playerModel.MaxHealth, parent: playerView.transform);
             _stats.OnDeath += OnDeath;
 
             (this as IUpgradable).Reset();
@@ -82,7 +82,7 @@ namespace WizardsPlatformer
 
         public void SetPosition(Vector3 position) => _playerView.SetPosition(position);
 
-        public void ReceiveDamage(float damage)
+        public void ReceiveDamage(int damage)
         {
             _stats.Health -= damage;
         }

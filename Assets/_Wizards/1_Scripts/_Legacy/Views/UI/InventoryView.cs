@@ -30,7 +30,7 @@ namespace WizardsPlatformer
         public void Display(IEnumerable<IItem> items, Action<string> OnItemClick)
         {
             foreach (IItem item in items)
-                _itemViews[item.ID] = DisplayItem(item, OnItemClick);
+                _itemViews[item.NameTag] = DisplayItem(item, OnItemClick);
         }
 
         public void Clear()
@@ -48,7 +48,7 @@ namespace WizardsPlatformer
         private ItemView DisplayItem(IItem item, Action<string> onItemClick)
         {
             ItemView temp = GameObject.Instantiate(_itemPrefab, _container).GetComponent<ItemView>();
-            temp.Init(item, () => { onItemClick.Invoke(item.ID); });
+            temp.Init(item, () => { onItemClick.Invoke(item.NameTag); });
             return temp;
         }
 

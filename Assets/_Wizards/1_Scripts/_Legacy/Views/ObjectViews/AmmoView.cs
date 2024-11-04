@@ -13,8 +13,8 @@ namespace WizardsPlatformer
 
         protected Transform _barrel;
 
-        protected float _damage;
-        protected float _speed;
+        protected int _damage;
+        protected int _speed;
         protected float _baseGravity;
         protected Coroutine _currentTimer;
 
@@ -24,7 +24,7 @@ namespace WizardsPlatformer
         public float Mass { get => rigidbody.mass; }
         public float Gravity { get => _baseGravity; }
 
-        public void Init(Transform barrel, float damage, float speed)
+        public void Init(Transform barrel, int damage, int speed)
         {
             SetActive(false);
             _barrel = barrel;

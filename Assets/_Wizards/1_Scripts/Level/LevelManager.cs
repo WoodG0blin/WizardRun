@@ -58,7 +58,7 @@ namespace WizardsPlatformer
 
             _playerController.OnPlayerPositionChange += _cameraController.UpdateToPlayerPosition;
             _playerController.OnPlayerPositionChange += _groundsController.UpdatePlayerposition;
-            _playerController.Stats.HealthProperty.SubscribeOnValueChange(_levelDisplay.SetHealth);
+            _playerController.Stats.OnCurrentHealthChange += _levelDisplay.SetHealth;
             _playerController.OnPlayerDeath += FinishLevel;
 
             _groundsController.OnCoinsCountChange = _levelDisplay.SetCoinsCount;

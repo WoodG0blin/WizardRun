@@ -4,10 +4,10 @@ namespace WizardsPlatformer
 {
     internal interface IWeaponConfig
     {
-        float AttackDistance { get; }
-        float CoolDown { get; }
-        float Damage { get; }
-        float FireForce { get; }
+        int AttackDistance { get; }
+        int CoolDown { get; }
+        int Damage { get; }
+        int FireForce { get; }
         bool IsRanged { get; }
         string Name { get; }
         GameObject AmmoPrefab { get; }
@@ -21,17 +21,17 @@ namespace WizardsPlatformer
 
         [Space(10)]
         [SerializeField] protected bool _isRanged;
-        [SerializeField] protected float _damage;
-        [SerializeField] protected float _attackDistance;
-        [SerializeField] protected float _cooldown;
-        [SerializeField] protected float _fireForce;
+        [SerializeField] protected int _damage;
+        [SerializeField] protected int _attackDistance;
+        [SerializeField] protected int _cooldown;
+        [SerializeField] protected int _fireForce;
 
         public string Name { get => _name; }
         public GameObject AmmoPrefab { get => _ammo; }
         public bool IsRanged { get => _isRanged; }
-        public float Damage { get => _damage; }
-        public float AttackDistance { get => _attackDistance; }
-        public float CoolDown { get => _cooldown; }
-        public float FireForce { get => _fireForce; }
+        public int Damage { get => _damage; }
+        public int AttackDistance { get => _attackDistance; }
+        public int CoolDown { get => _cooldown; }
+        public int FireForce { get => _fireForce; }
     }
 }

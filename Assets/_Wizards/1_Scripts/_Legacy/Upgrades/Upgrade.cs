@@ -15,7 +15,7 @@ namespace WizardsPlatformer
         [field: SerializeField] public ActivatorType Activator { get; private set; }
         [field: SerializeField] public UpgradeType Upgrade { get; private set; }
         [field: SerializeField] public string Description { get; private set; }
-        [field: SerializeField] public float Value { get; private set; }
+        [field: SerializeField] public int Value { get; private set; }
     }
 
     internal interface IUpgrade

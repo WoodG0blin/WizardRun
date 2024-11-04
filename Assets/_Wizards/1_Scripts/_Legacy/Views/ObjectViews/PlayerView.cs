@@ -18,7 +18,7 @@ namespace WizardsPlatformer
 
         private AnimationController _animator;
         public ActionState animationState { get; set; }
-        public event Action<float> OnReceiveDamage;
+        public event Action<int> OnReceiveDamage;
 
         public void SetVelocity(float newVelocityX)
         {
@@ -52,7 +52,7 @@ namespace WizardsPlatformer
                 );
         }
 
-        public void ReceiveDamage(float damage) => OnReceiveDamage?.Invoke(damage);
+        public void ReceiveDamage(int damage) => OnReceiveDamage?.Invoke(damage);
 
         public Transform GetBarrelObject() { return _barrel ?? visualBody.Find("Weapon"); }
     }

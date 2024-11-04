@@ -13,7 +13,7 @@ namespace WizardsPlatformer
         private int _bonusesOnKill;
 
         public event Action<BonusType, int> OnKilled;
-        public event Action<float> OnReceiveDamage;
+        public event Action<int> OnReceiveDamage;
 
         protected override void OnInit()
         {
@@ -28,7 +28,7 @@ namespace WizardsPlatformer
                 if(_weapon is RangedWeapon rw) _aim.Init(config.WeaponConfig.AttackDistance, config.WeaponConfig.FireForce / rw.Ammo.Mass, rw.Ammo.Gravity);    
             }
 
-            stats = new Stats(health: config.MaxHealth, parent: transform);
+            stats = new CharacterStats(health: config.MaxHealth, parent: transform);
             stats.OnDeath += OnDeath;
 
             _bonusesOnKill = config.BonusesOnKill;
@@ -59,7 +59,7 @@ namespace WizardsPlatformer
             stats.OnDeath -= OnDeath;
         }
 
-        public void ReceiveDamage(float damage) => stats.Health -= damage;
+        public void ReceiveDamage(int damage) => stats.Health -= damage;
 
         private void OnDeath()
         {

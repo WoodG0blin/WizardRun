@@ -6,7 +6,7 @@ namespace WizardsPlatformer
     internal interface IUpgradable
     {
         Dictionary <ActivatorType, IUpgrade> Upgrades { get; }
-        Stats Stats { get; }
+        CharacterStats Stats { get; }
         IJump Jumper { get; }
         IWeapon Weapon { get; }
 

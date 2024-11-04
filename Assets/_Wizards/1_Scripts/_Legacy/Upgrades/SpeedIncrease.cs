@@ -5,19 +5,19 @@ namespace WizardsPlatformer
 {
     internal interface IStatsUpgrade : IUpgrade
     {
-        public void Init(Stats stats);
+        public void Init(CharacterStats stats);
     }
     internal class SpeedIncrease : Upgrade, IStatsUpgrade
     {
-        private Stats _stats;
+        private CharacterStats _stats;
         private bool activated = false;
         public SpeedIncrease(UpgradeConfig config) : base(config) { activated = false; }
-        public void Init(Stats stats) => _stats = stats;
+        public void Init(CharacterStats stats) => _stats = stats;
         protected override void OnActivation()
         {
             if (!activated)
             {
-                _stats.Speed += Config.Value;
+                _stats.AddStatsModifier(CharacterStatType.Speed, Config.Value);
                 activated = true;
             }
         }

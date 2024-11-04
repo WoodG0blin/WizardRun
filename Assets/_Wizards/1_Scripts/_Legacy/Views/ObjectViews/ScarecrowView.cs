@@ -16,7 +16,7 @@ namespace WizardsPlatformer
         private float _counter;
 
         public event System.Action<BonusType, int> OnKilled;
-        public event System.Action<float> OnReceiveDamage;
+        public event System.Action<int> OnReceiveDamage;
 
         protected override void OnInit()
         {
@@ -38,7 +38,7 @@ namespace WizardsPlatformer
                 _counter = Random.Range(0, _waitTime - 0.1f);
             }
 
-            stats = new Stats(health: config.MaxHealth, parent: transform);
+            stats = new CharacterStats(health: config.MaxHealth, parent: transform);
             stats.OnDeath += OnDeath;
 
             _bonusesOnKill = config.BonusesOnKill;
@@ -63,7 +63,7 @@ namespace WizardsPlatformer
             }
         }
 
-        public void ReceiveDamage(float damage) => stats.Health -= damage;
+        public void ReceiveDamage(int damage) => stats.Health -= damage;
 
         private void OnDeath()
         {

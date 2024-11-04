@@ -38,7 +38,7 @@ namespace WizardsPlatformer
 
         private int _bonusesOnKill;
 
-        public event Action<float> OnReceiveDamage;
+        public event Action<int> OnReceiveDamage;
         public event Action<BonusType ,int> OnKilled;
 
         public void SetNewState(DemonStates state)
@@ -73,7 +73,7 @@ namespace WizardsPlatformer
                 _closingDistance = config.WeaponConfig.AttackDistance;
             }
 
-            stats = new Stats(health: config.MaxHealth, parent: transform);
+            stats = new CharacterStats(health: config.MaxHealth, parent: transform);
             stats.OnDeath += OnDeath;
 
             _bonusesOnKill = config.BonusesOnKill;
@@ -169,7 +169,7 @@ namespace WizardsPlatformer
             }
         }
 
-        public void ReceiveDamage(float damage) => stats.Health -= damage;
+        public void ReceiveDamage(int damage) => stats.Health -= damage;
 
         private void OnDeath()
         {

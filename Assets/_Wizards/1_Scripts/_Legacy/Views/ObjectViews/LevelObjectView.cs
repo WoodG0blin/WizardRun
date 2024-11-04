@@ -5,7 +5,7 @@ namespace WizardsPlatformer
 {
     internal class LevelObjectView : View, ILevelObjectView
     {
-        protected Stats stats;
+        protected CharacterStats stats;
         protected ILevelObjectConfig config;
         protected bool activeResponse = false;
         protected float kickCoeff = 2f;

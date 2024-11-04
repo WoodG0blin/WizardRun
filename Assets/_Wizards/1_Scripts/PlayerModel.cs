@@ -11,8 +11,8 @@ namespace WizardsPlatformer
         private IWeaponConfig _weaponConfig;
 
         public string Name { get; private set; }
-        public float MaxHealth {get; private set; }
-        public float Speed { get; private set; }
+        public int MaxHealth {get; private set; }
+        public int Speed { get; private set; }
 
 
         public IReadOnlyList<UpgradeConfig> Upgrades => _upgrades;
