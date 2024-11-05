@@ -32,7 +32,7 @@ namespace WizardsPlatformer
         void Interact(Controller target);
     }
 
-    internal abstract class View : MonoBehaviour, IView
+    public abstract class View : MonoBehaviour, IView
     {
         private SpriteRenderer _renderer;
         private Rigidbody2D _rigidbody;

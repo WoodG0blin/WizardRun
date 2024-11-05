@@ -2,17 +2,18 @@
 
 namespace WizardsPlatformer
 {
+
     internal abstract class ArtifactExecutor
     {
         private int _baseCooldown;
         private bool _forceResetCooldown;
         public bool IsReady => RemainingCooldown <= 0;
         public int RemainingCooldown { get; private set; }
-        public void Use()
+        public void Use(IArtifactHolder holder)
         {
             if (IsReady)
             {
-                ActionsOnUse();
+                ActionsOnUse(holder);
 
                 RemainingCooldown = _baseCooldown;
                 StartCooldownArtifact();
@@ -24,7 +25,7 @@ namespace WizardsPlatformer
             _forceResetCooldown = true;
         }
 
-        protected abstract void ActionsOnUse();
+        protected abstract void ActionsOnUse(IArtifactHolder holder);
 
         private async void StartCooldownArtifact()
         {

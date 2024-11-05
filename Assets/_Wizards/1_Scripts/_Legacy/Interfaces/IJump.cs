@@ -2,7 +2,7 @@
 
 namespace WizardsPlatformer
 {
-    internal interface IJump : IView
+    public interface IJump
     {
         void Jump(float force);
     }
