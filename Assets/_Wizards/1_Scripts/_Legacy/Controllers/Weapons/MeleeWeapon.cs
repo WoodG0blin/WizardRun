@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class MeleeWeapon : Weapon
+    internal class MeleeWeapon : WeaponLegacy
     {
-        public MeleeWeapon(IWeaponConfig config, Transform barrel) : base(config, barrel) { }
+        public MeleeWeapon(WeaponConfig config, Transform barrel) : base(config, barrel) { }
 
         protected override void OnFire()
         {
-            var hit = Physics2D.RaycastAll(barrel.position, direction, config.AttackDistance)
+            var hit = Physics2D.RaycastAll(barrel.position, direction, config.ActionDistance)
                     .Where(hit => hit.transform.CompareTag("Player"))
                     .FirstOrDefault();
 

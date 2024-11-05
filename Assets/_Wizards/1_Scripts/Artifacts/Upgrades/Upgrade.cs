@@ -18,9 +18,9 @@ namespace WizardsPlatformer
         [field: SerializeField] public int Value { get; private set; }
     }
 
-    internal interface IUpgrade
+    public interface IUpgrade
     {
-        UpgradeConfig Config { get; }
+        //UpgradeConfig Config { get; }
 
         void Activate();
         void Add(IUpgrade next);

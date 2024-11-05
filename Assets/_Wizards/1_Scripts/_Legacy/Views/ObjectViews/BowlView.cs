@@ -26,9 +26,9 @@ namespace WizardsPlatformer
                 var barrel = visualBody.Find("Aim");
                 if (!barrel.TryGetComponent<AimView>(out _aim)) _aim = barrel.gameObject.AddComponent<AimView>();
 
-                _weapon = Weapon.GetWeapon(barrel, config.WeaponConfig);
+                _weapon = WeaponLegacy.GetWeapon(barrel, config.WeaponConfig);
 
-                _aim.Init(config.WeaponConfig.AttackDistance);
+                _aim.Init(config.WeaponConfig.ActionDistance);
             }
 
             stats = new CharacterStats(health: config.MaxHealth, parent: transform);

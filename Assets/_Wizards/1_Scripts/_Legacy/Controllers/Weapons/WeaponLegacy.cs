@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 
 namespace WizardsPlatformer
 {
-    internal abstract class Weapon : IWeapon
+    internal abstract class WeaponLegacy : IWeapon
     {
-        protected IWeaponConfig config;
+        protected WeaponConfig config;
         protected Transform barrel;
         protected Vector3 direction;
 
         public bool WeaponReady {get; private set;}
 
-        public Weapon(IWeaponConfig config, Transform barrel)
+        public WeaponLegacy(WeaponConfig config, Transform barrel)
         {
             this.config = config;
             this.barrel = barrel;
@@ -29,17 +29,16 @@ namespace WizardsPlatformer
             {
                 WeaponReady = false;
                 OnFire();
-                await Task.Delay(Mathf.RoundToInt(config.CoolDown * 1000));
+                await Task.Delay(Mathf.RoundToInt(5 * 1000));
                 WeaponReady = true;
             }
         }
         protected abstract void OnFire();
 
 
-        public static IWeapon GetWeapon(Transform barrel, IWeaponConfig config)
+        public static IWeapon GetWeapon(Transform barrel, WeaponConfig config)
         {
-            if (!config.IsRanged) return new MeleeWeapon(config, barrel);
-            else return new RangedWeapon(config, barrel, barrel.transform.parent.CompareTag("Player"));
+            return new MeleeWeapon(config, barrel);
         }
     }
 }

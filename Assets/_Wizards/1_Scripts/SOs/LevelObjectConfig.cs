@@ -12,7 +12,7 @@ namespace WizardsPlatformer
         int MaxHealth { get; }
         int Speed { get; }
         bool HasWeapon { get; }
-        IWeaponConfig WeaponConfig { get; }
+        WeaponConfig WeaponConfig { get; }
         int BonusesOnKill { get; }
     }
 
@@ -36,7 +36,7 @@ namespace WizardsPlatformer
 
         public string Name { get => _name; }
         public bool HasWeapon { get => WeaponConfig != null; }
-        public IWeaponConfig WeaponConfig { get => _weaponConfig; }
+        public WeaponConfig WeaponConfig { get => _weaponConfig; }
 
 
         public IReadOnlyList<LevelObjectConfig> Configs => new List<LevelObjectConfig>() { this};

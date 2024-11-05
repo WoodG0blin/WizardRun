@@ -69,8 +69,8 @@ namespace WizardsPlatformer
 
             if (config.HasWeapon)
             {
-                _weapon = Weapon.GetWeapon(transform, config.WeaponConfig);
-                _closingDistance = config.WeaponConfig.AttackDistance;
+                _weapon = WeaponLegacy.GetWeapon(transform, config.WeaponConfig);
+                _closingDistance = config.WeaponConfig.ActionDistance;
             }
 
             stats = new CharacterStats(health: config.MaxHealth, parent: transform);

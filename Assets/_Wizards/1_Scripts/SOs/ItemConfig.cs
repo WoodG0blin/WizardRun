@@ -12,43 +12,50 @@ namespace WizardsPlatformer
         string Name { get; }
         Sprite Icon { get; }
         Sprite LevelView { get; }
-        bool IsUpgrade { get; }
+        //bool IsUpgrade { get; }
         public ArtifactSlotType SlotType { get; }
-        UpgradeConfig Upgrade { get;}
+        //UpgradeConfig Upgrade { get;}
     }
 
-    [CreateAssetMenu(fileName = "New" + nameof(ItemConfig), menuName = "Configs/" + nameof(ItemConfig), order = 2)]
-    internal sealed class ItemConfig : ScriptableObject, IItem
+    public interface IModifier<T> where T :struct, IConvertible
     {
-        public interface IModifier
-        {
-            public CharacterStatType Type { get; }
-            public int Value { get; }
-        }
+        public T Type { get; }
+        public int Value { get; }
+    }
+
+    public interface ICharacterModifier : IModifier<CharacterStatType> { }
+    public interface IArtifactModifier : IModifier<ArtifactStatTypes> { }
+
+
+    [CreateAssetMenu(fileName = "New" + nameof(ItemConfig), menuName = "Configs/" + nameof(ItemConfig), order = 2)]
+    public class ItemConfig : ScriptableObject, IItem
+    {
         [Serializable]
-        private struct Modifier : IModifier
+        private struct Modifier : ICharacterModifier
         {
-            [SerializeField] public CharacterStatType Type { get; private set; }
-            [SerializeField] public int Value { get; private set;}
+            [field: SerializeField] public CharacterStatType Type { get; private set; }
+            [field: SerializeField] public int Value { get; private set;}
         }
 
 
-        [field: Header("GENERAL"), Space(10)]
+        [field: Header("GENERAL")]
         [field: SerializeField] public string NameTag { get; private set; }
         [field: SerializeField] public Sprite Icon { get; private set; }
         [field: SerializeField] public Sprite LevelView { get; private set; }
         [field: SerializeField] public ArtifactSlotType SlotType { get; private set; }
 
-        [field: Header("PASSIVE"), Space(10)]
+        [field: Header("PASSIVE")]
         [SerializeField] private List<Modifier> _passiveCharacterModifiers;
-        [field: SerializeField] public bool HasPassiveArtifactmodifier { get; private set; }
+        [field: SerializeField] public bool HasPassiveArtifactModifier { get; private set; }
 
-        [field: Header("ACTIVE"), Space(10)]
-        [field: SerializeField] public UpgradeConfig Upgrade { get; private set; }
+        [field: Header("ACTIVE")]
+        [field: SerializeField] public bool HasActiveExecutor { get; private set; }
+        [field: SerializeField] public int Cooldown { get; private set; }
+        //[field: SerializeField] public UpgradeConfig Upgrade { get; private set; }
 
 
         public string Name => NameTag;
-        public bool IsUpgrade => Upgrade != null;
-        public List<IModifier> PassiveCharacterModifiers => _passiveCharacterModifiers.Cast<IModifier>().ToList();
+        //public bool IsUpgrade => Upgrade != null;
+        public List<ICharacterModifier> PassiveCharacterModifiers => _passiveCharacterModifiers.Cast<ICharacterModifier>().ToList();
     }
 }

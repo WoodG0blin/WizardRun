@@ -8,7 +8,7 @@ namespace WizardsPlatformer
     {
         private LevelObjectConfig _config;
         private List<UpgradeConfig> _upgrades;
-        private IWeaponConfig _weaponConfig;
+        private WeaponConfig _weaponConfig;
 
         public string Name { get; private set; }
         public int MaxHealth {get; private set; }
@@ -18,7 +18,7 @@ namespace WizardsPlatformer
         public IReadOnlyList<UpgradeConfig> Upgrades => _upgrades;
         public GameObject Prefab => _config.Prefab;
         public AnimationSequence[] Animations => _config.Animations;
-        public IWeapon GetWeaponTo(Transform barrel) => Weapon.GetWeapon(barrel, _weaponConfig);
+        public IWeapon GetWeaponTo(Transform barrel) => WeaponLegacy.GetWeapon(barrel, _weaponConfig);
 
 
         public PlayerModel()

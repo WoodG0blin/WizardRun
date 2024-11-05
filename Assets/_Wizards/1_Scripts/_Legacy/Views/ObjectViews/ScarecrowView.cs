@@ -22,10 +22,11 @@ namespace WizardsPlatformer
         {
             if (config.HasWeapon)
             {
-                _targetWaitTime = config.WeaponConfig.CoolDown;
+                //_targetWaitTime = config.WeaponConfig.CoolDown;
+                _targetWaitTime = 3;
                 _waitTime = _targetWaitTime;
 
-                _weapon = Weapon.GetWeapon(transform.Find("Hand"), config.WeaponConfig);
+                _weapon = WeaponLegacy.GetWeapon(transform.Find("Hand"), config.WeaponConfig);
                 _weapon.SetDirection(Vector3.up);
 
                 if (_weapon is RangedWeapon rw) _ammo = rw.Ammo;

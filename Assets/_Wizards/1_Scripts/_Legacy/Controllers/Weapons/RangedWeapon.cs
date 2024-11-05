@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class RangedWeapon : Weapon
+    internal class RangedWeapon : WeaponLegacy
     {
         private AmmoView _ammo;
-        public RangedWeapon(IWeaponConfig config, Transform barrel, bool isFromPlayer = false) : base(config, barrel)
+        public RangedWeapon(WeaponConfig config, Transform barrel, bool isFromPlayer = false) : base(config, barrel)
         {
-            _ammo = GameObject.Instantiate(config.AmmoPrefab, barrel).GetComponent<AmmoView>();
+            _ammo = GameObject.Instantiate(config.Ammo, barrel).GetComponent<AmmoView>();
             _ammo.Init(barrel, config.Damage, config.FireForce);
             if (isFromPlayer) _ammo.ResetToPlayer();
         }
