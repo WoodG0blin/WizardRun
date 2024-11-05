@@ -17,6 +17,7 @@ namespace WizardsPlatformer
 
         [Header("CONFIGS")]
         [SerializeField] private LevelObjectConfig _playerConfig;
+        [SerializeField] private AllItemConfigs _artifactDatabase;
 
 
         private GameModel _gameModel;
@@ -48,7 +49,9 @@ namespace WizardsPlatformer
         {
             foreach(KeyValuePair<BonusType, int> b in bonuses) _gameModel.AddBonus(b.Key, b.Value);
         }
-        
+
+        IReadOnlyList<ItemConfig> IMenuInfo.ArtifactDatabase => _artifactDatabase.Configs;
+        void IMenuInfo.EquipArtifacts(List<Artifact> selectedArtifacts) => _gameModel.PlayerModel.SetEquippedArtifacts(selectedArtifacts);
 
         IEnumerator LoadScene(string sceneName)
         {

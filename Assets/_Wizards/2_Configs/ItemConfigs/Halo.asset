@@ -12,13 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f4c5eef8ba33d43bf20ed72e6abf11, type: 3}
   m_Name: Halo
   m_EditorClassIdentifier: 
-  <ID>k__BackingField: Halo001
-  <Name>k__BackingField: SpeedIncrease2
+  <NameTag>k__BackingField: Halo
   <Icon>k__BackingField: {fileID: 21300000, guid: 2794efd5d36dfef4d9be253789a9229c, type: 3}
   <LevelView>k__BackingField: {fileID: 0}
-  <IsUpgrade>k__BackingField: 1
-  <Upgrade>k__BackingField:
-    <Activator>k__BackingField: 0
-    <Upgrade>k__BackingField: 0
-    <Description>k__BackingField: 
-    <Value>k__BackingField: 2
+  <SlotType>k__BackingField: 1
+  _passiveCharacterModifiers: []
+  <HasPassiveArtifactModifier>k__BackingField: 0
+  <HasActiveExecutor>k__BackingField: 0
+  <Cooldown>k__BackingField: 0

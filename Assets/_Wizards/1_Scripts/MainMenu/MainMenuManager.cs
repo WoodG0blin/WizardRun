@@ -10,6 +10,7 @@ namespace WizardsPlatformer
     {
         [Header("CONTROLS")]
         [SerializeField] private StartUIView _startUI;
+        [SerializeField] private InventoryView _inventory;
 
         private IMenuInfo _menuInfo;
 
@@ -24,13 +25,21 @@ namespace WizardsPlatformer
         private void Init()
         {
             _startUI.OnStartClick += OnStart;
+            _startUI.OnInventoryClick += OnInventory;
             _startUI.OnExitClick += OnExit;
+
+            _inventory.Init(_menuInfo.EquipArtifacts);
         }
 
         private void OnStart()
         {
             _startUI.SetActive(false);
             _menuInfo.SceneLoader.LoadLevel();
+        }
+
+        private void OnInventory()
+        {
+            _inventory.Display(_menuInfo.ArtifactDatabase);
         }
 
         private void OnExit()

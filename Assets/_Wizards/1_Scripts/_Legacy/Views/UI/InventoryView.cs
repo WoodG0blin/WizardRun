@@ -6,52 +6,75 @@ using UnityEngine.UI;
 
 namespace WizardsPlatformer
 {
-    internal interface IInventoryView: IView
-    {
-        UnityAction OnApply { set; }
-        UnityAction OnReturn { set; }
-
-        void Clear();
-        void Display(IEnumerable<IItem> items, Action<string> OnItemClick);
-        void Select(string itemID, bool selection);
-    }
-
-    internal class InventoryView : View, IInventoryView
+    internal class InventoryView : MonoBehaviour
     {
         [SerializeField] private GameObject _itemPrefab;
         [SerializeField] private Transform _container;
         [SerializeField] private Button _backButton;
         [SerializeField] private Button _applyButton;
 
-        public UnityAction OnReturn { set => _backButton.onClick.AddListener(value); }
-        public UnityAction OnApply { set => _applyButton.onClick.AddListener(value); }
+        private List<ItemConfig> _selectedItems;
+        private Action<List<Artifact>> _onApplySelection;
 
-        private Dictionary<string, ItemView> _itemViews = new();
-        public void Display(IEnumerable<IItem> items, Action<string> OnItemClick)
+        public void Init(Action<List<Artifact>> onApplySelection)
         {
-            foreach (IItem item in items)
-                _itemViews[item.NameTag] = DisplayItem(item, OnItemClick);
+            _onApplySelection = onApplySelection;
+
+            _applyButton.onClick.AddListener(ApplySelectedArtifacts);
+            _backButton.onClick.AddListener(Close);
         }
 
-        public void Clear()
+        public void Display(IEnumerable<ItemConfig> items)
         {
-            foreach (ItemView item in _itemViews.Values)
+            gameObject.SetActive(true);
+
+            Clear();
+            _selectedItems = new();
+
+            foreach (var item in items)
+                DisplayItem(item);
+        }
+
+        private void Clear()
+        {
+            for (int i = _container.childCount - 1; i > 0; i--)
+                GameObject.Destroy(_container.GetChild(i).gameObject);
+        }
+
+        private void DisplayItem(ItemConfig item)
+        {
+            GameObject.Instantiate(_itemPrefab, _container)
+                .GetComponent<ItemView>()
+                .Init(item, selected => SetItem(item, selected));
+        }
+
+        private void SetItem(ItemConfig item, bool selected)
+        {
+            if (selected) _selectedItems.Add(item);
+            else _selectedItems.Remove(item);
+        }
+
+        private void ApplySelectedArtifacts()
+        {
+            _onApplySelection?.Invoke(GenerateSelected());
+            Close();
+        }
+        private List<Artifact> GenerateSelected()
+        {
+            List<Artifact> res = new();
+
+            foreach (var a in _selectedItems)
             {
-                item.DeInit();
-                GameObject.Destroy(item.gameObject);
+                if (a is WeaponConfig w) res.Add(new Weapon(w));
+                else res.Add(new Artifact(a));
             }
-            _itemViews.Clear();
+
+            return res;
         }
-
-        public void Select(string itemID, bool selection) => _itemViews[itemID]?.Select(selection);
-
-        private ItemView DisplayItem(IItem item, Action<string> onItemClick)
+        private void Close()
         {
-            ItemView temp = GameObject.Instantiate(_itemPrefab, _container).GetComponent<ItemView>();
-            temp.Init(item, () => { onItemClick.Invoke(item.NameTag); });
-            return temp;
+            Clear();
+            gameObject.SetActive(false);
         }
-
-        protected override void OnDestruction() => Clear();
     }
 }

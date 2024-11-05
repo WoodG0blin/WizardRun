@@ -14,7 +14,7 @@ namespace WizardsPlatformer
         public int MaxHealth {get; private set; }
         public int Speed { get; private set; }
 
-
+        public List<Artifact> EquippedArtifacts { get; private set; }
         public IReadOnlyList<UpgradeConfig> Upgrades => _upgrades;
         public GameObject Prefab => _config.Prefab;
         public AnimationSequence[] Animations => _config.Animations;
@@ -33,7 +33,12 @@ namespace WizardsPlatformer
             _weaponConfig = config.WeaponConfig;
         }
 
-        public void AddUpgrade(UpgradeConfig upgrade) => _upgrades.Add(upgrade);
+        public void SetEquippedArtifacts(List<Artifact> artifacts)
+        {
+            EquippedArtifacts = artifacts;
+            Debug.Log($"Artifacts reset. new count {EquippedArtifacts.Count}");
+        }
+
         public void Reset() => _upgrades.Clear();
     }
 }

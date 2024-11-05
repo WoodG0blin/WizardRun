@@ -12,13 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f4c5eef8ba33d43bf20ed72e6abf11, type: 3}
   m_Name: GreatPet
   m_EditorClassIdentifier: 
-  <ID>k__BackingField: GreatPet001
-  <Name>k__BackingField: MultipleJump5
+  <NameTag>k__BackingField: GreatPet
   <Icon>k__BackingField: {fileID: -1570401287, guid: e80dc4c4bab275b439fa0b232bbe078b, type: 3}
   <LevelView>k__BackingField: {fileID: 0}
-  <IsUpgrade>k__BackingField: 1
-  <Upgrade>k__BackingField:
-    <Activator>k__BackingField: 1
-    <Upgrade>k__BackingField: 4
-    <Description>k__BackingField: 
-    <Value>k__BackingField: 5
+  <SlotType>k__BackingField: 2
+  _passiveCharacterModifiers: []
+  <HasPassiveArtifactModifier>k__BackingField: 0
+  <HasActiveExecutor>k__BackingField: 0
+  <Cooldown>k__BackingField: 0
