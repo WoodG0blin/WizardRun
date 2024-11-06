@@ -46,11 +46,18 @@ namespace WizardsPlatformer
 
         [field: Header("PASSIVE")]
         [SerializeField] private List<Modifier> _passiveCharacterModifiers;
-        [field: SerializeField] public bool HasPassiveArtifactModifier { get; private set; }
-
-        [field: Header("ACTIVE")]
-        [field: SerializeField] public bool HasActiveExecutor { get; private set; }
+        
+        [field: Header("EXECUTORS")]
+        [field: SerializeField] public List<ArtifactExecutorType> ArtifactExecutors { get; private set; }
         [field: SerializeField] public int Cooldown { get; private set; }
+        
+        [field: Header("ACTION CONFIGS - OPTIONAL")]
+        [field: SerializeField] public int Damage { get; private set; }
+        [field: SerializeField] public int ActionDistance { get; private set; }
+        [field: SerializeField] public int FireForce { get; private set; }
+        [field: SerializeField] public GameObject Ammo { get; private set; }
+
+
         //[field: SerializeField] public UpgradeConfig Upgrade { get; private set; }
 
 

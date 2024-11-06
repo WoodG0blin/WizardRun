@@ -1,65 +1,95 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.WSA;
 
 namespace WizardsPlatformer
 {
-    public class Artifact : IArtifact
+    public class Artifact : IArtifact, IArtifactExecutorHolder, IModifiableArtifact
     {
         private ItemConfig _config;
-        //private ArtifactExecutor _executor;
 
         protected Stat<ArtifactStatTypes> cooldown;
         private bool _forceResetCooldown;
 
+        protected Dictionary<ArtifactExecutorType, IArtifactExecutor> executors;
+
+        protected Stat<ArtifactStatTypes> damage;
+        protected Stat<ArtifactStatTypes> actionDistance;
+        protected Stat<ArtifactStatTypes> fireForce;
+
+
         public Artifact(ItemConfig config)
         {
             _config = config;
-            //_executor = ArtifactExecutorFactory.GetExecutor(_config.NameTag);
+            executors = new();
+            foreach (var type in _config.ArtifactExecutors)
+            {
+                var executor = ArtifactExecutorFactory.GetExecutor(type, _config.NameTag);
+                executor.Init(this);
+                executors.Add(type, executor);
+            }
 
             cooldown = new(ArtifactStatTypes.Cooldown, _config.Cooldown);
 
             PassiveCharacterModifiers = _config.PassiveCharacterModifiers;
+
+            damage = new(ArtifactStatTypes.Damage, config.Damage);
+            actionDistance = new(ArtifactStatTypes.ActionDistance, config.ActionDistance);
+            fireForce = new(ArtifactStatTypes.FireForce, config.FireForce);
         }
 
 
         public string Name => _config.NameTag; //replace with localization
         public Sprite Icon => _config.Icon;
         public Sprite LevelView => _config.LevelView;
+
         public ArtifactSlotType SlotType => _config.SlotType;
 
-        public bool HasPassiveArtifactModifier => _config.HasPassiveArtifactModifier;
-        public bool IsActive => _config.HasActiveExecutor;
+        public List<ICharacterModifier> PassiveCharacterModifiers { get; private set; }
 
         public bool IsReady => RemainingCooldown <= 0;
         public int RemainingCooldown { get; private set; }
 
-        public List<ICharacterModifier> PassiveCharacterModifiers { get; private set; }
+
+        int IArtifactExecutorHolder.Damage => damage.Value;
+        int IArtifactExecutorHolder.ActionDistance => actionDistance.Value;
+        int IArtifactExecutorHolder.FireForce => fireForce.Value;
+        bool IArtifactExecutorHolder.TryGetAmmoTo(Transform barrel, out AmmoView ammo)
+        {
+            ammo = null;
+
+            if(_config.Ammo != null)
+            {
+                ammo = GameObject.Instantiate(_config.Ammo, barrel).GetComponent<AmmoView>();
+                ammo.Init(barrel, damage.Value, fireForce.Value);
+                return true;
+            }
+
+            return false;
+        }
 
 
-        //public void Use(IArtifactHolder holder) => _executor.Use(holder);
+        public IArtifactExecutor GetExecutor(ArtifactExecutorType type)
+        {
+            if (executors.ContainsKey(type)) return executors[type];
+            else return null;
+        }
 
-        public void Use(IArtifactHolder holder)
+
+        public void Activate()
         {
             if (IsReady)
             {
-                ActionsOnUse(holder);
-
                 RemainingCooldown = cooldown.Value;
                 StartCooldownArtifact();
             }
         }
-        protected virtual void ActionsOnUse(IArtifactHolder holder) { }
-
-        public void UseToModify() { }
-        
         public void ResetCooldown()
         {
             RemainingCooldown = 0;
             _forceResetCooldown = true;
         }
-
-
         private async void StartCooldownArtifact()
         {
             if (RemainingCooldown > 0)
@@ -70,5 +100,26 @@ namespace WizardsPlatformer
                 StartCooldownArtifact();
             }
         }
+
+        public void SetModifiers(List<IArtifactModifier> modifiers)
+        {
+            for (int i = 0; i < modifiers.Count; i++)
+                GetStatByType(modifiers[i].Type).AddModifier(modifiers[i].Value);
+        }
+        public void ClearAllModifiers()
+        {
+            cooldown.ClearModifier();
+            damage.ClearModifier();
+            actionDistance.ClearModifier();
+            fireForce.ClearModifier();
+        }
+        private Stat<ArtifactStatTypes> GetStatByType(ArtifactStatTypes type) => type switch
+        {
+            ArtifactStatTypes.Cooldown => cooldown,
+            ArtifactStatTypes.Damage => damage,
+            ArtifactStatTypes.ActionDistance => actionDistance,
+            ArtifactStatTypes.FireForce => fireForce,
+            _ => new(ArtifactStatTypes.Cooldown)
+        };
     }
 }

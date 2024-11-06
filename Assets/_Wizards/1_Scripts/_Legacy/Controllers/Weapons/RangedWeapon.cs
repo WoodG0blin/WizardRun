@@ -18,7 +18,7 @@ namespace WizardsPlatformer
         
         protected override void OnFire()
         {
-            if (_ammo != null && _ammo.Ready) _ammo.Fire(direction);
+            if (_ammo != null) _ammo.Fire(direction);
         }
     }
 }

@@ -3,14 +3,20 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    public interface IArtifact
+    public interface IArtifact : IDisplayInfo
     {
-        string Name { get; }
-        Sprite Icon { get; }
-        Sprite LevelView { get; }
         ArtifactSlotType SlotType { get; }
         List<ICharacterModifier> PassiveCharacterModifiers { get; }
-        bool HasPassiveArtifactModifier { get; }
-        bool IsActive { get; }
+        IArtifactExecutor GetExecutor(ArtifactExecutorType type);
+    }
+
+    internal interface IArtifactExecutorHolder
+    {
+        bool IsReady { get; }
+        int Damage { get; }
+        int ActionDistance { get; }
+        int FireForce { get; }
+        bool TryGetAmmoTo(Transform barrel, out AmmoView ammo);
+        void Activate();
     }
 }

@@ -67,7 +67,7 @@ namespace WizardsPlatformer
         }
         public void OnJump()
         {
-            if (_playerView.AccessContacts().HasContactDown) _playerView.Jump(_stats.JumpForce);
+            if ((_playerView as IJump).AccessContacts().HasContactDown) _playerView.Jump(_stats.JumpForce);
 
             _upgrades[ActivatorType.OnJump].Activate();
         }

@@ -1,41 +1,92 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 namespace WizardsPlatformer
 {
-
-    internal abstract class ArtifactExecutor
+    public interface IArtifactExecutor
     {
-        private int _baseCooldown;
-        private bool _forceResetCooldown;
-        public bool IsReady => RemainingCooldown <= 0;
-        public int RemainingCooldown { get; private set; }
+        void Use(IArtifactHolder holder);
+    }
+
+    internal abstract class ArtifactExecutor : IArtifactExecutor
+    {
+        protected IArtifactExecutorHolder parentArtifact;
+
+        public void Init(IArtifactExecutorHolder holder) => parentArtifact = holder;
+
         public void Use(IArtifactHolder holder)
         {
-            if (IsReady)
+            if (parentArtifact.IsReady)
             {
+                parentArtifact.Activate();
                 ActionsOnUse(holder);
-
-                RemainingCooldown = _baseCooldown;
-                StartCooldownArtifact();
             }
-        }
-        public void ResetCooldown()
-        {
-            RemainingCooldown = 0;
-            _forceResetCooldown = true;
         }
 
         protected abstract void ActionsOnUse(IArtifactHolder holder);
+    }
 
-        private async void StartCooldownArtifact()
+    internal class ModifierExecutor : ArtifactExecutor
+    {
+        protected override void ActionsOnUse(IArtifactHolder holder)
         {
-            if (RemainingCooldown > 0)
+            var targets = holder.EquippedArtifacts.Where(Condition).Cast<IModifiableArtifact>().ToList();
+            if (targets != null)
+                foreach (var target in targets)
+                    Modify(target);
+        }
+
+        protected virtual bool Condition(IArtifact art) => art is IModifiableArtifact;
+        protected virtual void Modify(IModifiableArtifact target)
+        {
+            UnityEngine.Debug.Log($"Modifying {(target as IArtifact).Name} with {(parentArtifact as IArtifact).Name}");
+        }
+    }
+
+    internal class JumpExecutor : ArtifactExecutor
+    {
+        protected override void ActionsOnUse(IArtifactHolder holder)
+        {
+            UnityEngine.Debug.Log($"Extra actions on Jump");
+        }
+    }
+
+    internal class AttackExecutor : ArtifactExecutor
+    {
+        AmmoView ammo;
+
+        protected override void ActionsOnUse(IArtifactHolder holder)
+        {
+            if (parentArtifact.TryGetAmmoTo(holder.Barrel, out ammo))
+                RangedAttack(holder);
+            else MeleeAttack(holder);
+        }
+
+        private void MeleeAttack(IArtifactHolder holder)
+        {
+            var hit = Physics2D.RaycastAll(holder.Barrel.position, holder.Direction, parentArtifact.ActionDistance)
+                    .Where(hit => hit.transform.CompareTag("Player"))
+                    .FirstOrDefault();
+
+            if (hit.collider != null)
             {
-                _forceResetCooldown = false;
-                await Task.Delay(1000);
-                if (!_forceResetCooldown) RemainingCooldown--;
-                StartCooldownArtifact();
+                (hit.transform.GetComponent<View>() as IDamagable)?.ReceiveDamage(parentArtifact.Damage);
             }
+        }
+
+        private void RangedAttack(IArtifactHolder holder)
+        {
+            if (holder.IsPlayer) ammo.ResetToPlayer();
+            ammo.Fire(holder.Direction);
+        }
+    }
+
+    internal class StubExecutor : ArtifactExecutor
+    {
+        protected override void ActionsOnUse(IArtifactHolder holder)
+        {
+            UnityEngine.Debug.Log($"Executing Stub for {(parentArtifact as IArtifact).Name}");
         }
     }
 }

@@ -65,7 +65,8 @@ namespace WizardsPlatformer
 
             foreach (var a in _selectedItems)
             {
-                ArtifactFactory.GetArtifact(a);
+                res.Add(new Artifact(a));
+                //ArtifactFactory.GetArtifact(a);
                 //if (a is WeaponConfig w) res.Add(new Weapon(w));
                 //else res.Add(new Artifact(a));
             }

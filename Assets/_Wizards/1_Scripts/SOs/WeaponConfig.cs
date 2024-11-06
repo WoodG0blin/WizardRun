@@ -16,10 +16,10 @@ namespace WizardsPlatformer
     [CreateAssetMenu(fileName = nameof(WeaponConfig), menuName = "Configs/" + nameof(WeaponConfig), order = 5)]
     public class WeaponConfig : ItemConfig
     {
-        [field: Header("ACTION CONFIGS")]
-        [field: SerializeField] public int Damage { get; private set; }
-        [field: SerializeField] public int ActionDistance { get; private set; }
-        [field: SerializeField] public int FireForce { get; private set; }
-        [field: SerializeField] public GameObject Ammo { get; private set; }
+        //[field: Header("ACTION CONFIGS")]
+        //[field: SerializeField] public int Damage { get; private set; }
+        //[field: SerializeField] public int ActionDistance { get; private set; }
+        //[field: SerializeField] public int FireForce { get; private set; }
+        //[field: SerializeField] public GameObject Ammo { get; private set; }
     }
 }
