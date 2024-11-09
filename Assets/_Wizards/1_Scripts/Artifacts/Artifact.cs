@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.WSA;
 
 namespace WizardsPlatformer
 {
@@ -9,15 +8,16 @@ namespace WizardsPlatformer
     {
         private ItemConfig _config;
 
-        protected Stat<ArtifactStatTypes> cooldown;
+        protected int cooldown;
         private bool _forceResetCooldown;
 
         protected Dictionary<ArtifactExecutorType, IArtifactExecutor> executors;
 
-        protected Stat<ArtifactStatTypes> damage;
-        protected Stat<ArtifactStatTypes> actionDistance;
-        protected Stat<ArtifactStatTypes> fireForce;
+        protected int damage;
+        protected int actionDistance;
+        protected int fireForce;
 
+        private ParametersModifier<ArtifactStatTypes> _modifiers;
 
         public Artifact(ItemConfig config)
         {
@@ -30,13 +30,15 @@ namespace WizardsPlatformer
                 executors.Add(type, executor);
             }
 
-            cooldown = new(ArtifactStatTypes.Cooldown, _config.Cooldown);
+            cooldown = _config.Cooldown;
 
             PassiveCharacterModifiers = _config.PassiveCharacterModifiers;
 
-            damage = new(ArtifactStatTypes.Damage, config.Damage);
-            actionDistance = new(ArtifactStatTypes.ActionDistance, config.ActionDistance);
-            fireForce = new(ArtifactStatTypes.FireForce, config.FireForce);
+            damage = config.Damage;
+            actionDistance = config.ActionDistance;
+            fireForce = config.FireForce;
+
+            _modifiers = new();
         }
 
 
@@ -52,9 +54,9 @@ namespace WizardsPlatformer
         public int RemainingCooldown { get; private set; }
 
 
-        int IArtifactExecutorHolder.Damage => damage.Value;
-        int IArtifactExecutorHolder.ActionDistance => actionDistance.Value;
-        int IArtifactExecutorHolder.FireForce => fireForce.Value;
+        int IArtifactExecutorHolder.Damage => damage + _modifiers.GetModifier(ArtifactStatTypes.Damage);
+        int IArtifactExecutorHolder.ActionDistance => actionDistance + _modifiers.GetModifier(ArtifactStatTypes.ActionDistance);
+        int IArtifactExecutorHolder.FireForce => fireForce + _modifiers.GetModifier(ArtifactStatTypes.FireForce);
         bool IArtifactExecutorHolder.TryGetAmmoTo(Transform barrel, out AmmoView ammo)
         {
             ammo = null;
@@ -62,7 +64,6 @@ namespace WizardsPlatformer
             if(_config.Ammo != null)
             {
                 ammo = GameObject.Instantiate(_config.Ammo, barrel).GetComponent<AmmoView>();
-                ammo.Init(barrel, damage.Value, fireForce.Value);
                 return true;
             }
 
@@ -81,7 +82,7 @@ namespace WizardsPlatformer
         {
             if (IsReady)
             {
-                RemainingCooldown = cooldown.Value;
+                RemainingCooldown = cooldown;
                 StartCooldownArtifact();
             }
         }
@@ -103,23 +104,13 @@ namespace WizardsPlatformer
 
         public void SetModifiers(List<IArtifactModifier> modifiers)
         {
-            for (int i = 0; i < modifiers.Count; i++)
-                GetStatByType(modifiers[i].Type).AddModifier(modifiers[i].Value);
+            foreach(var m in modifiers)
+                _modifiers.AddModifier(m.Type, m.Value);
         }
         public void ClearAllModifiers()
         {
-            cooldown.ClearModifier();
-            damage.ClearModifier();
-            actionDistance.ClearModifier();
-            fireForce.ClearModifier();
+            _modifiers.CancelAllTempEffects();
+            _modifiers = new();
         }
-        private Stat<ArtifactStatTypes> GetStatByType(ArtifactStatTypes type) => type switch
-        {
-            ArtifactStatTypes.Cooldown => cooldown,
-            ArtifactStatTypes.Damage => damage,
-            ArtifactStatTypes.ActionDistance => actionDistance,
-            ArtifactStatTypes.FireForce => fireForce,
-            _ => new(ArtifactStatTypes.Cooldown)
-        };
     }
 }

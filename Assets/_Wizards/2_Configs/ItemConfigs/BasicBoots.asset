@@ -19,6 +19,9 @@ MonoBehaviour:
   _passiveCharacterModifiers:
   - <Type>k__BackingField: 2
     <Value>k__BackingField: 1
-  <HasPassiveArtifactModifier>k__BackingField: 0
-  <HasActiveExecutor>k__BackingField: 0
+  <ArtifactExecutors>k__BackingField: 02000000
   <Cooldown>k__BackingField: 0
+  <Damage>k__BackingField: 0
+  <ActionDistance>k__BackingField: 0
+  <FireForce>k__BackingField: 0
+  <Ammo>k__BackingField: {fileID: 0}

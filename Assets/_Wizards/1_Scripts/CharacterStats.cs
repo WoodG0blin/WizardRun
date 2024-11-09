@@ -6,10 +6,12 @@ namespace WizardsPlatformer
 {
     internal class CharacterStats
     {
-        private Stat<CharacterStatType> _maxHealth;
-        private Stat<CharacterStatType> _defence;
-        private Stat<CharacterStatType> _speed;
-        private Stat<CharacterStatType> _jumpForce;
+        private int _maxHealth;
+        private int _defence;
+        private int _speed;
+        private int _jumpForce;
+
+        private ParametersModifier<CharacterStatType> _modifiers;
 
         private int _currentHealth;
         
@@ -19,10 +21,10 @@ namespace WizardsPlatformer
         public Action OnBaseParametersChange;
         public Action OnDeath;
         
-        public int MaxHealth => _maxHealth.Value;
-        public int Defence => _defence.Value;
-        public int Speed => _speed.Value;
-        public int JumpForce => _jumpForce.Value;
+        public int MaxHealth => _maxHealth + _modifiers.GetModifier(CharacterStatType.MaxHealth);
+        public int Defence => _defence + _modifiers.GetModifier(CharacterStatType.Defence);
+        public int Speed => _speed + _modifiers.GetModifier(CharacterStatType.Speed);
+        public int JumpForce => _jumpForce + _modifiers.GetModifier(CharacterStatType.JumpForce);
         public int Health
         {
             get => _currentHealth;
@@ -37,10 +39,12 @@ namespace WizardsPlatformer
         
         public CharacterStats(int health = 100, int speed = 3, int jumpforce = 5, Transform parent = null)
         {
-            _maxHealth = new(CharacterStatType.MaxHealth, health);
-            _defence = new(CharacterStatType.Defence, 0);
-            _speed = new(CharacterStatType.Speed, speed);
-            _jumpForce = new(CharacterStatType.JumpForce,jumpforce);
+            _maxHealth = health;
+            _defence = 0;
+            _speed = speed;
+            _jumpForce = jumpforce;
+
+            _modifiers = new();
         }
         
         public void SetStatsDisplay(IStatsHeadDisplay display)
@@ -50,17 +54,13 @@ namespace WizardsPlatformer
         }
         
         public void AddStatsModifier(CharacterStatType type, int modifierValue) =>
-            GetStatByType(type).AddModifier(modifierValue);
+            _modifiers.AddModifier(type, modifierValue);
         public void RemoveStatsModifier(CharacterStatType type, int modifierValue) =>
-            GetStatByType(type).RemoveModifier(modifierValue);
-
-        private Stat<CharacterStatType> GetStatByType(CharacterStatType type) => type switch
+            _modifiers.AddModifier(type, modifierValue);
+        public void ClearAllModifiers()
         {
-            CharacterStatType.MaxHealth => _maxHealth,
-            CharacterStatType.Defence => _defence,
-            CharacterStatType.Speed => _speed,
-            CharacterStatType.JumpForce => _jumpForce,
-            _ => new(CharacterStatType.MaxHealth)
-        };
+            _modifiers.CancelAllTempEffects();
+            _modifiers = new();
+        }
     }
 }

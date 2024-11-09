@@ -59,7 +59,10 @@ namespace WizardsPlatformer
         protected override void ActionsOnUse(IArtifactHolder holder)
         {
             if (parentArtifact.TryGetAmmoTo(holder.Barrel, out ammo))
+            {
+                ammo.Init(holder.Barrel, parentArtifact.Damage, parentArtifact.FireForce);
                 RangedAttack(holder);
+            }
             else MeleeAttack(holder);
         }
 

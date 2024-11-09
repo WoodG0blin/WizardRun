@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f4c5eef8ba33d43bf20ed72e6abf11, type: 3}
   m_Name: BasicBelt
   m_EditorClassIdentifier: 
-  <NameTag>k__BackingField: Pet
+  <NameTag>k__BackingField: BasicBelt
   <Icon>k__BackingField: {fileID: -1570401287, guid: e80dc4c4bab275b439fa0b232bbe078b, type: 3}
   <LevelView>k__BackingField: {fileID: 0}
   <SlotType>k__BackingField: 2
   _passiveCharacterModifiers: []
-  <HasPassiveArtifactModifier>k__BackingField: 0
-  <HasActiveExecutor>k__BackingField: 0
+  <ArtifactExecutors>k__BackingField: 
   <Cooldown>k__BackingField: 0
+  <Damage>k__BackingField: 0
+  <ActionDistance>k__BackingField: 0
+  <FireForce>k__BackingField: 0
+  <Ammo>k__BackingField: {fileID: 0}

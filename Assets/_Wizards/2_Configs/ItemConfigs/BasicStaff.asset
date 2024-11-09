@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f4c5eef8ba33d43bf20ed72e6abf11, type: 3}
   m_Name: BasicStaff
   m_EditorClassIdentifier: 
-  <NameTag>k__BackingField: GreatPet
+  <NameTag>k__BackingField: BasicStaff
   <Icon>k__BackingField: {fileID: -1570401287, guid: e80dc4c4bab275b439fa0b232bbe078b, type: 3}
   <LevelView>k__BackingField: {fileID: 0}
-  <SlotType>k__BackingField: 2
+  <SlotType>k__BackingField: 0
   _passiveCharacterModifiers: []
-  <HasPassiveArtifactModifier>k__BackingField: 0
-  <HasActiveExecutor>k__BackingField: 0
-  <Cooldown>k__BackingField: 0
+  <ArtifactExecutors>k__BackingField: 01000000
+  <Cooldown>k__BackingField: 1
+  <Damage>k__BackingField: 5
+  <ActionDistance>k__BackingField: 2
+  <FireForce>k__BackingField: 2
+  <Ammo>k__BackingField: {fileID: 5613963724177010042, guid: 527ffee76cfe6484a9be1da2dcefedab, type: 3}
