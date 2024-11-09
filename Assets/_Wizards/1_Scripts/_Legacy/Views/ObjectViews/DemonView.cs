@@ -69,11 +69,11 @@ namespace WizardsPlatformer
 
             if (config.HasWeapon)
             {
-                _weapon = WeaponLegacy.GetWeapon(transform, config.WeaponConfig);
-                _closingDistance = config.WeaponConfig.ActionDistance;
+                _weapon = WeaponLegacy.GetWeapon(transform, config.WeaponConfigLegacy);
+                _closingDistance = config.WeaponConfigLegacy.ActionDistance;
             }
 
-            stats = new CharacterStats(health: config.MaxHealth, parent: transform);
+            stats = new CharacterStats(health: config.MaxHealth);
             stats.OnDeath += OnDeath;
 
             _bonusesOnKill = config.BonusesOnKill;
@@ -97,7 +97,7 @@ namespace WizardsPlatformer
             _playerPositionProperty.SubscribeOnValueChange(OnPlayerPositionChange);
         }
 
-        void Update()
+        protected override void OnUpdate()
         {
             PositionVector = Position;
             _currentState.Act();

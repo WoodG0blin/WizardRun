@@ -18,7 +18,7 @@ namespace WizardsPlatformer
         protected float _baseGravity;
         protected Coroutine _currentTimer;
 
-        public event Action OnTrigger;
+        public Action OnTrigger;
 
         //public bool Ready { get; protected set; }
         public float Mass { get => rigidbody.mass; }

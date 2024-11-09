@@ -47,6 +47,8 @@ namespace WizardsPlatformer
 
         private bool _disposed = false;
 
+        protected bool initiated = false;
+
         public Vector3 Position { get => transform.position; }
         public float XDirection { get => _xDirection; }
         new public SpriteRenderer renderer
@@ -101,6 +103,13 @@ namespace WizardsPlatformer
             _xDirection = direction > 0 ? 1 : -1;
             visualBody.localScale = new Vector3(_xDirection * _initialScale.x, _initialScale.y, _initialScale.z);
         }
+
+        private void Update()
+        {
+            if (initiated) OnUpdate();
+        }
+
+        protected virtual void OnUpdate() { }
 
         public ContactsPuller AccessContacts()
         {

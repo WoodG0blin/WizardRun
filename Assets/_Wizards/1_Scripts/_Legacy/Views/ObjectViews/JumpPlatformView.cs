@@ -3,12 +3,7 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class JumpPlatformView : View, ILevelObjectView
+    internal class JumpPlatformView : LevelObjectView
     {
-        public void Draw(Vector3 position)
-        {
-            SetPosition(position);
-            SetActive(true);
-        }
     }
 }

@@ -37,9 +37,10 @@ namespace WizardsPlatformer
             }
         }
         
-        public CharacterStats(int health = 100, int speed = 3, int jumpforce = 5, Transform parent = null)
+        public CharacterStats(int health = 100, int speed = 3, int jumpforce = 5)
         {
             _maxHealth = health;
+            _currentHealth = _maxHealth;
             _defence = 0;
             _speed = speed;
             _jumpForce = jumpforce;

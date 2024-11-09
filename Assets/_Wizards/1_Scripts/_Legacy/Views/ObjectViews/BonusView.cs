@@ -6,7 +6,7 @@ using WizardsPlatformer;
 
 namespace WizardsPlatformer
 {
-    internal class BonusView : View, ILevelObjectView, IBonus
+    internal class BonusView : LevelObjectView, IBonus
     {
         private bool _triggered = false;
 
@@ -14,11 +14,6 @@ namespace WizardsPlatformer
         private Bonus _bonus;
 
         public Action<BonusType, int> onBonusCollect { get; set; }
-        public void Draw(Vector3 position)
-        {
-            SetPosition(position);
-            SetActive(true);
-        }
 
         public void Init(Bonus bonus) => _bonus = bonus;
 

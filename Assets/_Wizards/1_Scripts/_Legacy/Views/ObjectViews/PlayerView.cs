@@ -10,6 +10,7 @@ namespace WizardsPlatformer
     internal interface IPlayerView: IAnimatedView, IJump, IDamagable
     {
         void SetVelocity(float newVelocityX);
+        Transform GetBarrelObject();
     }
 
     internal class PlayerView : View, IPlayerView
@@ -35,7 +36,7 @@ namespace WizardsPlatformer
             _animator.AnimationState(ActionState.Jump, true);
         }
 
-        private void Update()
+        protected override void OnUpdate()
         {
             if (Mathf.Abs(rigidbody.velocity.x) < 0.1f) _animator.AnimationState(ActionState.Idle);
             else if (Mathf.Abs(rigidbody.velocity.x) < 1f) _animator.AnimationState(ActionState.Walk);
@@ -50,6 +51,7 @@ namespace WizardsPlatformer
                 renderer,
                 animations ?? new AnimationSequence[] { new AnimationSequence() { Sprites = new List<Sprite>() { renderer.sprite } } }
                 );
+            initiated = true;
         }
 
         public void ReceiveDamage(int damage) => OnReceiveDamage?.Invoke(damage);

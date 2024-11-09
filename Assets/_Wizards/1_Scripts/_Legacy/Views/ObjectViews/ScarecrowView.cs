@@ -26,7 +26,7 @@ namespace WizardsPlatformer
                 _targetWaitTime = 3;
                 _waitTime = _targetWaitTime;
 
-                _weapon = WeaponLegacy.GetWeapon(transform.Find("Hand"), config.WeaponConfig);
+                _weapon = WeaponLegacy.GetWeapon(transform.Find("Hand"), config.WeaponConfigLegacy);
                 _weapon.SetDirection(Vector3.up);
 
                 if (_weapon is RangedWeapon rw) _ammo = rw.Ammo;
@@ -39,7 +39,7 @@ namespace WizardsPlatformer
                 _counter = Random.Range(0, _waitTime - 0.1f);
             }
 
-            stats = new CharacterStats(health: config.MaxHealth, parent: transform);
+            stats = new CharacterStats(health: config.MaxHealth);
             stats.OnDeath += OnDeath;
 
             _bonusesOnKill = config.BonusesOnKill;
@@ -75,7 +75,7 @@ namespace WizardsPlatformer
         protected override void OnDestruction()
         {
             stats.OnDeath -= OnDeath;
-            _ammo.OnTrigger -= () => _ready = true;
+            if(_ammo != null) _ammo.OnTrigger -= () => _ready = true;
             _ammo = null;
         }
     }

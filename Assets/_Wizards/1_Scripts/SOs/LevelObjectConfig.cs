@@ -12,7 +12,8 @@ namespace WizardsPlatformer
         int MaxHealth { get; }
         int Speed { get; }
         bool HasWeapon { get; }
-        WeaponConfig WeaponConfig { get; }
+        WeaponConfig WeaponConfigLegacy { get; }
+        ItemConfig WeaponConfig { get; }
         int BonusesOnKill { get; }
     }
 
@@ -26,18 +27,20 @@ namespace WizardsPlatformer
         [field: Space(10)]
         [field: SerializeField] public int MaxHealth { get; private set; }
         [field: SerializeField] public int Speed { get; private set; }
+        [field: SerializeField] public int JumpForce { get; private set; }
 
         [Space(10)]
-        [SerializeField] private WeaponConfig _weaponConfig;
+        [SerializeField] private ItemConfig _weaponConfig;
+        [SerializeField] private WeaponConfig _weaponConfigLegacy;
 
         [field: Space(10)]
         [field: SerializeField] public int BonusesOnKill { get; private set; }
 
 
         public string Name { get => _name; }
-        public bool HasWeapon { get => WeaponConfig != null; }
-        public WeaponConfig WeaponConfig { get => _weaponConfig; }
-
+        public bool HasWeapon { get => _weaponConfig != null; }
+        public WeaponConfig WeaponConfigLegacy => _weaponConfigLegacy;
+        public ItemConfig WeaponConfig => _weaponConfig;
 
         public IReadOnlyList<LevelObjectConfig> Configs => new List<LevelObjectConfig>() { this};
     }

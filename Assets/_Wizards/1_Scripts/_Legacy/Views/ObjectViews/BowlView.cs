@@ -26,12 +26,12 @@ namespace WizardsPlatformer
                 var barrel = visualBody.Find("Aim");
                 if (!barrel.TryGetComponent<AimView>(out _aim)) _aim = barrel.gameObject.AddComponent<AimView>();
 
-                _weapon = WeaponLegacy.GetWeapon(barrel, config.WeaponConfig);
+                _weapon = WeaponLegacy.GetWeapon(barrel, config.WeaponConfigLegacy);
 
-                _aim.Init(config.WeaponConfig.ActionDistance);
+                _aim.Init(config.WeaponConfigLegacy.ActionDistance);
             }
 
-            stats = new CharacterStats(health: config.MaxHealth, parent: transform);
+            stats = new CharacterStats(health: config.MaxHealth);
             stats.OnDeath += OnDeath;
 
             _bonusesOnKill = config.BonusesOnKill;
@@ -43,7 +43,7 @@ namespace WizardsPlatformer
             _playerPositionProperty.SubscribeOnValueChange(OnPlayerPositionChange);
         }
 
-        void Update()
+        protected override void OnUpdate()
         {
             if (_weapon.WeaponReady && _aim.InDistance) _weapon.Fire();
         }

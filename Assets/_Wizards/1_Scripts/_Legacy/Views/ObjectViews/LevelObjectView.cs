@@ -39,5 +39,7 @@ namespace WizardsPlatformer
         }
 
         protected virtual void OnCollision(Collision2D collision) { }
+
+        public void FinishInitiation() => initiated = true;
     }
 }

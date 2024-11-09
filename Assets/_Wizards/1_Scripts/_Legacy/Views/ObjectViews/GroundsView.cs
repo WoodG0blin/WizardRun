@@ -55,6 +55,8 @@ namespace WizardsPlatformer
 
                 if(view is IAnimatedView animView) animView.InitiateAnimations(config.Animations);
 
+                view.FinishInitiation();
+
                 _levelObjectViews.Add(view);
             }
 

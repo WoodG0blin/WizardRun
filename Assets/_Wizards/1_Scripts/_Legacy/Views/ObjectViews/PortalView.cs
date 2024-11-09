@@ -6,7 +6,7 @@ using WizardsPlatformer;
 
 namespace WizardsPlatformer
 {
-    internal class PortalView : View, ILevelObjectView, IAnimatedView, IPortal
+    internal class PortalView : LevelObjectView, IAnimatedView, IPortal
     {
         private bool _triggered = false;
 
@@ -14,12 +14,6 @@ namespace WizardsPlatformer
         public ActionState animationState { get; set; }
 
         public Action onPortalEnter { get; set; }
-
-        public void Draw(Vector3 position)
-        {
-            SetPosition(position);
-            SetActive(true);
-        }
 
 
         public void InitiateAnimations(AnimationSequence[] animations)
