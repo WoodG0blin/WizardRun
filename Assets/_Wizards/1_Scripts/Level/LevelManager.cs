@@ -40,17 +40,18 @@ namespace WizardsPlatformer
             _playerModel = _levelInfo.GetPlayerModel();
 
             // replace with DIc
-            GameObject temp = GameObject.Instantiate(_playerModel.Prefab);
-            PlayerView _playerView = temp.GetComponent<PlayerView>() ?? temp.AddComponent<PlayerView>();
+            //GameObject temp = GameObject.Instantiate(_playerModel.Prefab);
+            //PlayerView _playerView = temp.GetComponent<PlayerView>() ?? temp.AddComponent<PlayerView>();
 
             _groundsController = new(_groundsModel, _groundsView, _groundsConfig, OnGroundsCleared);
             _cameraController = new(Camera.main, _groundsConfig.BackGroundSprites);
 
-            temp = GameObject.Instantiate(_inputConfig.Prefab);
+            GameObject temp = GameObject.Instantiate(_inputConfig.Prefab);
             _inputController = new InputController(temp.GetComponent<InputView>() ?? temp.AddComponent<InputView>());
 
-            _playerView.InitiateAnimations(_playerModel.Animations);
-            _playerController = new PlayerController(_playerModel, _playerView, _groundsController.GetStartPosition());
+            //_playerView.InitiateAnimations(_playerModel.Animations);
+            _playerController = new PlayerController(_playerModel, _groundsController.GetStartPosition());
+            _playerController.InitiateView(GameObject.Instantiate(_playerController.Prefab));
 
             _inputController.OnHorizontalInput = _playerController.OnHorizontalMove;
             _inputController.OnJumpInput = _playerController.OnJump;

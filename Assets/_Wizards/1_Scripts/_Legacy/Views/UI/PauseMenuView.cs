@@ -14,7 +14,7 @@ namespace WizardsPlatformer
         void Deactivate();
     }
 
-    internal class PauseMenuView : View, IPauseMenuView
+    internal class PauseMenuView : MonoBehaviour, IPauseMenuView
     {
         [SerializeField] private Image _successImage;
         [SerializeField] private Image _failureImage;

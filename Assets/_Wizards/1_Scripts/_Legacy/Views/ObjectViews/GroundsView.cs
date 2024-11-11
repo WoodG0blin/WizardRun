@@ -7,12 +7,11 @@ namespace WizardsPlatformer
 {
     internal interface IGroundsView
     {
-        void DrawGrounds(SquaresGrid grid, IReadOnlyList<LevelObject> levelObjects, IReadOnlyDictionary<string, ILevelObjectConfig> prefabs);
+        void DrawGrounds(SquaresGrid grid, IReadOnlyList<LevelObject> levelObjects);
         Vector3 GetGlobalStartPosition(Vector2 localStatPosition);
-        void Init(SubscribtableProperty<Vector3> observeTarget, Action onLevelEnd, Action<BonusType, int> onBonusCollect);
     }
 
-    internal class GroundsView : View, IGroundsView
+    internal class GroundsView : MonoBehaviour, IGroundsView
     {
         [SerializeField] private Tilemap _groundTilemap;
         
@@ -31,7 +30,7 @@ namespace WizardsPlatformer
             foreach (Tile tile in tiles) _tiles.Add(tile.name, tile);
         }
 
-        public void DrawGrounds(SquaresGrid grid, IReadOnlyList<LevelObject> levelObjects, IReadOnlyDictionary<string, ILevelObjectConfig> configs)
+        public void DrawGrounds(SquaresGrid grid, IReadOnlyList<LevelObject> levelObjects)
         {
             _screenOffset = new Vector2(_groundTilemap.transform.localPosition.x +0.5f, _groundTilemap.transform.localPosition.y+0.5f);
 
@@ -42,46 +41,28 @@ namespace WizardsPlatformer
                 }
 
             _levelObjectViews = new();
-            ILevelObjectConfig config;
             Vector3 prefabPosition;
 
             foreach (LevelObject levelObject in levelObjects)
             {
-                if (!configs.TryGetValue(levelObject.Name, out config)) Debug.Log("No config for object " + levelObject.Name);
-
                 prefabPosition = new Vector3((float)levelObject.LocalPosition.x + _screenOffset.x, (float)levelObject.LocalPosition.y + _screenOffset.y, 0);
 
-                ILevelObjectView view = levelObject.InitiateView(GameObject.Instantiate(config.Prefab, prefabPosition, Quaternion.identity, transform), config);
+                ILevelObjectView view = levelObject.InitiateView(GameObject.Instantiate(levelObject.Prefab, prefabPosition, Quaternion.identity, transform));
 
-                if(view is IAnimatedView animView) animView.InitiateAnimations(config.Animations);
-
-                view.FinishInitiation();
-
-                _levelObjectViews.Add(view);
+                if(view != null) _levelObjectViews.Add(view);
             }
 
             AddDropCollider(grid.GetLength(0), grid.GetLength(1));
         }
 
-        public void Init(SubscribtableProperty<Vector3> observeTarget, Action onLevelEnd, Action<BonusType, int> onBonusCollect)
-        {
-            foreach (ILevelObjectView levelObjectView in _levelObjectViews)
-            {
-                if (levelObjectView is IPlayerPositionObserver playerObserver) playerObserver.RegisterObserveTarget(observeTarget);
-                if (levelObjectView is IPortal levelObserver) levelObserver.onPortalEnter += onLevelEnd;
-                if (levelObjectView is IBonus bonus) bonus.onBonusCollect += onBonusCollect;
-                if (levelObjectView is IKillable killable) killable.OnKilled += onBonusCollect;
-            }
-        }
-
         public Vector3 GetGlobalStartPosition(Vector2 localStartPosition) => new Vector3(localStartPosition.x + _screenOffset.x, localStartPosition.y + _screenOffset.y, 0);
 
-        protected override void OnDestruction()
-        {
-            _groundTilemap?.ClearAllTiles();
-            if(_levelObjectViews != null) foreach(ILevelObjectView view in _levelObjectViews) view.Dispose();
-            _levelObjectViews?.Clear();
-        }
+        //protected override void OnDestruction()
+        //{
+        //    _groundTilemap?.ClearAllTiles();
+        //    if(_levelObjectViews != null) foreach(ILevelObjectView view in _levelObjectViews) view.Dispose();
+        //    _levelObjectViews?.Clear();
+        //}
 
         private void AddDropCollider(float xSize, float ySize)
         {
@@ -92,7 +73,7 @@ namespace WizardsPlatformer
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if(collision.gameObject.TryGetComponent<View>(out var view))
+            if(collision.gameObject.TryGetComponent<LevelObjectView>(out var view))
             {
                 if (view is IDamagable d) d.ReceiveDamage(10000);
             }

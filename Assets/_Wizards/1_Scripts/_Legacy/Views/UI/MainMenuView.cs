@@ -17,7 +17,7 @@ namespace WizardsPlatformer
         Action OnStart { set; }
     }
 
-    internal class MainMenuView : View, IMainMenuView
+    internal class MainMenuView : MonoBehaviour, IMainMenuView
     {
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _settingsButton;

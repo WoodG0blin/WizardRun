@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class AnimationController : Controller
+    internal class AnimationController
     {
         private List<AnimationSequence> _animations = new List<AnimationSequence>();
         private SpriteRenderer _renderer;
@@ -33,7 +33,7 @@ namespace WizardsPlatformer
             }
         }
 
-        protected  override void OnUpdate()
+        public void Update()
         {
             if (_currentAnimation != null)
             {
@@ -87,11 +87,6 @@ namespace WizardsPlatformer
         {
             _currentAnimation = null;
             _renderer.sprite = _baseSprite;
-        }
-
-        protected override void OnDispose()
-        {
-            _animations.Clear();
         }
     }
 }

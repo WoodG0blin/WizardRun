@@ -9,7 +9,7 @@ using TMPro;
 
 namespace WizardsPlatformer
 {
-    internal class LevelDisplayView : View
+    internal class LevelDisplayView : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _health;
         [SerializeField] private TextMeshProUGUI _coins;

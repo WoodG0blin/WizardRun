@@ -12,8 +12,6 @@ namespace WizardsPlatformer
         public static GameObject LoadPrefab(string path) =>
             Resources.Load<GameObject>(path);
 
-        public static View LoadView(string path) =>
-            Resources.Load<View>(path);
 
         public static TObject Load<TObject>(string path) where TObject : UnityEngine.Object
         {

@@ -7,7 +7,7 @@ namespace WizardsPlatformer
 {
     internal enum LevelResult { Pause, Success, Failure }
 
-    internal class PauseMenuController : Controller
+    internal class PauseMenuController
     {
         private readonly Transform _UIContainer;
         private readonly string _assetPath = "UI/PauseMenu"; //TODO: replace with SO config
@@ -30,7 +30,7 @@ namespace WizardsPlatformer
             //_pauseMenuView.OnMainMenu = () => { _GameModel.CurrentState.Value = GameState.MainMenu; };
             //_pauseMenuView.OnExit = () => { _GameModel.CurrentState.Value = GameState.Exit; };
 
-            Register(_pauseMenuView);
+            //Register(_pauseMenuView);
         }
 
         public void Activate(LevelResult result, BonusStats bonuses)

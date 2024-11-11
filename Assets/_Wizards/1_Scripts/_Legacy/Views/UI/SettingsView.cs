@@ -9,7 +9,7 @@ namespace WizardsPlatformer
         UnityAction OnReturn { set; }
     }
 
-    internal class SettingsView : View, ISettingsView
+    internal class SettingsView : MonoBehaviour, ISettingsView
     {
         [SerializeField] private Button _backButton;
 

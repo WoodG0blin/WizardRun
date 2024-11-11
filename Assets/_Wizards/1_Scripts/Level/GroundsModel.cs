@@ -14,6 +14,7 @@ namespace WizardsPlatformer
         private int _minGapLength = 1;
         private int _maxGapLength = 4;
 
+        private LevelObjectFactory _factory;
         private List<LevelElement> _elements;
         private List<LevelObject> _levelObjects;
 
@@ -27,10 +28,11 @@ namespace WizardsPlatformer
         public Vector2 LocalStartPosition { get => _localStartPosition; }
 
 
-        public GroundsModel(int maxLength)
+        public GroundsModel(int maxLength, LevelObjectFactory factory)
         {
             _maxLength = maxLength;
 
+            _factory = factory;
             _elements = new List<LevelElement>();
             _levelObjects = new List<LevelObject>();
 
@@ -90,11 +92,12 @@ namespace WizardsPlatformer
 
             for (int i = 0; i < _elements.Count -1; i++)
             {
-                _levelObjects.AddRange(_elements[i].FillWithObjects(position, _elements[i + 1].Height - _elements[i].Height));
+                _levelObjects.AddRange(_elements[i].FillWithObjects(position, _factory, _elements[i + 1].Height - _elements[i].Height));
                 position += _elements[i].Length;
             }
 
-            _levelObjects.Add(_elements[_elements.Count - 1].AddFinishPortal(position));
+            //_levelObjects.Add(_elements[_elements.Count - 1].AddFinishPortal(position));
+            _levelObjects.Add(_factory.GetPortalAt(new Vector2Int(_elements[_elements.Count - 1].Length - 1 + position, _elements[_elements.Count - 1].Height + 2)));
         }
 
         public LevelElement GetElement(int lengthPosition)

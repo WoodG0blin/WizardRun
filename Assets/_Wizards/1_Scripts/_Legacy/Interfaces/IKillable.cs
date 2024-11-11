@@ -7,6 +7,6 @@ namespace WizardsPlatformer
 {
     internal interface IKillable : IDamagable
     {
-        event Action<BonusType, int> OnKilled;
+        Action<Bonus> OnDeath { get; set; }
     }
 }

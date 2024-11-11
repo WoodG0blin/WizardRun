@@ -34,6 +34,7 @@ namespace WizardsPlatformer
         [SerializeField] private WeaponConfig _weaponConfigLegacy;
 
         [field: Space(10)]
+        [field: SerializeField] public int DifficultyLevel { get; private set; }
         [field: SerializeField] public int BonusesOnKill { get; private set; }
 
 

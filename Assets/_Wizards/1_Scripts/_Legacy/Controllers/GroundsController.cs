@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class GroundsController : Controller
+    internal class GroundsController
     {
         private readonly GroundsModel _groundsModel;
         private readonly GroundsView _groundsView;
 
-        private SubscribtableProperty<Vector3> _playerPosition;
+        private Action<Vector3> _onPlayerPositionChanged;
 
         public Dictionary<BonusType, int> BonusesCollected { get; private set; }
         public Action<int> OnCoinsCountChange;
@@ -21,21 +21,26 @@ namespace WizardsPlatformer
 
             _groundsView = groundsView;
 
-            _playerPosition = new();
             BonusesCollected = new();
 
             _groundsView.InitTiles(config.GroundTiles);
 
-            _groundsView.DrawGrounds(_groundsModel.Grid, _groundsModel.LevelObjects, config.LevelObjectsRepository.Items);
-            _groundsView.Init(
-                _playerPosition,
-                onGroundsCleared,
-                SetBonus);
+            foreach(var lo in _groundsModel.LevelObjects)
+            {
+                if (lo is IPlayerPositionObserver o) _onPlayerPositionChanged += o.SetNewPlayerPosition;
+                if (lo is IBonusGenerator b) b.OnBonusCollect = SetBonus;
+                if (lo is IPortal p) p.onPortalEnter = onGroundsCleared;
+            }
+
+            _groundsView.DrawGrounds(_groundsModel.Grid, _groundsModel.LevelObjects);
+            //_groundsView.Init(
+            //    _playerPosition,
+            //    onGroundsCleared,
+            //    SetBonus);
         }
 
         public Vector3 GetStartPosition() => _groundsView.GetGlobalStartPosition(_groundsModel.LocalStartPosition);
-        public void SetActive(bool active) => _groundsView.SetActive(active);
-        public void UpdatePlayerposition(Vector3 newPosition) => _playerPosition.Value = newPosition;
+        public void UpdatePlayerposition(Vector3 newPosition) => _onPlayerPositionChanged?.Invoke(newPosition);
         public void ClearBonuses() => BonusesCollected = new();
 
         private void SetBonus(BonusType type, int value)

@@ -8,6 +8,8 @@ namespace WizardsPlatformer
         ArtifactSlotType SlotType { get; }
         List<ICharacterModifier> PassiveCharacterModifiers { get; }
         IArtifactExecutor GetExecutor(ArtifactExecutorType type);
+        bool IsReady { get; }
+
     }
 
     internal interface IArtifactExecutorHolder

@@ -1,25 +1,20 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Windows;
 
 namespace WizardsPlatformer
 {
-    internal interface IPlayerView: IAnimatedView, IJump, IDamagable
+    internal interface IPlayerView: IAnimatedView, IJump
     {
         void SetVelocity(float newVelocityX);
         Transform GetBarrelObject();
     }
 
-    internal class PlayerView : View, IPlayerView
+    internal class PlayerView : LevelObjectView, IPlayerView
     {
         [SerializeField] private Transform _barrel;
 
         private AnimationController _animator;
         public ActionState animationState { get; set; }
-        public event Action<int> OnReceiveDamage;
 
         public void SetVelocity(float newVelocityX)
         {
@@ -54,7 +49,14 @@ namespace WizardsPlatformer
             initiated = true;
         }
 
-        public void ReceiveDamage(int damage) => OnReceiveDamage?.Invoke(damage);
+        protected override void OnCollision(IInteractionResponder interactor)
+        {
+            if (!interactor.IsPlayer)
+            {
+                OnInteraction?.Invoke(interactor);
+            }
+        }
+
 
         public Transform GetBarrelObject() { return _barrel ?? visualBody.Find("Weapon"); }
     }

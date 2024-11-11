@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace WizardsPlatformer
 {
-    internal class RewardsView : View
+    internal class RewardsView : MonoBehaviour
     {
         private const string LAST_DAILY = "LastDailyReward";
         private const string COUNT_WEEKLY = "CountConsequtiveInWeek";

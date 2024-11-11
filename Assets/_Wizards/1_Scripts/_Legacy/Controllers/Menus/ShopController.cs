@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class ShopController : Controller
+    internal class ShopController
     {
         private readonly Transform _UIContainer;
         private readonly GameModel _GameModel;
@@ -21,14 +21,10 @@ namespace WizardsPlatformer
             //_GameModel.AdsManager.RewardedPlayer.Finished += OnAdsFinished;
             //_shopView.OnAddRequest = _GameModel.AdsManager.RewardedPlayer.Play;
             _shopView.OnRewardCollection += (type, value) => _GameModel.AddBonus(type, value);
-            Register(_shopView);
+            //Register(_shopView);
         }
 
-        private void OnReturn() => _GameModel.CurrentState.Value = GameState.MainMenu;
+        private void OnReturn() { }
         private void OnAdsFinished() => Debug.Log("Ad was watched, bonuses will be added");
-        protected override void OnDispose()
-        {
-            //_GameModel.AdsManager.RewardedPlayer.Finished -= OnAdsFinished;
-        }
     }
 }

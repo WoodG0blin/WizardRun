@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class SettingsController : Controller
+    internal class SettingsController
     {
         private readonly Transform _UIContainer;
         private readonly GameModel _GameModel;
@@ -18,9 +18,9 @@ namespace WizardsPlatformer
             GameObject temp = GameObject.Instantiate(ResourceLoader.LoadPrefab(_assetPath), _UIContainer);
             SettingsView _settingsView = temp.GetComponent<SettingsView>() ?? temp.AddComponent<SettingsView>();
             _settingsView.OnReturn = OnReturn;
-            Register(_settingsView);
+            //Register(_settingsView);
         }
 
-        private void OnReturn() => _GameModel.CurrentState.Value = GameState.MainMenu;
+        private void OnReturn() { }
     }
 }

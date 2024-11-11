@@ -4,10 +4,8 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal enum GameState { Game, MainMenu, Settings, Inventory, Shop, Exit }
     internal class GameModel
     {
-        public SubscribtableProperty<GameState> CurrentState { get; }
         public BonusStats Bonuses { get; private set; }
         internal InventoryModel InventoryModel { get; }
 
@@ -22,7 +20,7 @@ namespace WizardsPlatformer
 
         public void AddBonus(BonusType type, int value) => Bonuses[type] += value;
 
-        public GroundsModel GetGroundsModel() => new GroundsModel(CalculateGroundsLenght());
+        public GroundsModel GetGroundsModel(LevelObjectFactory factory) => new GroundsModel(CalculateGroundsLenght(), factory);
 
         private int CalculateGroundsLenght() => 20;
     }

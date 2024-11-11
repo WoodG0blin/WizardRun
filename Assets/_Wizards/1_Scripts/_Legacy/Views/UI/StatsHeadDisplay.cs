@@ -10,7 +10,7 @@ namespace WizardsPlatformer
         void Deactivate();
     }
 
-    internal class StatsHeadDisplay : View, IStatsHeadDisplay
+    internal class StatsHeadDisplay : MonoBehaviour, IStatsHeadDisplay
     {
         [SerializeField] private Slider healthSlider;
         private Vector3 scale;

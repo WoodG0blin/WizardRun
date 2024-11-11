@@ -14,7 +14,7 @@ namespace WizardsPlatformer
         event Action<BonusType, int> OnRewardCollection;
     }
 
-    internal class ShopView : View, IShopView
+    internal class ShopView : MonoBehaviour, IShopView
     {
         public enum Tab { shop, rewards}
 
@@ -39,10 +39,5 @@ namespace WizardsPlatformer
 
         private void CollectedReward(BonusType type, int value) => OnRewardCollection?.Invoke(type, value);
 
-
-        protected override void OnDestruction()
-        {
-            _rewards.OnRewardCollect -= CollectedReward;
-        }
     }
 }

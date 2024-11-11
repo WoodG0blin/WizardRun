@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 namespace WizardsPlatformer
 {
@@ -74,7 +73,7 @@ namespace WizardsPlatformer
 
             if (hit.collider != null)
             {
-                (hit.transform.GetComponent<View>() as IDamagable)?.ReceiveDamage(parentArtifact.Damage);
+                (hit.transform.GetComponent<LevelObjectView>() as IDamagable)?.ReceiveDamage(parentArtifact.Damage);
             }
         }
 
