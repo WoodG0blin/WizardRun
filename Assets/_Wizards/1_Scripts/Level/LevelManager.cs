@@ -36,7 +36,7 @@ namespace WizardsPlatformer
 
         private void Init()
         {
-            _groundsModel = _levelInfo.GetGroundsModel();
+            _groundsModel = _levelInfo.GetGroundsModel(_groundsConfig.ObjectsConfigs);
             _playerModel = _levelInfo.GetPlayerModel();
 
             // replace with DIc

@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a6a33aac2c4f6c4e8738ea392c747a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifetime: 5
 --- !u!50 &8848871917851536572
 Rigidbody2D:
   serializedVersion: 4
@@ -119,7 +120,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!58 &2842777962919508186
 CircleCollider2D:

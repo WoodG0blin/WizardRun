@@ -21,6 +21,8 @@ namespace WizardsPlatformer
             _demonView = view as DemonView;
             _demonView.Init(config, Fire, () => weaponArtifact.IsReady);
             Barrel = _demonView.Barrel;
+
+            base.OnInitiateView();
         }
 
         public void Fire(Vector3 direction)

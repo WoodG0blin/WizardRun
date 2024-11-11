@@ -77,13 +77,15 @@ namespace WizardsPlatformer
             //Ready = true;
         }
 
+
         protected override void OnCollision(IInteractionResponder interactor)
         {
             if ((isFromPlayer && !interactor.IsPlayer)
                 || (!isFromPlayer && interactor.IsPlayer))
                 interactor.ReceiveDamage(_damage);
-            Destroy();
         }
+
+        protected override void OnAnyContact(Transform collided) => Destroy();
 
         private IEnumerator DestroyAfterTime(float time)
         {
@@ -98,6 +100,8 @@ namespace WizardsPlatformer
                 StopCoroutine(_currentTimer);
                 _currentTimer = null;
             }
+            SetActive(false);
+            GameObject.Destroy(gameObject);
         }
     }
 }

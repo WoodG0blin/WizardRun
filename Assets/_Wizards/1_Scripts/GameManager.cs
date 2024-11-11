@@ -18,7 +18,6 @@ namespace WizardsPlatformer
         [Header("CONFIGS")]
         [SerializeField] private LevelObjectConfig _playerConfig;
         [SerializeField] private AllItemConfigs _artifactDatabase;
-        [SerializeField] private AllLevelObjectsConfigs _levelObjectsDatabase;
 
 
         private GameModel _gameModel;
@@ -44,7 +43,7 @@ namespace WizardsPlatformer
         public void FinishSceneLoad() => _sceneLoadComplete = true;
 
 
-        GroundsModel ILevelInfo.GetGroundsModel() => _gameModel.GetGroundsModel(new(_levelObjectsDatabase));
+        GroundsModel ILevelInfo.GetGroundsModel(AllLevelObjectsConfigs configs) => _gameModel.GetGroundsModel(new(configs));
         PlayerModel ILevelInfo.GetPlayerModel() => _gameModel.PlayerModel;
         void ILevelInfo.AccountForBonuses(Dictionary<BonusType, int> bonuses)
         {

@@ -13,10 +13,12 @@ namespace WizardsPlatformer
 
         public void InitiateAnimations(AnimationSequence[] animations)
         {
+            AnimationSequence[] temp = animations;
+            if (temp == null || temp.Length == 0) temp = new AnimationSequence[] { new AnimationSequence() { Sprites = new List<Sprite>() { renderer.sprite } } };
+
             _animator = new AnimationController(
                 renderer,
-                animations ?? new AnimationSequence[] { new AnimationSequence() { Sprites = new List<Sprite>() { renderer.sprite } } }
-                );
+                temp);
         }
 
         void Update() => _animator.Update();

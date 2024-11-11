@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Fireplace
   m_EditorClassIdentifier: 
   _name: Fireplace
-  _prefab: {fileID: 8859680702076715331, guid: 194ce704311e5474cb15e3cf744749ea, type: 3}
-  _animations: []
-  _maxHealth: 50
-  _speed: 0
+  <Prefab>k__BackingField: {fileID: 8859680702076715331, guid: 194ce704311e5474cb15e3cf744749ea, type: 3}
+  <Animations>k__BackingField: []
+  <MaxHealth>k__BackingField: 20
+  <Speed>k__BackingField: 0
+  <JumpForce>k__BackingField: 0
   _weaponConfig: {fileID: 11400000, guid: 5221040b35ae9bd498d7d4152f900f56, type: 2}
-  _bonusesOnKill: 5
+  <DifficultyLevel>k__BackingField: 2
+  <BonusesOnKill>k__BackingField: 2

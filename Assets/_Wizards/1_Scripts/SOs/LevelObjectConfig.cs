@@ -11,8 +11,6 @@ namespace WizardsPlatformer
         GameObject Prefab { get; }
         int MaxHealth { get; }
         int Speed { get; }
-        bool HasWeapon { get; }
-        WeaponConfig WeaponConfigLegacy { get; }
         ItemConfig WeaponConfig { get; }
         int BonusesOnKill { get; }
     }
@@ -31,7 +29,6 @@ namespace WizardsPlatformer
 
         [Space(10)]
         [SerializeField] private ItemConfig _weaponConfig;
-        [SerializeField] private WeaponConfig _weaponConfigLegacy;
 
         [field: Space(10)]
         [field: SerializeField] public int DifficultyLevel { get; private set; }
@@ -39,8 +36,6 @@ namespace WizardsPlatformer
 
 
         public string Name { get => _name; }
-        public bool HasWeapon { get => _weaponConfig != null; }
-        public WeaponConfig WeaponConfigLegacy => _weaponConfigLegacy;
         public ItemConfig WeaponConfig => _weaponConfig;
 
         public IReadOnlyList<LevelObjectConfig> Configs => new List<LevelObjectConfig>() { this};

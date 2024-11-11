@@ -12,7 +12,7 @@ namespace WizardsPlatformer
 
         public void Init(int actionDistance, int fireForce, float ammoMass, float gravityCoefficient)
         {
-            Barrel ??= visualBody.Find("Aim");
+            Barrel ??= transform.Find("Aim");
 
             if (Barrel == null) return;
 
@@ -29,7 +29,7 @@ namespace WizardsPlatformer
 
         public void SetNewPlayerPosition(Vector3 newPlayerPosition)
         {
-            Aim.UpdateAim(newPlayerPosition);
+            Aim?.UpdateAim(newPlayerPosition);
         }
         protected override void OnCollision(IInteractionResponder interactor)
         {

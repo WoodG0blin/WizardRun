@@ -119,8 +119,9 @@ namespace WizardsPlatformer
             if (collision.transform.TryGetComponent(out LevelObjectView interactor))
             {
                 var target = interactor.InteractionResponder;
-                if(target != null) OnCollision(target);
+                if (target != null) OnCollision(target);
             }
+            OnAnyContact(collision.transform);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -130,10 +131,11 @@ namespace WizardsPlatformer
                 var target = interactor.InteractionResponder;
                 if (target != null) OnCollision(target);
             }
+            OnAnyContact(collision.transform);
         }
 
         protected virtual void OnCollision(IInteractionResponder interactor) { }
-
+        protected virtual void OnAnyContact(Transform collided) { }
         public void FinishInitiation() => initiated = true;
     }
 }

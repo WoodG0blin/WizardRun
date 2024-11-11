@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Bowl
   m_EditorClassIdentifier: 
   _name: Bowl
-  _prefab: {fileID: 4781915965914594825, guid: 86ffe9cbb37d66c4380b1d3ce67494ee, type: 3}
-  _animations: []
-  _maxHealth: 30
-  _speed: 0
+  <Prefab>k__BackingField: {fileID: 4781915965914594825, guid: 86ffe9cbb37d66c4380b1d3ce67494ee, type: 3}
+  <Animations>k__BackingField: []
+  <MaxHealth>k__BackingField: 20
+  <Speed>k__BackingField: 0
+  <JumpForce>k__BackingField: 0
   _weaponConfig: {fileID: 11400000, guid: 8680c6924c5215949946f1419e82cb24, type: 2}
-  _bonusesOnKill: 3
+  <DifficultyLevel>k__BackingField: 2
+  <BonusesOnKill>k__BackingField: 2

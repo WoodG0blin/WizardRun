@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace WizardsPlatformer
@@ -29,11 +30,10 @@ namespace WizardsPlatformer
             for (int i = 0; i < intervals; i++)
             {
                 //choice = Random.Range(i, 6);
-
-                _levelObjects.Add(
-                    factory.GenerateObstacleAt(
+                var obj = factory.GenerateObstacleAt(
                         new Vector2Int(SetOnFreeSpace(true) + startXPosition, Height + 1),
-                        i));
+                        i);
+                if (obj != null) _levelObjects.Add(obj);
                 //TODO pack into factory
                 //switch (choice)
                 //{

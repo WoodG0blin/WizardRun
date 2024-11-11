@@ -16,5 +16,11 @@ namespace WizardsPlatformer
 
         protected override LevelObjectView SetView(GameObject gameObject) =>
             gameObject.AddComponent<PortalView>();
+
+        protected override void OnInitiateView()
+        {
+            base.OnInitiateView();
+            view.FinishInitiation();
+        }
     }
 }

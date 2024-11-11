@@ -16,6 +16,7 @@ namespace WizardsPlatformer
 
         protected override void ActionsOnInteraction(IInteractionResponder interactor)
         {
+            Debug.Log($"interaction with spikes. Interactor player? {interactor.IsPlayer}");
             if (interactor.IsPlayer) interactor.ReceiveDamage(_damage);
         }
     }

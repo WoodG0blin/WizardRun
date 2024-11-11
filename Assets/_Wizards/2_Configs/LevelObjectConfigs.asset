@@ -12,16 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 297997ca5a60bc1478eda07a4bd92376, type: 3}
   m_Name: LevelObjectConfigs
   m_EditorClassIdentifier: 
-  _configs:
-  - {fileID: 11400000, guid: 167dab0724d1b4a4981abf1a552d5b6c, type: 2}
+  <Elements>k__BackingField:
   - {fileID: 11400000, guid: 1a9b27d45c773ea4fb3abdfec7a757f7, type: 2}
-  - {fileID: 11400000, guid: 4769580522e01ba41bd78638b71a70dc, type: 2}
-  - {fileID: 11400000, guid: ab97b4dc3aaed6e4fba672a15e83169c, type: 2}
   - {fileID: 11400000, guid: 5c6b335b36a45844b87e47b0968af5a9, type: 2}
-  - {fileID: 11400000, guid: fd41bd978a7aca543a3eb11babdf48b5, type: 2}
+  - {fileID: 11400000, guid: ab97b4dc3aaed6e4fba672a15e83169c, type: 2}
+  <Obstacles>k__BackingField:
+  - {fileID: 11400000, guid: 167dab0724d1b4a4981abf1a552d5b6c, type: 2}
+  - {fileID: 11400000, guid: 4769580522e01ba41bd78638b71a70dc, type: 2}
   - {fileID: 11400000, guid: 71c73363c76cb224b8ef1f6a582e04b6, type: 2}
   - {fileID: 11400000, guid: 36aab80f6fb24734ea896c4bb392d184, type: 2}
-  - {fileID: 11400000, guid: 3d8a33ee71b31ea43b80b104aa9114a1, type: 2}
+  - {fileID: 11400000, guid: fd41bd978a7aca543a3eb11babdf48b5, type: 2}
+  <Enemies>k__BackingField:
   - {fileID: 11400000, guid: aa88d9c8457cfe040991780b795d6046, type: 2}
-  - {fileID: 11400000, guid: 34f946c666cdba541b79e6f86774f102, type: 2}
-  - {fileID: 11400000, guid: fd12e06e1410e4d43bf251b06be513fb, type: 2}
+  <Bonus>k__BackingField: {fileID: 11400000, guid: fd12e06e1410e4d43bf251b06be513fb, type: 2}
+  <Portal>k__BackingField: {fileID: 11400000, guid: 3d8a33ee71b31ea43b80b104aa9114a1, type: 2}

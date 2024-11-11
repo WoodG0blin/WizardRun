@@ -36,4 +36,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 78030764abe7eb8418124c37d1292881, type: 2}
   - {fileID: 11400000, guid: fbc07a035e8e9c949826edea574f5057, type: 2}
   - {fileID: 11400000, guid: faac85e6ec9b58f48b2369d141ca5d43, type: 2}
-  LevelObjectsConfigs: {fileID: 11400000, guid: 388d1e08f4b428a49869b7e21ec53651, type: 2}
+  <ObjectsConfigs>k__BackingField: {fileID: 11400000, guid: 388d1e08f4b428a49869b7e21ec53651, type: 2}

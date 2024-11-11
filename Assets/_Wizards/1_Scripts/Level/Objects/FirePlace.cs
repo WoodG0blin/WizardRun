@@ -24,6 +24,8 @@ namespace WizardsPlatformer
             _fireplaceView.Init(config.WeaponConfig.ActionDistance, config.WeaponConfig.FireForce, ammo.Mass, ammo.Gravity);
             Barrel = _fireplaceView.Barrel;
             _fireplaceView.OnFireReady = Fire;
+
+            base.OnInitiateView();
         }
 
         private void Fire(Vector3 direction)

@@ -68,7 +68,7 @@ namespace WizardsPlatformer
                     }
                     else
                     {
-                        Debug.Log($"Looking for new state {_currentState}. Animation found: {a != null}. {a?.State}");
+                        //Debug.Log($"Looking for new state {_currentState}. Animation found: {a != null}. {a?.State}");
                         Stop();
                     }
                 }

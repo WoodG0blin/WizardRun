@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Bonus
   m_EditorClassIdentifier: 
   _name: Bonus
-  _prefab: {fileID: 270425611758689274, guid: 379d21930524d754ba000030bbf2f133, type: 3}
-  _animations: []
-  _maxHealth: 0
-  _speed: 0
+  <Prefab>k__BackingField: {fileID: 270425611758689274, guid: 379d21930524d754ba000030bbf2f133, type: 3}
+  <Animations>k__BackingField: []
+  <MaxHealth>k__BackingField: 0
+  <Speed>k__BackingField: 0
+  <JumpForce>k__BackingField: 0
   _weaponConfig: {fileID: 0}
-  _bonusesOnKill: 0
+  <DifficultyLevel>k__BackingField: 0
+  <BonusesOnKill>k__BackingField: 1

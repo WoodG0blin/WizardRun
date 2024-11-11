@@ -21,6 +21,8 @@ namespace WizardsPlatformer
             bv.Init();
             Barrel = bv.Barrel;
             bv.OnFireReady = Fire;
+
+            base.OnInitiateView();
         }
 
         private void Fire(Vector3 direction)

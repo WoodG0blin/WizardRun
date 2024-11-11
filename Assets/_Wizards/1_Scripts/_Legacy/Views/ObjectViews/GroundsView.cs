@@ -71,11 +71,13 @@ namespace WizardsPlatformer
             dropCollider.size = new Vector2(xSize + 8, 0.1f);
         }
 
+
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if(collision.gameObject.TryGetComponent<LevelObjectView>(out var view))
+            if(collision.transform.TryGetComponent<LevelObjectView>(out var view))
             {
-                if (view is IDamagable d) d.ReceiveDamage(10000);
+                var target = view.InteractionResponder;
+                if (target != null) target.ReceiveDamage(10000);
             }
         }
     }

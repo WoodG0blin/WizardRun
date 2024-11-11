@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Scarecrow
   m_EditorClassIdentifier: 
   _name: Scarecrow
-  _prefab: {fileID: 6573888241906383806, guid: b3c85d2101958f04aafd35cdeef829a5, type: 3}
-  _animations: []
-  _maxHealth: 80
-  _speed: 0
+  <Prefab>k__BackingField: {fileID: 6573888241906383806, guid: b3c85d2101958f04aafd35cdeef829a5, type: 3}
+  <Animations>k__BackingField: []
+  <MaxHealth>k__BackingField: 20
+  <Speed>k__BackingField: 0
+  <JumpForce>k__BackingField: 0
   _weaponConfig: {fileID: 11400000, guid: 19e4972da7790fa44b41ccd9621cdeb5, type: 2}
-  _bonusesOnKill: 6
+  <DifficultyLevel>k__BackingField: 0
+  <BonusesOnKill>k__BackingField: 2

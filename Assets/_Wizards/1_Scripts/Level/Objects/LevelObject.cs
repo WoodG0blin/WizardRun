@@ -17,11 +17,6 @@ namespace WizardsPlatformer
         public GameObject Prefab => config.Prefab;
 
 
-        protected LevelObject(string name, Vector2 position)
-        {
-            LocalPosition = position;
-        }
-
         protected LevelObject(LevelObjectConfig config, Vector2 position)
         {
             this.config = config;
@@ -71,7 +66,7 @@ namespace WizardsPlatformer
         protected abstract void ActionsOnInteraction(IInteractionResponder interactor);
     }
 
-    internal abstract class ActiveObject : InteractableObject, IInteractionResponder, IKillable, IArtifactHolder, IPlayerPositionObserver, IBonusGenerator
+    internal abstract class ActiveObject : InteractableObject, IInteractionResponder, IArtifactHolder, IPlayerPositionObserver, IBonusGenerator
     {
         protected CharacterStats stats;
         protected IArtifact weaponArtifact;
@@ -86,7 +81,6 @@ namespace WizardsPlatformer
         public bool IsPlayer => isPlayer;
         public Action<int> OnReceiveDamage { get; set; }
         public Action<BonusType, int> OnBonusCollect { get; set; }
-        public Action<Bonus> OnDeath { get; set; }
 
 
         public Transform Barrel { get; protected set; }

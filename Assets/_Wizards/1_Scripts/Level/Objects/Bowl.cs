@@ -22,6 +22,8 @@ namespace WizardsPlatformer
             _bowlView.Init(config.WeaponConfig.ActionDistance);
             Barrel = _bowlView.Barrel;
             _bowlView.OnFireReady = Fire;
+
+            base.OnInitiateView();
         }
 
         private void Fire(Vector3 direction)

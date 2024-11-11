@@ -15,10 +15,17 @@ namespace WizardsPlatformer
         internal LevelObject GenerateObstacleAt(Vector2Int gridPosition, int difficulty)
         {
             LevelObjectConfig config = GetRandomConfigFromList(_configs.Obstacles, Random.Range(0, difficulty+1));
-            
+
+            if (config == null) return null;
+
             LevelObject res = config.Name switch
             {
-                _ => new StubObject(gridPosition)
+                "Rock" => new SimpleObject(config, gridPosition),
+                "Spikes" => new Spikes(config, gridPosition),
+                "Bowl" => new Bowl(config, gridPosition),
+                "Fireplace" => new Fireplace(config, gridPosition),
+                "Scarecrow" => new Scarecrow(config, gridPosition),
+                _ => new SimpleObject (config, gridPosition)
             };
 
             return res;

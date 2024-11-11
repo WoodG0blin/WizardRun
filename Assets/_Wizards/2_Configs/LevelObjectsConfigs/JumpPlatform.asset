@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: JumpPlatform
   m_EditorClassIdentifier: 
   _name: JumpPlatform
-  _prefab: {fileID: 5758854330468791354, guid: f44d2bfca8c8a0b458e469343aa20d25, type: 3}
-  _animations: []
-  _maxHealth: 0
-  _speed: 0
+  <Prefab>k__BackingField: {fileID: 5758854330468791354, guid: f44d2bfca8c8a0b458e469343aa20d25, type: 3}
+  <Animations>k__BackingField: []
+  <MaxHealth>k__BackingField: 0
+  <Speed>k__BackingField: 0
+  <JumpForce>k__BackingField: 0
   _weaponConfig: {fileID: 0}
-  _bonusesOnKill: 0
+  _weaponConfigLegacy: {fileID: 0}
+  <DifficultyLevel>k__BackingField: 0
+  <BonusesOnKill>k__BackingField: 0

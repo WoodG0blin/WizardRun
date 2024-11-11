@@ -16,7 +16,7 @@ namespace WizardsPlatformer
 
         protected override void ActionsOnInteraction(IInteractionResponder interactor)
         {
-            OnBonusCollect?.Invoke(BonusType.coin, 1);
+            OnBonusCollect?.Invoke(BonusType.coin, config.BonusesOnKill);
         }
     }
 }

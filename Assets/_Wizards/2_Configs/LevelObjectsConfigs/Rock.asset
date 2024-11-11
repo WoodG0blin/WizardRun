@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: Rock
   m_EditorClassIdentifier: 
   _name: Rock
-  _prefab: {fileID: 4551309731980395611, guid: 1e7861681b9169049b707fc1aaa8065b, type: 3}
-  _animations: []
-  _maxHealth: 0
-  _speed: 0
+  <Prefab>k__BackingField: {fileID: 4551309731980395611, guid: 1e7861681b9169049b707fc1aaa8065b, type: 3}
+  <Animations>k__BackingField: []
+  <MaxHealth>k__BackingField: 0
+  <Speed>k__BackingField: 0
+  <JumpForce>k__BackingField: 0
   _weaponConfig: {fileID: 0}
-  _bonusesOnKill: 0
+  _weaponConfigLegacy: {fileID: 0}
+  <DifficultyLevel>k__BackingField: 0
+  <BonusesOnKill>k__BackingField: 0
