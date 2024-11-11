@@ -21,11 +21,9 @@ namespace WizardsPlatformer
         private bool[,] _squareGrid;
         private SquaresGrid _grid;
 
-        private Vector2 _localStartPosition;
-
         public IReadOnlyList<LevelObject> LevelObjects => _levelObjects;
         public SquaresGrid Grid { get => _grid; }
-        public Vector2 LocalStartPosition { get => _localStartPosition; }
+        public Vector2Int LocalStartPosition { get; private set; }
 
 
         public GroundsModel(int maxLength, LevelObjectFactory factory)
@@ -50,7 +48,7 @@ namespace WizardsPlatformer
             SetDrawingGrid();
             SetJointsAndLevelObjects();
 
-            _localStartPosition = new Vector2(1, _elements[0].Height + 2f);
+            LocalStartPosition = new Vector2Int(1, _elements[0].Height + 2);
         }
 
         private void Generate()
@@ -99,6 +97,8 @@ namespace WizardsPlatformer
             //_levelObjects.Add(_elements[_elements.Count - 1].AddFinishPortal(position));
             _levelObjects.Add(_factory.GetPortalAt(new Vector2Int(_elements[_elements.Count - 1].Length - 1 + position, _elements[_elements.Count - 1].Height + 2)));
         }
+
+        public void AddPlayer(LevelObject player) => _levelObjects.Add(player);
 
         public LevelElement GetElement(int lengthPosition)
         {

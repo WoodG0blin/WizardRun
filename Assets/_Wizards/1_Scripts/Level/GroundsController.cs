@@ -39,7 +39,6 @@ namespace WizardsPlatformer
             //    SetBonus);
         }
 
-        public Vector3 GetStartPosition() => _groundsView.GetGlobalStartPosition(_groundsModel.LocalStartPosition);
         public void UpdatePlayerposition(Vector3 newPosition) => _onPlayerPositionChanged?.Invoke(newPosition);
         public void ClearBonuses() => BonusesCollected = new();
 

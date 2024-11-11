@@ -8,8 +8,6 @@ namespace WizardsPlatformer
         private PlayerView _playerView;
         private PlayerModel _playerModel;
 
-        private Vector3 _startPosition;
-
         private float _moveThreshold = 0.02f;
         private float _input = 0f;
         private bool _doWalk = false;
@@ -20,7 +18,7 @@ namespace WizardsPlatformer
         public Action<Vector3> OnPlayerPositionChange;
         public Action OnPlayerDeath;
 
-        public PlayerController(PlayerModel playerModel, Vector3 startPosition) : base(playerModel.Config, new())
+        public PlayerController(PlayerModel playerModel, Vector2Int startPosition) : base(playerModel.Config, startPosition)
         {
             isPlayer = true;
 
@@ -34,8 +32,6 @@ namespace WizardsPlatformer
             stats.OnDeath = Die;
 
             _executors = _playerModel.Executors;
-
-            _startPosition = startPosition;
         }
             
         private void Move()
@@ -81,7 +77,6 @@ namespace WizardsPlatformer
             _playerView = view as PlayerView;
             Barrel = _playerView.GetBarrelObject();
             JumpExecutioner = _playerView;
-            _playerView.SetPosition(_startPosition);
 
             base.OnInitiateView();
         }

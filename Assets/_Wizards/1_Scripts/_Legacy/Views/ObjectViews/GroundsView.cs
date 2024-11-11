@@ -8,7 +8,6 @@ namespace WizardsPlatformer
     internal interface IGroundsView
     {
         void DrawGrounds(SquaresGrid grid, IReadOnlyList<LevelObject> levelObjects);
-        Vector3 GetGlobalStartPosition(Vector2 localStatPosition);
     }
 
     internal class GroundsView : MonoBehaviour, IGroundsView
@@ -55,14 +54,6 @@ namespace WizardsPlatformer
             AddDropCollider(grid.GetLength(0), grid.GetLength(1));
         }
 
-        public Vector3 GetGlobalStartPosition(Vector2 localStartPosition) => new Vector3(localStartPosition.x + _screenOffset.x, localStartPosition.y + _screenOffset.y, 0);
-
-        //protected override void OnDestruction()
-        //{
-        //    _groundTilemap?.ClearAllTiles();
-        //    if(_levelObjectViews != null) foreach(ILevelObjectView view in _levelObjectViews) view.Dispose();
-        //    _levelObjectViews?.Clear();
-        //}
 
         private void AddDropCollider(float xSize, float ySize)
         {
