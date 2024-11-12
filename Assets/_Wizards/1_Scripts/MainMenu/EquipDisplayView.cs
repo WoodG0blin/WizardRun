@@ -6,15 +6,15 @@ namespace WizardsPlatformer
 {
     internal class EquipDisplayView : MonoBehaviour
     {
-        [SerializeField] private InventoryItemView _weaponSlot;
-        [SerializeField] private InventoryItemView _headSlot;
-        [SerializeField] private InventoryItemView _neckSlot;
-        [SerializeField] private InventoryItemView _waistSlot;
-        [SerializeField] private InventoryItemView _legsSlot;
+        [SerializeField] private InventorySlotView _weaponSlot;
+        [SerializeField] private InventorySlotView _headSlot;
+        [SerializeField] private InventorySlotView _neckSlot;
+        [SerializeField] private InventorySlotView _waistSlot;
+        [SerializeField] private InventorySlotView _legsSlot;
 
-        private Dictionary<ArtifactSlotType, InventoryItemView> _slots;
+        private Dictionary<ArtifactSlotType, InventorySlotView> _slots;
 
-        public void Init()
+        public void Init(Transform mainContainer, Func<InventoryItemView, ArtifactSlotType, bool> tryEquipItemToSlot)
         {
             _slots = new()
             {
@@ -24,22 +24,23 @@ namespace WizardsPlatformer
                 { ArtifactSlotType.Waist, _waistSlot },
                 { ArtifactSlotType.Legs, _legsSlot}
             };
+
+            foreach (var kvp in _slots)
+                kvp.Value.Init(
+                    mainContainer,
+                    (i) => tryEquipItemToSlot(i, kvp.Key));
         }
 
-        public void Display(List<IArtifact> equippedArtifacts, Action<IArtifact> onRemoveItem)
+        public void Display(List<InventoryItemView> equippedArtifacts)
         {
-            Clear();
-
             foreach (var a in equippedArtifacts)
-                SetItem(a, onRemoveItem);
+                _slots[a.SlotType].TrySetItem(a);
         }
 
-        public void SetItem(IArtifact item, Action<IArtifact> onRemoveItem) =>
-            _slots[item.SlotType].Init(item, () => onRemoveItem?.Invoke(item));
-
-        private void Clear()
+        public void HighlightSlot(ArtifactSlotType slot)
         {
-            foreach (var slot in _slots.Values) slot.Clear();
+            foreach (var kvp in _slots)
+                kvp.Value.Highlight(kvp.Key == slot);
         }
     }
 }

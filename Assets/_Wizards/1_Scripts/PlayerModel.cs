@@ -16,12 +16,19 @@ namespace WizardsPlatformer
         public LevelObjectConfig Config => _config;
         public IArtifactExecutorsContainer Executors => new ArtifactExecutorsContainer(_artifacts.Values.ToList());
 
-        public List<IArtifact> EquippedArtifacts => _artifacts.Values.ToList();
+        public List<IArtifact> EquippedArtifacts => _artifacts.Values.Where(a => a!=null).ToList();
 
 
         public PlayerModel()
         {
-            _artifacts = new();
+            _artifacts = new()
+            {
+                { ArtifactSlotType.Weapon, null},
+                { ArtifactSlotType.Head, null},
+                { ArtifactSlotType.Neck, null},
+                { ArtifactSlotType.Waist, null},
+                { ArtifactSlotType.Legs, null}
+            };
         }
 
         public void SetConfig(LevelObjectConfig config)
@@ -29,25 +36,17 @@ namespace WizardsPlatformer
             _config = config;
 
             Stats = new(_config.MaxHealth, _config.Speed);
-            _artifacts.Add(ArtifactSlotType.Weapon, new Artifact(_config.WeaponConfig));
+            TrySetArtifactAt(ArtifactSlotType.Weapon, new Artifact(_config.WeaponConfig));
         }
 
-        public bool TryEquipArtifact(IArtifact artifact)
+        public bool TrySetArtifactAt(ArtifactSlotType slot, IArtifact artifact)
         {
-            if (!_artifacts.ContainsKey(artifact.SlotType)) _artifacts.Add(artifact.SlotType, null);
-            _artifacts[artifact.SlotType] = artifact;
-
-            return true;
-
-            //Debug.Log($"Artifacts reset. new count {_artifacts.Values.Count}");
-        }
-
-        public void RemoveArtifact(IArtifact artifact)
-        {
-            if (artifact.SlotType != ArtifactSlotType.Weapon
-                && _artifacts.ContainsKey(artifact.SlotType)
-                && _artifacts[artifact.SlotType] == artifact)
-                    _artifacts.Remove(artifact.SlotType);
+            bool res =
+                artifact != null ?
+                slot == artifact.SlotType : true;
+            // conditions to equip
+            _artifacts[slot] = artifact;
+            return res;
         }
     }
 }

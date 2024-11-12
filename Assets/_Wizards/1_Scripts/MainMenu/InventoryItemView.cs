@@ -1,33 +1,53 @@
-using System;
-using TMPro;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace WizardsPlatformer
 {
-    internal class InventoryItemView : MonoBehaviour
+    internal class InventoryItemView : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
     {
         [SerializeField] private Image _icon;
-        [SerializeField] private Button _button;
+        public InventorySlotView ParentSlot { get; private set; }
+        public ArtifactSlotType SlotType {get; private set;}
 
-        [SerializeField] private Image _background;
-
-        [SerializeField] private Color _selected;
-        [SerializeField] private Color _unselected;
-
-
-        public void Init(IArtifact item, Action onSelection)
+        private Action _displayDescription;
+        
+        public void Init(Sprite icon, ArtifactSlotType slotType, Action displayDescription)
         {
+            SlotType = slotType;
+            _icon.sprite = icon;
+            _displayDescription = displayDescription;
             gameObject.SetActive(true);
-            _icon.sprite = item.Icon;
-            _button.onClick.AddListener(() => onSelection?.Invoke());
         }
 
-        public void Clear()
+        public void SetParentSlot(InventorySlotView parentSlot)
         {
-            _icon.sprite = null;
-            _button.onClick.RemoveAllListeners();
+            ParentSlot = parentSlot;
+            transform.SetParent(parentSlot.Container);
+            transform.localScale = Vector3.one;
+        }
+
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            transform.SetParent(ParentSlot.MainContainer);
+            transform.SetAsLastSibling();
+            _icon.raycastTarget = false;
+            _displayDescription();
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            transform.position = Input.mousePosition;
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            ParentSlot.TrySetItem(this);
+            _icon.raycastTarget = true;
+            //_displayDescription(false);
         }
     }
 }

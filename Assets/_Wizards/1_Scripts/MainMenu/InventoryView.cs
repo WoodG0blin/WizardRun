@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace WizardsPlatformer
 {
     internal class InventoryView : MenuPanelView
     {
         [SerializeField] private GameObject _itemPrefab;
+        [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private Transform _container;
+
         [SerializeField] private TextMeshProUGUI _itemInfoText;
 
         [SerializeField] private EquipDisplayView _equipDisplay;
 
+        private Dictionary<InventoryItemView, IArtifact> _inventoryItems;
+
         protected override void OnInit()
         {
-            _equipDisplay.Init();
+            _inventoryItems = new();
+            _equipDisplay.Init(transform, TryEquipNewItemTo);
             Display();
         }
 
@@ -25,14 +29,18 @@ namespace WizardsPlatformer
         {
             Clear();
 
-            _equipDisplay.Display(menuInfo.PlayerModel.EquippedArtifacts, RemoveItem);
+            List<InventoryItemView> equippedItems = new();
+            foreach (var a in menuInfo.PlayerModel.EquippedArtifacts)
+                equippedItems.Add(CreateItem(a));
 
-            List<IArtifact> unequippedItems = new();
-            foreach(var i in menuInfo.ArtifactDatabase)
+            _equipDisplay.Display(equippedItems);
+
+            List<InventoryItemView> unequippedItems = new();
+            foreach (var i in menuInfo.ArtifactDatabase)
             {
                 var check = menuInfo.PlayerModel.EquippedArtifacts.Where(a => a.Name == i.Name).ToList();
-                if(check == null || check.Count == 0 )
-                    unequippedItems.Add(CreateFromConfig(i));
+                if (check == null || check.Count == 0)
+                    unequippedItems.Add(CreateItem(CreateFromConfig(i)));
             }
 
             foreach (var item in unequippedItems)
@@ -41,34 +49,39 @@ namespace WizardsPlatformer
 
         private void Clear()
         {
-            for (int i = _container.childCount - 1; i > 0; i--)
+            for (int i = _container.childCount - 1; i >= 0; i--)
                 GameObject.Destroy(_container.GetChild(i).gameObject);
         }
 
-        private void DisplayItem(IArtifact item)
+        private void DisplayItem(InventoryItemView item)
         {
-            GameObject.Instantiate(_itemPrefab, _container)
-                .GetComponent<InventoryItemView>()
-                .Init(item, () => SetItem(item));
+            var temp = GameObject.Instantiate(_slotPrefab, _container)
+                .GetComponent<InventorySlotView>();
+            temp.Init(transform);
+            temp.TrySetItem(item);
         }
 
-        private void SetItem(IArtifact item)
+        private bool TryEquipNewItemTo(InventoryItemView item, ArtifactSlotType slot)
         {
-            DisplayItemInfo(item.Name);
-
-            if(menuInfo.PlayerModel.TryEquipArtifact(item))
-                Display();
+            var art = item != null ? _inventoryItems[item] : null;
+            return menuInfo.PlayerModel.TrySetArtifactAt(slot, art);
+            //Display();
         }
 
-        private void RemoveItem(IArtifact item)
+        private void DisplayItemInfo(IArtifact item)
         {
-            menuInfo.PlayerModel.RemoveArtifact(item);
-            Display();
+            _itemInfoText.text = item.Name;
+            _equipDisplay.HighlightSlot(item.SlotType);
         }
-
-        private void DisplayItemInfo(string info) =>
-            _itemInfoText.text = info;
 
         private IArtifact CreateFromConfig(ItemConfig config) => new Artifact(config);
+
+        private InventoryItemView CreateItem(IArtifact artifact)
+        {
+            var temp = GameObject.Instantiate(_itemPrefab).GetComponent<InventoryItemView>();
+            temp.Init(artifact.Icon, artifact.SlotType, () => DisplayItemInfo(artifact));
+            _inventoryItems.Add(temp, artifact);
+            return temp;
+        }
     }
 }
