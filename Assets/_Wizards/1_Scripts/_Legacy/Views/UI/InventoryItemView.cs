@@ -6,14 +6,15 @@ using UnityEngine.UI;
 
 namespace WizardsPlatformer
 {
-    internal class ItemView : MonoBehaviour
+    internal class InventoryItemView : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _title;
         [SerializeField] private Image _icon;
         [SerializeField] private Button _button;
 
-        [SerializeField] private GameObject _selectedBackground;
-        [SerializeField] private GameObject _unSelectedBackground;
+        [SerializeField] private Image _background;
+
+        [SerializeField] private Color _selected;
+        [SerializeField] private Color _unselected;
 
         private bool _isSelected;
         private Action<bool> _onClick;
@@ -21,7 +22,6 @@ namespace WizardsPlatformer
         public void Init(ItemConfig item, Action<bool> onSelection)
         {
             gameObject.SetActive(true);
-            _title.text = item.Name;
             _icon.sprite = item.Icon;
             _onClick = onSelection;
             _button.onClick.AddListener(Select);
@@ -32,8 +32,7 @@ namespace WizardsPlatformer
         {
             _isSelected = !_isSelected;
 
-            _selectedBackground.SetActive(_isSelected);
-            _unSelectedBackground.SetActive(!_isSelected);
+            _background.color = _isSelected ? _selected : _unselected;
 
             _onClick?.Invoke(_isSelected);
         }

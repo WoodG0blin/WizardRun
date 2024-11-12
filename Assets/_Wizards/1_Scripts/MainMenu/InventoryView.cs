@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -10,20 +11,17 @@ namespace WizardsPlatformer
     {
         [SerializeField] private GameObject _itemPrefab;
         [SerializeField] private Transform _container;
-        [SerializeField] private Button _applyButton;
+        [SerializeField] private TextMeshProUGUI _itemInfoText;
 
         private List<ItemConfig> _selectedItems;
-        private Action<List<Artifact>> _onApplySelection;
 
         protected override void OnInit()
         {
-            _applyButton.onClick.AddListener(ApplySelectedArtifacts);
+            Display(menuInfo.ArtifactDatabase);
         }
 
-        public void Display(IEnumerable<ItemConfig> items)
+        private void Display(IEnumerable<ItemConfig> items)
         {
-            gameObject.SetActive(true);
-
             Clear();
             _selectedItems = new();
 
@@ -40,7 +38,7 @@ namespace WizardsPlatformer
         private void DisplayItem(ItemConfig item)
         {
             GameObject.Instantiate(_itemPrefab, _container)
-                .GetComponent<ItemView>()
+                .GetComponent<InventoryItemView>()
                 .Init(item, selected => SetItem(item, selected));
         }
 
@@ -48,10 +46,9 @@ namespace WizardsPlatformer
         {
             if (selected) _selectedItems.Add(item);
             else _selectedItems.Remove(item);
-        }
 
-        private void ApplySelectedArtifacts()
-        {
+            DisplayItemInfo(item, selected);
+
             menuInfo.EquipArtifacts(GenerateSelected());
         }
 
@@ -60,14 +57,12 @@ namespace WizardsPlatformer
             List<Artifact> res = new();
 
             foreach (var a in _selectedItems)
-            {
-                res.Add(new Artifact(a));
-                //ArtifactFactory.GetArtifact(a);
-                //if (a is WeaponConfig w) res.Add(new Weapon(w));
-                //else res.Add(new Artifact(a));
-            }
+                if(a != null) res.Add(new Artifact(a));
 
             return res;
         }
+
+        private void DisplayItemInfo(ItemConfig item, bool selected) =>
+            _itemInfoText.text = selected ? item.NameTag : "";
     }
 }

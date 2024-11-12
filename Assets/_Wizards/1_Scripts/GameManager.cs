@@ -43,13 +43,14 @@ namespace WizardsPlatformer
         public void FinishSceneLoad() => _sceneLoadComplete = true;
 
 
-        GroundsModel ILevelInfo.GetGroundsModel(AllLevelObjectsConfigs configs) => _gameModel.GetGroundsModel(new(configs));
         PlayerModel ILevelInfo.GetPlayerModel() => _gameModel.PlayerModel;
+        GroundsModel ILevelInfo.GetGroundsModel(AllLevelObjectsConfigs configs) => _gameModel.GetGroundsModel(new(configs));
         void ILevelInfo.AccountForBonuses(Dictionary<BonusType, int> bonuses)
         {
             foreach(KeyValuePair<BonusType, int> b in bonuses) _gameModel.AddBonus(b.Key, b.Value);
         }
 
+        IPlayerModel IMenuInfo.PlayerModel => _gameModel.PlayerModel;
         IReadOnlyList<ItemConfig> IMenuInfo.ArtifactDatabase => _artifactDatabase.Configs;
         void IMenuInfo.EquipArtifacts(List<Artifact> selectedArtifacts) => _gameModel.PlayerModel.SetEquippedArtifacts(selectedArtifacts);
 

@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class PlayerModel
+    internal class PlayerModel : IPlayerModel
     {
         private LevelObjectConfig _config;
 
         private Dictionary<ArtifactSlotType, IArtifact> _artifacts;
 
         public string Name { get; private set; }
-        public CharacterStats Stats { get; private set; }
+        internal CharacterStats Stats { get; private set; }
         public LevelObjectConfig Config => _config;
         public IArtifactExecutorsContainer Executors => new ArtifactExecutorsContainer(_artifacts.Values.ToList());
 
@@ -34,9 +34,9 @@ namespace WizardsPlatformer
 
         public void SetEquippedArtifacts(List<Artifact> artifacts)
         {
-            foreach(var a in artifacts)
+            foreach (var a in artifacts)
             {
-                if(!_artifacts.ContainsKey(a.SlotType)) _artifacts.Add(a.SlotType, null);
+                if (!_artifacts.ContainsKey(a.SlotType)) _artifacts.Add(a.SlotType, null);
                 _artifacts[a.SlotType] = a;
             }
             Debug.Log($"Artifacts reset. new count {_artifacts.Values.Count}");
