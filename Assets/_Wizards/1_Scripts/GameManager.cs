@@ -52,7 +52,6 @@ namespace WizardsPlatformer
 
         IPlayerModel IMenuInfo.PlayerModel => _gameModel.PlayerModel;
         IReadOnlyList<ItemConfig> IMenuInfo.ArtifactDatabase => _artifactDatabase.Configs;
-        void IMenuInfo.EquipArtifacts(List<Artifact> selectedArtifacts) => _gameModel.PlayerModel.SetEquippedArtifacts(selectedArtifacts);
 
         IEnumerator LoadScene(string sceneName)
         {

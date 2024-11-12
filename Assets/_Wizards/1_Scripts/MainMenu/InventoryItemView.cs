@@ -16,25 +16,18 @@ namespace WizardsPlatformer
         [SerializeField] private Color _selected;
         [SerializeField] private Color _unselected;
 
-        private bool _isSelected;
-        private Action<bool> _onClick;
 
-        public void Init(ItemConfig item, Action<bool> onSelection)
+        public void Init(IArtifact item, Action onSelection)
         {
             gameObject.SetActive(true);
             _icon.sprite = item.Icon;
-            _onClick = onSelection;
-            _button.onClick.AddListener(Select);
-            _isSelected = false;
+            _button.onClick.AddListener(() => onSelection?.Invoke());
         }
 
-        private void Select()
+        public void Clear()
         {
-            _isSelected = !_isSelected;
-
-            _background.color = _isSelected ? _selected : _unselected;
-
-            _onClick?.Invoke(_isSelected);
+            _icon.sprite = null;
+            _button.onClick.RemoveAllListeners();
         }
     }
 }

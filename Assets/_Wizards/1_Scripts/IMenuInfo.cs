@@ -7,6 +7,5 @@ namespace WizardsPlatformer
         ISceneLoader SceneLoader { get; }
         IPlayerModel PlayerModel { get; }
         IReadOnlyList<ItemConfig> ArtifactDatabase { get; }
-        void EquipArtifacts(List<Artifact> selectedArtifacts);
     }
 }

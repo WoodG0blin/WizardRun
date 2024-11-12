@@ -32,14 +32,22 @@ namespace WizardsPlatformer
             _artifacts.Add(ArtifactSlotType.Weapon, new Artifact(_config.WeaponConfig));
         }
 
-        public void SetEquippedArtifacts(List<Artifact> artifacts)
+        public bool TryEquipArtifact(IArtifact artifact)
         {
-            foreach (var a in artifacts)
-            {
-                if (!_artifacts.ContainsKey(a.SlotType)) _artifacts.Add(a.SlotType, null);
-                _artifacts[a.SlotType] = a;
-            }
-            Debug.Log($"Artifacts reset. new count {_artifacts.Values.Count}");
+            if (!_artifacts.ContainsKey(artifact.SlotType)) _artifacts.Add(artifact.SlotType, null);
+            _artifacts[artifact.SlotType] = artifact;
+
+            return true;
+
+            //Debug.Log($"Artifacts reset. new count {_artifacts.Values.Count}");
+        }
+
+        public void RemoveArtifact(IArtifact artifact)
+        {
+            if (artifact.SlotType != ArtifactSlotType.Weapon
+                && _artifacts.ContainsKey(artifact.SlotType)
+                && _artifacts[artifact.SlotType] == artifact)
+                    _artifacts.Remove(artifact.SlotType);
         }
     }
 }

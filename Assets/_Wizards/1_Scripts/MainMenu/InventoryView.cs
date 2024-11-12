@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace WizardsPlatformer
 {
@@ -13,19 +13,29 @@ namespace WizardsPlatformer
         [SerializeField] private Transform _container;
         [SerializeField] private TextMeshProUGUI _itemInfoText;
 
-        private List<ItemConfig> _selectedItems;
+        [SerializeField] private EquipDisplayView _equipDisplay;
 
         protected override void OnInit()
         {
-            Display(menuInfo.ArtifactDatabase);
+            _equipDisplay.Init();
+            Display();
         }
 
-        private void Display(IEnumerable<ItemConfig> items)
+        private void Display()
         {
             Clear();
-            _selectedItems = new();
 
-            foreach (var item in items)
+            _equipDisplay.Display(menuInfo.PlayerModel.EquippedArtifacts, RemoveItem);
+
+            List<IArtifact> unequippedItems = new();
+            foreach(var i in menuInfo.ArtifactDatabase)
+            {
+                var check = menuInfo.PlayerModel.EquippedArtifacts.Where(a => a.Name == i.Name).ToList();
+                if(check == null || check.Count == 0 )
+                    unequippedItems.Add(CreateFromConfig(i));
+            }
+
+            foreach (var item in unequippedItems)
                 DisplayItem(item);
         }
 
@@ -35,34 +45,30 @@ namespace WizardsPlatformer
                 GameObject.Destroy(_container.GetChild(i).gameObject);
         }
 
-        private void DisplayItem(ItemConfig item)
+        private void DisplayItem(IArtifact item)
         {
             GameObject.Instantiate(_itemPrefab, _container)
                 .GetComponent<InventoryItemView>()
-                .Init(item, selected => SetItem(item, selected));
+                .Init(item, () => SetItem(item));
         }
 
-        private void SetItem(ItemConfig item, bool selected)
+        private void SetItem(IArtifact item)
         {
-            if (selected) _selectedItems.Add(item);
-            else _selectedItems.Remove(item);
+            DisplayItemInfo(item.Name);
 
-            DisplayItemInfo(item, selected);
-
-            menuInfo.EquipArtifacts(GenerateSelected());
+            if(menuInfo.PlayerModel.TryEquipArtifact(item))
+                Display();
         }
 
-        private List<Artifact> GenerateSelected()
+        private void RemoveItem(IArtifact item)
         {
-            List<Artifact> res = new();
-
-            foreach (var a in _selectedItems)
-                if(a != null) res.Add(new Artifact(a));
-
-            return res;
+            menuInfo.PlayerModel.RemoveArtifact(item);
+            Display();
         }
 
-        private void DisplayItemInfo(ItemConfig item, bool selected) =>
-            _itemInfoText.text = selected ? item.NameTag : "";
+        private void DisplayItemInfo(string info) =>
+            _itemInfoText.text = info;
+
+        private IArtifact CreateFromConfig(ItemConfig config) => new Artifact(config);
     }
 }

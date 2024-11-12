@@ -8,6 +8,7 @@ namespace WizardsPlatformer
         IArtifactExecutorsContainer Executors { get; }
         string Name { get; }
 
-        void SetEquippedArtifacts(List<Artifact> artifacts);
+        bool TryEquipArtifact(IArtifact artifact);
+        void RemoveArtifact(IArtifact artifact);
     }
 }
