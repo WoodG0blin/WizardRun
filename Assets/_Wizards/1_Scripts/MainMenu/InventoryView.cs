@@ -6,22 +6,18 @@ using UnityEngine.UI;
 
 namespace WizardsPlatformer
 {
-    internal class InventoryView : MonoBehaviour
+    internal class InventoryView : MenuPanelView
     {
         [SerializeField] private GameObject _itemPrefab;
         [SerializeField] private Transform _container;
-        [SerializeField] private Button _backButton;
         [SerializeField] private Button _applyButton;
 
         private List<ItemConfig> _selectedItems;
         private Action<List<Artifact>> _onApplySelection;
 
-        public void Init(Action<List<Artifact>> onApplySelection)
+        protected override void OnInit()
         {
-            _onApplySelection = onApplySelection;
-
             _applyButton.onClick.AddListener(ApplySelectedArtifacts);
-            _backButton.onClick.AddListener(Close);
         }
 
         public void Display(IEnumerable<ItemConfig> items)
@@ -56,9 +52,9 @@ namespace WizardsPlatformer
 
         private void ApplySelectedArtifacts()
         {
-            _onApplySelection?.Invoke(GenerateSelected());
-            Close();
+            menuInfo.EquipArtifacts(GenerateSelected());
         }
+
         private List<Artifact> GenerateSelected()
         {
             List<Artifact> res = new();
@@ -72,11 +68,6 @@ namespace WizardsPlatformer
             }
 
             return res;
-        }
-        private void Close()
-        {
-            Clear();
-            gameObject.SetActive(false);
         }
     }
 }

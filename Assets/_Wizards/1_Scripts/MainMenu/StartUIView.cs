@@ -6,11 +6,10 @@ using WizardsPlatformer;
 public class StartUIView : MonoBehaviour
 {
     [SerializeField] private Button _startButton;
-    [SerializeField] private Button _inventoryButton;
     [SerializeField] private Button _exitButton;
+    [SerializeField] private MenuesDisplayView _menues;
 
     public Action OnStartClick;
-    public Action OnInventoryClick;
     public Action OnExitClick;
 
     public void SetActive(bool active) => gameObject.SetActive(active);
@@ -18,19 +17,16 @@ public class StartUIView : MonoBehaviour
     void Awake()
     {
         _startButton.onClick.AddListener(() => OnStartClick?.Invoke());
-        _inventoryButton.onClick.AddListener(() => OnInventoryClick?.Invoke());
         _exitButton.onClick.AddListener(() => OnExitClick?.Invoke());
-        //_testButton.onClick.AddListener(() => Debug.Log("test click"));
-        //var test = _testButton.transform.GetComponent<Image>();
-        //test.alphaHitTestMinimumThreshold = 0.5f;
     }
+
+    public void Init(IMenuInfo info) => _menues.Init(info);
 
     private void OnDestroy()
     {
         OnStartClick = null;
         OnExitClick= null;
         _startButton.onClick.RemoveAllListeners();
-        _inventoryButton.onClick.RemoveAllListeners();
         _exitButton.onClick.RemoveAllListeners();
     }
 }

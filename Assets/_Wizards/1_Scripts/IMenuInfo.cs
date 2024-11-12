@@ -2,7 +2,7 @@
 
 namespace WizardsPlatformer
 {
-    interface IMenuInfo
+    public interface IMenuInfo
     {
         ISceneLoader SceneLoader { get; }
         IReadOnlyList<ItemConfig> ArtifactDatabase { get; }
