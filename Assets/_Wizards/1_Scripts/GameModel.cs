@@ -7,13 +7,11 @@ namespace WizardsPlatformer
     internal class GameModel
     {
         public BonusStats Bonuses { get; private set; }
-        internal InventoryModel InventoryModel { get; }
 
         internal PlayerModel PlayerModel { get; private set; }
 
         public GameModel()
         {
-            InventoryModel = new InventoryModel();
             PlayerModel = new();
             Bonuses = new BonusStats(true);
         }
