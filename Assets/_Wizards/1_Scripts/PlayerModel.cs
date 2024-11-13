@@ -14,7 +14,7 @@ namespace WizardsPlatformer
         public string Name { get; private set; }
         internal CharacterStats Stats { get; private set; }
         public LevelObjectConfig Config => _config;
-        public IArtifactExecutorsContainer Executors => new ArtifactExecutorsContainer(_artifacts.Values.ToList());
+        public IArtifactExecutorsContainer Executors => new ArtifactExecutorsContainer(EquippedArtifacts);
 
         public List<IArtifact> EquippedArtifacts => _artifacts.Values.Where(a => a!=null).ToList();
 

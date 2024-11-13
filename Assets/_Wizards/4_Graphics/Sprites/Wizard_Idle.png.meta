@@ -3,7 +3,7 @@ guid: ea621bf38bb54e44aad746a3545d75a6
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,6 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -102,6 +103,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -336,16 +349,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Wizard_Idle_2: -392914695
-      Wizard_Idle_7: -631648275
-      Wizard_Idle_4: 977924170
-      Wizard_Idle_9: 1177391990
       Wizard_Idle_0: 1636844147
-      Wizard_Idle_6: -1921804443
       Wizard_Idle_1: -2081983023
-      Wizard_Idle_8: 1033788299
-      Wizard_Idle_5: -1209419292
+      Wizard_Idle_2: -392914695
       Wizard_Idle_3: 1062631052
+      Wizard_Idle_4: 977924170
+      Wizard_Idle_5: -1209419292
+      Wizard_Idle_6: -1921804443
+      Wizard_Idle_7: -631648275
+      Wizard_Idle_8: 1033788299
+      Wizard_Idle_9: 1177391990
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

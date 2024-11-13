@@ -9,13 +9,15 @@ namespace WizardsPlatformer
         [SerializeField] protected float lifetime = 5.0f;
         protected bool isFromPlayer = false;
 
+        protected new Rigidbody rigidbody;
         private TrailRenderer _trailRenderer;
 
         protected Transform _barrel;
 
         protected int _damage;
-        protected int _speed;
+        protected float _speed;
         protected float _baseGravity;
+        protected bool _useGravity;
         protected Coroutine _currentTimer;
 
         public Action OnTrigger;
@@ -24,13 +26,15 @@ namespace WizardsPlatformer
         public float Mass { get => rigidbody.mass; }
         public float Gravity { get => _baseGravity; }
 
-        public void Init(Transform barrel, int damage, int speed)
+        public void Init(Transform barrel, int damage, float speed)
         {
             SetActive(false);
             _barrel = barrel;
             _damage = damage;
             _speed = speed;
-            _baseGravity = rigidbody.gravityScale;
+            rigidbody = GetComponent<Rigidbody>();
+            //_baseGravity = rigidbody.gravityScale;
+            _useGravity = rigidbody.useGravity;
             transform.TryGetComponent<TrailRenderer>(out _trailRenderer);
             //Ready = true;
             SetToBase();
@@ -49,7 +53,7 @@ namespace WizardsPlatformer
             //if (Ready)
             //{
                 transform.SetParent(null);
-                rigidbody.gravityScale = _baseGravity;
+                rigidbody.useGravity = _useGravity;
                 //Ready = false;
                 SetActive(true);
                 _currentTimer = StartCoroutine(DestroyAfterTime(lifetime));
@@ -67,9 +71,9 @@ namespace WizardsPlatformer
             //_currentTimer = null;
 
             SetPosition(_barrel.position);
-            rigidbody.gravityScale = 0;
+            rigidbody.useGravity = false;
             rigidbody.velocity = Vector3.zero;
-            rigidbody.angularVelocity = 0;
+            //rigidbody.angularVelocity = 0;
             SetRotation(Quaternion.identity);
 
             //transform.SetParent(_barrel);

@@ -3,7 +3,7 @@ guid: 45cd6f35c0037f341b0b4a56088e4332
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,6 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -102,6 +103,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -882,66 +895,66 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      GroundTileset_31: -874805065
-      GroundTileset_38: -1399761093
       GroundTileset_0: 605284743
-      GroundTileset_11: 1842350321
-      GroundTileset_10: -1655902860
-      GroundTileset_22: -727256812
-      GroundTileset_43: 809329163
-      GroundTileset_2: 145026443
-      GroundTileset_12: -1382333437
-      GroundTileset_40: 1309784590
-      GroundTileset_14: -1977715857
-      GroundTileset_45: 353363693
-      GroundTileset_16: -1154166929
-      GroundTileset_41: -1118285794
-      GroundTileset_4: 115510553
-      GroundTileset_25: -331940073
-      GroundTileset_29: 1596005842
-      GroundTileset_21: 1147106409
-      GroundTileset_8: -1110207948
-      GroundTileset_24: -430862751
-      GroundTileset_20: 883260038
-      GroundTileset_6: -104695989
-      GroundTileset_30: 29357377
-      GroundTileset_51: 713064079
-      GroundTileset_55: 1849253010
-      GroundTileset_50: -286713051
-      GroundTileset_3: 1489570438
-      GroundTileset_13: -436080449
-      GroundTileset_18: -448431337
-      GroundTileset_34: 879356486
-      GroundTileset_33: -296752935
-      GroundTileset_57: 1723007902
-      GroundTileset_47: -1338843894
-      GroundTileset_37: -842800021
-      GroundTileset_23: 1266715792
-      GroundTileset_27: 907372273
-      GroundTileset_5: -700181587
-      GroundTileset_49: -677083463
-      GroundTileset_32: -903009002
-      GroundTileset_54: 621845
-      GroundTileset_15: -1614036950
       GroundTileset_1: 1454884237
-      GroundTileset_39: -1059526750
+      GroundTileset_10: -1655902860
+      GroundTileset_11: 1842350321
+      GroundTileset_12: -1382333437
+      GroundTileset_13: -436080449
+      GroundTileset_14: -1977715857
+      GroundTileset_15: -1614036950
+      GroundTileset_16: -1154166929
       GroundTileset_17: 1454873352
-      GroundTileset_28: 1817574813
-      GroundTileset_56: 497184201
-      GroundTileset_58: -7849693
-      GroundTileset_7: -1813430033
-      GroundTileset_42: -104793604
-      GroundTileset_35: -146106536
+      GroundTileset_18: -448431337
       GroundTileset_19: -772854306
-      GroundTileset_9: -1831217964
-      GroundTileset_59: -1738290648
-      GroundTileset_48: -1930857155
-      GroundTileset_46: -1399159044
-      GroundTileset_53: -556129462
+      GroundTileset_2: 145026443
+      GroundTileset_20: 883260038
+      GroundTileset_21: 1147106409
+      GroundTileset_22: -727256812
+      GroundTileset_23: 1266715792
+      GroundTileset_24: -430862751
+      GroundTileset_25: -331940073
       GroundTileset_26: 1059764327
+      GroundTileset_27: 907372273
+      GroundTileset_28: 1817574813
+      GroundTileset_29: 1596005842
+      GroundTileset_3: 1489570438
+      GroundTileset_30: 29357377
+      GroundTileset_31: -874805065
+      GroundTileset_32: -903009002
+      GroundTileset_33: -296752935
+      GroundTileset_34: 879356486
+      GroundTileset_35: -146106536
       GroundTileset_36: 1389343501
+      GroundTileset_37: -842800021
+      GroundTileset_38: -1399761093
+      GroundTileset_39: -1059526750
+      GroundTileset_4: 115510553
+      GroundTileset_40: 1309784590
+      GroundTileset_41: -1118285794
+      GroundTileset_42: -104793604
+      GroundTileset_43: 809329163
       GroundTileset_44: -786677063
+      GroundTileset_45: 353363693
+      GroundTileset_46: -1399159044
+      GroundTileset_47: -1338843894
+      GroundTileset_48: -1930857155
+      GroundTileset_49: -677083463
+      GroundTileset_5: -700181587
+      GroundTileset_50: -286713051
+      GroundTileset_51: 713064079
       GroundTileset_52: -649944301
+      GroundTileset_53: -556129462
+      GroundTileset_54: 621845
+      GroundTileset_55: 1849253010
+      GroundTileset_56: 497184201
+      GroundTileset_57: 1723007902
+      GroundTileset_58: -7849693
+      GroundTileset_59: -1738290648
+      GroundTileset_6: -104695989
+      GroundTileset_7: -1813430033
+      GroundTileset_8: -1110207948
+      GroundTileset_9: -1831217964
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

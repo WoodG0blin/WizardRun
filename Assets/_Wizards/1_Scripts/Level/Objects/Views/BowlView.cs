@@ -12,7 +12,7 @@ namespace WizardsPlatformer
 
         public Action<Vector3> OnFireReady { get; set; }
 
-        public void Init(int actionDistance)
+        public void Init(float actionDistance)
         {
             Barrel ??= visualBody.Find("Aim");
 

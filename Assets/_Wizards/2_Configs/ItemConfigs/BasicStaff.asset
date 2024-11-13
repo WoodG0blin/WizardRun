@@ -22,4 +22,4 @@ MonoBehaviour:
   <Damage>k__BackingField: 5
   <ActionDistance>k__BackingField: 2
   <FireForce>k__BackingField: 2
-  <Ammo>k__BackingField: {fileID: 5613963724177010042, guid: 527ffee76cfe6484a9be1da2dcefedab, type: 3}
+  <Ammo>k__BackingField: {fileID: 6176215044522108244, guid: c659eb280467ba544918e6afd673640c, type: 3}

@@ -13,7 +13,8 @@ namespace WizardsPlatformer
         }
         protected override void OnFire(Vector2 direction)
         {
-            rigidbody.AddForce(direction * _speed, ForceMode2D.Impulse);
+            //rigidbody.AddForce(direction * _speed, ForceMode2D.Impulse);
+            rigidbody.AddForce(direction * _speed, ForceMode.Impulse);
         }
     }
 }

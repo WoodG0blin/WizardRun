@@ -10,7 +10,7 @@ namespace WizardsPlatformer
 
         public Action<Vector3> OnFireReady { get; set; }
 
-        public void Init(int actionDistance, int fireForce, float ammoMass, float gravityCoefficient)
+        public void Init(float actionDistance, float fireForce, float ammoMass, float gravityCoefficient)
         {
             Barrel ??= transform.Find("Aim");
 

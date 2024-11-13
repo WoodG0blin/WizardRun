@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,7 +12,7 @@ namespace WizardsPlatformer
 
         protected override void OnFire(Vector2 direction)
         {
-            rigidbody.gravityScale = 0;
+            rigidbody.useGravity = false;
             StartCoroutine(DelayedFire(direction, Random.Range(_targetWaitTime - 1f, _targetWaitTime + 1f)));
         }
 
@@ -24,9 +23,10 @@ namespace WizardsPlatformer
 
             _directionOffset = Vector3.right * Random.Range(-0.2f, 0.2f);
 
-            rigidbody.gravityScale = 1;
-            rigidbody.AddForce(direction * _speed + _directionOffset, ForceMode2D.Impulse);
-            rigidbody.AddTorque(_speed * 10f, ForceMode2D.Impulse);
+            rigidbody.useGravity = true;
+            rigidbody.AddForce(direction * _speed + _directionOffset, ForceMode.Impulse);
+            rigidbody.AddRelativeTorque(new(_speed * 10f, 0, 0), ForceMode.Impulse);
+            //rigidbody.AddTorque(_speed * 10f, ForceMode.Impulse);
         }
 
         protected override void OnAnyContact(Transform collided)

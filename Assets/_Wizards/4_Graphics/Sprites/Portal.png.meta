@@ -3,7 +3,7 @@ guid: 9da3a22d23b4ad049b470d128d271df8
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,6 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -102,6 +103,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -756,36 +769,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Portal_22: -126724903
-      Portal_5: 1945845246
-      Portal_23: 1234382450
       Portal_0: -979051267
-      Portal_20: -1411436255
-      Portal_7: 1851115746
-      Portal_14: 1124428451
-      Portal_2: -1531193133
-      Portal_17: -1188467413
-      Portal_3: 1931219911
-      Portal_9: -577412290
-      Portal_16: 577749976
-      Portal_11: -892308360
-      Portal_21: 511519457
-      Portal_8: 1156638107
-      Portal_4: -1725306045
-      Portal_24: 1047704374
+      Portal_1: 1917064820
       Portal_10: 1342792424
-      Portal_27: -932420377
-      Portal_29: 1342481500
+      Portal_11: -892308360
+      Portal_12: 628000389
+      Portal_13: 1194283859
+      Portal_14: 1124428451
+      Portal_15: 394620383
+      Portal_16: 577749976
+      Portal_17: -1188467413
       Portal_18: 153461453
       Portal_19: 278630977
-      Portal_13: 1194283859
-      Portal_26: 1929496420
+      Portal_2: -1531193133
+      Portal_20: -1411436255
+      Portal_21: 511519457
+      Portal_22: -126724903
+      Portal_23: 1234382450
+      Portal_24: 1047704374
       Portal_25: -631173561
+      Portal_26: 1929496420
+      Portal_27: -932420377
       Portal_28: -656926569
-      Portal_1: 1917064820
-      Portal_12: 628000389
+      Portal_29: 1342481500
+      Portal_3: 1931219911
+      Portal_4: -1725306045
+      Portal_5: 1945845246
       Portal_6: 2094700677
-      Portal_15: 394620383
+      Portal_7: 1851115746
+      Portal_8: 1156638107
+      Portal_9: -577412290
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

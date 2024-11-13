@@ -19,14 +19,27 @@ namespace WizardsPlatformer
 
         private void MeleeAttack(IArtifactHolder holder)
         {
-            var hit = Physics2D.RaycastAll(holder.Barrel.position, holder.Direction, parentArtifact.ActionDistance)
-                    .Where(hit => hit.transform.CompareTag("Player"))
-                    .FirstOrDefault();
+            //var hit = Physics2D.RaycastAll(holder.Barrel.position, holder.Direction, parentArtifact.ActionDistance)
+            //        .Where(hit => hit.transform.CompareTag("Player"))
+            //        .FirstOrDefault();
 
-            if (hit.collider != null)
+            var hits = Physics.RaycastAll(holder.Barrel.position, holder.Direction, parentArtifact.ActionDistance)
+                .Select(h => h.transform.GetComponent<LevelObjectView>());
+
+            IInteractionResponder hit = null;
+            
+            foreach (var h in hits)
             {
-                (hit.transform.GetComponent<LevelObjectView>() as IDamagable)?.ReceiveDamage(parentArtifact.Damage);
+                if (h != null && h.InteractionResponder != null)
+                {
+                    hit = h.InteractionResponder;
+                    break;
+                }
             }
+
+            if (hit == null) return;
+
+            if (holder.IsPlayer ^ hit.IsPlayer) hit.ReceiveDamage(parentArtifact.Damage);
         }
 
         private void RangedAttack(IArtifactHolder holder)

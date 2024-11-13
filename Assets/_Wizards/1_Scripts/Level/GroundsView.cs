@@ -7,6 +7,8 @@ namespace WizardsPlatformer
 {
     internal interface IGroundsView
     {
+        void InitTiles(Tile[] tiles);
+        void InitTiles3D(GameObject block);
         void DrawGrounds(SquaresGrid grid, IReadOnlyList<LevelObject> levelObjects);
     }
 
@@ -70,6 +72,11 @@ namespace WizardsPlatformer
                 var target = view.InteractionResponder;
                 if (target != null) target.ReceiveDamage(10000);
             }
+        }
+
+        public void InitTiles3D(GameObject block)
+        {
+            
         }
     }
 }

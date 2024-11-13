@@ -3,7 +3,7 @@ guid: b9b3907eb1416bf4eaaf119212c7bd6a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,6 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -102,6 +103,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -336,79 +349,79 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Winds_36: -1464941288
-      Winds_20: 2013173026
-      Winds_10: -1855329872
-      Winds_51: -211024979
-      Winds_58: 130272749
-      Winds_61: 2033451001
-      Winds_35: 816689741
-      Winds_22: 53997678
-      Winds_43: 1994161565
-      Winds_49: 1989363128
-      Winds_78: -1456477715
-      Winds_29: 2123645052
-      Winds_67: 457305947
-      Winds_34: 222361949
-      Winds_69: 1743000139
-      Winds_77: -1135235715
-      Winds_52: -651371231
-      Winds_68: 1730326783
-      Winds_9: 1136115310
-      Winds_23: 2060393935
-      Winds_21: -524662894
-      Winds_11: 771406136
-      Winds_15: -1965573229
-      Winds_73: -540010456
-      Winds_14: -1813034892
-      Winds_8: 1669519056
-      Winds_70: 1929649124
-      Winds_38: -454227248
-      Winds_59: 1605443400
-      Winds_33: 333575355
-      Winds_66: 178397915
-      Winds_30: -2078193150
-      Winds_39: -896709824
-      Winds_12: 16186564
-      Winds_48: 1024009921
-      Winds_13: 567230512
-      Winds_47: -1235343579
-      Winds_71: -858400711
-      Winds_27: -29804746
-      Winds_3: -1643711791
-      Winds_6: 216018069
-      Winds_44: -1147500029
-      Winds_53: 914914910
-      Winds_40: -477258273
-      Winds_74: 1118733280
-      Winds_50: 627580117
-      Winds_64: -903165604
-      Winds_7: -467609108
-      Winds_76: -97668586
-      Winds_79: -1086513311
-      Winds_57: -338247
       Winds_0: -1718684461
-      Winds_5: 1641060485
-      Winds_31: 1921148999
-      Winds_28: 1508066257
-      Winds_37: -100763808
-      Winds_65: -976981036
+      Winds_1: 122010881
+      Winds_10: -1855329872
+      Winds_11: 771406136
+      Winds_12: 16186564
+      Winds_13: 567230512
+      Winds_14: -1813034892
+      Winds_15: -1965573229
+      Winds_16: -1718684461
+      Winds_17: -1242923712
+      Winds_2: 1059253587
+      Winds_20: 2013173026
+      Winds_21: -524662894
+      Winds_22: 53997678
+      Winds_23: 2060393935
       Winds_24: 249787477
+      Winds_26: 86124624
+      Winds_27: -29804746
+      Winds_28: 1508066257
+      Winds_29: 2123645052
+      Winds_3: -1643711791
+      Winds_30: -2078193150
+      Winds_31: 1921148999
+      Winds_32: 1955250206
+      Winds_33: 333575355
+      Winds_34: 222361949
+      Winds_35: 816689741
+      Winds_36: -1464941288
+      Winds_37: -100763808
+      Winds_38: -454227248
+      Winds_39: -896709824
+      Winds_40: -477258273
+      Winds_41: -2072119968
+      Winds_43: 1994161565
+      Winds_44: -1147500029
+      Winds_46: 270897718
+      Winds_47: -1235343579
+      Winds_48: 1024009921
+      Winds_49: 1989363128
+      Winds_5: 1641060485
+      Winds_50: 627580117
+      Winds_51: -211024979
+      Winds_52: -651371231
+      Winds_53: 914914910
       Winds_54: 1705091048
       Winds_55: 211212759
-      Winds_63: -1866808177
-      Winds_17: -1242923712
-      Winds_41: -2072119968
-      Winds_62: -1154760622
-      Winds_26: 86124624
-      Winds_32: 1955250206
-      Winds_75: -344330948
-      Winds_1: 122010881
-      Winds_46: 270897718
       Winds_56: -208228439
-      Winds_2: 1059253587
+      Winds_57: -338247
+      Winds_58: 130272749
+      Winds_59: 1605443400
+      Winds_6: 216018069
       Winds_60: -31713019
-      Winds_16: -1718684461
+      Winds_61: 2033451001
+      Winds_62: -1154760622
+      Winds_63: -1866808177
+      Winds_64: -903165604
+      Winds_65: -976981036
+      Winds_66: 178397915
+      Winds_67: 457305947
+      Winds_68: 1730326783
+      Winds_69: 1743000139
+      Winds_7: -467609108
+      Winds_70: 1929649124
+      Winds_71: -858400711
+      Winds_73: -540010456
+      Winds_74: 1118733280
+      Winds_75: -344330948
+      Winds_76: -97668586
+      Winds_77: -1135235715
+      Winds_78: -1456477715
+      Winds_79: -1086513311
+      Winds_8: 1669519056
+      Winds_9: 1136115310
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

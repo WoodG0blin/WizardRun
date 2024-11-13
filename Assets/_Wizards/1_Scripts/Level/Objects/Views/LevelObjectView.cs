@@ -11,7 +11,7 @@ namespace WizardsPlatformer
         private Collider2D _collider;
         private Transform _visualBody;
 
-        private ContactsPuller _contacts;
+        private IContactsPuller _contacts;
 
         private Vector3 _initialScale = Vector3.zero;
 
@@ -106,9 +106,10 @@ namespace WizardsPlatformer
         }
 
 
-        public ContactsPuller AccessContacts()
+        public IContactsPuller AccessContacts()
         {
-            _contacts ??= new ContactsPuller(collider);
+            //_contacts ??= new ContactsPuller(collider);
+            _contacts ??= new ContactsPuller3D(visualBody);
             _contacts.Update();
             return _contacts;
         }
@@ -125,6 +126,26 @@ namespace WizardsPlatformer
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.transform.TryGetComponent(out LevelObjectView interactor))
+            {
+                var target = interactor.InteractionResponder;
+                if (target != null) OnCollision(target);
+            }
+            OnAnyContact(collision.transform);
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.transform.TryGetComponent(out LevelObjectView interactor))
+            {
+                var target = interactor.InteractionResponder;
+                if (target != null) OnCollision(target);
+            }
+            OnAnyContact(collision.transform);
+        }
+
+        private void OnTriggerEnter(Collider collision)
         {
             if (collision.transform.TryGetComponent(out LevelObjectView interactor))
             {

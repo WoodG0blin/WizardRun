@@ -9,8 +9,12 @@ namespace WizardsPlatformer
         private float _minY;
         private float _maxY;
 
+        private new Rigidbody rigidbody;
+
         public void Init(int deltaHeight)
         {
+            rigidbody= transform.GetComponent<Rigidbody>();
+
             Vector3 position = transform.position;
             _minY = Mathf.Min(position.y, position.y + deltaHeight);
             _maxY = Mathf.Max(position.y, position.y + deltaHeight);

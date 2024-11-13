@@ -10,6 +10,7 @@ namespace WizardsPlatformer
     {
         [field: SerializeField] public Sprite[] BackGroundSprites { get; private set; }
         [field: SerializeField] public Tile[] GroundTiles { get; private set; }
+        [field: SerializeField] public GameObject Block { get; private set; }
         [field: SerializeField] public AllLevelObjectsConfigs ObjectsConfigs { get; private set; }
     }
 }

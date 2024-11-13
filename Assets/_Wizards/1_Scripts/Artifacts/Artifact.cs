@@ -14,8 +14,8 @@ namespace WizardsPlatformer
         protected Dictionary<ArtifactExecutorType, IArtifactExecutor> executors;
 
         protected int damage;
-        protected int actionDistance;
-        protected int fireForce;
+        protected float actionDistance;
+        protected float fireForce;
 
         private ParametersModifier<ArtifactStatTypes> _modifiers;
 
@@ -55,15 +55,17 @@ namespace WizardsPlatformer
 
 
         int IArtifactExecutorHolder.Damage => damage + _modifiers.GetModifier(ArtifactStatTypes.Damage);
-        int IArtifactExecutorHolder.ActionDistance => actionDistance + _modifiers.GetModifier(ArtifactStatTypes.ActionDistance);
-        int IArtifactExecutorHolder.FireForce => fireForce + _modifiers.GetModifier(ArtifactStatTypes.FireForce);
+        float IArtifactExecutorHolder.ActionDistance => actionDistance + _modifiers.GetModifier(ArtifactStatTypes.ActionDistance);
+        float IArtifactExecutorHolder.FireForce => fireForce + _modifiers.GetModifier(ArtifactStatTypes.FireForce);
         bool IArtifactExecutorHolder.TryGetAmmoTo(Transform barrel, out AmmoView ammo)
         {
             ammo = null;
 
             if(_config.Ammo != null)
             {
-                ammo = GameObject.Instantiate(_config.Ammo, barrel).GetComponent<AmmoView>();
+                var temp = GameObject.Instantiate(_config.Ammo, barrel);
+                if(!temp.TryGetComponent<AmmoView>(out ammo)) ammo = temp.AddComponent<BulletView>();
+                
                 return true;
             }
 

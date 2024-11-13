@@ -53,8 +53,8 @@ namespace WizardsPlatformer
         
         [field: Header("ACTION CONFIGS - OPTIONAL")]
         [field: SerializeField] public int Damage { get; private set; }
-        [field: SerializeField] public int ActionDistance { get; private set; }
-        [field: SerializeField] public int FireForce { get; private set; }
+        [field: SerializeField] public float ActionDistance { get; private set; }
+        [field: SerializeField] public float FireForce { get; private set; }
         [field: SerializeField] public GameObject Ammo { get; private set; }
 
 

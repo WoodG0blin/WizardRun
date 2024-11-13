@@ -8,14 +8,14 @@ namespace WizardsPlatformer
     internal class GroundsController
     {
         private readonly GroundsModel _groundsModel;
-        private readonly GroundsView _groundsView;
+        private readonly IGroundsView _groundsView;
 
         private Action<Vector3> _onPlayerPositionChanged;
 
         public Dictionary<BonusType, int> BonusesCollected { get; private set; }
         public Action<int> OnCoinsCountChange;
 
-        public GroundsController(GroundsModel groundsModel, GroundsView groundsView, GroundsConfig config, Action onGroundsCleared)
+        public GroundsController(GroundsModel groundsModel, IGroundsView groundsView, GroundsConfig config, Action onGroundsCleared)
         {
             _groundsModel = groundsModel;
 
@@ -23,7 +23,8 @@ namespace WizardsPlatformer
 
             BonusesCollected = new();
 
-            _groundsView.InitTiles(config.GroundTiles);
+            //_groundsView.InitTiles(config.GroundTiles);
+            _groundsView.InitTiles3D(config.Block);
 
             foreach(var lo in _groundsModel.LevelObjects)
             {

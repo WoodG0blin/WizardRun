@@ -5,6 +5,6 @@ namespace WizardsPlatformer
     public interface IJump
     {
         void Jump(float force);
-        ContactsPuller AccessContacts();
+        IContactsPuller AccessContacts();
     }
 }

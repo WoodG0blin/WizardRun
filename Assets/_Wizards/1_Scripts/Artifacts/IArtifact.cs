@@ -16,8 +16,8 @@ namespace WizardsPlatformer
     {
         bool IsReady { get; }
         int Damage { get; }
-        int ActionDistance { get; }
-        int FireForce { get; }
+        float ActionDistance { get; }
+        float FireForce { get; }
         bool TryGetAmmoTo(Transform barrel, out AmmoView ammo);
         void Activate();
     }

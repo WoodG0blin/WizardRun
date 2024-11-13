@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace WizardsPlatformer
 {
@@ -12,13 +13,14 @@ namespace WizardsPlatformer
     {
         [field: SerializeField] public Transform Barrel { get; private set; }
 
+        private new Rigidbody rigidbody;
         private AnimationController _animator;
         public ActionState animationState { get; set; }
 
         private DemonState _currentState;
         private LayerMask _layerMask;
 
-        public Vector3 PositionVector { get; private set; }
+        public Vector3 PositionVector {get; private set; }
         public Vector3 TargetPosition { get; private set; }
 
         public Vector3 PatrolPoint { get; private set; }
@@ -50,6 +52,8 @@ namespace WizardsPlatformer
 
         public void Init(LevelObjectConfig config, Action<Vector3> onAttackReady, Func<bool> isWeaponReady)
         {
+            rigidbody = transform.GetComponent<Rigidbody>();
+
             PatrolPoint = Position;
             _speed = config.Speed;
 
@@ -68,12 +72,12 @@ namespace WizardsPlatformer
 
         public void InitiateAnimations(AnimationSequence[] animations)
         {
-            AnimationSequence[] temp = animations;
-            if (temp == null || temp.Length == 0) temp = new AnimationSequence[] { new AnimationSequence() { Sprites = new List<Sprite>() { renderer.sprite } } };
+            //AnimationSequence[] temp = animations;
+            //if (temp == null || temp.Length == 0) temp = new AnimationSequence[] { new AnimationSequence() { Sprites = new List<Sprite>() { renderer.sprite } } };
 
-            _animator = new AnimationController(
-                renderer,
-                temp);
+            //_animator = new AnimationController(
+            //    renderer,
+            //    temp);
         }
 
         protected override void OnUpdate()
@@ -91,12 +95,14 @@ namespace WizardsPlatformer
 
         public bool CheckNoGap(float XDirection)
         {
-            RaycastHit2D hit = Physics2D.Raycast(
-                        new Vector2(PositionVector.x, PositionVector.y),
-                        new Vector2(XDirection, -1),
-                        1.5f, _layerMask);
+            //RaycastHit2D hit = Physics2D.Raycast(
+            //            new Vector2(PositionVector.x, PositionVector.y),
+            //            new Vector2(XDirection, -1),
+            //            1.5f, _layerMask);
 
-            return hit.collider != null;
+            //return hit.collider != null;
+
+            return Physics.Raycast(PositionVector, new(XDirection, -0.5f, 0), 2f, _layerMask);
         }
 
         public bool IsInPatrolDistance { get => Mathf.Abs((PositionVector - PatrolPoint).x) < PatrolDistance; }
@@ -106,7 +112,7 @@ namespace WizardsPlatformer
             get =>
             (XDirection == Mathf.Sign((TargetPosition - PositionVector).x)
             && Vector3.SqrMagnitude(TargetPosition - PositionVector) < (PatrolDistance * PatrolDistance)
-            && Mathf.Abs(Vector3.Dot(TargetPosition - PositionVector, Vector3.right * XDirection)) > 0.8f);
+            && Mathf.Abs(Vector3.Dot((TargetPosition - PositionVector).normalized, Vector3.right * XDirection)) > 0.8f);
         }
 
         public bool IsInAttackDistance
@@ -119,7 +125,8 @@ namespace WizardsPlatformer
             }
         }
 
-        public void Move() => rigidbody.velocity = new Vector2(base.XDirection, 0) * _speed;
+        //public void Move() => rigidbody.velocity = new Vector2(base.XDirection, 0) * _speed;
+        public void Move() => rigidbody.velocity = new Vector3(base.XDirection, 0, 0) * _speed;
 
         public void FlipDirection() => SetDirection(-base.XDirection);
 
@@ -200,22 +207,28 @@ namespace WizardsPlatformer
 
         protected override void OnAction()
         {
-            if (!demonView.TargetInSight) demonView.SetNewState(DemonStates.Idle);
+            if (!demonView.TargetInSight)
+            {
+                demonView.SetNewState(DemonStates.Idle);
+            }
             else
             {
-                if (!demonView.PathClear)
+                if (demonView.PathClear)
                 {
                     if (demonView.IsInAttackDistance)
                     {
-                        if(demonView.IsAttackReady) demonView.SetNewState(DemonStates.Attacking);
+                        if (demonView.IsAttackReady) demonView.SetNewState(DemonStates.Attacking);
                     }
                     else
                     {
-                        demonView.FlipDirection();
-                        demonView.SetNewState(DemonStates.Idle);
+                        demonView.Move();
                     }
                 }
-                else demonView.Move();
+                else
+                {
+                    demonView.FlipDirection();
+                    demonView.SetNewState(DemonStates.Idle);
+                }
             }
         }
     }

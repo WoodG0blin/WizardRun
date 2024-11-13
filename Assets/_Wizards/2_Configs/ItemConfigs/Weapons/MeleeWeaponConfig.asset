@@ -20,6 +20,6 @@ MonoBehaviour:
   <ArtifactExecutors>k__BackingField: 01000000
   <Cooldown>k__BackingField: 1
   <Damage>k__BackingField: 10
-  <ActionDistance>k__BackingField: 1
+  <ActionDistance>k__BackingField: 0.5
   <FireForce>k__BackingField: 0
   <Ammo>k__BackingField: {fileID: 0}

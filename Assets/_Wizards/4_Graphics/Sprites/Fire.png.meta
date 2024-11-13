@@ -3,7 +3,7 @@ guid: 2d41dc6c0c7420d48855c043bfd1bc7a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,6 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -102,6 +103,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -1134,52 +1147,52 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Fire_12: -309612280
-      Fire_27: 1518274813
-      Fire_35: -562691841
-      Fire_32: -1400026527
-      Fire_16: 434319695
-      Fire_28: 496042845
-      Fire_44: 290856838
-      Fire_22: 1345712721
-      Fire_34: 437591249
-      Fire_17: -421001216
-      Fire_33: 1736207646
-      Fire_21: -990705037
-      Fire_26: -85840819
-      Fire_29: -1800726232
-      Fire_5: -461577102
-      Fire_18: -1605715316
-      Fire_39: 1755046781
       Fire_0: -546777096
-      Fire_36: -195352299
-      Fire_43: 493639279
-      Fire_40: -1284195436
-      Fire_7: -260898621
-      Fire_45: 1855614639
-      Fire_13: 633471053
-      Fire_24: -999887385
       Fire_1: 911357931
       Fire_10: -190373492
-      Fire_14: -300179577
-      Fire_46: -86463371
-      Fire_19: -451409117
-      Fire_25: -620630585
-      Fire_6: -1745854695
-      Fire_2: -1897663732
-      Fire_38: 1831740740
-      Fire_30: 748742195
-      Fire_20: -822577264
-      Fire_47: 624953125
-      Fire_41: -889386810
-      Fire_3: 2087166958
-      Fire_23: 931354247
-      Fire_31: 171348937
-      Fire_15: -1568484096
       Fire_11: -1891774868
-      Fire_42: -811055927
-      Fire_4: 1170725565
+      Fire_12: -309612280
+      Fire_13: 633471053
+      Fire_14: -300179577
+      Fire_15: -1568484096
+      Fire_16: 434319695
+      Fire_17: -421001216
+      Fire_18: -1605715316
+      Fire_19: -451409117
+      Fire_2: -1897663732
+      Fire_20: -822577264
+      Fire_21: -990705037
+      Fire_22: 1345712721
+      Fire_23: 931354247
+      Fire_24: -999887385
+      Fire_25: -620630585
+      Fire_26: -85840819
+      Fire_27: 1518274813
+      Fire_28: 496042845
+      Fire_29: -1800726232
+      Fire_3: 2087166958
+      Fire_30: 748742195
+      Fire_31: 171348937
+      Fire_32: -1400026527
+      Fire_33: 1736207646
+      Fire_34: 437591249
+      Fire_35: -562691841
+      Fire_36: -195352299
       Fire_37: -872690277
+      Fire_38: 1831740740
+      Fire_39: 1755046781
+      Fire_4: 1170725565
+      Fire_40: -1284195436
+      Fire_41: -889386810
+      Fire_42: -811055927
+      Fire_43: 493639279
+      Fire_44: 290856838
+      Fire_45: 1855614639
+      Fire_46: -86463371
+      Fire_47: 624953125
+      Fire_5: -461577102
+      Fire_6: -1745854695
+      Fire_7: -260898621
       Fire_8: -436623975
       Fire_9: 337704313
   spritePackingTag: 

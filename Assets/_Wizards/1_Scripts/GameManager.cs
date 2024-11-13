@@ -17,6 +17,7 @@ namespace WizardsPlatformer
 
         [Header("CONFIGS")]
         [SerializeField] private LevelObjectConfig _playerConfig;
+        [SerializeField] private LevelObjectConfig _player3DConfig;
         [SerializeField] private AllItemConfigs _artifactDatabase;
 
 
@@ -33,7 +34,7 @@ namespace WizardsPlatformer
         private void Init()
         {
             _gameModel = new();
-            _gameModel.PlayerModel.SetConfig(_playerConfig);
+            _gameModel.PlayerModel.SetConfig(_player3DConfig);
         }
 
         public ISceneLoader SceneLoader => this;

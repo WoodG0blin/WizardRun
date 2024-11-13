@@ -13,6 +13,8 @@ namespace WizardsPlatformer
     {
         [SerializeField] private Transform _barrel;
 
+        private new Rigidbody rigidbody;
+
         private AnimationController _animator;
         public ActionState animationState { get; set; }
 
@@ -20,34 +22,37 @@ namespace WizardsPlatformer
         {
             if(XDirection * newVelocityX < 0) SetDirection(newVelocityX);
 
-            if (HasNoBarrier(newVelocityX))
+            if (HasNoBarrier(XDirection))
                 rigidbody.velocity = new Vector2(newVelocityX, rigidbody.velocity.y);
         }
         private bool HasNoBarrier(float direction) => (direction > 0 && !AccessContacts().HasContactRight) || (direction < 0 && !AccessContacts().HasContactLeft);
 
         public void Jump(float jumpForce)
         {
-            rigidbody.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
-            _animator.AnimationState(ActionState.Jump, true);
+            //rigidbody.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
+            rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            _animator?.AnimationState(ActionState.Jump, true);
         }
 
         protected override void OnUpdate()
         {
-            if (Mathf.Abs(rigidbody.velocity.x) < 0.1f) _animator.AnimationState(ActionState.Idle);
-            else if (Mathf.Abs(rigidbody.velocity.x) < 1f) _animator.AnimationState(ActionState.Walk);
-            else _animator.AnimationState(ActionState.Run);
+            if (Mathf.Abs(rigidbody.velocity.x) < 0.1f) _animator?.AnimationState(ActionState.Idle);
+            else if (Mathf.Abs(rigidbody.velocity.x) < 1f) _animator?.AnimationState(ActionState.Walk);
+            else _animator?.AnimationState(ActionState.Run);
 
-            _animator.Update();
+            _animator?.Update();
         }
 
         public void InitiateAnimations(AnimationSequence[] animations)
         {
-            AnimationSequence[] temp = animations;
-            if (temp == null || temp.Length == 0) temp = new AnimationSequence[] { new AnimationSequence() { Sprites = new List<Sprite>() { renderer.sprite } } };
+            rigidbody = transform.GetComponentInChildren<Rigidbody>();
 
-            _animator = new AnimationController(
-                renderer,
-                temp);
+            //AnimationSequence[] temp = animations;
+            //if (temp == null || temp.Length == 0) temp = new AnimationSequence[] { new AnimationSequence() { Sprites = new List<Sprite>() { renderer.sprite } } };
+
+            //_animator = new AnimationController(
+            //    renderer,
+            //    temp);
         }
 
         protected override void OnCollision(IInteractionResponder interactor)
@@ -57,8 +62,6 @@ namespace WizardsPlatformer
                 OnInteraction?.Invoke(interactor);
             }
         }
-
-
         public Transform GetBarrelObject() { return _barrel ?? visualBody.Find("Weapon"); }
     }
 }
