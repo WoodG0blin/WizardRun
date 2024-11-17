@@ -6,9 +6,8 @@ namespace WizardsPlatformer
 {
     internal class LevelObjectView : MonoBehaviour, ILevelObjectView
     {
-        private SpriteRenderer _renderer;
-        private Rigidbody2D _rigidbody;
-        private Collider2D _collider;
+        private Rigidbody _rigidbody;
+        private Collider _collider;
         private Transform _visualBody;
 
         private IContactsPuller _contacts;
@@ -17,9 +16,9 @@ namespace WizardsPlatformer
 
         private int _xDirection = 1;
 
-
         protected bool initiated = false;
         protected LevelObjectConfig config;
+        private AnimationController _animator;
         protected float kickCoeff = 2f;
 
         public IInteractionResponder InteractionResponder { get; set; }
@@ -29,33 +28,37 @@ namespace WizardsPlatformer
 
         public Action<IInteractionResponder> OnInteraction { get; set; }
 
-        new public SpriteRenderer renderer
+
+        protected AnimationController animator
         {
             get
             {
-                if (!_renderer)
-                    if (!visualBody.TryGetComponent<SpriteRenderer>(out _renderer)) _renderer = visualBody.AddComponent<SpriteRenderer>();
-                return _renderer;
+                if (_animator == null)
+                {
+                    _animator = transform.GetComponentInChildren<AnimationController>();
+                    if (_animator == null) _animator = transform.AddComponent<AnimationController>();
+                    _animator.Init();
+                }
+                return _animator;
             }
-            private set => _renderer = value;
         }
 
-        new public Rigidbody2D rigidbody
+        new public Rigidbody rigidbody
         {
             get
             {
                 if (!_rigidbody)
-                    if (!TryGetComponent<Rigidbody2D>(out _rigidbody)) _rigidbody = transform.AddComponent<Rigidbody2D>();
+                    if (!TryGetComponent<Rigidbody>(out _rigidbody)) _rigidbody = transform.AddComponent<Rigidbody>();
                 return _rigidbody;
             }
             private set => _rigidbody = value;
         }
-        new public Collider2D collider
+        new public Collider collider
         {
             get
             {
                 if (!_collider)
-                    if (!TryGetComponent<Collider2D>(out _collider)) _collider = transform.AddComponent<CircleCollider2D>();
+                    if (!TryGetComponent<Collider>(out _collider)) _collider = transform.AddComponent<CapsuleCollider>();
                 return _collider;
             }
             private set => _collider = value;
@@ -66,19 +69,12 @@ namespace WizardsPlatformer
             get
             {
                 if (!_visualBody)
-                    _visualBody = transform.Find("VisualBody") ?? transform;
+                    //_visualBody = transform.Find("VisualBody") ?? transform;
+                    _visualBody =  transform;
                 return _visualBody;
             }
             private set => _visualBody = value;
         }
-
-
-        public void Init(LevelObjectConfig config)
-        {
-            this.config = config;
-            OnInit();
-        }
-        protected virtual void OnInit() { }
 
 
         private void Update()
@@ -115,25 +111,25 @@ namespace WizardsPlatformer
         }
 
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision.transform.TryGetComponent(out LevelObjectView interactor))
-            {
-                var target = interactor.InteractionResponder;
-                if (target != null) OnCollision(target);
-            }
-            OnAnyContact(collision.transform);
-        }
+        //private void OnCollisionEnter2D(Collision2D collision)
+        //{
+        //    if (collision.transform.TryGetComponent(out LevelObjectView interactor))
+        //    {
+        //        var target = interactor.InteractionResponder;
+        //        if (target != null) OnCollision(target);
+        //    }
+        //    OnAnyContact(collision.transform);
+        //}
 
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.transform.TryGetComponent(out LevelObjectView interactor))
-            {
-                var target = interactor.InteractionResponder;
-                if (target != null) OnCollision(target);
-            }
-            OnAnyContact(collision.transform);
-        }
+        //private void OnTriggerEnter2D(Collider2D collision)
+        //{
+        //    if (collision.transform.TryGetComponent(out LevelObjectView interactor))
+        //    {
+        //        var target = interactor.InteractionResponder;
+        //        if (target != null) OnCollision(target);
+        //    }
+        //    OnAnyContact(collision.transform);
+        //}
 
         private void OnCollisionEnter(Collision collision)
         {

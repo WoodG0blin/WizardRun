@@ -29,7 +29,7 @@ namespace WizardsPlatformer
         public void DrawGrounds(SquaresGrid grid, IReadOnlyList<LevelObject> levelObjects)
         {
             _screenOffset = new Vector2(_groundTilemap.transform.localPosition.x +0.5f, _groundTilemap.transform.localPosition.y+0.5f);
-            Vector3 screenOffset = new Vector3(_screenOffset.x, _screenOffset.y + 0.5f, 0);
+            Vector3 screenOffset = new Vector3(_screenOffset.x, _screenOffset.y + 0.5f, -0.5f);
 
             for (int i = 0; i < grid.GetLength(0); i++)
                 for (int j = 0; j < grid.GetLength(1); j++)

@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal interface IPlayerView: IAnimatedView, IJump
+    internal interface IPlayerView: IJump
     {
         void SetVelocity(float newVelocityX);
         Transform GetBarrelObject();
@@ -13,17 +15,13 @@ namespace WizardsPlatformer
     {
         [SerializeField] private Transform _barrel;
 
-        private new Rigidbody rigidbody;
-
-        private AnimationController _animator;
-        public ActionState animationState { get; set; }
 
         public void SetVelocity(float newVelocityX)
         {
             if(XDirection * newVelocityX < 0) SetDirection(newVelocityX);
 
             if (HasNoBarrier(XDirection))
-                rigidbody.velocity = new Vector2(newVelocityX, rigidbody.velocity.y);
+                rigidbody.velocity = new Vector3(newVelocityX, rigidbody.velocity.y, 0);
         }
         private bool HasNoBarrier(float direction) => (direction > 0 && !AccessContacts().HasContactRight) || (direction < 0 && !AccessContacts().HasContactLeft);
 
@@ -31,29 +29,22 @@ namespace WizardsPlatformer
         {
             //rigidbody.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
             rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            _animator?.AnimationState(ActionState.Jump, true);
+            animator.TriggerAnimation(ActionState.Jump);
+            //_animator?.AnimationState(ActionState.Jump, true);
         }
 
+        public void DisplayHit() => animator.TriggerAnimation(ActionState.Hurt);
+
+        public void DisplayDying() => animator.TriggerAnimation(ActionState.Die);
+
+        public void DisplayAttack(Action onAttackPositionReady) => animator.TriggerAnimation(ActionState.Attack, onAttackPositionReady);
+
+       
         protected override void OnUpdate()
         {
-            if (Mathf.Abs(rigidbody.velocity.x) < 0.1f) _animator?.AnimationState(ActionState.Idle);
-            else if (Mathf.Abs(rigidbody.velocity.x) < 1f) _animator?.AnimationState(ActionState.Walk);
-            else _animator?.AnimationState(ActionState.Run);
-
-            _animator?.Update();
+            animator.UpdateValues(rigidbody.velocity);
         }
 
-        public void InitiateAnimations(AnimationSequence[] animations)
-        {
-            rigidbody = transform.GetComponentInChildren<Rigidbody>();
-
-            //AnimationSequence[] temp = animations;
-            //if (temp == null || temp.Length == 0) temp = new AnimationSequence[] { new AnimationSequence() { Sprites = new List<Sprite>() { renderer.sprite } } };
-
-            //_animator = new AnimationController(
-            //    renderer,
-            //    temp);
-        }
 
         protected override void OnCollision(IInteractionResponder interactor)
         {
@@ -62,6 +53,6 @@ namespace WizardsPlatformer
                 OnInteraction?.Invoke(interactor);
             }
         }
-        public Transform GetBarrelObject() { return _barrel ?? visualBody.Find("Weapon"); }
+        public Transform GetBarrelObject() { return _barrel ?? visualBody.Find("Barrel"); }
     }
 }

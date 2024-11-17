@@ -50,7 +50,7 @@ namespace WizardsPlatformer
         {
             _owner = owner;
             _verticalRaycastDistance = _owner.localScale.y + 0.03f;
-            _horizontalRaycastDistance = _owner.localScale.x + 0.03f;
+            _horizontalRaycastDistance = _owner.localScale.x / 2 + 0.03f;
 
             _layerMask = LayerMask.GetMask("Background");
         }

@@ -9,13 +9,11 @@ namespace WizardsPlatformer
 {
     internal enum DemonStates { Idle, Patrolling, Pursuing, Attacking }
 
-    internal class DemonView : LevelObjectView, IAnimatedView
+    internal class DemonView : LevelObjectView
     {
         [field: SerializeField] public Transform Barrel { get; private set; }
 
         private new Rigidbody rigidbody;
-        private AnimationController _animator;
-        public ActionState animationState { get; set; }
 
         private DemonState _currentState;
         private LayerMask _layerMask;
@@ -44,9 +42,6 @@ namespace WizardsPlatformer
                 DemonStates.Attacking => new DemonAttacking(this),
                 _ => new DemonIdle(this),
             };
-
-            if (state == DemonStates.Idle) _animator?.AnimationState(ActionState.Idle, true);
-            else _animator?.AnimationState(ActionState.Walk);
         }
 
 
@@ -70,22 +65,13 @@ namespace WizardsPlatformer
             SetNewState(DemonStates.Idle);
         }
 
-        public void InitiateAnimations(AnimationSequence[] animations)
-        {
-            //AnimationSequence[] temp = animations;
-            //if (temp == null || temp.Length == 0) temp = new AnimationSequence[] { new AnimationSequence() { Sprites = new List<Sprite>() { renderer.sprite } } };
-
-            //_animator = new AnimationController(
-            //    renderer,
-            //    temp);
-        }
 
         protected override void OnUpdate()
         {
             PositionVector = Position;
             _currentState.Act();
 
-            _animator?.Update();
+            animator.UpdateValues(rigidbody.velocity);
         }
 
         public bool PathClear { get => CheckNoGap(XDirection) && HasNoSideBarriers(XDirection); }
@@ -93,17 +79,8 @@ namespace WizardsPlatformer
         private bool HasNoSideBarriers(float XDirection) =>
             (XDirection < 0 && !AccessContacts().HasContactLeft) || (XDirection > 0 && !AccessContacts().HasContactRight);
 
-        public bool CheckNoGap(float XDirection)
-        {
-            //RaycastHit2D hit = Physics2D.Raycast(
-            //            new Vector2(PositionVector.x, PositionVector.y),
-            //            new Vector2(XDirection, -1),
-            //            1.5f, _layerMask);
-
-            //return hit.collider != null;
-
-            return Physics.Raycast(PositionVector, new(XDirection, -0.5f, 0), 2f, _layerMask);
-        }
+        public bool CheckNoGap(float XDirection) =>
+            Physics.Raycast(PositionVector, new(XDirection, -0.5f, 0), 1.2f, _layerMask);
 
         public bool IsInPatrolDistance { get => Mathf.Abs((PositionVector - PatrolPoint).x) < PatrolDistance; }
 
@@ -125,7 +102,6 @@ namespace WizardsPlatformer
             }
         }
 
-        //public void Move() => rigidbody.velocity = new Vector2(base.XDirection, 0) * _speed;
         public void Move() => rigidbody.velocity = new Vector3(base.XDirection, 0, 0) * _speed;
 
         public void FlipDirection() => SetDirection(-base.XDirection);
@@ -138,8 +114,8 @@ namespace WizardsPlatformer
         {
             if (IsAttackReady)
             {
-                OnAttackReady(direction);
-                _animator?.AnimationState(ActionState.Attack, true);
+                //OnAttackReady(direction);
+                animator.TriggerAnimation(ActionState.Attack, () => OnAttackReady(direction));
             }
         }
     }

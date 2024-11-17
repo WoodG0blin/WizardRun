@@ -1,92 +1,50 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class AnimationController
+    internal class AnimationController : MonoBehaviour
     {
-        private List<AnimationSequence> _animations = new List<AnimationSequence>();
-        private SpriteRenderer _renderer;
-        private ActionState _currentState;
-        private AnimationSequence _currentAnimation;
-        private Sprite _baseSprite;
-        private ActionState? _nextAnimation;
-        public AnimationController(SpriteRenderer renderer, AnimationSequence[] animations)
-        {
-            _renderer = renderer;
-            _animations.AddRange(animations);
+        private Animator _animator;
+        private bool _isAnimated;
 
-            if (_animations != null && _animations.Count > 0)
-            {
-                _currentAnimation = _animations[0];
-                _currentState = _currentAnimation.State;
-            }
-            _baseSprite = _renderer.sprite;
+       
+        internal void Init()
+        {
+            _animator = transform.GetComponent<Animator>();
+            _isAnimated = _animator != null;
         }
 
-        public ActionState CurrentState
+        private Action _onAttackPositionReady;
+
+        internal void UpdateValues(Vector3 velocity)
         {
-            get => _currentState;
-            set
+            if (_isAnimated)
             {
-                if(value != _currentState) AnimationState(value);
+                _animator.SetBool("IsMoving", Mathf.Abs(velocity.x) > 0.1f);
+                _animator.SetBool("IsJumping", Mathf.Abs(velocity.y) > 0.1f);
             }
         }
 
-        public void Update()
+        internal void TriggerAnimation(ActionState newState, Action onTrigger = null)
         {
-            if (_currentAnimation != null)
-            {
-                _currentAnimation.Update();
-                if (_currentAnimation.Sleep && _nextAnimation != null)
+            if (_isAnimated)
+                switch(newState)
                 {
-                    AnimationState(_nextAnimation.Value);
-                    _nextAnimation = null;
+                    case ActionState.Attack:
+                        {
+                            _onAttackPositionReady = onTrigger;
+                            _animator.SetTrigger("Attack");
+                            break;
+                        }
+                    case ActionState.Jump: _animator.SetTrigger("Jump"); break;
+                    case ActionState.Hurt: _animator.SetTrigger("Hit"); break;
+                    case ActionState.Die: _animator.SetBool("IsDead", true); break;
                 }
-                _renderer.sprite = _currentAnimation.GetCurrentSprite();
-            }
         }
 
-        public void AnimationState(ActionState newState, bool forcedChange = false)
-        {
-            if (newState == _currentState)
-            {
-                if(forcedChange) _currentAnimation.Restart();
-            }
-            else
-            {
-                if (forcedChange) _currentAnimation?.ImmediateStop();
-
-                if (_currentAnimation == null || _currentAnimation.Sleep)
-                {
-                    _currentState = newState;
-                    var a = _animations.Find(match => match.State == _currentState);
-                    if (a != null)
-                    {
-                        _currentAnimation = a;
-                        a.Restart();
-                    }
-                    else
-                    {
-                        //Debug.Log($"Looking for new state {_currentState}. Animation found: {a != null}. {a?.State}");
-                        Stop();
-                    }
-                }
-                else
-                {
-                    if (_nextAnimation == null || _nextAnimation != newState)
-                    {
-                        _nextAnimation = newState;
-                        _currentAnimation.SlowStop();
-                    }
-                }
-            }
-        }
-
-        public void Stop()
-        {
-            _currentAnimation = null;
-            _renderer.sprite = _baseSprite;
-        }
+        // external method for animator controller (attack animation event)
+        public void SetAttackPositionReady() => _onAttackPositionReady?.Invoke();
     }
 }

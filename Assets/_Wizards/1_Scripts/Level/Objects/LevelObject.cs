@@ -28,8 +28,6 @@ namespace WizardsPlatformer
             if(!gameObject.TryGetComponent<LevelObjectView>(out view))
                 view = SetView(gameObject);
 
-            if (view != null && view is IAnimatedView animView) animView.InitiateAnimations(config.Animations);
-
             OnInitiateView();
 
             return view;

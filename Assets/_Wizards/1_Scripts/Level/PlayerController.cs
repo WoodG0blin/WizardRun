@@ -57,12 +57,13 @@ namespace WizardsPlatformer
         public void OnFire()
         {
             Direction = new(_playerView.XDirection, 0, 0);
-            _executors.ExecuteFor(ArtifactExecutorType.Attack, this);
+            _playerView.DisplayAttack(() => _executors.ExecuteFor(ArtifactExecutorType.Attack, this));
         }
 
 
         protected override void Die()
         {
+            _playerView.DisplayDying();
             view.SetActive(false);
             stats.OnDeath = null;
             OnPlayerDeath?.Invoke();
@@ -77,6 +78,8 @@ namespace WizardsPlatformer
             _playerView = view as PlayerView;
             Barrel = _playerView.GetBarrelObject();
             JumpExecutioner = _playerView;
+
+            OnReceiveDamage += (d) => _playerView.DisplayHit();
 
             base.OnInitiateView();
         }
