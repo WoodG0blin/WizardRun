@@ -18,7 +18,7 @@ namespace WizardsPlatformer
 
         public void SetVelocity(float newVelocityX)
         {
-            if(XDirection * newVelocityX < 0) SetXDirection(newVelocityX);
+            if(XDirection * newVelocityX < 0) SetDirection(newVelocityX);
 
             if (HasNoBarrier(XDirection))
                 rigidbody.velocity = new Vector3(newVelocityX, rigidbody.velocity.y, 0);
