@@ -104,7 +104,7 @@ namespace WizardsPlatformer
 
         public void Move() => rigidbody.velocity = new Vector3(base.XDirection, 0, 0) * _speed;
 
-        public void FlipDirection() => SetDirection(-base.XDirection);
+        public void FlipDirection() => SetXDirection(-base.XDirection);
 
         public void StopMoving() => rigidbody.velocity = new Vector2(0, rigidbody.velocity.y);
 
