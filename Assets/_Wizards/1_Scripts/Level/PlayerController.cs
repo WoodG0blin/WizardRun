@@ -9,13 +9,11 @@ namespace WizardsPlatformer
         private PlayerModel _playerModel;
 
         private float _moveThreshold = 0.02f;
-        private float _input = 0f;
-        private bool _doWalk = false;
 
         private IArtifactExecutorsContainer _executors;
 
         public CharacterStats Stats { get => stats; }
-        public Action<Vector3> OnPlayerPositionChange;
+        public Action<Vector3> OnPlayerPositionChange { get; set; }
         public Action OnPlayerDeath;
 
         public PlayerController(PlayerModel playerModel, Vector2Int startPosition) : base(playerModel.Config, startPosition)
@@ -34,22 +32,17 @@ namespace WizardsPlatformer
             _executors = _playerModel.Executors;
         }
             
-        private void Move()
+        public void OnHorizontalMove(float newValue)
         {
-            _doWalk = Mathf.Abs(_input) > _moveThreshold;
-            if (_doWalk) _playerView.SetVelocity(_input * stats.Speed);
+            if (Mathf.Abs(newValue) > _moveThreshold)
+                _playerView.Mover?.Move(newValue * stats.Speed);
 
             OnPlayerPositionChange?.Invoke(_playerView.Position);
         }
-
-        public void OnHorizontalMove(float newValue)
-        {
-            _input = newValue;
-            Move();
-        }
         public void OnJump()
         {
-            if ((_playerView as IJump).AccessContacts().HasContactDown) _playerView.Jump(stats.JumpForce);
+            if (_playerView.AccessContacts().HasContactDown)
+                _playerView.Jumper?.Jump(stats.JumpForce);
 
             _executors.ExecuteFor(ArtifactExecutorType.Jump, this);
         }
@@ -57,7 +50,8 @@ namespace WizardsPlatformer
         public void OnFire()
         {
             Direction = new(_playerView.XDirection, 0, 0);
-            _playerView.DisplayAttack(() => _executors.ExecuteFor(ArtifactExecutorType.Attack, this));
+            _playerView.DisplayAttack(
+                () => _executors.ExecuteFor(ArtifactExecutorType.Attack, this));
         }
 
 
@@ -77,7 +71,6 @@ namespace WizardsPlatformer
         {
             _playerView = view as PlayerView;
             Barrel = _playerView.GetBarrelObject();
-            JumpExecutioner = _playerView;
 
             OnReceiveDamage += (d) => _playerView.DisplayHit();
 

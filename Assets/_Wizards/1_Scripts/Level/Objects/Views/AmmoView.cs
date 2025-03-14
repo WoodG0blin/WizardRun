@@ -70,11 +70,11 @@ namespace WizardsPlatformer
             //if (_currentTimer != null) StopCoroutine(_currentTimer);
             //_currentTimer = null;
 
-            SetPosition(_barrel.position);
+            transform.position = _barrel.position;
             rigidbody.useGravity = false;
             rigidbody.velocity = Vector3.zero;
             //rigidbody.angularVelocity = 0;
-            SetRotation(Quaternion.identity);
+            transform.rotation = Quaternion.identity;
 
             //transform.SetParent(_barrel);
             

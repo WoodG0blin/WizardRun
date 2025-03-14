@@ -113,6 +113,6 @@ namespace WizardsPlatformer
         public virtual void SetNewPlayerPosition(Vector3 playerPosition) { }
 
         public List<IArtifact> EquippedArtifacts { get; protected set; } = new();
-        public IJump JumpExecutioner { get; protected set; } = null;
+        public IJump JumpExecutioner => view.Jumper;
     }
 }

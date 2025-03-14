@@ -42,6 +42,7 @@ namespace WizardsPlatformer
                     case ActionState.Hurt: _animator.SetTrigger("Hit"); break;
                     case ActionState.Die: _animator.SetBool("IsDead", true); break;
                 }
+            else onTrigger?.Invoke();
         }
 
         // external method for animator controller (attack animation event)
