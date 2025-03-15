@@ -177,7 +177,7 @@ namespace WizardsPlatformer
         public IInteractionResponder InteractionResponder { get; set; }
 
         public Vector3 Position { get => transform.position; }
-        public float XDirection { get => Mathf.Sign(transform.localScale.x); }
+        public float XDirection { get => Mathf.Sign(transform.forward.z); }
 
         public Action<IInteractionResponder> OnInteraction { get; set; }
 
@@ -199,8 +199,8 @@ namespace WizardsPlatformer
         {
             get
             {
-                if (!_rigidbody)
-                    if (!TryGetComponent<Rigidbody>(out _rigidbody)) _rigidbody = transform.AddComponent<Rigidbody>();
+                //if (!_rigidbody)
+                //    if (!TryGetComponent<Rigidbody>(out _rigidbody)) _rigidbody = transform.AddComponent<Rigidbody>();
                 return _rigidbody;
             }
             private set => _rigidbody = value;
@@ -238,6 +238,7 @@ namespace WizardsPlatformer
         {
             if (initiated)
             {
+                Mover?.Update(Time.deltaTime);
                 OnUpdate();
                 _onUpdateAction?.Invoke();
             }
@@ -277,49 +278,116 @@ namespace WizardsPlatformer
         protected virtual void OnAnyContact(Transform collided) { }
     }
 
-    internal class ViewMover
+    internal class ViewMover : IJump
     {
-        protected Rigidbody rigidbody;
+        protected CharacterController characterController;
+
+        protected const float GRAVITY = 9.81f;
+        protected const float FLUCTUATION_TIME = 0.2f;
+        protected const float STOP_TIME = 0.2f;
+        protected const float MOVE_THRESHOLD = 0.05f;
+
+        protected float groundedTimer;
+        protected float jumpTimer;
+        protected float verticalVelocity;
+        protected float horizontalInput;
+        protected float jumpImpulseInput;
+
+        //protected Rigidbody rigidbody;
         private Transform _transform;
-        private Vector3 _initialScale;
+        //private Vector3 _initialScale;
 
-        protected IContactsPuller contacts;
+        //protected IContactsPuller contacts;
 
-        internal ViewMover(Transform levelObject, IContactsPuller contacts)
+        public bool IsGrounded => groundedTimer > 0;
+        public Vector2 Velocity => new(horizontalInput, verticalVelocity);
+
+        internal ViewMover(Transform levelObject)
         {
             _transform = levelObject;
-            rigidbody = _transform.GetComponent<Rigidbody>();
-            _initialScale = _transform.localScale;
 
-            this.contacts = contacts;
+            if(!_transform.TryGetComponent<CharacterController>(out characterController)) characterController = _transform.AddComponent<CharacterController>();
+
+            //rigidbody = _transform.GetComponent<Rigidbody>();
+            //_initialScale = _transform.localScale;
+
+            //this.contacts = contacts;
         }
 
-        internal void Move(float direction)
+        public void Update(float deltaTime)
         {
-            SetXDirection(direction);
-            if (HasNoBarrier(direction))
-                rigidbody.velocity = new(direction, rigidbody.velocity.y, 0);
+            if(groundedTimer > 0) groundedTimer -= deltaTime; //allowance for grounded fluctuations of less than FLUCTUATION TIME
+            if(jumpTimer > 0) jumpTimer -= deltaTime;
+
+            if (characterController.isGrounded)
+            {
+                groundedTimer = FLUCTUATION_TIME;
+                if (verticalVelocity < 0) verticalVelocity = 0;
+            }
+
+            verticalVelocity -= GRAVITY * deltaTime;
+
+            if(Mathf.Abs(horizontalInput) > characterController.minMoveDistance) _transform.forward = (Vector3.forward * horizontalInput).normalized;
+
+            if(jumpTimer > 0)
+            {
+                verticalVelocity += Mathf.Sqrt(jumpImpulseInput * 2 * GRAVITY);
+
+                groundedTimer = 0;
+                jumpTimer = 0;
+                jumpImpulseInput = 0;
+            }
+
+            characterController.Move(new Vector3(horizontalInput, verticalVelocity, 0) * deltaTime);
+
+            AdjustToStop(deltaTime / STOP_TIME);
         }
 
-        public void SetXDirection(float xDirection)
+        private void AdjustToStop(float deltaCoeff)
         {
-            int _xDirection = xDirection > 0 ? 1 : -1;
-            rigidbody.transform.localScale = new Vector3(_xDirection * Mathf.Abs(_initialScale.x), _initialScale.y, _initialScale.z);
+            float absSpeed = Mathf.Abs(horizontalInput);
+            absSpeed -= absSpeed * deltaCoeff;
+            horizontalInput = Mathf.Sign(horizontalInput) * Mathf.Clamp(absSpeed, 0, absSpeed);
         }
 
-        private bool HasNoBarrier(float direction) =>
-            (direction > 0 && !contacts.HasContactRight) || (direction < 0 && !contacts.HasContactLeft);
-    }
-
-    internal class ViewJumper : ViewMover, IJump
-    {
-        internal ViewJumper(Transform levelObject, IContactsPuller contacts) : base(levelObject, contacts)
+        public void SetMoveTo(float xDirection, float speed = 1)
         {
+            //if(groundedTimer > 0)
+                horizontalInput = Mathf.Clamp(xDirection, -1, 1) * speed;
         }
 
         public void Jump(float force)
         {
-            rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
+            jumpImpulseInput = force;
+            jumpTimer = FLUCTUATION_TIME;
         }
+
+        //internal void Move(float direction)
+        //{
+        //    SetXDirection(direction);
+        //    if (HasNoBarrier(direction))
+        //        rigidbody.velocity = new(direction, rigidbody.velocity.y, 0);
+        //}
+
+        //public void SetXDirection(float xDirection)
+        //{
+        //    int _xDirection = xDirection > 0 ? 1 : -1;
+        //    rigidbody.transform.localScale = new Vector3(_xDirection * Mathf.Abs(_initialScale.x), _initialScale.y, _initialScale.z);
+        //}
+
+        //private bool HasNoBarrier(float direction) =>
+        //    (direction > 0 && !contacts.HasContactRight) || (direction < 0 && !contacts.HasContactLeft);
     }
+
+    //internal class ViewJumper : ViewMover, IJump
+    //{
+    //    internal ViewJumper(Transform levelObject, IContactsPuller contacts) : base(levelObject, contacts)
+    //    {
+    //    }
+
+    //    public void Jump(float force)
+    //    {
+    //        rigidbody.AddForce(Vector3.up * force, ForceMode.VelocityChange);
+    //    }
+    //}
 }

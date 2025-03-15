@@ -35,13 +35,13 @@ namespace WizardsPlatformer
         public void OnHorizontalMove(float newValue)
         {
             if (Mathf.Abs(newValue) > _moveThreshold)
-                _playerView.Mover?.Move(newValue * stats.Speed);
+                _playerView.Mover?.SetMoveTo(newValue, stats.Speed);
 
             OnPlayerPositionChange?.Invoke(_playerView.Position);
         }
         public void OnJump()
         {
-            if (_playerView.AccessContacts().HasContactDown)
+            if (_playerView.Mover.IsGrounded)
                 _playerView.Jumper?.Jump(stats.JumpForce);
 
             _executors.ExecuteFor(ArtifactExecutorType.Jump, this);

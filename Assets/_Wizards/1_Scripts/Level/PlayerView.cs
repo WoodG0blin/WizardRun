@@ -17,13 +17,13 @@ namespace WizardsPlatformer
 
         protected override void OnInitiation()
         {
-            Mover = new ViewJumper(visualBody, AccessContacts());
+            Mover = new ViewMover(visualBody);
             Jumper = Mover as IJump;
         }
 
         protected override void OnUpdate()
         {
-            animator.UpdateValues(rigidbody.velocity);
+            animator.UpdateValues(Mover.Velocity);
         }
 
 

@@ -35,7 +35,7 @@ namespace WizardsPlatformer
         {
             _config = config;
 
-            Stats = new(_config.MaxHealth, _config.Speed);
+            Stats = new(_config.MaxHealth, _config.Speed, _config.JumpForce);
             TrySetArtifactAt(ArtifactSlotType.Weapon, new Artifact(_config.WeaponConfig));
         }
 

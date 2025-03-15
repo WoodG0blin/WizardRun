@@ -26,12 +26,12 @@ namespace WizardsPlatformer
 
         protected override void OnInitiation()
         {
-            Mover = new ViewMover(visualBody, AccessContacts());
+            Mover = new ViewMover(visualBody);
         }
 
         protected override void OnUpdate()
         {
-            animator.UpdateValues(rigidbody.velocity);
+            //animator.UpdateValues(rigidbody.velocity);
             PatrolPointValue = PatrolPoint;
             PositionValue = Position;
         }

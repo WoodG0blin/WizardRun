@@ -93,7 +93,7 @@ namespace WizardsPlatformer
             targetDirection * view.XDirection >= 0 && Mathf.Abs(targetDirection) < _closingDistance;
 
         void IDemonStateContext.Move(float direction) =>
-            view.Mover?.Move(direction * stats.Speed);
+            view.Mover?.SetMoveTo(direction, stats.Speed);
 
         void IDemonStateContext.Fire()
         {
@@ -113,7 +113,7 @@ namespace WizardsPlatformer
         }
 
         void IDemonStateContext.FlipDirection() =>
-            view.Mover.Move(-view.XDirection * 0.01f);
+            view.Mover.SetMoveTo(-view.XDirection * 0.01f);
     }
 
 
