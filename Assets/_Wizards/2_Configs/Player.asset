@@ -17,8 +17,7 @@ MonoBehaviour:
   <Animations>k__BackingField: []
   <MaxHealth>k__BackingField: 300
   <Speed>k__BackingField: 5
-  <JumpForce>k__BackingField: 5
+  <JumpForce>k__BackingField: 2
   _weaponConfig: {fileID: 11400000, guid: 9baa8f4edfa6dae479fef209e70bda74, type: 2}
-  _weaponConfigLegacy: {fileID: 0}
   <DifficultyLevel>k__BackingField: 0
   <BonusesOnKill>k__BackingField: 0

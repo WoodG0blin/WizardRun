@@ -67,13 +67,16 @@ namespace WizardsPlatformer
         }
         private void AddDropCollider3D(float xSize, float ySize)
         {
-            var dropCollider = gameObject.AddComponent<BoxCollider>();
-            dropCollider.center = new Vector3(_groundTilemap.transform.position.x + xSize / 2, _groundTilemap.transform.position.y - 4, 0);
-            dropCollider.size = new Vector3(xSize + 8, 0.1f, 1);
+            var dropCollider = gameObject.AddComponent<CapsuleCollider>();
+            dropCollider.center = new Vector3(_groundTilemap.transform.position.x + xSize / 2, _groundTilemap.transform.position.y - 4, -0.5f);
+            dropCollider.direction = 0;
+            dropCollider.height = xSize + 8;
+            dropCollider.radius = 0.1f;
+            dropCollider.isTrigger = true;
         }
 
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider collision)
         {
             if(collision.transform.TryGetComponent<LevelObjectView>(out var view))
             {

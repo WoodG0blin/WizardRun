@@ -281,6 +281,7 @@ namespace WizardsPlatformer
     internal class ViewMover : IJump
     {
         protected CharacterController characterController;
+        protected Collider collider;
 
         protected const float GRAVITY = 9.81f;
         protected const float FLUCTUATION_TIME = 0.2f;
@@ -293,7 +294,7 @@ namespace WizardsPlatformer
         protected float horizontalInput;
         protected float jumpImpulseInput;
 
-        //protected Rigidbody rigidbody;
+        protected Rigidbody rigidbody;
         private Transform _transform;
         //private Vector3 _initialScale;
 
@@ -308,7 +309,9 @@ namespace WizardsPlatformer
 
             if(!_transform.TryGetComponent<CharacterController>(out characterController)) characterController = _transform.AddComponent<CharacterController>();
 
-            //rigidbody = _transform.GetComponent<Rigidbody>();
+            //if (!_transform.TryGetComponent<Rigidbody>(out rigidbody)) rigidbody = _transform.AddComponent<Rigidbody>();
+            //rigidbody.isKinematic = true;
+            //rigidbody.useGravity = false;
             //_initialScale = _transform.localScale;
 
             //this.contacts = contacts;
@@ -327,7 +330,7 @@ namespace WizardsPlatformer
 
             verticalVelocity -= GRAVITY * deltaTime;
 
-            if(Mathf.Abs(horizontalInput) > characterController.minMoveDistance) _transform.forward = (Vector3.forward * horizontalInput).normalized;
+            if(Mathf.Abs(horizontalInput) > MOVE_THRESHOLD) _transform.forward = (Vector3.forward * horizontalInput).normalized;
 
             if(jumpTimer > 0)
             {
@@ -339,6 +342,9 @@ namespace WizardsPlatformer
             }
 
             characterController.Move(new Vector3(horizontalInput, verticalVelocity, 0) * deltaTime);
+            //rigidbody.MovePosition(_transform.position + new Vector3(horizontalInput, verticalVelocity, 0) * deltaTime);
+            //rigidbody.velocity = new Vector3(horizontalInput, verticalVelocity, 0) * deltaTime;
+            //_transform.position += new Vector3(horizontalInput, verticalVelocity, 0) * deltaTime;
 
             AdjustToStop(deltaTime / STOP_TIME);
         }
