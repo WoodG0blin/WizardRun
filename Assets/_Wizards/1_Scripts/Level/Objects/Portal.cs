@@ -11,11 +11,17 @@ namespace WizardsPlatformer
 
         public Action onPortalEnter { get; set; }
 
-        protected override void ActionsOnInteraction(IInteractionResponder interactor) =>
-            onPortalEnter?.Invoke();
+        protected override void ActionsOnInteraction(IInteractionResponder interactor)
+        {
+            if (interactor.IsPlayer)
+            {
+                view.SetActive(false);
+                onPortalEnter?.Invoke();
+            }
+        }
 
         protected override LevelObjectView SetView(GameObject gameObject) =>
-            gameObject.AddComponent<PortalView>();
+            gameObject.AddComponent<LevelObjectView>();
 
         protected override void OnInitiateView()
         {

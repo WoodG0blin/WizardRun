@@ -16,8 +16,6 @@ namespace WizardsPlatformer
             _maxY = Mathf.Max(position.y, position.y + deltaHeight);
             _goingUp = Mathf.Approximately(position.y, _minY);
 
-            //rigidbody.isKinematic = false;
-
             initiated = true;
         }
 
@@ -25,10 +23,10 @@ namespace WizardsPlatformer
         {
             float positionY = transform.position.y;
 
-            //rigidbody?.velocity = new Vector3(0, (_goingUp ? 1 : -1), 0);
-
             if (_goingUp && positionY > _maxY) _goingUp = false;
             if (!_goingUp && positionY < _minY) _goingUp = true;
+
+            transform.position += new Vector3(0, (_goingUp ? 1 : -1), 0) * Time.deltaTime;
         }
     }
 }

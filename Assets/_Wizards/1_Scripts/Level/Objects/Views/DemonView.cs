@@ -12,6 +12,11 @@ namespace WizardsPlatformer
         [SerializeField] Vector3 PatrolPointValue;
         [SerializeField] Vector3 PositionValue;
 
+        [SerializeField] bool HasContactLeft;
+        [SerializeField] bool HasContactRight;
+        [SerializeField] bool NoGap;
+        [SerializeField] float xDir;
+
 
         private LayerMask _layerMask;
 
@@ -34,6 +39,12 @@ namespace WizardsPlatformer
             //animator.UpdateValues(rigidbody.velocity);
             PatrolPointValue = PatrolPoint;
             PositionValue = Position;
+
+            HasContactLeft = AccessContacts().HasContactLeft;
+            HasContactRight = AccessContacts().HasContactRight;
+            NoGap = CheckNoGap(XDirection);
+
+            xDir = XDirection;
         }
 
 

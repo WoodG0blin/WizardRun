@@ -19,13 +19,5 @@ namespace WizardsPlatformer
         {
             OnFireReady?.Invoke(Vector3.up);
         }
-
-        protected override void OnCollision(IInteractionResponder interactor)
-        {
-            if (interactor.IsPlayer)
-            {
-                OnInteraction?.Invoke(interactor);
-            }
-        }
     }
 }

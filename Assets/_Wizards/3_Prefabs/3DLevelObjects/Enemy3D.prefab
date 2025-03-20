@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8630251561809981283}
   - component: {fileID: 4279872639073719857}
   - component: {fileID: 8534062827983291893}
+  - component: {fileID: 8758727949657713950}
   - component: {fileID: 4868810419008735148}
   m_Layer: 0
   m_Name: Enemy3D
@@ -96,11 +97,29 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1510662696951145146}
   m_Material: {fileID: 13400000, guid: fdc8f7f9a21e6ee48b3a65f4481c7d76, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 2
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.65
+  m_Height: 2.22
   m_Direction: 1
+  m_Center: {x: 0, y: 0.1, z: 0}
+--- !u!143 &8758727949657713950
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510662696951145146}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1.9999999
+  m_Radius: 0.49999997
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.0001
+  m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4868810419008735148
 MonoBehaviour:

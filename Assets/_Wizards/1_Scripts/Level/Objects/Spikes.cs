@@ -12,12 +12,17 @@ namespace WizardsPlatformer
         public Spikes(LevelObjectConfig config, Vector2Int gridPosition) : base(config, gridPosition) { }
 
         protected override LevelObjectView SetView(GameObject gameObject) =>
-            gameObject.AddComponent<SpikesView>();
+            gameObject.AddComponent<LevelObjectView>();
 
         protected override void ActionsOnInteraction(IInteractionResponder interactor)
         {
-            Debug.Log($"interaction with spikes. Interactor player? {interactor.IsPlayer}");
-            if (interactor.IsPlayer) interactor.ReceiveDamage(_damage);
+            if (interactor.IsPlayer)
+            {
+                Debug.Log("player interaction with spikes");
+                interactor.ReceiveDamage(_damage);
+                interactor.KickOff(0.5f);
+                view.SetActive(false);
+            }
         }
     }
 }

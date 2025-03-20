@@ -44,7 +44,6 @@ namespace WizardsPlatformer
 
         public override void SetNewPlayerPosition(Vector3 playerPosition) => _targetPosition = playerPosition;
 
-
         void IDemonStateContext.SetNewState(DemonStates state)
         {
             _currentState = (view == null ? DemonStates.None : state) switch

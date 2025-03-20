@@ -31,12 +31,5 @@ namespace WizardsPlatformer
         {
             Aim?.UpdateAim(newPlayerPosition);
         }
-        protected override void OnCollision(IInteractionResponder interactor)
-        {
-            if (interactor.IsPlayer)
-            {
-                OnInteraction?.Invoke(interactor);
-            }
-        }
     }
 }

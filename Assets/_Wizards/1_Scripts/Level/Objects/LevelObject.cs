@@ -100,8 +100,14 @@ namespace WizardsPlatformer
 
         protected override void ActionsOnInteraction(IInteractionResponder interactor)
         {
-            interactor.ReceiveDamage(config.WeaponConfig.Damage);
+            if (interactor.IsPlayer)
+            {
+                interactor.ReceiveDamage(config.WeaponConfig.Damage);
+                interactor.KickOff(0.5f);
+            }
         }
+
+        public void KickOff(float force) => view.Mover.GetKickOff(force);
 
         protected virtual void Die()
         {

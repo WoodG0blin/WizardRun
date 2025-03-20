@@ -26,14 +26,6 @@ namespace WizardsPlatformer
             animator.UpdateValues(Mover.Velocity);
         }
 
-
-        protected override void OnCollision(IInteractionResponder interactor)
-        {
-            if (!interactor.IsPlayer)
-            {
-                OnInteraction?.Invoke(interactor);
-            }
-        }
         public Transform GetBarrelObject() { return _barrel ?? visualBody.Find("Barrel"); }
     }
 }
