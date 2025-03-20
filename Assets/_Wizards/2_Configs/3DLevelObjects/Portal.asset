@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Portal
   m_EditorClassIdentifier: 
   _name: Portal
-  <Prefab>k__BackingField: {fileID: 6176215044522108244, guid: 2fc0018269f0bf947b9ae15a5b032b44, type: 3}
+  <Prefab>k__BackingField: {fileID: 6176215044522108244, guid: 05cef35f8f215f5419a63bb6492cac02, type: 3}
   <Animations>k__BackingField: []
   <MaxHealth>k__BackingField: 0
   <Speed>k__BackingField: 0

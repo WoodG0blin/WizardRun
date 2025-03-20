@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Lift
   m_EditorClassIdentifier: 
   _name: Lift
-  <Prefab>k__BackingField: {fileID: 8043961177668047658, guid: efcf9696294322842888662922a50433, type: 3}
+  <Prefab>k__BackingField: {fileID: 8043961177668047658, guid: 5ea71ed80282d81438c52acc162795fc, type: 3}
   <Animations>k__BackingField: []
   <MaxHealth>k__BackingField: 0
   <Speed>k__BackingField: 0
