@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class CharacterStats
+    public class CharacterStats
     {
         private int _maxHealth;
         private int _defence;
@@ -48,7 +48,7 @@ namespace WizardsPlatformer
             _modifiers = new();
         }
         
-        public void SetStatsDisplay(IStatsHeadDisplay display)
+        internal void SetStatsDisplay(IStatsHeadDisplay display)
         {
             _statsHeadDisplay = display;
             _statsHeadDisplay.Activate();

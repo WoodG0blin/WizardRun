@@ -20,5 +20,6 @@ namespace WizardsPlatformer
         float FireForce { get; }
         bool TryGetAmmoTo(Transform barrel, out AmmoView ammo);
         void Activate();
+        void ResetCooldown();
     }
 }

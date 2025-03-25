@@ -76,6 +76,7 @@ namespace WizardsPlatformer
             stats.OnDeath += Die;
         }
 
+        public CharacterStats Stats => stats;
         public bool IsPlayer => isPlayer;
         public Action<int> OnReceiveDamage { get; set; }
         public Action<BonusType, int> OnBonusCollect { get; set; }

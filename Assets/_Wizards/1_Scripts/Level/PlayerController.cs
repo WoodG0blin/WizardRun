@@ -12,7 +12,7 @@ namespace WizardsPlatformer
 
         private IArtifactExecutorsContainer _executors;
 
-        public CharacterStats Stats { get => stats; }
+        //public CharacterStats Stats { get => stats; }
         public Action<Vector3> OnPlayerPositionChange { get; set; }
         public Action OnPlayerDeath;
 
