@@ -8,7 +8,7 @@ namespace WizardsPlatformer
     internal interface ICameraView
     {
         void SetNewTargetPosition(float targetX, float targetY);
-        public void InitBackGrounds(Sprite[] backGroundSprites);
+        public void InitBackGrounds(Sprite[] backGroundSprites, float speed);
     }
 
     internal class CameraView : MonoBehaviour, ICameraView
@@ -20,18 +20,19 @@ namespace WizardsPlatformer
         private Vector3 _cameraPosition;
 
         private BackGroundMover _backGround;
-        [SerializeField] private Transform[] _backGrounds;
+
+        [SerializeField] private Transform _backGroundsContainer;
+        [SerializeField] private Sprite[] _backGroundSprites;
+        [SerializeField, Range(0,1)] private float _backGroundSpeedCoefficient = 1f;
 
         private void Awake()
         {
             _cameraPosition= transform.position;
-            _backGround = new BackGroundMover(_backGrounds);
         }
 
-        public void InitBackGrounds(Sprite[] backGroundSprites)
+        public void InitBackGrounds(Sprite[] backGroundSprites, float speed)
         {
-            for(int i = 0; i < Mathf.Min(_backGrounds.Length, backGroundSprites.Length); i++)
-                _backGrounds[i].GetComponent<SpriteRenderer>().sprite = backGroundSprites[i];
+            _backGround = new(_backGroundSprites, _backGroundsContainer, speed);
         }
 
         public void SetNewTargetPosition(float targetX, float targetY)
@@ -45,7 +46,7 @@ namespace WizardsPlatformer
             Vector3 oldPosition = _cameraPosition;
             _cameraPosition = Vector3.Lerp(_cameraPosition, new Vector3(_targetX, _targetY, _cameraPosition.z), Time.deltaTime * _speed);
             transform.position = _cameraPosition;
-            _backGround.Update(_cameraPosition - oldPosition);
+            _backGround?.Update((_cameraPosition - oldPosition) * _backGroundSpeedCoefficient);
         }
     }
 }
