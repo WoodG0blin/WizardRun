@@ -63,15 +63,23 @@ namespace WizardsPlatformer
             _playerController.OnPlayerDeath += FinishLevel;
 
             _groundsController.OnCoinsCountChange = _levelDisplay.SetCoinsCount;
+            _groundsController.OnLevelClearanceChanged = () => _levelDisplay.SetLevelClearanceValue(_groundsController.LevelClearedValue);
 
             _levelDisplay.SetHealth(_playerController.Stats.Health);
             _levelDisplay.SetCoinsCount(0);
+            _levelDisplay.SetLevelClearanceValue(_groundsController.LevelClearedValue);
         }
 
         private void OnGroundsCleared()
         {
             _levelInfo.AccountForBonuses(_groundsController.BonusesCollected);
-            _levelInfo.SceneLoader.LoadMainMenu();
+            FinishLevel();
+        }
+
+        private void Die()
+        {
+            Debug.Log("You died");
+            FinishLevel();
         }
 
         private void FinishLevel()
@@ -83,10 +91,11 @@ namespace WizardsPlatformer
             _playerController.OnPlayerPositionChange -= _cameraController.UpdateToPlayerPosition;
             _playerController.OnPlayerPositionChange -= _groundsController.UpdatePlayerposition;
 
+            Debug.Log($"LevelScore is {_groundsController.LevelClearedValue - _playerController.PlayerDamagedValue} ({_groundsController.LevelClearedValue} - {_playerController.PlayerDamagedValue})");
+            
             _groundsController.ClearBonuses();
 
-            Debug.Log("You died");
-            OnGroundsCleared();
+            _levelInfo.SceneLoader.LoadMainMenu();
         }
     }
 }

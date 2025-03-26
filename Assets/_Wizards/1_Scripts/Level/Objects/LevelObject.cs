@@ -16,6 +16,9 @@ namespace WizardsPlatformer
         public string Name => config.Name;
         public GameObject Prefab => config.Prefab;
 
+        public int MaxHealth { get; protected set; }
+        public Action<int> AccountForDamage { get; set; }
+
 
         protected LevelObject(LevelObjectConfig config, Vector2 position)
         {
@@ -74,6 +77,8 @@ namespace WizardsPlatformer
         {
             stats = new(config.MaxHealth, config.Speed, config.JumpForce);
             stats.OnDeath += Die;
+            MaxHealth = stats.MaxHealth;
+            OnReceiveDamage += (d) => AccountForDamage?.Invoke(d);
         }
 
         public CharacterStats Stats => stats;
@@ -91,6 +96,18 @@ namespace WizardsPlatformer
             stats.Health -= damage;
             OnReceiveDamage?.Invoke(damage);
         }
+        protected virtual void Die()
+        {
+            Destroy();
+            OnBonusCollect?.Invoke(
+                BonusType.coin, config.BonusesOnKill);
+        }
+
+        public virtual void Destroy()
+        {
+            view.SetActive(false);
+        }
+
 
         protected override void OnInitiateView()
         {
@@ -110,12 +127,6 @@ namespace WizardsPlatformer
 
         public void KickOff(float force) => view.Mover.GetKickOff(force);
 
-        protected virtual void Die()
-        {
-            view.SetActive(false);
-            OnBonusCollect?.Invoke(
-                BonusType.coin, config.BonusesOnKill);
-        }
 
         public virtual void SetNewPlayerPosition(Vector3 playerPosition) { }
 

@@ -81,7 +81,7 @@ namespace WizardsPlatformer
             if(collision.transform.TryGetComponent<LevelObjectView>(out var view))
             {
                 var target = view.InteractionResponder;
-                if (target != null) target.ReceiveDamage(10000);
+                if (target != null) target.Destroy();
             }
         }
 

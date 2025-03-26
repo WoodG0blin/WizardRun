@@ -8,26 +8,29 @@ namespace WizardsPlatformer
         private PlayerView _playerView;
         private PlayerModel _playerModel;
 
+        private int _startHealth;
+
         private float _moveThreshold = 0.02f;
 
         private IArtifactExecutorsContainer _executors;
 
-        //public CharacterStats Stats { get => stats; }
         public Action<Vector3> OnPlayerPositionChange { get; set; }
         public Action OnPlayerDeath;
+        public float PlayerDamagedValue => 1f - (float) stats.Health / _startHealth;
 
         public PlayerController(PlayerModel playerModel, Vector2Int startPosition) : base(playerModel.Config, startPosition)
         {
             isPlayer = true;
 
             _playerModel = playerModel;
-            //_playerView = playerView;
 
             EquippedArtifacts = playerModel.EquippedArtifacts;
 
             stats = _playerModel.Stats;
             stats.Health = stats.MaxHealth;
             stats.OnDeath = Die;
+
+            _startHealth = stats.Health;
 
             _executors = _playerModel.Executors;
         }
@@ -63,6 +66,7 @@ namespace WizardsPlatformer
             OnPlayerDeath?.Invoke();
         }
 
+        public override void Destroy() => ReceiveDamage(stats.Health);
 
         protected override LevelObjectView SetView(GameObject gameObject) =>
             gameObject.AddComponent<PlayerView>();

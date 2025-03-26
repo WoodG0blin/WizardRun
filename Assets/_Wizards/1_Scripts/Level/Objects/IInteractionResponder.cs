@@ -4,5 +4,6 @@
     {
         bool IsPlayer { get; }
         void KickOff(float force);
+        void Destroy();
     }
 }

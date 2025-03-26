@@ -10,10 +10,18 @@ namespace WizardsPlatformer
         private readonly GroundsModel _groundsModel;
         private readonly IGroundsView _groundsView;
 
+        private int _levelObjectsMaxHealth;
+        private int _levelObjectsCurrentHealth;
+
+        public float LevelClearedValue => (float)_levelObjectsCurrentHealth / _levelObjectsMaxHealth;
+        public Action OnLevelClearanceChanged { get; set; }
+
+
+
         private Action<Vector3> _onPlayerPositionChanged;
 
         public Dictionary<BonusType, int> BonusesCollected { get; private set; }
-        public Action<int> OnCoinsCountChange;
+        public Action<int> OnCoinsCountChange { get; set; }
 
         public GroundsController(GroundsModel groundsModel, IGroundsView groundsView, GroundsConfig config, Action onGroundsCleared)
         {
@@ -23,22 +31,29 @@ namespace WizardsPlatformer
 
             BonusesCollected = new();
 
-            //_groundsView.InitTiles(config.GroundTiles);
             _groundsView.InitTiles3D(config.Block);
 
             foreach(var lo in _groundsModel.LevelObjects)
             {
+                _levelObjectsMaxHealth += lo.MaxHealth;
+                lo.AccountForDamage = AccountForDamage;
+
                 if (lo is IPlayerPositionObserver o) _onPlayerPositionChanged += o.SetNewPlayerPosition;
                 if (lo is IBonusGenerator b) b.OnBonusCollect = SetBonus;
                 if (lo is IPortal p) p.onPortalEnter = onGroundsCleared;
             }
 
+            _levelObjectsCurrentHealth = _levelObjectsMaxHealth;
+
             _groundsView.DrawGrounds(_groundsModel.Grid, _groundsModel.LevelObjects);
-            //_groundsView.Init(
-            //    _playerPosition,
-            //    onGroundsCleared,
-            //    SetBonus);
         }
+
+        private void AccountForDamage(int damage)
+        {
+            _levelObjectsCurrentHealth -= damage;
+            OnLevelClearanceChanged?.Invoke();
+        }
+
 
         public void UpdatePlayerposition(Vector3 newPosition) => _onPlayerPositionChanged?.Invoke(newPosition);
         public void ClearBonuses() => BonusesCollected = new();
