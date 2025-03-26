@@ -16,7 +16,7 @@ namespace WizardsPlatformer
 
         public Action<Vector3> OnPlayerPositionChange { get; set; }
         public Action OnPlayerDeath;
-        public float PlayerDamagedValue => 1f - (float) stats.Health / _startHealth;
+        public float PlayerHealthValue => (float) stats.Health / _startHealth;
 
         public PlayerController(PlayerModel playerModel, Vector2Int startPosition) : base(playerModel.Config, startPosition)
         {
@@ -33,6 +33,8 @@ namespace WizardsPlatformer
             _startHealth = stats.Health;
 
             _executors = _playerModel.Executors;
+
+            OnReceiveDamage = null;
         }
             
         public void OnHorizontalMove(float newValue)

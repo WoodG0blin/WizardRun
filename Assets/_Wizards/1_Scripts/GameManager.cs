@@ -34,7 +34,7 @@ namespace WizardsPlatformer
         private void Init()
         {
             _gameModel = new();
-            _gameModel.PlayerModel.SetConfig(_player3DConfig);
+            _gameModel.PlayerModel.SetBaseConfig(_player3DConfig);
         }
 
         public ISceneLoader SceneLoader => this;
@@ -50,9 +50,15 @@ namespace WizardsPlatformer
         {
             foreach(KeyValuePair<BonusType, int> b in bonuses) _gameModel.AddBonus(b.Key, b.Value);
         }
+        void ILevelInfo.AccountForScore(float levelScore) => _gameModel.AddScore(Mathf.RoundToInt(levelScore * 10));
 
         IPlayerModel IMenuInfo.PlayerModel => _gameModel.PlayerModel;
         IReadOnlyList<ItemConfig> IMenuInfo.ArtifactDatabase => _artifactDatabase.Configs;
+        bool IMenuInfo.Loaded => _gameModel.Loaded;
+        void IMenuInfo.ApplyData(PlayerSavedData data) => _gameModel.ApplyData(data);
+        PlayerSavedData IMenuInfo.GetData() => _gameModel.GetData();
+        int IMenuInfo.Bonuses => _gameModel.Bonuses[BonusType.coin];
+        int IMenuInfo.Score => _gameModel.Score;
 
         IEnumerator LoadScene(string sceneName)
         {

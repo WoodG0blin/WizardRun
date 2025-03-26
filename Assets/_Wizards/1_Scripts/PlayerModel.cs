@@ -31,12 +31,17 @@ namespace WizardsPlatformer
             };
         }
 
-        public void SetConfig(LevelObjectConfig config)
+        public void SetBaseConfig(LevelObjectConfig config)
         {
             _config = config;
 
             Stats = new(_config.MaxHealth, _config.Speed, _config.JumpForce);
             TrySetArtifactAt(ArtifactSlotType.Weapon, new Artifact(_config.WeaponConfig));
+        }
+
+        public void ApplyData(PlayerSavedData data)
+        {
+            Name = data.Name;
         }
 
         public bool TrySetArtifactAt(ArtifactSlotType slot, IArtifact artifact)

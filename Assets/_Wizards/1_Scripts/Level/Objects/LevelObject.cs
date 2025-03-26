@@ -78,7 +78,7 @@ namespace WizardsPlatformer
             stats = new(config.MaxHealth, config.Speed, config.JumpForce);
             stats.OnDeath += Die;
             MaxHealth = stats.MaxHealth;
-            OnReceiveDamage += (d) => AccountForDamage?.Invoke(d);
+            OnReceiveDamage = (d) => AccountForDamage?.Invoke(d);
         }
 
         public CharacterStats Stats => stats;

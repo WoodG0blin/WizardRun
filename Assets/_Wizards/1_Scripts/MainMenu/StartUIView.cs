@@ -8,6 +8,7 @@ public class StartUIView : MonoBehaviour
     [SerializeField] private Button _startButton;
     [SerializeField] private Button _exitButton;
     [SerializeField] private MenuesDisplayView _menues;
+    [SerializeField] private PlayerDataView _playerData;
 
     public Action OnStartClick;
     public Action OnExitClick;
@@ -20,7 +21,12 @@ public class StartUIView : MonoBehaviour
         _exitButton.onClick.AddListener(() => OnExitClick?.Invoke());
     }
 
-    public void Init(IMenuInfo info) => _menues.Init(info);
+    public void Init(IMenuInfo info)
+    {
+        _playerData.Display(info);
+        _menues.Init(info);
+    }
+    public void RegisterNewPlayer(Action<string> onFinish) => _playerData.Register(onFinish);
 
     private void OnDestroy()
     {

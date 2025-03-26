@@ -10,10 +10,9 @@ namespace WizardsPlatformer
         private readonly GroundsModel _groundsModel;
         private readonly IGroundsView _groundsView;
 
-        private int _levelObjectsMaxHealth;
         private int _levelObjectsCurrentHealth;
 
-        public float LevelClearedValue => (float)_levelObjectsCurrentHealth / _levelObjectsMaxHealth;
+        public float LevelHealthValue => (float)_levelObjectsCurrentHealth / _groundsModel.TotalHealth;
         public Action OnLevelClearanceChanged { get; set; }
 
 
@@ -35,7 +34,6 @@ namespace WizardsPlatformer
 
             foreach(var lo in _groundsModel.LevelObjects)
             {
-                _levelObjectsMaxHealth += lo.MaxHealth;
                 lo.AccountForDamage = AccountForDamage;
 
                 if (lo is IPlayerPositionObserver o) _onPlayerPositionChanged += o.SetNewPlayerPosition;
@@ -43,7 +41,7 @@ namespace WizardsPlatformer
                 if (lo is IPortal p) p.onPortalEnter = onGroundsCleared;
             }
 
-            _levelObjectsCurrentHealth = _levelObjectsMaxHealth;
+            _levelObjectsCurrentHealth = _groundsModel.TotalHealth;
 
             _groundsView.DrawGrounds(_groundsModel.Grid, _groundsModel.LevelObjects);
         }

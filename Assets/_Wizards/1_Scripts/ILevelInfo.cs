@@ -9,5 +9,6 @@ namespace WizardsPlatformer
         PlayerModel GetPlayerModel();
 
         void AccountForBonuses(Dictionary<BonusType, int> bonuses);
+        void AccountForScore(float levelScore);
     }
 }

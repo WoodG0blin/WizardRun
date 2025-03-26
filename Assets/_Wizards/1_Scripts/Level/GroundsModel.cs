@@ -26,7 +26,7 @@ namespace WizardsPlatformer
         public IReadOnlyList<LevelObject> LevelObjects => _levelObjects;
         public SquaresGrid Grid { get => _grid; }
         public Vector2Int LocalStartPosition { get; private set; }
-
+        public int TotalHealth { get; private set; }
 
         public GroundsModel(int maxLength, LevelObjectFactory factory)
         {
@@ -98,6 +98,9 @@ namespace WizardsPlatformer
 
             //_levelObjects.Add(_elements[_elements.Count - 1].AddFinishPortal(position));
             _levelObjects.Add(_factory.GetPortalAt(new Vector2Int(_elements[_elements.Count - 1].Length - 1 + position, _elements[_elements.Count - 1].Height + 2)));
+
+            foreach (var lo in _levelObjects)
+                TotalHealth += lo.MaxHealth;
         }
 
         public void AddPlayer(LevelObject player) => _levelObjects.Add(player);

@@ -47,7 +47,7 @@ namespace WizardsPlatformer
             _playerController = new PlayerController(_playerModel, _groundsModel.LocalStartPosition);
             _groundsModel.AddPlayer(_playerController);
 
-            _groundsController = new(_groundsModel, _groundsDiffView, _groundsDiffConfig, OnGroundsCleared);
+            _groundsController = new(_groundsModel, _groundsDiffView, _groundsDiffConfig, FinishLevel);
             _cameraController = new(Camera.main, _groundsDiffConfig.BackGroundSprites);
 
             GameObject temp = GameObject.Instantiate(_inputConfig.Prefab);
@@ -60,40 +60,35 @@ namespace WizardsPlatformer
             _playerController.OnPlayerPositionChange += _cameraController.UpdateToPlayerPosition;
             _playerController.OnPlayerPositionChange += _groundsController.UpdatePlayerposition;
             _playerController.Stats.OnCurrentHealthChange += _levelDisplay.SetHealth;
-            _playerController.OnPlayerDeath += FinishLevel;
+            _playerController.OnPlayerDeath += Die;
 
             _groundsController.OnCoinsCountChange = _levelDisplay.SetCoinsCount;
-            _groundsController.OnLevelClearanceChanged = () => _levelDisplay.SetLevelClearanceValue(_groundsController.LevelClearedValue);
+            _groundsController.OnLevelClearanceChanged = () => _levelDisplay.SetLevelClearanceValue(_groundsController.LevelHealthValue);
 
             _levelDisplay.SetHealth(_playerController.Stats.Health);
             _levelDisplay.SetCoinsCount(0);
-            _levelDisplay.SetLevelClearanceValue(_groundsController.LevelClearedValue);
+            _levelDisplay.SetLevelClearanceValue(_groundsController.LevelHealthValue);
         }
 
-        private void OnGroundsCleared()
-        {
-            _levelInfo.AccountForBonuses(_groundsController.BonusesCollected);
-            FinishLevel();
-        }
 
         private void Die()
         {
             Debug.Log("You died");
+            _groundsController.ClearBonuses();
             FinishLevel();
         }
 
         private void FinishLevel()
         {
+            _levelInfo.AccountForBonuses(_groundsController.BonusesCollected);
+            _levelInfo.AccountForScore(_playerController.PlayerHealthValue - _groundsController.LevelHealthValue);
+
             _inputController.OnHorizontalInput = null;
             _inputController.OnJumpInput = null;
             _inputController.OnFireInput = null;
 
             _playerController.OnPlayerPositionChange -= _cameraController.UpdateToPlayerPosition;
             _playerController.OnPlayerPositionChange -= _groundsController.UpdatePlayerposition;
-
-            Debug.Log($"LevelScore is {_groundsController.LevelClearedValue - _playerController.PlayerDamagedValue} ({_groundsController.LevelClearedValue} - {_playerController.PlayerDamagedValue})");
-            
-            _groundsController.ClearBonuses();
 
             _levelInfo.SceneLoader.LoadMainMenu();
         }
