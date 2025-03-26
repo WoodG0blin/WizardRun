@@ -49,6 +49,7 @@ namespace WizardsPlatformer
 
             _groundsController = new(_groundsModel, _groundsDiffView, _groundsDiffConfig, FinishLevel);
             _cameraController = new(Camera.main, _groundsDiffConfig.BackGroundSprites);
+            _groundsController.OnPlayerPositionChange += _cameraController.UpdateToPlayerPosition;
 
             GameObject temp = GameObject.Instantiate(_inputConfig.Prefab);
             _inputController = new InputController(temp.GetComponent<InputView>() ?? temp.AddComponent<InputView>());
@@ -57,8 +58,8 @@ namespace WizardsPlatformer
             _inputController.OnJumpInput = _playerController.OnJump;
             _inputController.OnFireInput = _playerController.OnFire;
 
-            _playerController.OnPlayerPositionChange += _cameraController.UpdateToPlayerPosition;
-            _playerController.OnPlayerPositionChange += _groundsController.UpdatePlayerposition;
+            //_playerController.OnPlayerPositionChange += _cameraController.UpdateToPlayerPosition;
+            //_playerController.OnPlayerPositionChange += _groundsController.UpdatePlayerposition;
             _playerController.Stats.OnCurrentHealthChange += _levelDisplay.SetHealth;
             _playerController.OnPlayerDeath += Die;
 
@@ -87,8 +88,8 @@ namespace WizardsPlatformer
             _inputController.OnJumpInput = null;
             _inputController.OnFireInput = null;
 
-            _playerController.OnPlayerPositionChange -= _cameraController.UpdateToPlayerPosition;
-            _playerController.OnPlayerPositionChange -= _groundsController.UpdatePlayerposition;
+            //_playerController.OnPlayerPositionChange -= _cameraController.UpdateToPlayerPosition;
+            //_playerController.OnPlayerPositionChange -= _groundsController.UpdatePlayerposition;
 
             _levelInfo.SceneLoader.LoadMainMenu();
         }

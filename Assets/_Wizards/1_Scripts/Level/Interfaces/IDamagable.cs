@@ -7,7 +7,6 @@ namespace WizardsPlatformer
 {
     public interface IDamagable
     {
-        Action<int> OnReceiveDamage { get; set; }
         void ReceiveDamage(int damage);
     }
 }

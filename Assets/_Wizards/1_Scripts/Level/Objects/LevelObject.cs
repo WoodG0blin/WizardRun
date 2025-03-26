@@ -17,8 +17,6 @@ namespace WizardsPlatformer
         public GameObject Prefab => config.Prefab;
 
         public int MaxHealth { get; protected set; }
-        public Action<int> AccountForDamage { get; set; }
-
 
         protected LevelObject(LevelObjectConfig config, Vector2 position)
         {
@@ -38,6 +36,8 @@ namespace WizardsPlatformer
 
         protected abstract LevelObjectView SetView(GameObject gameObject);
         protected virtual void OnInitiateView() { }
+
+        public virtual void SetSubscriptions(ILevelEventAccounter subscriber) { }
     }
 
     internal class StubObject : LevelObject
@@ -67,29 +67,37 @@ namespace WizardsPlatformer
         protected abstract void ActionsOnInteraction(IInteractionResponder interactor);
     }
 
-    internal abstract class ActiveObject : InteractableObject, IInteractionResponder, IArtifactHolder, IPlayerPositionObserver, IBonusGenerator
+    internal abstract class ActiveObject : InteractableObject, IInteractionResponder, IArtifactHolder
     {
         protected CharacterStats stats;
         protected IArtifact weaponArtifact;
         protected IArtifactExecutor weapon;
         protected bool isPlayer;
+
+        protected Vector3 currentPlayerPosition;
+        protected Action<int> OnReceiveDamage;
+        protected Action<BonusType, int> OnBonusCollect;
+
         protected ActiveObject(LevelObjectConfig config, Vector2 position) : base(config, position)
         {
             stats = new(config.MaxHealth, config.Speed, config.JumpForce);
             stats.OnDeath += Die;
             MaxHealth = stats.MaxHealth;
-            OnReceiveDamage = (d) => AccountForDamage?.Invoke(d);
         }
 
         public CharacterStats Stats => stats;
         public bool IsPlayer => isPlayer;
-        public Action<int> OnReceiveDamage { get; set; }
-        public Action<BonusType, int> OnBonusCollect { get; set; }
-
 
         public Transform Barrel { get; protected set; }
         public Vector3 Direction { get; protected set; }
 
+
+        public override void SetSubscriptions(ILevelEventAccounter subscriber)
+        {
+            subscriber.OnPlayerPositionChange += SetNewPlayerPosition;
+            OnBonusCollect = subscriber.AccountForBonus;
+            OnReceiveDamage += subscriber.AccountForDamage;
+        }
 
         public void ReceiveDamage(int damage)
         {
@@ -128,7 +136,7 @@ namespace WizardsPlatformer
         public void KickOff(float force) => view.Mover.GetKickOff(force);
 
 
-        public virtual void SetNewPlayerPosition(Vector3 playerPosition) { }
+        protected virtual void SetNewPlayerPosition(Vector3 playerPosition) => currentPlayerPosition = playerPosition;
 
         public List<IArtifact> EquippedArtifacts { get; protected set; } = new();
         public IJump JumpExecutioner => view.Jumper;

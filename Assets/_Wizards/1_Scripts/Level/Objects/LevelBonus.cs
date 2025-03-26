@@ -5,11 +5,16 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class LevelBonus : InteractableObject, IBonusGenerator
+    internal class LevelBonus : InteractableObject
     {
-        public Action<BonusType, int> OnBonusCollect { get; set; }
+        private Action<BonusType, int> OnBonusCollect;
 
         public LevelBonus(LevelObjectConfig config, Vector2Int positionOnElement) : base(config, positionOnElement) { }
+
+        public override void SetSubscriptions(ILevelEventAccounter subscriber)
+        {
+            OnBonusCollect = subscriber.AccountForBonus;
+        }
 
         protected override LevelObjectView SetView(GameObject gameObject) =>
             gameObject.AddComponent<LevelObjectView>();

@@ -5,11 +5,17 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class Portal : InteractableObject, IPortal
+    internal class Portal : InteractableObject
     {
+        private Action onPortalEnter;
+
         public Portal(LevelObjectConfig config, Vector2Int positionOnElement) : base(config, positionOnElement) { }
 
-        public Action onPortalEnter { get; set; }
+
+        public override void SetSubscriptions(ILevelEventAccounter subscriber)
+        {
+            onPortalEnter = subscriber.SetLevelCleared;
+        }
 
         protected override void ActionsOnInteraction(IInteractionResponder interactor)
         {

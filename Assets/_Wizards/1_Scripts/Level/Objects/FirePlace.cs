@@ -34,8 +34,9 @@ namespace WizardsPlatformer
             weapon.Use(this);
         }
 
-        public override void SetNewPlayerPosition(Vector3 playerPosition)
+        protected override void SetNewPlayerPosition(Vector3 playerPosition)
         {
+            base.SetNewPlayerPosition(playerPosition);
             _fireplaceView.SetNewPlayerPosition(playerPosition);
         }
     }

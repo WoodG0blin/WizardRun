@@ -14,9 +14,12 @@ namespace WizardsPlatformer
 
         private IArtifactExecutorsContainer _executors;
 
-        public Action<Vector3> OnPlayerPositionChange { get; set; }
+        private Action<Vector3> OnPlayerPositionChange;
+
+
         public Action OnPlayerDeath;
         public float PlayerHealthValue => (float) stats.Health / _startHealth;
+
 
         public PlayerController(PlayerModel playerModel, Vector2Int startPosition) : base(playerModel.Config, startPosition)
         {
@@ -33,10 +36,13 @@ namespace WizardsPlatformer
             _startHealth = stats.Health;
 
             _executors = _playerModel.Executors;
-
-            OnReceiveDamage = null;
         }
-            
+
+        public override void SetSubscriptions(ILevelEventAccounter subscriber)
+        {
+            OnPlayerPositionChange += (v) => subscriber.OnPlayerPositionChange?.Invoke(v);
+        }
+
         public void OnHorizontalMove(float newValue)
         {
             if (Mathf.Abs(newValue) > _moveThreshold)

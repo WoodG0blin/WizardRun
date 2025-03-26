@@ -11,8 +11,6 @@ namespace WizardsPlatformer
 
         private DemonState _currentState;
 
-        private Vector3 _targetPosition;
-
         private float _patrolDistance;
         private float _closingDistance;
 
@@ -42,8 +40,6 @@ namespace WizardsPlatformer
             base.OnInitiateView();
         }
 
-        public override void SetNewPlayerPosition(Vector3 playerPosition) => _targetPosition = playerPosition;
-
         void IDemonStateContext.SetNewState(DemonStates state)
         {
             _currentState = (view == null ? DemonStates.None : state) switch
@@ -58,7 +54,7 @@ namespace WizardsPlatformer
 
         bool IDemonStateContext.IsTargetInSight()
         {
-            Vector3 targetDirection = _targetPosition - view.Position;
+            Vector3 targetDirection = currentPlayerPosition - view.Position;
 
             return
             (view.XDirection == Mathf.Sign(targetDirection.x)
@@ -83,7 +79,7 @@ namespace WizardsPlatformer
 
         int IDemonStateContext.GetPursuingDirection()
         {
-            float targetDirection = _targetPosition.x - view.Position.x;
+            float targetDirection = currentPlayerPosition.x - view.Position.x;
 
             if (isInAttackDistance(targetDirection)) return 0;
             else return targetDirection < 0 ? -1 : 1;
