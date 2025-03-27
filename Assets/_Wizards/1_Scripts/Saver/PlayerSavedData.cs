@@ -23,20 +23,22 @@ namespace WizardsPlatformer
         public int Score;
 
         [NonSerialized] public Sprite Sprite;
-        [NonSerialized] private int _extraScore;
+        [NonSerialized] private int _baseScore;
 
         public void AccountForScore(int score)
         {
-            int prev = Score;
+            //int prev = Score;
             Score = Math.Clamp(Score + score, 0, 100);
-            _extraScore = Score - prev;
+            //_baseScore = Score - prev;
         }
 
         public (int baseScore, int extraScore) GetDisplayValues()
         {
-            var res = (Score - _extraScore, _extraScore);
-            _extraScore = 0;
+            var res = (_baseScore, Score - _baseScore);
+            SetBaseScore();
             return res;
         }
+
+        public void SetBaseScore() => _baseScore = Score;
     }
 }

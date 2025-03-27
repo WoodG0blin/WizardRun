@@ -6,6 +6,8 @@ namespace WizardsPlatformer
 {
     internal class GameModel
     {
+        private const float DAILY_SCORE_REDUCTION = 0.1f;
+
         private Location _activeLocation;
 
         public List<Location> Locations { get; private set; }
@@ -14,13 +16,31 @@ namespace WizardsPlatformer
 
         public GameModel(PlayerSavedData data, LevelObjectConfig playerConfig)
         {
-            data.LastEntryDate++;
-
             PlayerModel = new(data, playerConfig);
 
             Locations = data.Locations;
+
+            AdjustForDate();
         }
 
+        private void AdjustForDate()
+        {
+            //replace with actual delta date
+            int deltaDate = 1;
+
+            foreach (var l in Locations)
+            {
+                l.SetBaseScore();
+                for (int i = 0; i < deltaDate; i++)
+                {
+                    int red = Mathf.RoundToInt(DAILY_SCORE_REDUCTION * l.Score);
+                    if (red < 1) red = 1;
+                    l.AccountForScore(-red);
+                }
+            }
+
+            PlayerModel.SaveData.LastEntryDate++;
+        }
 
         public PlayerSavedData GetSaveData()
         {
