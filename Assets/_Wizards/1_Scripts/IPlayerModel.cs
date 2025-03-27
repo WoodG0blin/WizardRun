@@ -6,6 +6,7 @@ namespace WizardsPlatformer
     {
         List<IArtifact> EquippedArtifacts { get; }
         IArtifactExecutorsContainer Executors { get; }
+        
         string Name { get; }
 
         bool TrySetArtifactAt(ArtifactSlotType slot, IArtifact artifact);

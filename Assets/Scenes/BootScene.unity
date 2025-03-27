@@ -649,6 +649,7 @@ MonoBehaviour:
   _playerConfig: {fileID: 11400000, guid: 34f946c666cdba541b79e6f86774f102, type: 2}
   _player3DConfig: {fileID: 11400000, guid: 11702d7717719014d99306dd67b5b835, type: 2}
   _artifactDatabase: {fileID: 11400000, guid: 58f6823ebb324c04ab466efcbc4760e7, type: 2}
+  _locationsConfig: {fileID: 11400000, guid: 56e8ecce531950440bbe3eb76571cada, type: 2}
 --- !u!1 &1325845776
 GameObject:
   m_ObjectHideFlags: 0

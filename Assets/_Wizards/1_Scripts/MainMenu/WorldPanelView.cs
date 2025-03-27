@@ -12,8 +12,6 @@ namespace WizardsPlatformer
 
         public void Init(List<Location> locations, Action<LocationType> onStart)
         {
-            Debug.Log($"Initiating locations. null? {locations == null}. Count {locations.Count}");
-
             for (int i = 0; i < Mathf.Min(locations.Count, _locationDisplays.Count); i++)
             {
                 LocationType t = locations[i].Type;

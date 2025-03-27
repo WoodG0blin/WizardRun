@@ -6,12 +6,13 @@ namespace WizardsPlatformer
     {
         ISceneLoader SceneLoader { get; }
         IPlayerModel PlayerModel { get; }
-        int Bonuses { get; }
-        int Score { get; }
-        List<Location> Locations { get; }
         IReadOnlyList<ItemConfig> ArtifactDatabase { get; }
-        bool Loaded { get; }
-        void ApplyData(PlayerSavedData data);
-        PlayerSavedData GetData();
+
+        void RegisterNewPlayer(string name);
+        void SaveGame();
+
+        int Score { get; }
+        int Bonuses { get; }
+        List<Location> Locations { get; }
     }
 }

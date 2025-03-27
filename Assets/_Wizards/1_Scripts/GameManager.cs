@@ -19,6 +19,7 @@ namespace WizardsPlatformer
         [SerializeField] private LevelObjectConfig _playerConfig;
         [SerializeField] private LevelObjectConfig _player3DConfig;
         [SerializeField] private AllItemConfigs _artifactDatabase;
+        [SerializeField] private LocationsConfig _locationsConfig;
 
 
         private GameModel _gameModel;
@@ -28,13 +29,46 @@ namespace WizardsPlatformer
         private void Awake() => DontDestroyOnLoad(this);
         private void Start()
         {
-            Init();
+            Init(LoadPlayerData());
             LoadMainMenu();
         }
-        private void Init()
+        private void Init(PlayerSavedData data)
         {
-            _gameModel = new();
-            _gameModel.PlayerModel.SetBaseConfig(_player3DConfig);
+            _gameModel = new(data, _player3DConfig);
+            DataSaveAndLoad.Save(_gameModel.GetSaveData());
+        }
+
+        private PlayerSavedData LoadPlayerData()
+        {
+            var data = DataSaveAndLoad.Load();
+            FillUpLocations(ref data.Locations);
+            return data;
+        }
+
+        private void FillUpLocations(ref List<Location> locations)
+        {
+            if (locations == null || locations.Count == 0) locations = GenerateNewLocations();
+            foreach (var l in locations) l.Sprite = _locationsConfig.GetLocationImage(l.Type, l.SpriteID);
+        }
+
+        private List<Location> GenerateNewLocations()
+        {
+            var list = new List<Location>();
+
+            for (int i = 0; i < 4; i++)
+            {
+                var type = _locationsConfig.GetRandomLocationType();
+                Sprite img = _locationsConfig.GetRandomLocationImage(type);
+
+                list.Add(new Location()
+                {
+                    Type = type,
+                    SpriteID = img.name,
+                    Sprite = img
+                });
+            }
+
+            return list;
         }
 
         public ISceneLoader SceneLoader => this;
@@ -48,18 +82,25 @@ namespace WizardsPlatformer
         GroundsModel ILevelInfo.GetGroundsModel(AllLevelObjectsConfigs configs) => _gameModel.GetGroundsModel(new(configs));
         void ILevelInfo.AccountForBonuses(Dictionary<BonusType, int> bonuses)
         {
-            foreach(KeyValuePair<BonusType, int> b in bonuses) _gameModel.AddBonus(b.Key, b.Value);
+            foreach(KeyValuePair<BonusType, int> b in bonuses) _gameModel.PlayerModel.AddBonus(b.Key, b.Value);
         }
         void ILevelInfo.AccountForScore(float levelScore) => _gameModel.AddScore(Mathf.RoundToInt(levelScore * 10));
 
+
         IPlayerModel IMenuInfo.PlayerModel => _gameModel.PlayerModel;
         IReadOnlyList<ItemConfig> IMenuInfo.ArtifactDatabase => _artifactDatabase.Configs;
-        bool IMenuInfo.Loaded => _gameModel.Loaded;
-        void IMenuInfo.ApplyData(PlayerSavedData data) => _gameModel.ApplyData(data);
-        PlayerSavedData IMenuInfo.GetData() => _gameModel.GetData();
-        int IMenuInfo.Bonuses => _gameModel.Bonuses[BonusType.coin];
+        void IMenuInfo.RegisterNewPlayer(string name)
+        {
+            PlayerSavedData data = new() { Name = name };
+            FillUpLocations(ref data.Locations);
+            Init(data);
+        }
+        void IMenuInfo.SaveGame() => DataSaveAndLoad.Save(_gameModel.GetSaveData());
+
         int IMenuInfo.Score => _gameModel.Score;
+        int IMenuInfo.Bonuses => _gameModel.PlayerModel.Bonuses[BonusType.coin];
         List<Location> IMenuInfo.Locations => _gameModel.Locations;
+
 
         IEnumerator LoadScene(string sceneName)
         {

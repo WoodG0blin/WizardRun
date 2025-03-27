@@ -6,41 +6,33 @@ namespace WizardsPlatformer
 {
     internal class GameModel
     {
-        private PlayerSavedData _playerData;
-
-        public bool Loaded { get; private set; } = false;
-        public BonusStats Bonuses { get; private set; }
         public int Score { get; private set; }
         public List<Location> Locations { get; private set; }
 
         internal PlayerModel PlayerModel { get; private set; }
 
-        public GameModel()
+        public GameModel(PlayerSavedData data, LevelObjectConfig playerConfig)
         {
-            PlayerModel = new();
-            Bonuses = new BonusStats(false);
-        }
+            data.LastEntryDate++;
 
-        public void ApplyData(PlayerSavedData data)
-        {
-            Loaded = true;
-            _playerData = data;
-            _playerData.LastEntryDate++;
+            PlayerModel = new(data, playerConfig);
 
-            PlayerModel.ApplyData(data);
-            Bonuses[BonusType.coin] = data.Bonuses;
             Score = data.Score;
+
             Locations = data.Locations;
         }
 
-        public PlayerSavedData GetData()
+
+        public PlayerSavedData GetSaveData()
         {
-            _playerData.Score = Score;
-            _playerData.Bonuses = Bonuses[BonusType.coin];
-            return _playerData;
+            var data = PlayerModel.SaveData;
+
+            data.Score = Score;
+            data.Locations = Locations;
+
+            return data;
         }
 
-        public void AddBonus(BonusType type, int value) => Bonuses[type] += value;
         public void AddScore(int score) => Score += score;
 
         public GroundsModel GetGroundsModel(LevelObjectFactory factory) => new GroundsModel(CalculateGroundsLenght(), factory);
