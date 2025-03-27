@@ -19,6 +19,7 @@ namespace WizardsPlatformer
             _menuInfo = FindObjectOfType<GameManager>();
             Init();
             _menuInfo.SceneLoader.FinishSceneLoad();
+            _startUI.UpdateValues();
         }
 
         private void Init()
@@ -41,8 +42,9 @@ namespace WizardsPlatformer
         }
 
 
-        private void OnStart()
+        private void OnStart(Location location)
         {
+            _menuInfo.SetActiveLocation(location);
             _startUI.SetActive(false);
             _menuInfo.SceneLoader.LoadLevel();
         }

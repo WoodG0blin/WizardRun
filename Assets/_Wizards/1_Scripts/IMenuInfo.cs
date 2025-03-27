@@ -11,8 +11,8 @@ namespace WizardsPlatformer
         void RegisterNewPlayer(string name);
         void SaveGame();
 
-        int Score { get; }
-        int Bonuses { get; }
         List<Location> Locations { get; }
+
+        void SetActiveLocation(Location location);
     }
 }

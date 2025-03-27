@@ -7,20 +7,18 @@ namespace WizardsPlatformer
 {
     internal class PlayerModel : IPlayerModel
     {
-        private LevelObjectConfig _config;
+        public LevelObjectConfig Config {get; private set; }
 
-        public BonusStats Bonuses { get; private set; }
-
-
+        private BonusStats _bonuses;
         private Dictionary<ArtifactSlotType, IArtifact> _artifacts;
+        
+        internal CharacterStats Stats { get; private set; }
 
         public string Name { get; private set; }
+        public int Bonuses => _bonuses[BonusType.coin];
         public PlayerSavedData SaveData { get; private set; }
 
-        internal CharacterStats Stats { get; private set; }
-        public LevelObjectConfig Config => _config;
         public IArtifactExecutorsContainer Executors => new ArtifactExecutorsContainer(EquippedArtifacts);
-
         public List<IArtifact> EquippedArtifacts => _artifacts.Values.Where(a => a!=null).ToList();
 
 
@@ -30,12 +28,12 @@ namespace WizardsPlatformer
 
             Name = data.Name;
 
-            _config = config;
+            Config = config;
 
-            Stats = new(_config.MaxHealth, _config.Speed, _config.JumpForce);
+            Stats = new(Config.MaxHealth, Config.Speed, Config.JumpForce);
 
-            Bonuses = new BonusStats(false);
-            Bonuses[BonusType.coin] = data.Bonuses;
+            _bonuses = new BonusStats(false);
+            _bonuses[BonusType.coin] = data.Bonuses;
 
             _artifacts = new()
             {
@@ -45,7 +43,7 @@ namespace WizardsPlatformer
                 { ArtifactSlotType.Waist, null},
                 { ArtifactSlotType.Legs, null}
             };
-            TrySetArtifactAt(ArtifactSlotType.Weapon, new Artifact(_config.WeaponConfig));
+            TrySetArtifactAt(ArtifactSlotType.Weapon, new Artifact(Config.WeaponConfig));
         }
 
 
@@ -61,8 +59,8 @@ namespace WizardsPlatformer
 
         public void AddBonus(BonusType type, int value)
         {
-            Bonuses[type] += value;
-            SaveData.Bonuses = Bonuses[BonusType.coin];
+            _bonuses[type] += value;
+            SaveData.Bonuses = _bonuses[BonusType.coin];
         }
 
     }

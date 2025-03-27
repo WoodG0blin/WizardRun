@@ -6,7 +6,8 @@ namespace WizardsPlatformer
 {
     internal class GameModel
     {
-        public int Score { get; private set; }
+        private Location _activeLocation;
+
         public List<Location> Locations { get; private set; }
 
         internal PlayerModel PlayerModel { get; private set; }
@@ -17,8 +18,6 @@ namespace WizardsPlatformer
 
             PlayerModel = new(data, playerConfig);
 
-            Score = data.Score;
-
             Locations = data.Locations;
         }
 
@@ -27,13 +26,14 @@ namespace WizardsPlatformer
         {
             var data = PlayerModel.SaveData;
 
-            data.Score = Score;
             data.Locations = Locations;
 
             return data;
         }
 
-        public void AddScore(int score) => Score += score;
+        public void SetActiveLocation(Location location) => _activeLocation = location;
+
+        public void AddScore(int score) => _activeLocation?.AccountForScore(score);
 
         public GroundsModel GetGroundsModel(LevelObjectFactory factory) => new GroundsModel(CalculateGroundsLenght(), factory);
 

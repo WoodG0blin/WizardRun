@@ -12,7 +12,7 @@ public class StartUIView : MonoBehaviour
     [SerializeField] private PlayerDataView _playerData;
     [SerializeField] private WorldPanelView _worldPanel;
 
-    public Action OnStartClick;
+    public Action<Location> OnStartClick;
     public Action OnExitClick;
 
     public void SetActive(bool active) => gameObject.SetActive(active);
@@ -28,9 +28,11 @@ public class StartUIView : MonoBehaviour
         _playerData.Display(info);
         _menues.Init(info);
 
-        _worldPanel.Init(info.Locations, lt => OnStartClick?.Invoke());
+        _worldPanel.Init(info.Locations, l => OnStartClick?.Invoke(l));
     }
     public void RegisterNewPlayer(Action<string> onFinish) => _playerData.Register(onFinish);
+
+    public void UpdateValues() => _worldPanel.UpdateValues();
 
     private void OnDestroy()
     {

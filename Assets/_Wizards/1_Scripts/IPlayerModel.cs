@@ -8,6 +8,7 @@ namespace WizardsPlatformer
         IArtifactExecutorsContainer Executors { get; }
         
         string Name { get; }
+        int Bonuses { get; }
 
         bool TrySetArtifactAt(ArtifactSlotType slot, IArtifact artifact);
     }

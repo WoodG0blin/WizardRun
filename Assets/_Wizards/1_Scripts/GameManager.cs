@@ -97,9 +97,8 @@ namespace WizardsPlatformer
         }
         void IMenuInfo.SaveGame() => DataSaveAndLoad.Save(_gameModel.GetSaveData());
 
-        int IMenuInfo.Score => _gameModel.Score;
-        int IMenuInfo.Bonuses => _gameModel.PlayerModel.Bonuses[BonusType.coin];
         List<Location> IMenuInfo.Locations => _gameModel.Locations;
+        void IMenuInfo.SetActiveLocation(Location location) => _gameModel.SetActiveLocation(location);
 
 
         IEnumerator LoadScene(string sceneName)
