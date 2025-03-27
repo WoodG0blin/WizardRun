@@ -15,6 +15,8 @@ namespace WizardsPlatformer
 
         public static PlayerSavedData Load()
         {
+            Debug.Log("Loading from " + DATA_PATH);
+
             PlayerSavedData loaded = new();
 
             if (File.Exists(DATA_PATH))

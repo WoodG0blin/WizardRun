@@ -59,6 +59,7 @@ namespace WizardsPlatformer
         PlayerSavedData IMenuInfo.GetData() => _gameModel.GetData();
         int IMenuInfo.Bonuses => _gameModel.Bonuses[BonusType.coin];
         int IMenuInfo.Score => _gameModel.Score;
+        List<Location> IMenuInfo.Locations => _gameModel.Locations;
 
         IEnumerator LoadScene(string sceneName)
         {

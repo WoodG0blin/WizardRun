@@ -1,14 +1,16 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using WizardsPlatformer;
 
 public class StartUIView : MonoBehaviour
 {
-    [SerializeField] private Button _startButton;
+    //[SerializeField] private Button _startButton;
     [SerializeField] private Button _exitButton;
     [SerializeField] private MenuesDisplayView _menues;
     [SerializeField] private PlayerDataView _playerData;
+    [SerializeField] private WorldPanelView _worldPanel;
 
     public Action OnStartClick;
     public Action OnExitClick;
@@ -17,7 +19,7 @@ public class StartUIView : MonoBehaviour
     
     void Awake()
     {
-        _startButton.onClick.AddListener(() => OnStartClick?.Invoke());
+        //_startButton.onClick.AddListener(() => OnStartClick?.Invoke());
         _exitButton.onClick.AddListener(() => OnExitClick?.Invoke());
     }
 
@@ -25,6 +27,8 @@ public class StartUIView : MonoBehaviour
     {
         _playerData.Display(info);
         _menues.Init(info);
+
+        _worldPanel.Init(info.Locations, lt => OnStartClick?.Invoke());
     }
     public void RegisterNewPlayer(Action<string> onFinish) => _playerData.Register(onFinish);
 
@@ -32,7 +36,7 @@ public class StartUIView : MonoBehaviour
     {
         OnStartClick = null;
         OnExitClick= null;
-        _startButton.onClick.RemoveAllListeners();
+        //_startButton.onClick.RemoveAllListeners();
         _exitButton.onClick.RemoveAllListeners();
     }
 }

@@ -5,18 +5,22 @@ using UnityEngine;
 namespace WizardsPlatformer
 {
     [Serializable]
-    public struct PlayerSavedData
+    public class PlayerSavedData
     {
         public string Name;
         public int LastEntryDate;
         public int Score;
         public int Bonuses;
+
+        public List<Location> Locations = new();
     }
 
     [Serializable]
-    public struct Location
+    public class Location
     {
-        public int Type;
-        public float Score;
+        public LocationType Type;
+        public string SpriteID;
+
+        [NonSerialized] public Sprite Sprite;
     }
 }

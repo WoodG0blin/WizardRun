@@ -10,6 +10,8 @@ namespace WizardsPlatformer
     {
         [Header("CONTROLS")]
         [SerializeField] private StartUIView _startUI;
+        [Header("CONFIGS")]
+        [SerializeField] private LocationsConfig _locationsConfig;
 
         private IMenuInfo _menuInfo;
 
@@ -52,15 +54,47 @@ namespace WizardsPlatformer
                 Name = name,
                 LastEntryDate = 1,
                 Score = 0,
-                Bonuses = 0
+                Bonuses = 0,
+                Locations = GenerateLocations()
             };
             _menuInfo.ApplyData(data);
             LoadUI();
         }
 
+        private List<Location> GenerateLocations()
+        {
+            var list = new List<Location>();
+
+            for(int i = 0; i < 4; i++)
+            {
+                var type = _locationsConfig.GetRandomLocationType();
+                Sprite img = _locationsConfig.GetRandomLocationImage(type);
+
+                list.Add(new Location()
+                {
+                    Type = type,
+                    SpriteID = img.name,
+                    Sprite = img
+                });
+            }
+
+            return list;
+        }
+
         private void LoadUI()
         {
+            PlayerSavedData data = _menuInfo.GetData();
+
+            if (data.Locations == null || data.Locations.Count == 0)
+            {
+                data.Locations = GenerateLocations();
+                _menuInfo.ApplyData(data);
+            }
+
             DataSaveAndLoad.Save(_menuInfo.GetData());
+
+            foreach (var l in data.Locations) l.Sprite = _locationsConfig.GetLocationImage(l.Type, l.SpriteID);
+
             _startUI.Init(_menuInfo);
         }
 

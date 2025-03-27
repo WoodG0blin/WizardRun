@@ -8,6 +8,7 @@ namespace WizardsPlatformer
         IPlayerModel PlayerModel { get; }
         int Bonuses { get; }
         int Score { get; }
+        List<Location> Locations { get; }
         IReadOnlyList<ItemConfig> ArtifactDatabase { get; }
         bool Loaded { get; }
         void ApplyData(PlayerSavedData data);

@@ -11,6 +11,7 @@ namespace WizardsPlatformer
         public bool Loaded { get; private set; } = false;
         public BonusStats Bonuses { get; private set; }
         public int Score { get; private set; }
+        public List<Location> Locations { get; private set; }
 
         internal PlayerModel PlayerModel { get; private set; }
 
@@ -29,6 +30,7 @@ namespace WizardsPlatformer
             PlayerModel.ApplyData(data);
             Bonuses[BonusType.coin] = data.Bonuses;
             Score = data.Score;
+            Locations = data.Locations;
         }
 
         public PlayerSavedData GetData()
