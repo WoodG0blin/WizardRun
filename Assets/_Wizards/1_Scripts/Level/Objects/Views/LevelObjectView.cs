@@ -70,7 +70,10 @@ namespace WizardsPlatformer
             transform.position = position;
             SetActive(true);
         }
-        public void SetActive(bool active) => gameObject.SetActive(active);
+        public void SetActive(bool active)
+        {
+            gameObject.SetActive(active);
+        }
 
 
         public void SetUpdateActions(Action onUpdate) => _onUpdateAction = onUpdate;

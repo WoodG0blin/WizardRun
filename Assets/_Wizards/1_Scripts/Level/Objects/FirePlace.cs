@@ -10,7 +10,6 @@ namespace WizardsPlatformer
         private FireplaceView _fireplaceView;
         public Fireplace(LevelObjectConfig config, Vector2Int gridPosition) : base(config, gridPosition)
         {
-            isPlayer = false;
             weapon = new Artifact(config.WeaponConfig).GetExecutor(ArtifactExecutorType.Attack);
         }
 

@@ -33,7 +33,7 @@ namespace WizardsPlatformer
 
         internal LevelObject GetBridgeAt(Vector2 gridPosition, float angle) => new Bridge(_configs.Elements.Where(e => e.Name == "Bridge").First(), gridPosition, angle);
         internal LevelObject GetLiftAt(Vector2 gridPosition, int height) => new Lift(_configs.Elements.Where(e => e.Name == "Lift").First(), gridPosition, height);
-        internal LevelObject GetJumpPlatformAt(Vector2 gridPosition) => new JumpPlatform(_configs.Elements.Where(e => e.Name == "JumpPlatform").First(), gridPosition);
+        internal LevelObject GetJumpPlatformAt(Vector2 gridPosition) => new SimpleObject(_configs.Elements.Where(e => e.Name == "JumpPlatform").First(), gridPosition);
 
         internal LevelObject GetEnemyAt(Vector2Int gridPosition, int difficulty) => new Enemy(_configs.Enemies[0], gridPosition);
 

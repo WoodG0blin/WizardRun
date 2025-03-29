@@ -72,7 +72,6 @@ namespace WizardsPlatformer
         protected CharacterStats stats;
         protected IArtifact weaponArtifact;
         protected IArtifactExecutor weapon;
-        protected bool isPlayer;
 
         protected Vector3 currentPlayerPosition;
         protected Action<int> OnReceiveDamage;
@@ -83,13 +82,14 @@ namespace WizardsPlatformer
             stats = new(config.MaxHealth, config.Speed, config.JumpForce);
             stats.OnDeath += Die;
             MaxHealth = stats.MaxHealth;
+            IsPlayer = false;
         }
 
         public CharacterStats Stats => stats;
-        public bool IsPlayer => isPlayer;
+        public bool IsPlayer { get; protected set; }
 
         public Transform Barrel { get; protected set; }
-        public Vector3 Direction { get; protected set; }
+        public Vector2 Direction { get; protected set; }
 
 
         public override void SetSubscriptions(ILevelEventAccounter subscriber)

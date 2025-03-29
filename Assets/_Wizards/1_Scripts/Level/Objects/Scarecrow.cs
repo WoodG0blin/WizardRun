@@ -8,7 +8,6 @@ namespace WizardsPlatformer
     {
         public Scarecrow(LevelObjectConfig config, Vector2Int _gridPosition) : base(config, _gridPosition)
         {
-            isPlayer = false;
             weapon = new Artifact(config.WeaponConfig).GetExecutor(ArtifactExecutorType.Attack);
         }
 

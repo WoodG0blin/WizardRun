@@ -1,37 +1,21 @@
-﻿using System;
-using System.Collections;
-using UnityEditorInternal;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace WizardsPlatformer
 {
     internal class BowlView : LevelObjectView
     {
         [field: SerializeField] public Transform Barrel { get; private set; }
-        public AimView Aim { get; private set; }
+        [field: SerializeField] public Transform BarrelRadius { get; private set; }
 
-        public Action<Vector3> OnFireReady { get; set; }
-
-        public void Init(float actionDistance)
+        public void Init()
         {
-            Barrel ??= visualBody.Find("Aim");
-
-            if (Barrel == null) return;
-
-            if (!Barrel.TryGetComponent<AimView>(out var aim)) aim = Barrel.gameObject.AddComponent<AimView>();
-            Aim = aim;
-
-            Aim.Init(actionDistance);
+            Barrel ??= transform;
         }
 
-        protected override void OnUpdate()
+        public Vector2 RotateBarrelTowards(Vector3 targetPosition)
         {
-            if (Aim.InDistance) OnFireReady?.Invoke(Aim.Direction);
-        }
-
-        public void SetNewPlayerPosition(Vector3 newPlayerPosition)
-        {
-            Aim.UpdateAim(newPlayerPosition);
+            BarrelRadius.forward = (targetPosition - Position).normalized;
+            return new(BarrelRadius.forward.x, BarrelRadius.forward.y);
         }
     }
 }

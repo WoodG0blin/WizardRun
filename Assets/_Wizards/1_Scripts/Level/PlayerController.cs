@@ -23,7 +23,7 @@ namespace WizardsPlatformer
 
         public PlayerController(PlayerModel playerModel, Vector2Int startPosition) : base(playerModel.Config, startPosition)
         {
-            isPlayer = true;
+            IsPlayer = true;
 
             _playerModel = playerModel;
 
@@ -60,7 +60,7 @@ namespace WizardsPlatformer
 
         public void OnFire()
         {
-            Direction = new(_playerView.XDirection, 0, 0);
+            Direction = new(_playerView.XDirection, 0);
             _playerView.DisplayAttack(
                 () => _executors.ExecuteFor(ArtifactExecutorType.Attack, this));
         }

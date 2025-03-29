@@ -16,7 +16,6 @@ namespace WizardsPlatformer
 
         public Enemy(LevelObjectConfig config, Vector2Int gridPosition) : base(config, gridPosition)
         {
-            isPlayer = false;
             weaponArtifact = new Artifact(config.WeaponConfig);
             weapon = weaponArtifact.GetExecutor(ArtifactExecutorType.Attack);
 
@@ -38,6 +37,12 @@ namespace WizardsPlatformer
             Barrel = view.Barrel;
 
             base.OnInitiateView();
+        }
+
+        public override void Destroy()
+        {
+            base.Destroy();
+            //view.SetUpdateActions(null);
         }
 
         void IDemonStateContext.SetNewState(DemonStates state)
@@ -92,7 +97,7 @@ namespace WizardsPlatformer
 
         void IDemonStateContext.Fire()
         {
-            Direction = new(view.XDirection, 0, 0);
+            Direction = new(view.XDirection, 0);
             if (weaponArtifact.IsReady) view.DisplayAttack(Attack);
         }
         private void Attack() =>

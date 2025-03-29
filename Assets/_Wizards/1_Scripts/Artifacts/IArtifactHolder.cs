@@ -9,7 +9,7 @@ namespace WizardsPlatformer
         bool IsPlayer { get; }
         List<IArtifact> EquippedArtifacts { get; }
         Transform Barrel { get; }
-        UnityEngine.Vector3 Direction { get; }
+        Vector2 Direction { get; }
         IJump JumpExecutioner { get; }
     }
 }
