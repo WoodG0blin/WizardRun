@@ -5,19 +5,21 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class Enemy : ActiveObject, IDemonStateContext
+    internal class MeleeEnemy : ActiveObject, IDemonStateContext
     {
-        private new DemonView view;
+        private new MeleeEnemyView view;
+        private LevelObjectConfig config;
 
         private DemonState _currentState;
 
         private float _patrolDistance;
         private float _closingDistance;
 
-        public Enemy(LevelObjectConfig config, Vector2Int gridPosition) : base(config, gridPosition)
+        public MeleeEnemy(LevelObjectConfig config, Vector2Int gridPosition) : base(config, gridPosition)
         {
-            weaponArtifact = new Artifact(config.WeaponConfig);
-            weapon = weaponArtifact.GetExecutor(ArtifactExecutorType.Attack);
+            //weaponArtifact = new Weapon(config.WeaponConfig);
+            //weapon = weaponArtifact.GetExecutor(ArtifactExecutorType.Attack);
+            this.config = config;
 
             _currentState = new DemonIdle(this);
 
@@ -26,15 +28,15 @@ namespace WizardsPlatformer
         }
 
         protected override LevelObjectView SetView(GameObject gameObject) =>
-            gameObject.AddComponent<DemonView>();
+            gameObject.AddComponent<MeleeEnemyView>();
 
         protected override void OnInitiateView()
         {
-            view = base.view as DemonView;
+            view = base.view as MeleeEnemyView;
             view.Init(config);
             view.SetUpdateActions(() => _currentState.Act());
 
-            Barrel = view.Barrel;
+            barrel = view.Barrel;
 
             base.OnInitiateView();
         }
@@ -93,15 +95,17 @@ namespace WizardsPlatformer
             targetDirection * view.XDirection >= 0 && Mathf.Abs(targetDirection) < _closingDistance;
 
         void IDemonStateContext.Move(float direction) =>
-            view.Mover?.SetMoveTo(direction, stats.Speed);
+            view.Mover?.SetInput(new(direction, 0), stats.Speed);
 
         void IDemonStateContext.Fire()
         {
             Direction = new(view.XDirection, 0);
-            if (weaponArtifact.IsReady) view.DisplayAttack(Attack);
+            if (weaponArtifact.IsReady)
+                view.DisplayAttack(Attack);
         }
         private void Attack() =>
-            weaponArtifact.GetExecutor(ArtifactExecutorType.Attack).Use(this);
+            //weaponArtifact.GetExecutor(ArtifactExecutorType.Attack).Use(this);
+            weaponArtifact.Fire(Direction);
 
         void IDemonStateContext.SetWait(float time, Action onFinish) => 
             view.StartCoroutine(Wait(time, onFinish));
@@ -113,7 +117,7 @@ namespace WizardsPlatformer
         }
 
         void IDemonStateContext.FlipDirection() =>
-            view.Mover.SetMoveTo(-view.XDirection * 0.01f);
+            view.Mover.SetInput(new(-view.XDirection * 0.01f, 0));
     }
 
 

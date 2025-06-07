@@ -4,16 +4,15 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class LevelObjectView : MonoBehaviour, ILevelObjectView
+    public class LevelObjectView : MonoBehaviour, ILevelObjectView
     {
-        private Rigidbody _rigidbody;
         private Transform _visualBody;
 
         private ContactsPuller3D _contacts;
 
         private Action _onUpdateAction;
 
-        public ViewMover Mover { get; protected set; }
+        public IViewMover Mover { get; protected set; }
         public IJump Jumper { get; protected set; }
 
 
@@ -41,16 +40,6 @@ namespace WizardsPlatformer
                 }
                 return _animator;
             }
-        }
-        new public Rigidbody rigidbody
-        {
-            get
-            {
-                //if (!_rigidbody)
-                //    if (!TryGetComponent<Rigidbody>(out _rigidbody)) _rigidbody = transform.AddComponent<Rigidbody>();
-                return _rigidbody;
-            }
-            private set => _rigidbody = value;
         }
 
         public Transform visualBody
@@ -128,7 +117,16 @@ namespace WizardsPlatformer
         protected virtual void OnAnyContact(Transform collided) { }
     }
 
-    internal class ViewMover : IJump
+    public interface IViewMover : IJump
+    {
+        Vector2 Velocity { get; }
+
+        void GetKickOff(float force);
+        void SetInput(Vector2 direction, float speed = 1);
+        void Update(float deltaTime);
+    }
+
+    public class ViewMover : IViewMover
     {
         protected CharacterController characterController;
         protected Collider collider;
@@ -159,7 +157,7 @@ namespace WizardsPlatformer
         {
             _transform = levelObject;
 
-            if(!_transform.TryGetComponent<CharacterController>(out characterController)) characterController = _transform.AddComponent<CharacterController>();
+            if (!_transform.TryGetComponent<CharacterController>(out characterController)) characterController = _transform.AddComponent<CharacterController>();
 
             //if (!_transform.TryGetComponent<Rigidbody>(out rigidbody)) rigidbody = _transform.AddComponent<Rigidbody>();
             //rigidbody.isKinematic = true;
@@ -171,8 +169,8 @@ namespace WizardsPlatformer
 
         public void Update(float deltaTime)
         {
-            if(groundedTimer > 0) groundedTimer -= deltaTime; //allowance for grounded fluctuations of less than FLUCTUATION TIME
-            if(jumpTimer > 0) jumpTimer -= deltaTime;
+            if (groundedTimer > 0) groundedTimer -= deltaTime; //allowance for grounded fluctuations of less than FLUCTUATION TIME
+            if (jumpTimer > 0) jumpTimer -= deltaTime;
 
             if (characterController.isGrounded)
             {
@@ -184,10 +182,10 @@ namespace WizardsPlatformer
             verticalVelocity -= GRAVITY * deltaTime;
 
             //FaceForward if not in uncontrolled kickOff & with enough movement force
-            if(isControlled && Mathf.Abs(horizontalInput) > MOVE_THRESHOLD)
+            if (isControlled && Mathf.Abs(horizontalInput) > MOVE_THRESHOLD)
                 _transform.forward = (Vector3.forward * horizontalInput).normalized;
 
-            if(jumpTimer > 0)
+            if (jumpTimer > 0)
             {
                 verticalVelocity += Mathf.Sqrt(jumpImpulseInput * 2 * GRAVITY);
 
@@ -211,10 +209,10 @@ namespace WizardsPlatformer
             horizontalInput = Mathf.Sign(horizontalInput) * Mathf.Clamp(absSpeed, 0, absSpeed);
         }
 
-        public void SetMoveTo(float xDirection, float speed = 1)
+        public void SetInput(Vector2 direction, float speed = 1)
         {
-            if(isControlled)
-                horizontalInput = Mathf.Clamp(xDirection, -1, 1) * speed;
+            if (isControlled)
+                horizontalInput = Mathf.Clamp(direction.x, -1, 1) * speed;
         }
 
         public void Jump(float force)
@@ -228,7 +226,7 @@ namespace WizardsPlatformer
 
         public void GetKickOff(float force)
         {
-            SetMoveTo(-Velocity.x, force * 3);
+            SetInput(new(-Velocity.x, 0), force * 3);
             Jump(force);
             isControlled = false;
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class AnimationController : MonoBehaviour
+    public class AnimationController : MonoBehaviour
     {
         private Animator _animator;
         private bool _isAnimated;

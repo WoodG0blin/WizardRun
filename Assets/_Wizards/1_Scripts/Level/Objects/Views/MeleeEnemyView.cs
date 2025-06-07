@@ -4,7 +4,7 @@ using TMPro;
 
 namespace WizardsPlatformer
 {
-    internal class DemonView : LevelObjectView
+    internal class MeleeEnemyView : LevelObjectView
     {
         [SerializeField] private TextMeshProUGUI stateText;
         [field: SerializeField] public Transform Barrel { get; private set; }

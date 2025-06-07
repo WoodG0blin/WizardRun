@@ -5,11 +5,15 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class LevelBonus : InteractableObject
+    internal class Bonus : InteractableObject
     {
         private Action<BonusType, int> OnBonusCollect;
+        private int bonusesOnKill;
 
-        public LevelBonus(LevelObjectConfig config, Vector2Int positionOnElement) : base(config, positionOnElement) { }
+        public Bonus(LevelObjectConfig config, Vector2Int positionOnElement) : base(config, positionOnElement)
+        {
+            bonusesOnKill = config.BonusesOnKill;
+        }
 
         public override void SetSubscriptions(ILevelEventAccounter subscriber)
         {
@@ -23,7 +27,7 @@ namespace WizardsPlatformer
         {
             if (interactor.IsPlayer)
             {
-                OnBonusCollect?.Invoke(BonusType.coin, config.BonusesOnKill);
+                OnBonusCollect?.Invoke(BonusType.coin, bonusesOnKill);
                 view.SetActive(false);
             }
         }

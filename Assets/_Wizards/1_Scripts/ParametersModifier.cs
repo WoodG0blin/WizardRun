@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class ParametersModifier<T> where T: struct, IConvertible
+    public class ParametersModifier<T> where T: struct, IConvertible
     {
         private Dictionary<T, int> _modifiers;
 

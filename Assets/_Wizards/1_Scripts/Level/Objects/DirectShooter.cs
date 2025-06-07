@@ -2,28 +2,28 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class Bowl : ActiveObject, IArtifactHolder
+    internal class DirectShooter : ActiveObject
     {
-        private new BowlView view;
+        private new DirectShooterView view;
         private float _maxDistance;
 
-        public Bowl(LevelObjectConfig config, Vector2Int gridPosition) : base(config, gridPosition)
+        public DirectShooter(LevelObjectConfig config, Vector2Int gridPosition) : base(config, gridPosition)
         {
-            weaponArtifact = new Artifact(config.WeaponConfig);
-            weapon = weaponArtifact.GetExecutor(ArtifactExecutorType.Attack);
+            //weaponArtifact = new Weapon(config.WeaponConfig);
+            //weapon = weaponArtifact.GetExecutor(ArtifactExecutorType.Attack);
             _maxDistance = config.WeaponConfig.ActionDistance;
         }
 
         protected override LevelObjectView SetView(GameObject gameObject) =>
-            gameObject.AddComponent<BowlView>();
+            gameObject.AddComponent<DirectShooterView>();
 
         protected override void OnInitiateView()
         {
-            view = base.view as BowlView;
+            view = base.view as DirectShooterView;
             view.Init();
             view.SetUpdateActions(UpdateAim);
             
-            Barrel = view.Barrel;
+            barrel = view.Barrel;
 
             base.OnInitiateView();
         }
@@ -34,7 +34,7 @@ namespace WizardsPlatformer
             if (InDistance)
             {
                 Direction = view.RotateBarrelTowards(currentPlayerPosition);
-                if (weaponArtifact.IsReady) weapon.Use(this);
+                if (weaponArtifact.IsReady) weaponArtifact.Fire(Direction);
             }
         }
 

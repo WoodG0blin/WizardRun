@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class Spikes : InteractableObject
+    internal class Trap : InteractableObject
     {
         //TODO replace with config load?
         int _damage = 20;
 
-        public Spikes(LevelObjectConfig config, Vector2Int gridPosition) : base(config, gridPosition) { }
+        public Trap(LevelObjectConfig config, Vector2Int gridPosition) : base(config, gridPosition) { }
 
         protected override LevelObjectView SetView(GameObject gameObject) =>
             gameObject.AddComponent<LevelObjectView>();

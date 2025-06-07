@@ -1,23 +1,28 @@
-﻿namespace WizardsPlatformer
+﻿using Unity.VisualScripting;
+using UnityEngine;
+
+namespace WizardsPlatformer
 {
     public interface IArtifactExecutor
     {
+        bool IsReady { get; }
         void Use(IArtifactHolder holder);
     }
 
     internal abstract class ArtifactExecutor : IArtifactExecutor
     {
-        protected IArtifactExecutorHolder parentArtifact;
+        protected Artifact parentArtifact;
+        protected Coroutine cooldownTimer;
 
-        public void Init(IArtifactExecutorHolder holder) => parentArtifact = holder;
+        public bool IsReady => RemainingCooldown <= 0;
+        public float RemainingCooldown { get; protected set; }
+
+        public virtual void Init(Artifact parentArtifact) => this.parentArtifact = parentArtifact;
 
         public void Use(IArtifactHolder holder)
         {
-            if (parentArtifact.IsReady)
-            {
-                parentArtifact.Activate();
-                ActionsOnUse(holder);
-            }
+            cooldownTimer = holder.SetTimer(parentArtifact.Cooldown, t => RemainingCooldown = t, cooldownTimer);
+            ActionsOnUse(holder);
         }
 
         protected abstract void ActionsOnUse(IArtifactHolder holder);

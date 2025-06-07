@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace WizardsPlatformer
@@ -12,7 +13,8 @@ namespace WizardsPlatformer
 
         private float _moveThreshold = 0.02f;
 
-        private IArtifactExecutorsContainer _executors;
+        //private IArtifactExecutorsContainer _executors;
+        private List<IArtifact> _artifacts;
 
         private Action<Vector3> OnPlayerPositionChange;
 
@@ -35,7 +37,9 @@ namespace WizardsPlatformer
 
             _startHealth = stats.Health;
 
-            _executors = _playerModel.Executors;
+            //_executors = _playerModel.Executors;
+            _artifacts = _playerModel.EquippedArtifacts;
+            foreach(var art in _artifacts) art.SetHolder(this);
         }
 
         public override void SetSubscriptions(ILevelEventAccounter subscriber)
@@ -46,7 +50,7 @@ namespace WizardsPlatformer
         public void OnHorizontalMove(float newValue)
         {
             if (Mathf.Abs(newValue) > _moveThreshold)
-                _playerView.Mover?.SetMoveTo(newValue, stats.Speed);
+                _playerView.Mover?.SetInput(new(newValue, 0), stats.Speed);
 
             OnPlayerPositionChange?.Invoke(_playerView.Position);
         }
@@ -55,14 +59,22 @@ namespace WizardsPlatformer
             if (_playerView.Mover.IsGrounded)
                 _playerView.Jumper?.Jump(stats.JumpForce);
 
-            _executors.ExecuteFor(ArtifactExecutorType.Jump, this);
+            //_executors.ExecuteFor(ArtifactExecutorType.Jump, this);
+            foreach (var art in _artifacts) art.TryUseFor(Artifact.ExecutorType.Jump);
         }
 
         public void OnFire()
         {
             Direction = new(_playerView.XDirection, 0);
-            _playerView.DisplayAttack(
-                () => _executors.ExecuteFor(ArtifactExecutorType.Attack, this));
+            
+            if (weaponArtifact.IsReady)
+                _playerView.DisplayAttack(onAttackPositionReady: FireAttack);
+        }
+
+        private void FireAttack()
+        {
+            weaponArtifact.Fire(Direction);
+            foreach (var art in _artifacts) art.TryUseFor(Artifact.ExecutorType.Attack);
         }
 
 
@@ -82,7 +94,7 @@ namespace WizardsPlatformer
         protected override void OnInitiateView()
         {
             _playerView = view as PlayerView;
-            Barrel = _playerView.GetBarrelObject();
+            barrel = _playerView.GetBarrelObject();
 
             OnReceiveDamage += (d) => _playerView.DisplayHit();
 

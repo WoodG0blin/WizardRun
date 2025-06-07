@@ -18,7 +18,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4f0a7e09bf40a7946b914fec5445e20b, type: 2}
   <Obstacles>k__BackingField:
   - {fileID: 11400000, guid: adf7a9965ec0cd64b83968e92b6e25c3, type: 2}
-  - {fileID: 11400000, guid: 60389c88998bd7d42a04a7e0fc5d0da4, type: 2}
+  - {fileID: 11400000, guid: 4f6b62bff59aec14bb08c714269dab62, type: 2}
   <Enemies>k__BackingField:
   - {fileID: 11400000, guid: 705365f000b1a8647bafd844ea55f956, type: 2}
   <Bonus>k__BackingField: {fileID: 11400000, guid: 4d974c7306952a54a9a52604a7f08307, type: 2}

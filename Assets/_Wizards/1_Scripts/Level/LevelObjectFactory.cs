@@ -21,9 +21,9 @@ namespace WizardsPlatformer
             LevelObject res = config.Name switch
             {
                 "Rock" => new SimpleObject(config, gridPosition),
-                "Spikes" => new Spikes(config, gridPosition),
-                "Bowl" => new Bowl(config, gridPosition),
-                "Fireplace" => new Fireplace(config, gridPosition),
+                "Spikes" => new Trap(config, gridPosition),
+                "Bowl" => new DirectShooter(config, gridPosition),
+                "Fireplace" => new BallisticShooter(config, gridPosition),
                 "Scarecrow" => new Scarecrow(config, gridPosition),
                 _ => new SimpleObject (config, gridPosition)
             };
@@ -35,9 +35,9 @@ namespace WizardsPlatformer
         internal LevelObject GetLiftAt(Vector2 gridPosition, int height) => new Lift(_configs.Elements.Where(e => e.Name == "Lift").First(), gridPosition, height);
         internal LevelObject GetJumpPlatformAt(Vector2 gridPosition) => new SimpleObject(_configs.Elements.Where(e => e.Name == "JumpPlatform").First(), gridPosition);
 
-        internal LevelObject GetEnemyAt(Vector2Int gridPosition, int difficulty) => new Enemy(_configs.Enemies[0], gridPosition);
+        internal LevelObject GetEnemyAt(Vector2Int gridPosition, int difficulty) => new MeleeEnemy(_configs.Enemies[0], gridPosition);
 
-        internal LevelObject GetBonusAt(Vector2Int gridPosition) => new LevelBonus(_configs.Bonus, gridPosition);
+        internal LevelObject GetBonusAt(Vector2Int gridPosition) => new Bonus(_configs.Bonus, gridPosition);
 
         internal LevelObject GetPortalAt(Vector2Int gridPosition) => new Portal(_configs.Portal, gridPosition);
 

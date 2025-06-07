@@ -6,8 +6,7 @@
         {
             UnityEngine.Debug.Log($"Extra actions on Jump");
             
-            if(holder.JumpExecutioner.IsGrounded)parentArtifact.ResetCooldown();
-            else holder.JumpExecutioner.Jump(holder.Stats.JumpForce);
+            if(!holder.JumpExecutioner.IsGrounded) holder.JumpExecutioner.Jump(holder.Stats.JumpForce);
         }
     }
 }

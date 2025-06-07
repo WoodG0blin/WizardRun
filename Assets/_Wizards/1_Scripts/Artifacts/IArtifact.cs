@@ -8,18 +8,10 @@ namespace WizardsPlatformer
         ArtifactSlotType SlotType { get; }
         List<ICharacterModifier> PassiveCharacterModifiers { get; }
         IArtifactExecutor GetExecutor(ArtifactExecutorType type);
-        bool IsReady { get; }
 
-    }
+        void SetHolder(IArtifactHolder holder);
+        void TryUseFor(Artifact.ExecutorType actionType);
 
-    internal interface IArtifactExecutorHolder
-    {
         bool IsReady { get; }
-        int Damage { get; }
-        float ActionDistance { get; }
-        float FireForce { get; }
-        bool TryGetAmmoTo(Transform barrel, out AmmoView ammo);
-        void Activate();
-        void ResetCooldown();
     }
 }

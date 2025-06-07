@@ -1,108 +1,107 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    public class Artifact : IArtifact, IArtifactExecutorHolder, IModifiableArtifact
+    public class Artifact : IArtifact, IModifiableArtifact
     {
-        private ItemConfig _config;
+        public enum ExecutorType
+        {
+            Modifier = 0,
+            Attack = 1,
+            Jump = 2,
+            ExplicitAction = 3
+        }
 
-        protected int cooldown;
-        private bool _forceResetCooldown;
 
-        protected Dictionary<ArtifactExecutorType, IArtifactExecutor> executors;
+        protected ItemConfig config;
 
-        protected int damage;
+        protected ParametersModifier<ArtifactStatTypes> _modifiers;
+        protected Dictionary<ExecutorType, IArtifactExecutor> executors;
+
+        protected IArtifactHolder holder;
+
+        protected string nameTag;
+        protected int actionValue;
         protected float actionDistance;
-        protected float fireForce;
 
-        private ParametersModifier<ArtifactStatTypes> _modifiers;
+        public Sprite Icon { get; protected set; }
+        public int Cooldown { get; protected set; }
+        public ArtifactSlotType SlotType {get; protected set;}
+
+        public List<ICharacterModifier> PassiveCharacterModifiers { get; private set; } = new();
+
+        public string Name => config.NameTag; //replace with localization
+        public int ActionValue => actionValue + _modifiers.GetModifier(ArtifactStatTypes.Damage);
+        public float ActionDistance => actionDistance + _modifiers.GetModifier(ArtifactStatTypes.ActionDistance);
+        public bool IsReady => RemainingCooldown <= 0;
+        public float RemainingCooldown { get; protected set; }
+
+
+        protected Coroutine cooldownTimer;
+
 
         public Artifact(ItemConfig config)
         {
-            _config = config;
+            this.config = config;
+
+            nameTag = config.NameTag;
+            actionValue = config.ActionValue;
+            actionDistance = config.ActionDistance;
+
+            SlotType = config.SlotType;
+            Icon = config.Icon;
+            Cooldown = config.Cooldown;
+
+            PassiveCharacterModifiers = config.PassiveCharacterModifiers;
+
             executors = new();
-            foreach (var type in _config.ArtifactExecutors)
+            foreach (var type in this.config.Actions)
             {
-                var executor = ArtifactExecutorFactory.GetExecutor(type, _config.NameTag);
+                var executor = ArtifactExecutorFactory.GetExecutor(type, this.config.NameTag);
                 executor.Init(this);
                 executors.Add(type, executor);
             }
 
-            cooldown = _config.Cooldown;
+            _modifiers = new();
+        }
 
-            PassiveCharacterModifiers = _config.PassiveCharacterModifiers;
+        public Artifact()
+        {
+            nameTag = "";
 
-            damage = config.Damage;
-            actionDistance = config.ActionDistance;
-            fireForce = config.FireForce;
+            executors = new();
 
             _modifiers = new();
         }
 
+        public void SetHolder(IArtifactHolder holder) => this.holder = holder; 
 
-        public string Name => _config.NameTag; //replace with localization
-        public Sprite Icon => _config.Icon;
-        public Sprite LevelView => _config.LevelView;
-
-        public ArtifactSlotType SlotType => _config.SlotType;
-
-        public List<ICharacterModifier> PassiveCharacterModifiers { get; private set; }
-
-        public bool IsReady => RemainingCooldown <= 0;
-        public int RemainingCooldown { get; private set; }
-
-
-        int IArtifactExecutorHolder.Damage => damage + _modifiers.GetModifier(ArtifactStatTypes.Damage);
-        float IArtifactExecutorHolder.ActionDistance => actionDistance + _modifiers.GetModifier(ArtifactStatTypes.ActionDistance);
-        float IArtifactExecutorHolder.FireForce => fireForce + _modifiers.GetModifier(ArtifactStatTypes.FireForce);
-        bool IArtifactExecutorHolder.TryGetAmmoTo(Transform barrel, out AmmoView ammo)
+        public void TryUseFor(ExecutorType actionType)
         {
-            ammo = null;
+            if (holder == null) return;
 
-            if(_config.Ammo != null)
-            {
-                var temp = GameObject.Instantiate(_config.Ammo, barrel);
-                if(!temp.TryGetComponent<AmmoView>(out ammo)) ammo = temp.AddComponent<BulletView>();
-                
-                return true;
-            }
-
-            return false;
+            if (executors.ContainsKey(actionType))
+                executors[actionType].Use(holder);
+                //if (ex.IsReady) ex.Use(holder);
         }
 
+        public void TriggerCooldown()
+        {
+            cooldownTimer = holder.SetTimer(Cooldown, t => RemainingCooldown = t, cooldownTimer);
+        }
 
         public IArtifactExecutor GetExecutor(ArtifactExecutorType type)
         {
-            if (executors.ContainsKey(type)) return executors[type];
-            else return null;
+            //if (executors.ContainsKey(type)) return executors[type];
+            //else return null;
+            return null;
         }
 
-
-        public void Activate()
-        {
-            if (IsReady)
-            {
-                RemainingCooldown = cooldown;
-                StartCooldownArtifact();
-            }
-        }
-        public void ResetCooldown()
-        {
-            RemainingCooldown = 0;
-            _forceResetCooldown = true;
-        }
-        private async void StartCooldownArtifact()
-        {
-            if (RemainingCooldown > 0)
-            {
-                _forceResetCooldown = false;
-                await Task.Delay(1000);
-                if (!_forceResetCooldown) RemainingCooldown--;
-                StartCooldownArtifact();
-            }
-        }
 
         public void SetModifiers(List<IArtifactModifier> modifiers)
         {
@@ -113,6 +112,75 @@ namespace WizardsPlatformer
         {
             _modifiers.CancelAllTempEffects();
             _modifiers = new();
+        }
+    }
+
+
+    public interface IWeapon : IArtifact
+    {
+        public int Damage { get; }
+        public float FireForce { get; }
+        void Fire(Vector2 direction, float force = 0);
+    }
+
+    public class Weapon : Artifact, IWeapon
+    {
+        protected bool isRanged;
+        protected bool isBallistic;
+        protected GameObject ammoPrefab;
+
+        public int Damage => actionValue;
+        public float FireForce { get; protected set; }
+        
+
+        public Weapon(WeaponConfig config) : base(config)
+        {
+            isRanged = config.IsRanged;
+            isBallistic = config.IsBallistic;
+            FireForce = config.FireForce;
+
+            ammoPrefab = config.Ammo;
+        }
+
+        public Weapon(int cooldown, int damage, float distance, bool isRanged, float fireForce, GameObject ammo) : base()
+        {
+            actionValue = damage;
+            actionDistance = distance;
+
+            Cooldown = cooldown;
+
+            this.isRanged = isRanged;
+            this.FireForce = fireForce;
+            ammoPrefab = ammo;
+
+            var ex = new AttackExecutor();
+            ex.Init(this);
+            executors.Add(ExecutorType.Attack, ex);
+        }
+
+        public void Fire(Vector2 direction, float force = 0)
+        {
+            if (isRanged) RangedAttack(direction, force > 0 ? force : FireForce);
+            else MeleeAttack();
+
+            TriggerCooldown();
+        }
+
+        private void MeleeAttack()
+        {
+            IInteractionResponder hit = holder.GetTargetAt(ActionDistance);
+
+            if (hit == null) return;
+
+            if (holder.IsPlayer ^ hit.IsPlayer) hit.ReceiveDamage(actionValue);
+        }
+
+        private void RangedAttack(Vector2 direction, float force)
+        {
+            Ammo bullet = new Ammo(actionValue, isBallistic, ammoPrefab);
+            holder.PlaceAmmo(bullet);
+            bullet.SetToPlayer(holder.IsPlayer);
+            bullet.Fire(direction, force);
         }
     }
 }

@@ -6,7 +6,6 @@ namespace WizardsPlatformer
     {
         string Name { get; }
         Sprite Icon { get; }
-        Sprite LevelView { get; }
 
     }
 }

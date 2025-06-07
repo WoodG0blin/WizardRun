@@ -5,8 +5,8 @@ namespace WizardsPlatformer
     public interface IPlayerModel
     {
         List<IArtifact> EquippedArtifacts { get; }
-        IArtifactExecutorsContainer Executors { get; }
-        
+        //IArtifactExecutorsContainer Executors { get; }
+
         string Name { get; }
         int Bonuses { get; }
 

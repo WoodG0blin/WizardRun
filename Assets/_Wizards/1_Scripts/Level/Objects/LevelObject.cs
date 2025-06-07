@@ -9,18 +9,22 @@ namespace WizardsPlatformer
 {
     internal abstract class LevelObject
     {
-        protected LevelObjectConfig config;
         protected LevelObjectView view;
 
         public Vector2 LocalPosition { get; private set; }
-        public string Name => config.Name;
-        public GameObject Prefab => config.Prefab;
+        public string Name {get; protected set; }
+        public GameObject Prefab { get; protected set; }
 
         public int MaxHealth { get; protected set; }
 
         protected LevelObject(LevelObjectConfig config, Vector2 position)
         {
-            this.config = config;
+            if (config != null)
+            {
+                Name = config.Name;
+                Prefab = config.Prefab;
+            }
+
             LocalPosition = position;
         }
 
@@ -69,9 +73,13 @@ namespace WizardsPlatformer
 
     internal abstract class ActiveObject : InteractableObject, IInteractionResponder, IArtifactHolder
     {
+        protected int bonusesOnKill;
+
         protected CharacterStats stats;
-        protected IArtifact weaponArtifact;
-        protected IArtifactExecutor weapon;
+        protected IWeapon weaponArtifact;
+        //protected IArtifactExecutor weapon;
+
+        protected Transform barrel;
 
         protected Vector3 currentPlayerPosition;
         protected Action<int> OnReceiveDamage;
@@ -83,14 +91,45 @@ namespace WizardsPlatformer
             stats.OnDeath += Die;
             MaxHealth = stats.MaxHealth;
             IsPlayer = false;
+
+            if (config.WeaponConfig != null)
+            {
+                weaponArtifact = new Weapon(config.WeaponConfig);
+                weaponArtifact.SetHolder(this);
+            }
+
+            bonusesOnKill = config.BonusesOnKill;
         }
 
         public CharacterStats Stats => stats;
         public bool IsPlayer { get; protected set; }
 
-        public Transform Barrel { get; protected set; }
         public Vector2 Direction { get; protected set; }
 
+
+        public virtual IInteractionResponder GetTargetAt(float distance)
+        {
+            var hits = Physics.RaycastAll(barrel.position, Direction, distance)
+            .Select(h => h.transform.GetComponent<LevelObjectView>());
+
+            IInteractionResponder hit = null;
+
+            foreach (var h in hits)
+            {
+                if (h != null && h.InteractionResponder != null)
+                {
+                    hit = h.InteractionResponder;
+                    break;
+                }
+            }
+
+            return hit;
+        }
+
+        void IArtifactHolder.PlaceAmmo(LevelObject ammo)
+        {
+            ammo.InitiateView(GameObject.Instantiate(ammo.Prefab, barrel.position, Quaternion.identity, barrel));
+        }
 
         public override void SetSubscriptions(ILevelEventAccounter subscriber)
         {
@@ -108,7 +147,7 @@ namespace WizardsPlatformer
         {
             Destroy();
             OnBonusCollect?.Invoke(
-                BonusType.coin, config.BonusesOnKill);
+                BonusType.coin, bonusesOnKill);
         }
 
         public virtual void Destroy()
@@ -128,7 +167,7 @@ namespace WizardsPlatformer
         {
             if (interactor.IsPlayer)
             {
-                interactor.ReceiveDamage(config.WeaponConfig.Damage);
+                interactor.ReceiveDamage(weaponArtifact.Damage);
                 interactor.KickOff(0.5f);
             }
         }
@@ -140,5 +179,23 @@ namespace WizardsPlatformer
 
         public List<IArtifact> EquippedArtifacts { get; protected set; } = new();
         public IJump JumpExecutioner => view.Jumper;
+
+        Coroutine IArtifactHolder.SetTimer(float time, Action<float> informOnRemainingTime, Coroutine toStop = null)
+        {
+            if (toStop != null) view.StopCoroutine(toStop);
+            return view.StartCoroutine(Timer(time, informOnRemainingTime));
+        }
+
+        private IEnumerator Timer(float time, Action<float> informOnRemainingTime)
+        {
+            float t = time;
+            while(t > 0)
+            {
+                informOnRemainingTime(t);
+                yield return null;
+                t -= Time.deltaTime;
+            }
+            informOnRemainingTime(0);
+        }
     }
 }

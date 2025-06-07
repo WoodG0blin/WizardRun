@@ -18,8 +18,8 @@ MonoBehaviour:
   <SlotType>k__BackingField: 0
   _passiveCharacterModifiers: []
   <ArtifactExecutors>k__BackingField: 01000000
-  <Cooldown>k__BackingField: 2
+  <Cooldown>k__BackingField: 1
   <Damage>k__BackingField: 10
   <ActionDistance>k__BackingField: 4
-  <FireForce>k__BackingField: 5
+  <FireForce>k__BackingField: 3
   <Ammo>k__BackingField: {fileID: 6176215044522108244, guid: c659eb280467ba544918e6afd673640c, type: 3}

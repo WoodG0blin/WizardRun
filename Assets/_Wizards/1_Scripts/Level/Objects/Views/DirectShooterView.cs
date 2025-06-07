@@ -2,7 +2,7 @@
 
 namespace WizardsPlatformer
 {
-    internal class BowlView : LevelObjectView
+    internal class DirectShooterView : LevelObjectView
     {
         [field: SerializeField] public Transform Barrel { get; private set; }
         [field: SerializeField] public Transform BarrelRadius { get; private set; }

@@ -21,5 +21,5 @@ MonoBehaviour:
   <Cooldown>k__BackingField: 3
   <Damage>k__BackingField: 15
   <ActionDistance>k__BackingField: 3
-  <FireForce>k__BackingField: 2
-  <Ammo>k__BackingField: {fileID: 5613963724177010042, guid: d3848614b9baf8a49bf3cdcb6ff13db7, type: 3}
+  <FireForce>k__BackingField: 15
+  <Ammo>k__BackingField: {fileID: 6176215044522108244, guid: 011136de26fdf6248b89b481da733c4d, type: 3}

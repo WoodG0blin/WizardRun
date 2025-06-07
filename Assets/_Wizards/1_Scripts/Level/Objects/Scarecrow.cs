@@ -8,7 +8,7 @@ namespace WizardsPlatformer
     {
         public Scarecrow(LevelObjectConfig config, Vector2Int _gridPosition) : base(config, _gridPosition)
         {
-            weapon = new Artifact(config.WeaponConfig).GetExecutor(ArtifactExecutorType.Attack);
+            //weapon = new Artifact(config.WeaponConfig).GetExecutor(ArtifactExecutorType.Attack);
         }
 
         protected override LevelObjectView SetView(GameObject gameObject) =>
@@ -18,7 +18,7 @@ namespace WizardsPlatformer
         {
             ScarecrowView bv = view as ScarecrowView;
             bv.Init();
-            Barrel = bv.Barrel;
+            barrel = bv.Barrel;
             bv.OnFireReady = Fire;
 
             base.OnInitiateView();
@@ -27,7 +27,8 @@ namespace WizardsPlatformer
         private void Fire(Vector3 direction)
         {
             Direction = direction;
-            weapon.Use(this);
+            if (weaponArtifact.IsReady)
+                weaponArtifact.Fire(Direction);
         }
     }
 }

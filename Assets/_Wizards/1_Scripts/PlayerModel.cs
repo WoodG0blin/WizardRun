@@ -18,7 +18,7 @@ namespace WizardsPlatformer
         public int Bonuses => _bonuses[BonusType.coin];
         public PlayerSavedData SaveData { get; private set; }
 
-        public IArtifactExecutorsContainer Executors => new ArtifactExecutorsContainer(EquippedArtifacts);
+        //public IArtifactExecutorsContainer Executors => new ArtifactExecutorsContainer(EquippedArtifacts);
         public List<IArtifact> EquippedArtifacts => _artifacts.Values.Where(a => a!=null).ToList();
 
 
