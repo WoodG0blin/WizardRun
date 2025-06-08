@@ -23,7 +23,7 @@ namespace WizardsPlatformer
 
             _currentState = new DemonIdle(this);
 
-            _closingDistance = config.WeaponConfig.ActionDistance;
+            _closingDistance = config.MainWeaponConfig.ActionDistance;
             _patrolDistance = _closingDistance * 5;
         }
 
@@ -100,12 +100,12 @@ namespace WizardsPlatformer
         void IDemonStateContext.Fire()
         {
             Direction = new(view.XDirection, 0);
-            if (weaponArtifact.IsReady)
+            if (weapon.IsReady)
                 view.DisplayAttack(Attack);
         }
         private void Attack() =>
             //weaponArtifact.GetExecutor(ArtifactExecutorType.Attack).Use(this);
-            weaponArtifact.Fire(Direction);
+            weapon.Fire(Direction);
 
         void IDemonStateContext.SetWait(float time, Action onFinish) => 
             view.StartCoroutine(Wait(time, onFinish));

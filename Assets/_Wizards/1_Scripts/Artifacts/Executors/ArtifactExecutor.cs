@@ -5,23 +5,18 @@ namespace WizardsPlatformer
 {
     public interface IArtifactExecutor
     {
-        bool IsReady { get; }
         void Use(IArtifactHolder holder);
     }
 
     internal abstract class ArtifactExecutor : IArtifactExecutor
     {
-        protected Artifact parentArtifact;
-        protected Coroutine cooldownTimer;
+        protected ArtifactActor parentArtifact;
 
-        public bool IsReady => RemainingCooldown <= 0;
-        public float RemainingCooldown { get; protected set; }
 
-        public virtual void Init(Artifact parentArtifact) => this.parentArtifact = parentArtifact;
+        public virtual void Init(ArtifactActor parentArtifact) => this.parentArtifact = parentArtifact;
 
         public void Use(IArtifactHolder holder)
         {
-            cooldownTimer = holder.SetTimer(parentArtifact.Cooldown, t => RemainingCooldown = t, cooldownTimer);
             ActionsOnUse(holder);
         }
 

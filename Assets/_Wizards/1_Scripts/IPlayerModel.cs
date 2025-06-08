@@ -10,6 +10,6 @@ namespace WizardsPlatformer
         string Name { get; }
         int Bonuses { get; }
 
-        bool TrySetArtifactAt(ArtifactSlotType slot, IArtifact artifact);
+        bool TrySetArtifactAt(ArtifactSlotType slot, ItemConfig artifact);
     }
 }

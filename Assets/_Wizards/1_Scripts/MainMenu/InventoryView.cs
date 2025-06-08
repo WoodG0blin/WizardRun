@@ -16,7 +16,7 @@ namespace WizardsPlatformer
 
         [SerializeField] private EquipDisplayView _equipDisplay;
 
-        private Dictionary<InventoryItemView, IArtifact> _inventoryItems;
+        private Dictionary<InventoryItemView, IItem> _inventoryItems;
 
         protected override void OnInit()
         {
@@ -38,9 +38,9 @@ namespace WizardsPlatformer
             List<InventoryItemView> unequippedItems = new();
             foreach (var i in menuInfo.ArtifactDatabase)
             {
-                var check = menuInfo.PlayerModel.EquippedArtifacts.Where(a => a.Name == i.Name).ToList();
+                var check = menuInfo.PlayerModel.EquippedArtifacts.Where(a => a.NameTag == i.NameTag).ToList();
                 if (check == null || check.Count == 0)
-                    unequippedItems.Add(CreateItem(CreateFromConfig(i)));
+                    unequippedItems.Add(CreateItem(i));
             }
 
             foreach (var item in unequippedItems)
@@ -64,19 +64,20 @@ namespace WizardsPlatformer
         private bool TryEquipNewItemTo(InventoryItemView item, ArtifactSlotType slot)
         {
             var art = item != null ? _inventoryItems[item] : null;
-            return menuInfo.PlayerModel.TrySetArtifactAt(slot, art);
+            return menuInfo.PlayerModel.TrySetArtifactAt(
+                slot,
+                menuInfo.ArtifactDatabase.Where(c => c.NameTag == art.NameTag).FirstOrDefault());
             //Display();
         }
 
-        private void DisplayItemInfo(IArtifact item)
+        private void DisplayItemInfo(IItem item)
         {
             _itemInfoText.text = item.Name;
             _equipDisplay.HighlightSlot(item.SlotType);
         }
 
-        private IArtifact CreateFromConfig(ItemConfig config) => new Artifact(config);
 
-        private InventoryItemView CreateItem(IArtifact artifact)
+        private InventoryItemView CreateItem(IItem artifact)
         {
             var temp = GameObject.Instantiate(_itemPrefab).GetComponent<InventoryItemView>();
             temp.Init(artifact.Icon, artifact.SlotType, () => DisplayItemInfo(artifact));

@@ -12,12 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f316a2f5f5c19a2498b17e61a93a296a, type: 3}
   m_Name: Demon
   m_EditorClassIdentifier: 
-  _name: Demon
+  nameTag: Demon
   <Prefab>k__BackingField: {fileID: 1510662696951145146, guid: f8931fb818ef33a4f8669c43157e4c6b, type: 3}
-  <Animations>k__BackingField: []
   <MaxHealth>k__BackingField: 30
   <Speed>k__BackingField: 2
   <JumpForce>k__BackingField: 0
-  _weaponConfig: {fileID: 11400000, guid: 9d8c8aac9e7417e4e8e2843e7b23f7cc, type: 2}
+  <MainWeaponConfig>k__BackingField:
+    <ActivatorType>k__BackingField: 1
+    <NameTag>k__BackingField: Melee
+    <ActionValue>k__BackingField: 20
+    <ActionDistance>k__BackingField: 1
+    <ActionSpeed>k__BackingField: 2
+    <CoolDown>k__BackingField: 1
+    <Ammo>k__BackingField: {fileID: 0}
+    <IsBallistic>k__BackingField: 0
   <DifficultyLevel>k__BackingField: 1
   <BonusesOnKill>k__BackingField: 1

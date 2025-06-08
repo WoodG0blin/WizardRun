@@ -15,7 +15,7 @@ namespace WizardsPlatformer
         {
             //weaponArtifact = new Weapon(config.WeaponConfig);
             //weapon = weaponArtifact.GetExecutor(ArtifactExecutorType.Attack);
-            _maxDistance = config.WeaponConfig.ActionDistance;
+            _maxDistance = config.MainWeaponConfig.ActionDistance;
         }
 
         protected override LevelObjectView SetView(GameObject gameObject) =>
@@ -26,7 +26,7 @@ namespace WizardsPlatformer
             view = base.view as BallisticShooterView;
 
             //AmmoView ammo = config.WeaponConfig.Ammo.GetComponent<AmmoView>();
-            view.Init(weaponArtifact.FireForce);
+            view.Init(weapon.FireForce);
             view.SetUpdateActions(UpdateAim);
 
             barrel = view.Barrel;
@@ -40,9 +40,9 @@ namespace WizardsPlatformer
             {
                 Direction = view.RotateBarrelTowards(currentPlayerPosition);
                 //Debug.Log($"Setting ballistic direction to {Direction}. Weapon ready? {weaponArtifact.IsReady}");
-                if (weaponArtifact.IsReady)
+                if (weapon.IsReady)
                 {
-                    weaponArtifact.Fire(Direction);
+                    weapon.Fire(Direction);
                 }
             }
         }

@@ -6,11 +6,9 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal interface IItem
+    public interface IItem : IDisplayInfo
     {
         string NameTag { get; }
-        string Name { get; }
-        Sprite Icon { get; }
         public ArtifactSlotType SlotType { get; }
     }
 
@@ -21,7 +19,7 @@ namespace WizardsPlatformer
     }
 
     public interface ICharacterModifier : IModifier<CharacterStatType> { }
-    public interface IArtifactModifier : IModifier<ArtifactStatTypes> { }
+    public interface IArtifactModifier : IModifier<ActorStatTypes> { }
 
 
 
@@ -44,15 +42,32 @@ namespace WizardsPlatformer
         [field: Header("PASSIVE")]
         [SerializeField] protected List<Modifier> _passiveCharacterModifiers;
         
-        [field: Header("EXECUTORS")]
-        [field: SerializeField] public List<Artifact.ExecutorType> Actions { get; protected set; }
-        [field: SerializeField] public int Cooldown { get; protected set; }
+        [field: Header("ACTIVE")]
+        [field: SerializeField] public List<ActorStatsConfig> Actions { get; protected set; }
         
-        [field: Header("ACTION CONFIGS - OPTIONAL")]
-        [field: SerializeField] public int ActionValue { get; protected set; }
-        [field: SerializeField] public float ActionDistance { get; protected set; }
-
         public string Name => NameTag;
         public List<ICharacterModifier> PassiveCharacterModifiers => _passiveCharacterModifiers.Cast<ICharacterModifier>().ToList();
+    }
+
+
+    [Serializable]
+    public class ActorStatsConfig
+    {
+        [field: SerializeField] public Artifact.ArtifactActivatorTypes ActivatorType { get; protected set; }
+        [field: SerializeField] public string NameTag { get; protected set; }
+
+        [field: Space(10)]
+        [field: SerializeField] public int ActionValue { get; protected set; }
+        [field: SerializeField] public float ActionDistance { get; protected set; }
+        [field: SerializeField] public float ActionSpeed { get; protected set; }
+
+        [field: Space(10)]
+        [field: SerializeField] public int CoolDown { get; protected set; }
+
+        [field: Space(10)]
+        [field: SerializeField] public GameObject Ammo { get; protected set; }
+
+        [field: Space(10)]
+        [field: SerializeField] public bool IsBallistic { get; protected set; }
     }
 }

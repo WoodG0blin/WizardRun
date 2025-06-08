@@ -12,12 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f316a2f5f5c19a2498b17e61a93a296a, type: 3}
   m_Name: Bowl
   m_EditorClassIdentifier: 
-  _name: Bowl
+  nameTag: Bowl
   <Prefab>k__BackingField: {fileID: 8043961177668047658, guid: 0d5837e11b1e6494ebb21e7cb9952673, type: 3}
-  <Animations>k__BackingField: []
   <MaxHealth>k__BackingField: 20
   <Speed>k__BackingField: 0
   <JumpForce>k__BackingField: 0
-  _weaponConfig: {fileID: 11400000, guid: 8680c6924c5215949946f1419e82cb24, type: 2}
+  <MainWeaponConfig>k__BackingField:
+    <ActivatorType>k__BackingField: 0
+    <NameTag>k__BackingField: 
+    <ActionValue>k__BackingField: 0
+    <ActionDistance>k__BackingField: 0
+    <ActionSpeed>k__BackingField: 0
+    <CoolDown>k__BackingField: 0
+    <Ammo>k__BackingField: {fileID: 0}
+    <IsBallistic>k__BackingField: 0
   <DifficultyLevel>k__BackingField: 1
   <BonusesOnKill>k__BackingField: 2

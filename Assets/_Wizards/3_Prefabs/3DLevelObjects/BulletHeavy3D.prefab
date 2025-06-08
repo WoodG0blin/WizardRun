@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6130447158222885938}
   - component: {fileID: 1044815257650908653}
   - component: {fileID: 6310938740718738744}
-  - component: {fileID: 2167961455402750037}
+  - component: {fileID: -1469852405363944352}
   m_Layer: 0
   m_Name: BulletHeavy3D
   m_TagString: Untagged
@@ -207,7 +207,7 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!54 &2167961455402750037
+--- !u!54 &-1469852405363944352
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -221,5 +221,5 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 120
+  m_Constraints: 0
   m_CollisionDetection: 1

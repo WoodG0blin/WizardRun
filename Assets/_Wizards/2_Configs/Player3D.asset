@@ -12,12 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f316a2f5f5c19a2498b17e61a93a296a, type: 3}
   m_Name: Player3D
   m_EditorClassIdentifier: 
-  _name: Player
+  nameTag: 
   <Prefab>k__BackingField: {fileID: 712456408780077035, guid: 3df535050b98fab4db6e9437afd81f77, type: 3}
-  <Animations>k__BackingField: []
   <MaxHealth>k__BackingField: 300
   <Speed>k__BackingField: 5
   <JumpForce>k__BackingField: 1
-  _weaponConfig: {fileID: 11400000, guid: 9baa8f4edfa6dae479fef209e70bda74, type: 2}
+  <MainWeaponConfig>k__BackingField:
+    <ActivatorType>k__BackingField: 1
+    <NameTag>k__BackingField: PlayerBasicStaff
+    <ActionValue>k__BackingField: 10
+    <ActionDistance>k__BackingField: 10
+    <ActionSpeed>k__BackingField: 5
+    <CoolDown>k__BackingField: 1
+    <Ammo>k__BackingField: {fileID: 6176215044522108244, guid: c659eb280467ba544918e6afd673640c, type: 3}
+    <IsBallistic>k__BackingField: 0
   <DifficultyLevel>k__BackingField: 0
   <BonusesOnKill>k__BackingField: 0

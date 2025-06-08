@@ -14,12 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <NameTag>k__BackingField: BasicStaff
   <Icon>k__BackingField: {fileID: -1570401287, guid: e80dc4c4bab275b439fa0b232bbe078b, type: 3}
-  <LevelView>k__BackingField: {fileID: 0}
   <SlotType>k__BackingField: 0
   _passiveCharacterModifiers: []
-  <ArtifactExecutors>k__BackingField: 01000000
-  <Cooldown>k__BackingField: 1
-  <Damage>k__BackingField: 5
-  <ActionDistance>k__BackingField: 2
-  <FireForce>k__BackingField: 2
-  <Ammo>k__BackingField: {fileID: 6176215044522108244, guid: c659eb280467ba544918e6afd673640c, type: 3}
+  <Actions>k__BackingField:
+  - <ActivatorType>k__BackingField: 1
+    <NameTag>k__BackingField: 
+    <ActionValue>k__BackingField: 10
+    <ActionDistance>k__BackingField: 10
+    <ActionSpeed>k__BackingField: 5
+    <CoolDown>k__BackingField: 1
+    <Ammo>k__BackingField: {fileID: 6176215044522108244, guid: c659eb280467ba544918e6afd673640c, type: 3}
+    <IsBallistic>k__BackingField: 0

@@ -3,15 +3,11 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    public interface IArtifact : IDisplayInfo
+    public interface IArtifact : IItem
     {
-        ArtifactSlotType SlotType { get; }
         List<ICharacterModifier> PassiveCharacterModifiers { get; }
-        IArtifactExecutor GetExecutor(ArtifactExecutorType type);
 
         void SetHolder(IArtifactHolder holder);
-        void TryUseFor(Artifact.ExecutorType actionType);
-
-        bool IsReady { get; }
+        void TryUseFor(Artifact.ArtifactActivatorTypes actionType);
     }
 }

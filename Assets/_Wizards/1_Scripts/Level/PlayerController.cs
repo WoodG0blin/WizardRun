@@ -29,7 +29,6 @@ namespace WizardsPlatformer
 
             _playerModel = playerModel;
 
-            EquippedArtifacts = playerModel.EquippedArtifacts;
 
             stats = _playerModel.Stats;
             stats.Health = stats.MaxHealth;
@@ -38,8 +37,18 @@ namespace WizardsPlatformer
             _startHealth = stats.Health;
 
             //_executors = _playerModel.Executors;
-            _artifacts = _playerModel.EquippedArtifacts;
-            foreach(var art in _artifacts) art.SetHolder(this);
+
+            _artifacts = new();
+            foreach(var art in _playerModel.EquippedArtifacts)
+            {
+                art.SetHolder(this);
+                _artifacts.Add(art);
+            }
+
+            EquippedArtifacts = _artifacts;
+
+            weapon = _playerModel.Weapon;
+            weapon.SetHolder(this);
         }
 
         public override void SetSubscriptions(ILevelEventAccounter subscriber)
@@ -60,21 +69,21 @@ namespace WizardsPlatformer
                 _playerView.Jumper?.Jump(stats.JumpForce);
 
             //_executors.ExecuteFor(ArtifactExecutorType.Jump, this);
-            foreach (var art in _artifacts) art.TryUseFor(Artifact.ExecutorType.Jump);
+            foreach (var art in _artifacts) art.TryUseFor(Artifact.ArtifactActivatorTypes.Jump);
         }
 
         public void OnFire()
         {
             Direction = new(_playerView.XDirection, 0);
             
-            if (weaponArtifact.IsReady)
+            if (weapon.IsReady)
                 _playerView.DisplayAttack(onAttackPositionReady: FireAttack);
         }
 
         private void FireAttack()
         {
-            weaponArtifact.Fire(Direction);
-            foreach (var art in _artifacts) art.TryUseFor(Artifact.ExecutorType.Attack);
+            weapon.Fire(Direction);
+            foreach (var art in _artifacts) art.TryUseFor(Artifact.ArtifactActivatorTypes.Attack);
         }
 
 

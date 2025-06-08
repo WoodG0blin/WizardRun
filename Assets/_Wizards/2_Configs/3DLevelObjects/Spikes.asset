@@ -12,12 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f316a2f5f5c19a2498b17e61a93a296a, type: 3}
   m_Name: Spikes
   m_EditorClassIdentifier: 
-  _name: Spikes
+  nameTag: Spikes
   <Prefab>k__BackingField: {fileID: 8043961177668047658, guid: 20cc2a90dadef434e8ed3fe463c63431, type: 3}
-  <Animations>k__BackingField: []
   <MaxHealth>k__BackingField: 0
   <Speed>k__BackingField: 0
   <JumpForce>k__BackingField: 0
-  _weaponConfig: {fileID: 0}
+  <MainWeaponConfig>k__BackingField:
+    <ActivatorType>k__BackingField: 1
+    <NameTag>k__BackingField: 
+    <ActionValue>k__BackingField: 30
+    <ActionDistance>k__BackingField: 0
+    <ActionSpeed>k__BackingField: 0
+    <CoolDown>k__BackingField: 0
+    <Ammo>k__BackingField: {fileID: 0}
+    <IsBallistic>k__BackingField: 0
   <DifficultyLevel>k__BackingField: 0
   <BonusesOnKill>k__BackingField: 0

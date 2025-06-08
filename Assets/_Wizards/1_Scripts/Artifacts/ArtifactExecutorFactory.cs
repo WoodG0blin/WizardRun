@@ -2,11 +2,11 @@
 {
     internal static class ArtifactExecutorFactory
     {
-        public static ArtifactExecutor GetExecutor(Artifact.ExecutorType type, string nameTag) => type switch
+        public static ArtifactExecutor GetExecutor(Artifact.ArtifactActivatorTypes type, string nameTag) => type switch
         {
-            Artifact.ExecutorType.Modifier => GetModifierExecutor(nameTag),
-            Artifact.ExecutorType.Jump => GetJumpExecutor(nameTag),
-            Artifact.ExecutorType.Attack => GetAttackExecutor(nameTag),
+            Artifact.ArtifactActivatorTypes.Modifier => GetModifierExecutor(nameTag),
+            Artifact.ArtifactActivatorTypes.Jump => GetJumpExecutor(nameTag),
+            Artifact.ArtifactActivatorTypes.Attack => GetAttackExecutor(nameTag),
             _ => GetActionExecutor(nameTag)
         };
 

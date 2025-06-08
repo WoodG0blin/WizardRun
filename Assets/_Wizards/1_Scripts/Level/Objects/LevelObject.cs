@@ -76,7 +76,7 @@ namespace WizardsPlatformer
         protected int bonusesOnKill;
 
         protected CharacterStats stats;
-        protected IWeapon weaponArtifact;
+        protected IWeapon weapon;
         //protected IArtifactExecutor weapon;
 
         protected Transform barrel;
@@ -92,11 +92,14 @@ namespace WizardsPlatformer
             MaxHealth = stats.MaxHealth;
             IsPlayer = false;
 
-            if (config.WeaponConfig != null)
-            {
-                weaponArtifact = new Weapon(config.WeaponConfig);
-                weaponArtifact.SetHolder(this);
-            }
+            //if (config.WeaponConfig != null)
+            //{
+            //    weapon = new Weapon(config.WeaponConfig);
+            //    weapon.SetHolder(this);
+            //}
+
+            weapon = new Weapon(config.MainWeaponConfig);
+            weapon.SetHolder(this);
 
             bonusesOnKill = config.BonusesOnKill;
         }
@@ -167,12 +170,12 @@ namespace WizardsPlatformer
         {
             if (interactor.IsPlayer)
             {
-                interactor.ReceiveDamage(weaponArtifact.Damage);
+                interactor.ReceiveDamage(weapon.Damage);
                 interactor.KickOff(0.5f);
             }
         }
 
-        public void KickOff(float force) => view.Mover.GetKickOff(force);
+        public void KickOff(float force) => view.Mover?.GetKickOff(force);
 
 
         protected virtual void SetNewPlayerPosition(Vector3 playerPosition) => currentPlayerPosition = playerPosition;

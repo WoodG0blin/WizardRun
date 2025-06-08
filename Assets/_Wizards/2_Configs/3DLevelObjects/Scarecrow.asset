@@ -12,12 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f316a2f5f5c19a2498b17e61a93a296a, type: 3}
   m_Name: Scarecrow
   m_EditorClassIdentifier: 
-  _name: Scarecrow
+  nameTag: Scarecrow
   <Prefab>k__BackingField: {fileID: 2136296686074945429, guid: f726411476b631b4785657d2daa15959, type: 3}
-  <Animations>k__BackingField: []
   <MaxHealth>k__BackingField: 20
   <Speed>k__BackingField: 0
   <JumpForce>k__BackingField: 0
-  _weaponConfig: {fileID: 11400000, guid: 19e4972da7790fa44b41ccd9621cdeb5, type: 2}
+  <MainWeaponConfig>k__BackingField:
+    <ActivatorType>k__BackingField: 0
+    <NameTag>k__BackingField: 
+    <ActionValue>k__BackingField: 0
+    <ActionDistance>k__BackingField: 0
+    <ActionSpeed>k__BackingField: 0
+    <CoolDown>k__BackingField: 0
+    <Ammo>k__BackingField: {fileID: 0}
+    <IsBallistic>k__BackingField: 0
   <DifficultyLevel>k__BackingField: 0
   <BonusesOnKill>k__BackingField: 2
