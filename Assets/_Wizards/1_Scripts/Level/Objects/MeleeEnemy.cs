@@ -101,11 +101,8 @@ namespace WizardsPlatformer
         {
             Direction = new(view.XDirection, 0);
             if (weapon.IsReady)
-                view.DisplayAttack(Attack);
+                view.DisplayAttack(weapon.Use);
         }
-        private void Attack() =>
-            //weaponArtifact.GetExecutor(ArtifactExecutorType.Attack).Use(this);
-            weapon.Fire(Direction);
 
         void IDemonStateContext.SetWait(float time, Action onFinish) => 
             view.StartCoroutine(Wait(time, onFinish));

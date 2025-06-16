@@ -8,7 +8,6 @@ namespace WizardsPlatformer
     {
         CharacterStats Stats { get; }
         bool IsPlayer { get; }
-        List<IArtifact> EquippedArtifacts { get; }
         IInteractionResponder GetTargetAt(float distance);
         Vector2 Direction { get; }
         IJump JumpExecutioner { get; }

@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: BasicStaff
   m_EditorClassIdentifier: 
   <NameTag>k__BackingField: BasicStaff
-  <Icon>k__BackingField: {fileID: -1570401287, guid: e80dc4c4bab275b439fa0b232bbe078b, type: 3}
+  <Icon>k__BackingField: {fileID: 21300000, guid: d6e3e12260224374381e7ae0022ec166, type: 3}
   <SlotType>k__BackingField: 0
   _passiveCharacterModifiers: []
   <Actions>k__BackingField:
   - <ActivatorType>k__BackingField: 1
-    <NameTag>k__BackingField: 
+    <NameTag>k__BackingField: SimpleRanged
     <ActionValue>k__BackingField: 10
     <ActionDistance>k__BackingField: 10
     <ActionSpeed>k__BackingField: 5

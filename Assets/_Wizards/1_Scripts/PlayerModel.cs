@@ -19,7 +19,9 @@ namespace WizardsPlatformer
         public PlayerSavedData SaveData { get; private set; }
 
         public List<IArtifact> EquippedArtifacts => _artifacts.Values.Where(a => a!=null).Cast<IArtifact>().ToList();
-        public IWeapon Weapon { get; protected set; }
+        public List<ArtifactActor> ArtifactActors { get; private set; }
+        public Dictionary<Artifact.ArtifactActivatorTypes, List<ArtifactActor>> Actors { get; private set; }
+        public ActionsHolder Actions { get; private set; }
 
 
         public PlayerModel(PlayerSavedData data, LevelObjectConfig config)
@@ -43,10 +45,9 @@ namespace WizardsPlatformer
                 { ArtifactSlotType.Waist, null},
                 { ArtifactSlotType.Legs, null}
             };
-            
-            Weapon initialWeapon = new Weapon(Config.MainWeaponConfig);
-            _artifacts[ArtifactSlotType.Weapon] = initialWeapon;
-            Weapon = initialWeapon;
+
+            //ArtifactActors = new();
+            Actions = new(config.MainWeaponConfig);
         }
 
 
@@ -55,23 +56,50 @@ namespace WizardsPlatformer
             bool res =
                 artifact != null ?
                 slot == artifact.SlotType : true;
+
             // conditions to equip
-
-            if (slot == ArtifactSlotType.Weapon)
+            if (res)
             {
-                var temp = artifact != null ? new Weapon(artifact) : null;
-                _artifacts[slot] = temp;
-
-                Weapon = temp;
-                Weapon ??= new Weapon(Config.MainWeaponConfig);
-            }
-            else
-            {
-                _artifacts[slot] = new Artifact(artifact);
+                _artifacts[slot] = artifact != null ? new Artifact(artifact) : null;
+                //UpdateActors();
+                Actions.SetActors(_artifacts.Values);
             }
             
             return res;
         }
+
+        //private void UpdateActors()
+        //{
+        //    ArtifactActors = new(); //legacy
+        //    Actors = new();
+
+        //    List<ArtifactActor> modifiers = new();
+
+        //    foreach (var art in _artifacts.Values)
+        //        foreach (var act in art.Actors)
+        //        {
+        //            act.ClearAllModifiers();
+
+        //            if (act.ActivatorType == Artifact.ArtifactActivatorTypes.Modifier) modifiers.Add(act);
+        //            else
+        //            {
+        //                act.Set(ArtifactActors); //legacy
+
+        //                if (Actors.ContainsKey(act.ActivatorType))
+        //                {
+        //                    if(act.IsMain) Actors[act.ActivatorType].Insert(0, act);
+        //                    else Actors[act.ActivatorType].Add(act);
+        //                }
+        //                else Actors.Add(act.ActivatorType, new() { act });
+        //            }
+        //        }
+
+        //    foreach (var mod in modifiers)
+        //    {
+        //        mod.Set(ArtifactActors); //legacy
+        //        foreach(var list in Actors.Values) mod.Set(list);
+        //    }
+        //}
 
         public void AddBonus(BonusType type, int value)
         {
@@ -79,5 +107,77 @@ namespace WizardsPlatformer
             SaveData.Bonuses = _bonuses[BonusType.coin];
         }
 
+    }
+
+    public class ActionsHolder
+    {
+        private ArtifactActor _baseWeapon;
+
+        public Dictionary<Artifact.ArtifactActivatorTypes, List<ArtifactActor>> Actors { get; private set; } = new();
+        public ArtifactActor Weapon { get; private set; }
+
+
+        public ActionsHolder(ActorStatsConfig baseWeaponConfig)
+        {
+            _baseWeapon = new AttackActor(baseWeaponConfig);
+            Weapon = _baseWeapon;
+        }
+
+
+        public void SetActors(IEnumerable<Artifact> sourceArtifacts)
+        {
+            Actors = new();
+
+            List<ArtifactActor> modifiers = new();
+
+            foreach (var art in sourceArtifacts)
+                foreach (var act in art.Actors)
+                {
+                    act.ClearAllModifiers();
+
+                    if (act.ActivatorType == Artifact.ArtifactActivatorTypes.Modifier) modifiers.Add(act);
+                    else
+                    {
+                        if (Actors.ContainsKey(act.ActivatorType))
+                        {
+                            if (act.IsMain) Actors[act.ActivatorType].Insert(0, act);
+                            else Actors[act.ActivatorType].Add(act);
+                        }
+                        else Actors.Add(act.ActivatorType, new() { act });
+                    }
+                }
+
+            foreach (var mod in modifiers)
+            {
+                foreach (var list in Actors.Values) mod.Set(list);
+            }
+
+            Weapon = _baseWeapon;
+            if (Actors.ContainsKey(Artifact.ArtifactActivatorTypes.Attack) && Actors[Artifact.ArtifactActivatorTypes.Attack][0].IsMain)
+            {
+                Weapon = Actors[Artifact.ArtifactActivatorTypes.Attack][0];
+                Actors[Artifact.ArtifactActivatorTypes.Attack].Remove(Weapon);
+            }
+        }
+
+
+        public void SetHolder(IArtifactHolder holder)
+        {
+            Weapon.SetHolder(holder);
+
+            foreach(var list in Actors.Values)
+                foreach(var act in list)
+                    act.SetHolder(holder);
+        }
+
+        public void TryUseForAction(Artifact.ArtifactActivatorTypes actionType)
+        {
+            if (!Actors.ContainsKey(actionType)) return;
+
+            foreach(var act in Actors[actionType])
+            {
+                if (act.IsReady) act.Use();
+            }
+        }
     }
 }

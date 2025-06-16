@@ -16,7 +16,7 @@ namespace WizardsPlatformer
 
 
         protected ParametersModifier<ActorStatTypes> _modifiers;
-        protected Dictionary<ArtifactActivatorTypes, ArtifactActor> actors;
+        public List<ArtifactActor> Actors { get; protected set; }
 
         protected IArtifactHolder holder;
 
@@ -40,12 +40,29 @@ namespace WizardsPlatformer
 
             PassiveCharacterModifiers = config.PassiveCharacterModifiers;
 
-            actors = new();
+            Actors = new();
+            bool needAttack = SlotType == ArtifactSlotType.Weapon;
             foreach(var act in config.Actions)
             {
-                ArtifactActor next = new(act);
-                if(actors.ContainsKey(next.ActivatorType)) actors[next.ActivatorType].AddInternalActor(next);
-                else actors.Add(next.ActivatorType, next);
+                switch(act.ActivatorType)
+                {
+                    case ArtifactActivatorTypes.Attack:
+                        {
+                            Actors.Add(needAttack ? new AttackActor(act) : new ArtifactActor(act));
+                            needAttack = false;
+                            break;
+                        }
+                    case ArtifactActivatorTypes.Modifier:
+                        {
+                            Actors.Add(new ModifierActor(act));
+                            break;
+                        }
+                    default:
+                        {
+                            Actors.Add(new ArtifactActor(act));
+                            break;
+                        }
+                }
             }
 
             _modifiers = new();
@@ -55,7 +72,7 @@ namespace WizardsPlatformer
         {
             NameTag = "";
 
-            actors = new();
+            Actors = new();
 
             _modifiers = new();
         }
@@ -63,21 +80,21 @@ namespace WizardsPlatformer
         public virtual void SetHolder(IArtifactHolder holder)
         {
             this.holder = holder;
-            foreach(var act in actors.Values)
+            foreach(var act in Actors)
                 act.SetHolder(holder);
         }
 
         public void TryUseFor(ArtifactActivatorTypes actionType)
         {
-            if (holder == null)
-            {
-                Debug.Log($"Unassigned artifact {NameTag}");
-                return;
-            }
+            //if (holder == null)
+            //{
+            //    Debug.Log($"Unassigned artifact {NameTag}");
+            //    return;
+            //}
 
-            if (actors.ContainsKey(actionType))
-                actors[actionType].Use();
-                //if (ex.IsReady) ex.Use(holder);
+            //if (actors.ContainsKey(actionType))
+            //    actors[actionType].Use();
+            //    //if (ex.IsReady) ex.Use(holder);
         }
 
 
@@ -90,6 +107,13 @@ namespace WizardsPlatformer
         {
             _modifiers.CancelAllTempEffects();
             _modifiers = new();
+        }
+
+        public virtual ArtifactActor GetActor(ArtifactActivatorTypes type)
+        {
+            //if (actors.ContainsKey(type)) return actors[type];
+            //else return null;
+            return null;
         }
     }
 }

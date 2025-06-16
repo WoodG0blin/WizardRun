@@ -34,7 +34,7 @@ namespace WizardsPlatformer
             if (InDistance)
             {
                 Direction = view.RotateBarrelTowards(currentPlayerPosition);
-                if (weapon.IsReady) weapon.Fire(Direction);
+                if (weapon.IsReady) weapon.Use();
             }
         }
 

@@ -26,7 +26,7 @@ namespace WizardsPlatformer
             view = base.view as BallisticShooterView;
 
             //AmmoView ammo = config.WeaponConfig.Ammo.GetComponent<AmmoView>();
-            view.Init(weapon.FireForce);
+            view.Init(weapon.ActionSpeed);
             view.SetUpdateActions(UpdateAim);
 
             barrel = view.Barrel;
@@ -42,7 +42,7 @@ namespace WizardsPlatformer
                 //Debug.Log($"Setting ballistic direction to {Direction}. Weapon ready? {weaponArtifact.IsReady}");
                 if (weapon.IsReady)
                 {
-                    weapon.Fire(Direction);
+                    weapon.Use();
                 }
             }
         }

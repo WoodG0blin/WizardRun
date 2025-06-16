@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.WSA;
 
 namespace WizardsPlatformer
 {
@@ -12,18 +12,20 @@ namespace WizardsPlatformer
         public string NameTag { get; protected set; }
 
         protected int actionValue;
-        protected float actionDistance;
-        protected float actionSpeed;
+        protected int actionDistance;
+        protected int actionSpeed;
         
         protected int cooldown;
 
-        private ArtifactExecutor _executor;
+        protected ArtifactExecutor executor;
         private ParametersModifier<ActorStatTypes> _modifiers = new();
 
         public int ActionValue => actionValue + _modifiers.GetModifier(ActorStatTypes.Value);
-        public float ActionDistance => actionDistance + _modifiers.GetModifier(ActorStatTypes.Distance);
-        public float ActionSpeed => actionSpeed + _modifiers.GetModifier(ActorStatTypes.Speed);
+        public int ActionDistance => actionDistance + _modifiers.GetModifier(ActorStatTypes.Distance);
+        public int ActionSpeed => actionSpeed + _modifiers.GetModifier(ActorStatTypes.Speed);
         public int Cooldown => cooldown + _modifiers.GetModifier(ActorStatTypes.Cooldown);
+
+        public bool IsMain { get; protected set; }
 
         public bool IsReady => RemainingCooldown <= 0;
         public float RemainingCooldown { get; protected set; }
@@ -38,7 +40,7 @@ namespace WizardsPlatformer
         public ArtifactActor InternalActor { get; protected set; }
 
 
-        public ArtifactActor(ActorStatsConfig config)
+        public ArtifactActor(ActorStatsConfig config, bool isMain = false)
         {
             ActivatorType = config.ActivatorType;
             NameTag = config.NameTag;
@@ -51,35 +53,49 @@ namespace WizardsPlatformer
 
             Ammo = config.Ammo;
 
-            _executor = ArtifactExecutorFactory.GetExecutor(ActivatorType, NameTag);
-            _executor.Init(this);
+            executor = ArtifactExecutorFactory.GetExecutor(ActivatorType, NameTag);
+            executor.Init(this);
+            IsMain = isMain;
         }
 
         public void SetHolder(IArtifactHolder holder) => this.holder = holder;
 
-        public void Use()
+        public virtual void Set(List<ArtifactActor> holderActors)
         {
-            _executor.Use(holder);
+            var match = holderActors.Where(a => a.ActivatorType == ActivatorType).FirstOrDefault();
+            if (match != null && ActivatorType != Artifact.ArtifactActivatorTypes.ExplicitAction) match.AddInternalActor(this);
+            else holderActors.Add(this);
+        }
+
+
+        public virtual void Use()
+        {
+            executor?.Use(holder);
+            InternalActor?.Use();
         }
 
         public void TriggerCooldown() =>
             cooldownTimer = holder.SetTimer(Cooldown, t => RemainingCooldown = t, cooldownTimer);
 
-        public void SetModifiers(List<IArtifactModifier> modifiers, int seconds = 0)
+        public void SetModifier(ActorStatTypes type, int value, int seconds = 0)
         {
-            foreach (var m in modifiers)
-                if(seconds > 0) _modifiers.AddModifierTemp(m.Type, m.Value, seconds);
-                else _modifiers.AddModifier(m.Type, m.Value);
+            if(seconds > 0) _modifiers.AddModifierTemp(type, value, seconds);
+            else _modifiers.AddModifier(type, value);
         }
         public void ClearAllModifiers()
         {
             _modifiers.CancelAllTempEffects();
             _modifiers = new();
+            InternalActor = null;
         }
 
         public void AddInternalActor(ArtifactActor nextActor)
         {
-            if (InternalActor == null) InternalActor = nextActor;
+            if (InternalActor == null)
+            {
+                InternalActor = nextActor;
+                InternalActor.SetHolder(holder);
+            }
             else InternalActor.AddInternalActor(nextActor);
         }
 
@@ -92,5 +108,83 @@ namespace WizardsPlatformer
         }
     }
 
+    public class AttackActor : ArtifactActor, IWeapon
+    {
+        public AttackActor(ActorStatsConfig config) : base(config, isMain: true)
+        {
+            executor = null;
+        }
 
+        public int Damage => ActionValue;
+        public float FireForce => ActionSpeed;
+        public float Distance => ActionDistance;
+
+
+        public override void Set(List<ArtifactActor> holderActors)
+        {
+            var match = holderActors.Where(a => a.ActivatorType == ActivatorType).FirstOrDefault();
+            if (match != null)
+            {
+                InternalActor = match;
+                match = this;
+            }
+            else holderActors.Add(this);
+        }
+
+        public override void Use()
+        {
+
+            if (actionDistance > 1) RangedAttack(holder);
+            else MeleeAttack(holder);
+
+            TriggerCooldown();
+
+            base.Use();
+        }
+
+        private void MeleeAttack(IArtifactHolder holder)
+        {
+            IInteractionResponder hit = holder.GetTargetAt(ActionDistance);
+
+            if (hit == null) return;
+
+            if (holder.IsPlayer ^ hit.IsPlayer) hit.ReceiveDamage(ActionValue);
+        }
+
+        private void RangedAttack(IArtifactHolder holder)
+        {
+            //Debug.Log($"Using ranged attack. Ammo set? {Ammo != null}");
+            Ammo bullet = new Ammo(ActionValue, prefab: Ammo);
+            holder.PlaceAmmo(bullet);
+            bullet.SetToPlayer(holder.IsPlayer);
+            bullet.Fire(holder.Direction, ActionSpeed);
+        }
+    }
+
+    public class ModifierActor : ArtifactActor
+    {
+        public ModifierActor(ActorStatsConfig config) : base(config)
+        {
+            executor = null;
+        }
+
+        public override void Set(List<ArtifactActor> holderActors)
+        {
+            foreach (var act in holderActors) CheckActorsChain(act);
+        }
+
+        private void CheckActorsChain(ArtifactActor actor)
+        {
+            if(actor.NameTag == NameTag)
+            {
+                actor.SetModifier(ActorStatTypes.Cooldown, Cooldown);
+                actor.SetModifier(ActorStatTypes.Value, ActionValue);
+                actor.SetModifier(ActorStatTypes.Distance, ActionDistance);
+                actor.SetModifier(ActorStatTypes.Speed, ActionSpeed);
+            }
+
+            if (actor.InternalActor == null) return;
+            else CheckActorsChain(actor.InternalActor);
+        }
+    }
 }

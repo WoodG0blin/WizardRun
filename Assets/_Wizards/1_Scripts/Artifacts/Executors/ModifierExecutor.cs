@@ -1,21 +1,28 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace WizardsPlatformer
 {
     internal class ModifierExecutor : ArtifactExecutor
     {
+        //protected override void ActionsOnUse(IArtifactHolder holder)
+        //{
+        //    var target = holder.Actors.Values.Where(Condition).FirstOrDefault();
+        //    if (target != null) Modify(target);
+        //}
+
+        //protected virtual bool Condition(ArtifactActor art)
+        //{
+        //    return art.ActivatorType == parentArtifact.ActivatorType;
+        //}
+        //protected virtual void Modify(ArtifactActor target)
+        //{
+        //    UnityEngine.Debug.Log($"Modifying {target.NameTag} with {parentArtifact.NameTag}");
+
+        //}
         protected override void ActionsOnUse(IArtifactHolder holder)
         {
-            var targets = holder.EquippedArtifacts.Where(Condition).Cast<IModifiableArtifact>().ToList();
-            if (targets != null)
-                foreach (var target in targets)
-                    Modify(target);
-        }
-
-        protected virtual bool Condition(IArtifact art) => art is IModifiableArtifact;
-        protected virtual void Modify(IModifiableArtifact target)
-        {
-            UnityEngine.Debug.Log($"Modifying {(target as IArtifact).Name} with {(parentArtifact as IArtifact).Name}");
+            throw new System.NotImplementedException();
         }
     }
 }

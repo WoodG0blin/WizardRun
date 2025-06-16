@@ -58,8 +58,8 @@ namespace WizardsPlatformer
 
         [field: Space(10)]
         [field: SerializeField] public int ActionValue { get; protected set; }
-        [field: SerializeField] public float ActionDistance { get; protected set; }
-        [field: SerializeField] public float ActionSpeed { get; protected set; }
+        [field: SerializeField] public int ActionDistance { get; protected set; }
+        [field: SerializeField] public int ActionSpeed { get; protected set; }
 
         [field: Space(10)]
         [field: SerializeField] public int CoolDown { get; protected set; }

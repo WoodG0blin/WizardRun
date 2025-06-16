@@ -28,7 +28,7 @@ namespace WizardsPlatformer
         {
             Direction = direction;
             if (weapon.IsReady)
-                weapon.Fire(Direction);
+                weapon.Use();
         }
     }
 }

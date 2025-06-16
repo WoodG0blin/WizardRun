@@ -13,8 +13,12 @@ namespace WizardsPlatformer
 
         private float _moveThreshold = 0.02f;
 
-        //private IArtifactExecutorsContainer _executors;
-        private List<IArtifact> _artifacts;
+        private Dictionary<Artifact.ArtifactActivatorTypes, ArtifactActor> _artifactActors;
+        private List<ArtifactActor> _explicitActors;
+
+        private Dictionary<Artifact.ArtifactActivatorTypes, List<ArtifactActor>> _actors;
+
+        private ActionsHolder _actions;
 
         private Action<Vector3> OnPlayerPositionChange;
 
@@ -29,26 +33,47 @@ namespace WizardsPlatformer
 
             _playerModel = playerModel;
 
-
             stats = _playerModel.Stats;
             stats.Health = stats.MaxHealth;
             stats.OnDeath = Die;
 
             _startHealth = stats.Health;
 
-            //_executors = _playerModel.Executors;
+            SetUpActors(_playerModel.ArtifactActors);
+        }
 
-            _artifacts = new();
-            foreach(var art in _playerModel.EquippedArtifacts)
-            {
-                art.SetHolder(this);
-                _artifacts.Add(art);
-            }
+        private void SetUpActors(List<ArtifactActor> actors)
+        {
+            _actions = _playerModel.Actions;
+            _actions.SetHolder(this);
+            weapon = _actions.Weapon;
 
-            EquippedArtifacts = _artifacts;
+            ////legacy
+            //_artifactActors = new();
+            //_explicitActors = new();
 
-            weapon = _playerModel.Weapon;
-            weapon.SetHolder(this);
+            //foreach(var actor in actors)
+            //{
+            //    actor.SetHolder(this);
+            //    if(actor.ActivatorType == Artifact.ArtifactActivatorTypes.ExplicitAction) _explicitActors.Add(actor);
+            //    else _artifactActors.Add(actor.ActivatorType, actor);
+            //}
+            ////end legacy
+
+            //_actors = _playerModel.Actors;
+            //foreach (var list in _actors.Values)
+            //    foreach (var actor in list)
+            //        actor.SetHolder(this);
+
+            //if (!_actors.ContainsKey(Artifact.ArtifactActivatorTypes.Attack)) _actors.Add(Artifact.ArtifactActivatorTypes.Attack, new() { weapon as ArtifactActor });
+            //else if (!_actors[Artifact.ArtifactActivatorTypes.Attack][0].IsMain) _actors[Artifact.ArtifactActivatorTypes.Attack].Insert(0, weapon as ArtifactActor);
+
+            ////legacy
+            //if (_artifactActors.ContainsKey(Artifact.ArtifactActivatorTypes.Attack))
+            //{
+            //    if (_artifactActors[Artifact.ArtifactActivatorTypes.Attack] is IWeapon externalWeapon) weapon = externalWeapon;
+            //    else (weapon as AttackActor).AddInternalActor(_artifactActors[Artifact.ArtifactActivatorTypes.Attack]);
+            //}
         }
 
         public override void SetSubscriptions(ILevelEventAccounter subscriber)
@@ -68,8 +93,12 @@ namespace WizardsPlatformer
             if (_playerView.Mover.IsGrounded)
                 _playerView.Jumper?.Jump(stats.JumpForce);
 
+            _actions.TryUseForAction(Artifact.ArtifactActivatorTypes.Jump);
+
             //_executors.ExecuteFor(ArtifactExecutorType.Jump, this);
-            foreach (var art in _artifacts) art.TryUseFor(Artifact.ArtifactActivatorTypes.Jump);
+            //foreach (var art in _artifacts) art.TryUseFor(Artifact.ArtifactActivatorTypes.Jump);
+            //if (_artifactActors.ContainsKey(Artifact.ArtifactActivatorTypes.Jump))
+            //    _artifactActors[Artifact.ArtifactActivatorTypes.Jump].Use();
         }
 
         public void OnFire()
@@ -77,15 +106,14 @@ namespace WizardsPlatformer
             Direction = new(_playerView.XDirection, 0);
             
             if (weapon.IsReady)
-                _playerView.DisplayAttack(onAttackPositionReady: FireAttack);
+                _playerView.DisplayAttack(onAttackPositionReady: Attack);
         }
 
-        private void FireAttack()
+        private void Attack()
         {
-            weapon.Fire(Direction);
-            foreach (var art in _artifacts) art.TryUseFor(Artifact.ArtifactActivatorTypes.Attack);
+            weapon.Use();
+            _actions.TryUseForAction(Artifact.ArtifactActivatorTypes.Attack);
         }
-
 
         protected override void Die()
         {

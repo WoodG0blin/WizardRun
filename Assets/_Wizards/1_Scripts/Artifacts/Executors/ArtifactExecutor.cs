@@ -8,7 +8,7 @@ namespace WizardsPlatformer
         void Use(IArtifactHolder holder);
     }
 
-    internal abstract class ArtifactExecutor : IArtifactExecutor
+    public abstract class ArtifactExecutor : IArtifactExecutor
     {
         protected ArtifactActor parentArtifact;
 
