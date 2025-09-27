@@ -17,14 +17,15 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 300
   <Speed>k__BackingField: 5
   <JumpForce>k__BackingField: 1
-  <MainWeaponConfig>k__BackingField:
-    <ActivatorType>k__BackingField: 1
-    <NameTag>k__BackingField: PlayerBasicStaff
-    <ActionValue>k__BackingField: 10
-    <ActionDistance>k__BackingField: 10
-    <ActionSpeed>k__BackingField: 5
-    <CoolDown>k__BackingField: 1
-    <Ammo>k__BackingField: {fileID: 6176215044522108244, guid: c659eb280467ba544918e6afd673640c, type: 3}
-    <IsBallistic>k__BackingField: 0
+  <Damage>k__BackingField: 0
+  <WeaponConfig>k__BackingField:
+    <ActivatorType>k__BackingField: 10
+    <ExecutionType>k__BackingField: 0
+    <TargetParameter>k__BackingField: 0
+    <ActionValue>k__BackingField: 0
+    <CoolDown>k__BackingField: 0
+    <View>k__BackingField: {fileID: 0}
+    <Ammo>k__BackingField: {fileID: 0}
+    <NameTag>k__BackingField: 
   <DifficultyLevel>k__BackingField: 0
   <BonusesOnKill>k__BackingField: 0

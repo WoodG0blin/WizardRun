@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <NameTag>k__BackingField: BasicBelt
   <Icon>k__BackingField: {fileID: -1570401287, guid: e80dc4c4bab275b439fa0b232bbe078b, type: 3}
-  <LevelView>k__BackingField: {fileID: 0}
   <SlotType>k__BackingField: 2
-  _passiveCharacterModifiers: []
-  <ArtifactExecutors>k__BackingField: 
-  <Cooldown>k__BackingField: 0
-  <Damage>k__BackingField: 0
-  <ActionDistance>k__BackingField: 0
-  <FireForce>k__BackingField: 0
-  <Ammo>k__BackingField: {fileID: 0}
+  <BaseProperty>k__BackingField:
+    <ActivatorType>k__BackingField: 0
+    <ExecutionType>k__BackingField: 0
+    <TargetParameter>k__BackingField: 10
+    <ActionValue>k__BackingField: 0
+    <CoolDown>k__BackingField: 0
+    <View>k__BackingField: {fileID: 0}
+    <NameTag>k__BackingField: 
+  <ExtraProperties>k__BackingField: []

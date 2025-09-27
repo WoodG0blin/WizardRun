@@ -8,99 +8,115 @@ namespace WizardsPlatformer
     {
         [SerializeField] protected float lifetime = 5.0f;
 
-        protected Coroutine _currentTimer;
+        protected Action<float> moveMethod;
 
+        protected bool isFromPlayer;
 
-        public void Init(bool isBallistic = false)
+        protected int damage;
+
+        protected bool collided = false;
+        protected bool finish = false;
+
+        protected float horizontalVelocity;
+        protected float verticalVelocity;
+
+        protected float distanceAccount;
+
+        public void Init(int damage, AmmoType type, bool fromPlayer)
         {
-            Mover = isBallistic ? new BallisticBulletMover(visualBody) : new SimpleBulletMover(visualBody);
-            
+            this.damage = damage;
+
+            isFromPlayer = fromPlayer;
+
+            moveMethod = type switch
+            {
+                AmmoType.Ballistic => BallisticMove,
+                AmmoType.Explosion => ExplosiveMove,
+                _ => DirectMove
+            };
+
             SetActive(false);
 
             transform.rotation = Quaternion.identity;
         }
 
-
-        public void SetMove(Vector2 direction)
+        public void Fire(Vector2 direction, float distance = 0)
         {
             transform.SetParent(null);
             SetActive(true);
-            _currentTimer = StartCoroutine(DestroyAfterTime(lifetime));
 
-            Mover.SetInput(direction);
+            StartCoroutine(Move(direction, distance));
         }
 
 
-        protected override void OnAnyContact(Transform collided) => Destroy();
-
-        private IEnumerator DestroyAfterTime(float time)
+        protected override void OnCollision(IInteractionResponder interactor)
         {
-            yield return new WaitForSeconds(time);
+            if (interactor.IsPlayer ^ isFromPlayer)
+            {
+                interactor.KickOff(0.2f);
+                interactor.ReceiveDamage(damage);
+                SetActive(false);
+            }
+        }
+        protected override void OnAnyContact(Transform collided) => this.collided = true;
+
+        private IEnumerator Move(Vector2 direction, float range)
+        {
+            horizontalVelocity = direction.x;
+            verticalVelocity = direction.y;
+
+            float timer = 0;
+            float distance = -1;
+
+            while(timer < lifetime && distance < range && !finish)
+            {
+                moveMethod?.Invoke(Time.deltaTime);
+                timer += Time.deltaTime;
+                if (range > 0) distance = distanceAccount;
+                yield return null;
+            }
+
             Destroy();
         }
 
+        private void DirectMove(float deltaTime)
+        {
+            finish = collided;
+            if (!finish)
+            {
+                transform.position += new Vector3(horizontalVelocity, 0, 0) * deltaTime;
+                distanceAccount += horizontalVelocity * deltaTime;
+            }
+        }
+
+        private void BallisticMove(float deltaTime)
+        {
+            finish = collided;
+            if (!finish)
+            {
+                transform.position += new Vector3(horizontalVelocity, verticalVelocity, 0) * deltaTime;
+                verticalVelocity -= 9.81f * deltaTime;
+                distanceAccount += horizontalVelocity * deltaTime;
+            }
+        }
+
+        private void ExplosiveMove(float deltaTime)
+        {
+            finish = false;
+            transform.localScale += Vector3.one * deltaTime*10;
+            distanceAccount += deltaTime * 10;
+        }
+
+
         protected void Destroy()
         {
-            if (_currentTimer != null)
-            {
-                StopCoroutine(_currentTimer);
-                _currentTimer = null;
-            }
+            //if (_currentTimer != null)
+            //{
+            //    StopCoroutine(_currentTimer);
+            //    _currentTimer = null;
+            //}
             SetActive(false);
             GameObject.Destroy(gameObject);
-        }
-    }
-
-
-    public class SimpleBulletMover : IViewMover
-    {
-        protected float horizontalVelocity;
-        protected float verticalVelocity;
-
-        protected Transform transform;
-
-
-        public Vector2 Velocity => Vector2.zero;
-
-        public bool IsGrounded => false;
-
-
-        public SimpleBulletMover(Transform bullet)
-        {
-            transform = bullet;
-        }
-
-
-        public void Update(float deltaTime)
-        {
-            UpdateVelocities(deltaTime);
-
-            transform.position += new Vector3(horizontalVelocity, verticalVelocity, 0) * deltaTime;
-        }
-
-        protected virtual void UpdateVelocities(float deltaTime) { }
-
-
-        public void SetInput(Vector2 direction, float speed = 1)
-        {
-            horizontalVelocity = direction.x * speed;
-            verticalVelocity = direction.y * speed;
-        }
-
-        public void Jump(float force) { }
-        public void GetKickOff(float force) { }
-    }
-
-    public class BallisticBulletMover : SimpleBulletMover
-    {
-        protected const float GRAVITY = 9.81f;
-
-        public BallisticBulletMover(Transform bullet) : base(bullet) { }
-
-
-        protected override void UpdateVelocities(float deltaTime)
-        {
-            verticalVelocity -= GRAVITY * deltaTime;
         }
     }
 }

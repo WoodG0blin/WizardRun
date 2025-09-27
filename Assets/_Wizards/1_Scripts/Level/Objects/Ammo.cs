@@ -1,52 +1,62 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.WSA;
 
 namespace WizardsPlatformer
 {
-    internal class Ammo : InteractableObject
+    public class Ammo
     {
-        protected new AmmoView view;
-
-        private int _damage;
-        private bool _isBallistic;
+        protected GameObject prefab;
+        protected AmmoView view;
 
         protected bool isFromPlayer;
 
-        public Ammo(int damage, bool isBallistic = false, GameObject prefab = null) : base(config: null, position: Vector2.zero)
+        protected AmmoType ammoType;
+        protected int damage;
+        protected int speed;
+
+        protected Action<Transform> setView;
+
+        public int Range { get; protected set; }
+
+        public Ammo(bool fromPlayer)
         {
-            Prefab = prefab;
-            _damage = damage;
-            _isBallistic = isBallistic;
+            isFromPlayer = fromPlayer;
         }
-
-        protected override LevelObjectView SetView(GameObject gameObject) =>
-            gameObject.AddComponent<AmmoView>();
-
-        protected override void OnInitiateView()
+        public Ammo(AmmoConfig config, bool fromPlayer) : this(fromPlayer)
         {
-            view = base.view as AmmoView;
-            view.Init(_isBallistic);
-
-            base.OnInitiateView();
-        }
-
-
-        public void SetToPlayer(bool fromPlayer) => isFromPlayer = fromPlayer;
-
-        public void Fire(Vector2 direction, float force)
-        {
-            view.FinishInitiation();
-            view.SetMove(direction * force);
-        }
-
-
-        protected override void ActionsOnInteraction(IInteractionResponder interactor)
-        {
-            if (interactor.IsPlayer ^ isFromPlayer)
+            if (config != null)
             {
-                interactor.KickOff(0.2f);
-                interactor.ReceiveDamage(_damage);
-                view.SetActive(false);
+                prefab = config.Prefab;
+
+                ammoType = config.Type;
+                speed = config.ActionSpeed;
+                Range = config.ActionRange;
             }
+        }
+
+        protected AmmoView SetView(GameObject gameObject)
+        {
+            if (!gameObject.TryGetComponent<AmmoView>(out view))
+                view = gameObject.AddComponent<AmmoView>();
+            return view;
+        }
+
+
+        public void Start(Transform startPoint, Vector2 direction, int damage)
+        {
+            this.damage = damage;
+            
+            prefab ??= new GameObject();
+
+            view = SetView(GameObject.Instantiate(prefab, startPoint));
+            view.Init(
+                damage: damage,
+                type: ammoType,
+                fromPlayer: isFromPlayer
+                );
+            view.FinishInitiation();
+            view.Fire(direction * speed, Range);
         }
     }
 }

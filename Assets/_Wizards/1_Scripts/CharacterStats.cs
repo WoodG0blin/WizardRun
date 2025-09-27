@@ -10,6 +10,7 @@ namespace WizardsPlatformer
         private int _defence;
         private int _speed;
         private int _jumpForce;
+        private int _damage;
 
         private ParametersModifier<CharacterStatType> _modifiers;
 
@@ -25,6 +26,7 @@ namespace WizardsPlatformer
         public int Defence => _defence + _modifiers.GetModifier(CharacterStatType.Defence);
         public int Speed => _speed + _modifiers.GetModifier(CharacterStatType.Speed);
         public int JumpForce => _jumpForce + _modifiers.GetModifier(CharacterStatType.JumpForce);
+        public int Damage => _damage + _modifiers.GetModifier(CharacterStatType.Damage);
         public int Health
         {
             get => _currentHealth;

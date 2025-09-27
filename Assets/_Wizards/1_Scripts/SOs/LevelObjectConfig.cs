@@ -14,9 +14,10 @@ namespace WizardsPlatformer
         [field: SerializeField] public int MaxHealth { get; private set; }
         [field: SerializeField] public int Speed { get; private set; }
         [field: SerializeField] public int JumpForce { get; private set; }
+        [field: SerializeField] public int Damage { get; private set; }
 
         [field: Space(10), Header("BASE WEAPON")]
-        [field: SerializeField] public ActorStatsConfig MainWeaponConfig { get; protected set; }
+        [field: SerializeField] public ArtifactPropertyConfig WeaponConfig { get; protected set; }
 
 
         [field: Space(10), Header("LEVEL CONFIGS")]

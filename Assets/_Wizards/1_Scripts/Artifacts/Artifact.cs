@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    public class Artifact : IArtifact, IModifiableArtifact
+    public class Artifact : IArtifact
     {
         public enum ArtifactActivatorTypes
         {
@@ -15,10 +15,11 @@ namespace WizardsPlatformer
         }
 
 
-        protected ParametersModifier<ActorStatTypes> _modifiers;
-        public List<ArtifactActor> Actors { get; protected set; }
+        //protected ParametersModifier<ActorStatTypes> _modifiers;
+        //public List<ArtifactActor> Actors { get; protected set; }
+        protected List<ArtifactProperty> properties = new();
 
-        protected IArtifactHolder holder;
+        //protected IArtifactHolder holder;
 
         public string NameTag { get; protected set; }
         public string Name => NameTag; //replace with localization
@@ -26,7 +27,7 @@ namespace WizardsPlatformer
         public ArtifactSlotType SlotType {get; protected set;}
 
 
-        public List<ICharacterModifier> PassiveCharacterModifiers { get; private set; } = new();
+        //public List<ICharacterModifier> PassiveCharacterModifiers { get; private set; } = new();
 
 
         public Artifact(ItemConfig config)
@@ -38,82 +39,92 @@ namespace WizardsPlatformer
             SlotType = config.SlotType;
             Icon = config.Icon;
 
-            PassiveCharacterModifiers = config.PassiveCharacterModifiers;
+            properties.Add(new(config.BaseProperty, NameTag, isBaseProperty: true));
+            foreach (var conf in config.ExtraProperties)
+                properties.Add(new(conf, NameTag));
 
-            Actors = new();
-            bool needAttack = SlotType == ArtifactSlotType.Weapon;
-            foreach(var act in config.Actions)
-            {
-                switch(act.ActivatorType)
-                {
-                    case ArtifactActivatorTypes.Attack:
-                        {
-                            Actors.Add(needAttack ? new AttackActor(act) : new ArtifactActor(act));
-                            needAttack = false;
-                            break;
-                        }
-                    case ArtifactActivatorTypes.Modifier:
-                        {
-                            Actors.Add(new ModifierActor(act));
-                            break;
-                        }
-                    default:
-                        {
-                            Actors.Add(new ArtifactActor(act));
-                            break;
-                        }
-                }
-            }
 
-            _modifiers = new();
-        }
+            //LEGACY
 
-        public Artifact()
-        {
-            NameTag = "";
+            //PassiveCharacterModifiers = config.PassiveCharacterModifiers;
 
-            Actors = new();
-
-            _modifiers = new();
-        }
-
-        public virtual void SetHolder(IArtifactHolder holder)
-        {
-            this.holder = holder;
-            foreach(var act in Actors)
-                act.SetHolder(holder);
-        }
-
-        public void TryUseFor(ArtifactActivatorTypes actionType)
-        {
-            //if (holder == null)
+            //Actors = new();
+            //bool needAttack = SlotType == ArtifactSlotType.Weapon;
+            //foreach(var act in config.Actions)
             //{
-            //    Debug.Log($"Unassigned artifact {NameTag}");
-            //    return;
+            //    switch(act.ActivatorType)
+            //    {
+            //        case ArtifactActivatorTypes.Attack:
+            //            {
+            //                Actors.Add(needAttack ? new AttackActor(act) : new ArtifactActor(act));
+            //                needAttack = false;
+            //                break;
+            //            }
+            //        case ArtifactActivatorTypes.Modifier:
+            //            {
+            //                Actors.Add(new ModifierActor(act));
+            //                break;
+            //            }
+            //        default:
+            //            {
+            //                Actors.Add(new ArtifactActor(act));
+            //                break;
+            //            }
+            //    }
             //}
 
-            //if (actors.ContainsKey(actionType))
-            //    actors[actionType].Use();
-            //    //if (ex.IsReady) ex.Use(holder);
+            //_modifiers = new();
         }
 
-
-        public void SetModifiers(List<IArtifactModifier> modifiers)
+        public void Equip(IArtifactHolder holder)
         {
-            foreach(var m in modifiers)
-                _modifiers.AddModifier(m.Type, m.Value);
-        }
-        public void ClearAllModifiers()
-        {
-            _modifiers.CancelAllTempEffects();
-            _modifiers = new();
+            foreach(var prop in properties)
+                prop.Init(holder);
         }
 
-        public virtual ArtifactActor GetActor(ArtifactActivatorTypes type)
+        public void Unequip()
         {
-            //if (actors.ContainsKey(type)) return actors[type];
-            //else return null;
-            return null;
+            foreach (var prop in properties)
+                prop.DeInit();
         }
+
+        //public virtual void SetHolder(IArtifactHolder holder)
+        //{
+        //    this.holder = holder;
+        //    foreach(var act in Actors)
+        //        act.SetHolder(holder);
+        //}
+
+        //public void TryUseFor(ArtifactActivatorTypes actionType)
+        //{
+        //    //if (holder == null)
+        //    //{
+        //    //    Debug.Log($"Unassigned artifact {NameTag}");
+        //    //    return;
+        //    //}
+
+        //    //if (actors.ContainsKey(actionType))
+        //    //    actors[actionType].Use();
+        //    //    //if (ex.IsReady) ex.Use(holder);
+        //}
+
+
+        //public void SetModifiers(List<IArtifactModifier> modifiers)
+        //{
+        //    foreach(var m in modifiers)
+        //        _modifiers.AddModifier(m.Type, m.Value);
+        //}
+        //public void ClearAllModifiers()
+        //{
+        //    _modifiers.CancelAllTempEffects();
+        //    _modifiers = new();
+        //}
+
+        //public virtual ArtifactActor GetActor(ArtifactActivatorTypes type)
+        //{
+        //    //if (actors.ContainsKey(type)) return actors[type];
+        //    //else return null;
+        //    return null;
+        //}
     }
 }

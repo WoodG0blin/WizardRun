@@ -23,7 +23,7 @@ namespace WizardsPlatformer
 
             _currentState = new DemonIdle(this);
 
-            _closingDistance = config.MainWeaponConfig.ActionDistance;
+            _closingDistance = config.WeaponConfig.Ammo.ActionRange;
             _patrolDistance = _closingDistance * 5;
         }
 
@@ -36,7 +36,7 @@ namespace WizardsPlatformer
             view.Init(config);
             view.SetUpdateActions(() => _currentState.Act());
 
-            barrel = view.Barrel;
+            Barrel = view.Barrel;
 
             base.OnInitiateView();
         }
@@ -95,13 +95,13 @@ namespace WizardsPlatformer
             targetDirection * view.XDirection >= 0 && Mathf.Abs(targetDirection) < _closingDistance;
 
         void IDemonStateContext.Move(float direction) =>
-            view.Mover?.SetInput(new(direction, 0), stats.Speed);
+            view.Mover?.SetInput(new(direction, 0), Stats.Speed);
 
         void IDemonStateContext.Fire()
         {
             Direction = new(view.XDirection, 0);
             if (weapon.IsReady)
-                view.DisplayAttack(weapon.Use);
+                view.DisplayAttack(() => weapon.Use(this));
         }
 
         void IDemonStateContext.SetWait(float time, Action onFinish) => 

@@ -11,7 +11,7 @@ namespace WizardsPlatformer
         {
             //weaponArtifact = new Weapon(config.WeaponConfig);
             //weapon = weaponArtifact.GetExecutor(ArtifactExecutorType.Attack);
-            _maxDistance = config.MainWeaponConfig.ActionDistance;
+            _maxDistance = 10;
         }
 
         protected override LevelObjectView SetView(GameObject gameObject) =>
@@ -23,7 +23,7 @@ namespace WizardsPlatformer
             view.Init();
             view.SetUpdateActions(UpdateAim);
             
-            barrel = view.Barrel;
+            Barrel = view.Barrel;
 
             base.OnInitiateView();
         }
@@ -34,7 +34,7 @@ namespace WizardsPlatformer
             if (InDistance)
             {
                 Direction = view.RotateBarrelTowards(currentPlayerPosition);
-                if (weapon.IsReady) weapon.Use();
+                if (weapon.IsReady) weapon.Use(this);
             }
         }
 

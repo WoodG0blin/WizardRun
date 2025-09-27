@@ -71,14 +71,16 @@ namespace WizardsPlatformer
         protected abstract void ActionsOnInteraction(IInteractionResponder interactor);
     }
 
-    internal abstract class ActiveObject : InteractableObject, IInteractionResponder, IArtifactHolder
+    internal abstract class ActiveObject : InteractableObject, IInteractionResponder, IArtifactHolder, IArtifactUser
     {
         protected int bonusesOnKill;
 
-        protected CharacterStats stats;
-        protected ArtifactActor weapon;
+        public CharacterStats Stats { get; protected set; }
+        public ActionsHolder Actions { get; protected set; }
 
-        protected Transform barrel;
+        protected IArtifactExecutor weapon;
+
+        public Transform Barrel { get; protected set; }
 
         protected Vector3 currentPlayerPosition;
         protected Action<int> OnReceiveDamage;
@@ -86,18 +88,24 @@ namespace WizardsPlatformer
 
         protected ActiveObject(LevelObjectConfig config, Vector2 position) : base(config, position)
         {
-            stats = new(config.MaxHealth, config.Speed, config.JumpForce);
-            stats.OnDeath += Die;
-            MaxHealth = stats.MaxHealth;
+            Stats = new(config.MaxHealth, config.Speed, config.JumpForce);
+            Stats.OnDeath += Die;
+            MaxHealth = Stats.MaxHealth;
             IsPlayer = false;
 
-            weapon = new AttackActor(config.MainWeaponConfig);
-            weapon.SetHolder(this);
+            Actions = new(this);
+            ArtifactProperty _weapon = new(config.WeaponConfig, Name, isBaseProperty: true);
+            _weapon.Init(this);
+
+            if(Actions.GetActionsFor(PropertyActivators.Explicit).Count > 0)
+                weapon = Actions.GetActionsFor(PropertyActivators.Explicit)[0];
+
+            //weapon = new AttackActor(config.MainWeaponConfig);
+            //weapon.SetHolder(this);
 
             bonusesOnKill = config.BonusesOnKill;
         }
 
-        public CharacterStats Stats => stats;
         public bool IsPlayer { get; protected set; }
 
         public Vector2 Direction { get; protected set; }
@@ -105,7 +113,7 @@ namespace WizardsPlatformer
 
         public virtual IInteractionResponder GetTargetAt(float distance)
         {
-            var hits = Physics.RaycastAll(barrel.position, Direction, distance)
+            var hits = Physics.RaycastAll(Barrel.position, Direction, distance)
             .Select(h => h.transform.GetComponent<LevelObjectView>());
 
             IInteractionResponder hit = null;
@@ -122,9 +130,9 @@ namespace WizardsPlatformer
             return hit;
         }
 
-        void IArtifactHolder.PlaceAmmo(LevelObject ammo)
+        void IArtifactUser.PlaceAmmo(LevelObject ammo)
         {
-            ammo.InitiateView(GameObject.Instantiate(ammo.Prefab, barrel.position, Quaternion.identity, barrel));
+            ammo.InitiateView(GameObject.Instantiate(ammo.Prefab, Barrel.position, Quaternion.identity, Barrel));
         }
 
         public override void SetSubscriptions(ILevelEventAccounter subscriber)
@@ -136,7 +144,7 @@ namespace WizardsPlatformer
 
         public void ReceiveDamage(int damage)
         {
-            stats.Health -= damage;
+            Stats.Health -= damage;
             OnReceiveDamage?.Invoke(damage);
         }
         protected virtual void Die()
@@ -163,7 +171,7 @@ namespace WizardsPlatformer
         {
             if (interactor.IsPlayer)
             {
-                interactor.ReceiveDamage(weapon.ActionValue);
+                interactor.ReceiveDamage(Stats.Damage);
                 interactor.KickOff(0.5f);
             }
         }
@@ -175,7 +183,7 @@ namespace WizardsPlatformer
 
         public IJump JumpExecutioner => view.Jumper;
 
-        Coroutine IArtifactHolder.SetTimer(float time, Action<float> informOnRemainingTime, Coroutine toStop = null)
+        Coroutine IArtifactUser.SetTimer(float time, Action<float> informOnRemainingTime, Coroutine toStop = null)
         {
             if (toStop != null) view.StopCoroutine(toStop);
             return view.StartCoroutine(Timer(time, informOnRemainingTime));

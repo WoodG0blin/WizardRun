@@ -18,7 +18,7 @@ namespace WizardsPlatformer
         {
             ScarecrowView bv = view as ScarecrowView;
             bv.Init();
-            barrel = bv.Barrel;
+            Barrel = bv.Barrel;
             bv.OnFireReady = Fire;
 
             base.OnInitiateView();
@@ -28,7 +28,7 @@ namespace WizardsPlatformer
         {
             Direction = direction;
             if (weapon.IsReady)
-                weapon.Use();
+                weapon.Use(this);
         }
     }
 }

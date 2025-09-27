@@ -3,8 +3,9 @@
     public enum CharacterStatType
     {
         MaxHealth = 0,
-        Defence = 1,
-        Speed = 2,
-        JumpForce = 3
+        Defence = 10,
+        Speed = 20,
+        JumpForce = 30,
+        Damage = 40
     }
 }
