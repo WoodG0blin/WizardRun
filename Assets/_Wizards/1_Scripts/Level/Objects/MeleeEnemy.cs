@@ -100,8 +100,8 @@ namespace WizardsPlatformer
         void IDemonStateContext.Fire()
         {
             Direction = new(view.XDirection, 0);
-            if (weapon.IsReady)
-                view.DisplayAttack(() => weapon.Use(this));
+            if (Weapon.IsReady)
+                view.DisplayAttack(() => Weapon.Use(this));
         }
 
         void IDemonStateContext.SetWait(float time, Action onFinish) => 

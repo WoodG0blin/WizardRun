@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac1c64ddf3e805f40af4b78277d80484, type: 3}
   m_Name: BallisticAmmo
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 0
-  <ActionRange>k__BackingField: 1
+  <Type>k__BackingField: 11
+  <ActionRange>k__BackingField: 0
   <ActionSpeed>k__BackingField: 5
   <Prefab>k__BackingField: {fileID: 6176215044522108244, guid: c659eb280467ba544918e6afd673640c, type: 3}

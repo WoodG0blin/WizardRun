@@ -39,13 +39,18 @@ namespace WizardsPlatformer
             }
         }
         
-        public CharacterStats(int health = 100, int speed = 3, int jumpforce = 5)
+
+        public CharacterStats(LevelObjectConfig config)
         {
-            _maxHealth = health;
+            _maxHealth = config.MaxHealth;
             _currentHealth = _maxHealth;
+
             _defence = 0;
-            _speed = speed;
-            _jumpForce = jumpforce;
+
+            _damage = config.Damage;
+
+            _speed = config.Speed;
+            _jumpForce = config.JumpForce;
 
             _modifiers = new();
         }

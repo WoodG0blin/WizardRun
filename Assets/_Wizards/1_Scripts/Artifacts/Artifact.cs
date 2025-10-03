@@ -3,6 +3,12 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
+    public interface IArtifact : IItem
+    {
+        void Equip(IArtifactHolder holder);
+        void Unequip();
+    }
+
     public class Artifact : IArtifact
     {
         public enum ArtifactActivatorTypes

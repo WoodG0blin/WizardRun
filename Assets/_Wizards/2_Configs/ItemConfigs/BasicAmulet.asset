@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: BasicAmulet
   m_EditorClassIdentifier: 
   <NameTag>k__BackingField: BasicAmulet
-  <Icon>k__BackingField: {fileID: 21300000, guid: d7346b8b4f758d44c93e814283808923, type: 3}
-  <LevelView>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: ff251380ed4da1b428f7ce8f1b7e41da, type: 3}
   <SlotType>k__BackingField: 4
-  _passiveCharacterModifiers:
-  - <Type>k__BackingField: 1
-    <Value>k__BackingField: 10
-  <ArtifactExecutors>k__BackingField: 
-  <Cooldown>k__BackingField: 0
-  <Damage>k__BackingField: 0
-  <ActionDistance>k__BackingField: 0
-  <FireForce>k__BackingField: 0
-  <Ammo>k__BackingField: {fileID: 0}
+  <BaseProperty>k__BackingField:
+    <ActivatorType>k__BackingField: 0
+    <ExecutionType>k__BackingField: 0
+    <TargetParameter>k__BackingField: 0
+    <ActionValue>k__BackingField: 0
+    <CoolDown>k__BackingField: 0
+    <View>k__BackingField: {fileID: 0}
+    <Ammo>k__BackingField: {fileID: 0}
+    <NameTag>k__BackingField: 
+  <ExtraProperties>k__BackingField: []

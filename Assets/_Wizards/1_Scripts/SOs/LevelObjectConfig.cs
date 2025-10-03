@@ -5,7 +5,7 @@ using UnityEngine;
 namespace WizardsPlatformer
 {
     [CreateAssetMenu(fileName = nameof(LevelObjectConfig), menuName = "Configs/" + nameof(LevelObjectConfig), order = 5)]
-    internal class LevelObjectConfig : ScriptableObject
+    public class LevelObjectConfig : ScriptableObject
     {
         [SerializeField] private string nameTag;
         [field: SerializeField] public GameObject Prefab { get; private set; }

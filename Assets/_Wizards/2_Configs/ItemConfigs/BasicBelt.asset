@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BasicBelt
   m_EditorClassIdentifier: 
   <NameTag>k__BackingField: BasicBelt
-  <Icon>k__BackingField: {fileID: -1570401287, guid: e80dc4c4bab275b439fa0b232bbe078b, type: 3}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 621f2f925cd0dc645a26537831586e72, type: 3}
   <SlotType>k__BackingField: 2
   <BaseProperty>k__BackingField:
     <ActivatorType>k__BackingField: 0
@@ -22,5 +22,6 @@ MonoBehaviour:
     <ActionValue>k__BackingField: 0
     <CoolDown>k__BackingField: 0
     <View>k__BackingField: {fileID: 0}
+    <Ammo>k__BackingField: {fileID: 0}
     <NameTag>k__BackingField: 
   <ExtraProperties>k__BackingField: []

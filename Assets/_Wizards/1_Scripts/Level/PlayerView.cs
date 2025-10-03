@@ -18,7 +18,6 @@ namespace WizardsPlatformer
         protected override void OnInitiation()
         {
             Mover = new ViewMover(visualBody);
-            Jumper = Mover as IJump;
         }
 
         protected override void OnUpdate()

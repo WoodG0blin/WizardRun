@@ -14,8 +14,8 @@ namespace WizardsPlatformer
 
         public Vector2 RotateBarrelTowards(Vector3 targetPosition)
         {
-            BarrelRadius.forward = (targetPosition - Position).normalized;
-            return new(BarrelRadius.forward.x, BarrelRadius.forward.y);
+            BarrelRadius.right = (targetPosition - Position).normalized;
+            return new(BarrelRadius.right.x, BarrelRadius.right.y);
         }
     }
 }

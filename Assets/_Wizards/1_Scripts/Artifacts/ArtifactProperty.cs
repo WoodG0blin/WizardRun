@@ -33,10 +33,16 @@ namespace WizardsPlatformer
         [field: SerializeField] public int CoolDown { get; set; }
 
         [field: Space(10)]
-        [field: SerializeField] public GameObject View { get; set; }
         [field: SerializeField] public AmmoConfig Ammo { get; set; }
         [field: SerializeField] public string NameTag { get; set; }
     }
+
+    public interface IArtifactExecutor
+    {
+        void Use(IArtifactUser holder);
+        bool IsReady { get; }
+    }
+
 
     public class ArtifactProperty : IArtifactExecutor
     {
@@ -82,12 +88,20 @@ namespace WizardsPlatformer
 
             _isBaseProperty = isBaseProperty;
 
-            executor = ActivatorType switch
+            executor = GetSpecificExecutor(config.NameTag);
+            executor ??= ActivatorType switch
             {
                 PropertyActivators.Explicit => new AttackExecutor(this),
                 _ => new(this)
             };
         }
+
+        private ArtifactPropertyExecutor GetSpecificExecutor(string tag) => tag switch
+        {
+            string a when a.Contains("ExtraJump") => new ExtraJumpExecutor(this),
+            string a when a.Contains("ExtraShot") => new ExtraShotExecutor(this),
+            _ => null
+        };
 
         public void Init(IArtifactHolder holder)
         {
@@ -119,40 +133,5 @@ namespace WizardsPlatformer
             if (seconds > 0) _internalModifiers.AddModifierTemp(type, value, seconds);
             else _internalModifiers.AddModifier(type, value);
         }
-    }
-
-    public class ArtifactPropertyExecutor
-    {
-        protected ArtifactProperty parentProperty;
-
-        public ArtifactPropertyExecutor(ArtifactProperty parent)
-        {
-            parentProperty = parent;
-        }
-
-        public virtual void Init(IArtifactHolder holder) { }
-
-        public virtual void Use(IArtifactUser holder)
-        {
-            UnityEngine.Debug.Log($"Executing Stub for {parentProperty.NameTag}");
-        }
-    }
-
-    public class AttackExecutor : ArtifactPropertyExecutor
-    {
-        Ammo ammo;
-        public AttackExecutor(ArtifactProperty parent) : base(parent) { }
-
-        public override void Init(IArtifactHolder holder)
-        {
-            ammo = new(parentProperty.Ammo, holder.IsPlayer);
-        }
-        public override void Use(IArtifactUser holder)
-        {
-            Debug.Log($"Using attack");
-            ammo.Start(holder.Barrel, holder.Direction, CalculateDamage(holder));
-        }
-
-        private int CalculateDamage(IArtifactUser holder) => holder.Stats.Damage + parentProperty.ActionValue;
     }
 }

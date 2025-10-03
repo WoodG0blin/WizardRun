@@ -33,7 +33,7 @@ namespace WizardsPlatformer
 
             Config = config;
 
-            Stats = new(Config.MaxHealth, Config.Speed, Config.JumpForce);
+            Stats = new(Config);
 
             _bonuses = new BonusStats(false);
             _bonuses[BonusType.coin] = data.Bonuses;
@@ -49,6 +49,8 @@ namespace WizardsPlatformer
 
             //ArtifactActors = new();
             Actions = new(this);
+            ArtifactProperty _weapon = new(config.WeaponConfig, Name, isBaseProperty: true);
+            _weapon.Init(this);
         }
 
 
@@ -61,7 +63,6 @@ namespace WizardsPlatformer
             // conditions to equip
             if (res)
             {
-                //_artifacts[slot] = artifact != null ? new Artifact(artifact) : null;
                 _artifacts[slot]?.Unequip();
 
                 _artifacts[slot] = null;
@@ -69,6 +70,7 @@ namespace WizardsPlatformer
                 if(artifact != null)
                 {
                     var a = new Artifact(artifact);
+                    _artifacts[slot] = a;
                     a.Equip(this);
                 }
                 //UpdateActors();

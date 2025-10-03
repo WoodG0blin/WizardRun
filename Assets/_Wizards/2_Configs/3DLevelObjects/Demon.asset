@@ -25,6 +25,7 @@ MonoBehaviour:
     <ActionValue>k__BackingField: 20
     <CoolDown>k__BackingField: 1
     <View>k__BackingField: {fileID: 0}
+    <Ammo>k__BackingField: {fileID: 11400000, guid: 199174bd406448342814b86f3f5ef213, type: 2}
     <NameTag>k__BackingField: 
   <DifficultyLevel>k__BackingField: 1
   <BonusesOnKill>k__BackingField: 1

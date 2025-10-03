@@ -40,9 +40,9 @@ namespace WizardsPlatformer
             {
                 Direction = view.RotateBarrelTowards(currentPlayerPosition);
                 //Debug.Log($"Setting ballistic direction to {Direction}. Weapon ready? {weaponArtifact.IsReady}");
-                if (weapon.IsReady)
+                if (Weapon.IsReady)
                 {
-                    weapon.Use(this);
+                    Weapon.Use(this);
                 }
             }
         }

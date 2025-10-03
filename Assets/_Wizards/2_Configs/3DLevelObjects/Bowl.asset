@@ -17,14 +17,15 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 20
   <Speed>k__BackingField: 0
   <JumpForce>k__BackingField: 0
-  <MainWeaponConfig>k__BackingField:
+  <Damage>k__BackingField: 0
+  <WeaponConfig>k__BackingField:
     <ActivatorType>k__BackingField: 0
-    <NameTag>k__BackingField: 
+    <ExecutionType>k__BackingField: 0
+    <TargetParameter>k__BackingField: 0
     <ActionValue>k__BackingField: 0
-    <ActionDistance>k__BackingField: 0
-    <ActionSpeed>k__BackingField: 0
     <CoolDown>k__BackingField: 0
-    <Ammo>k__BackingField: {fileID: 0}
-    <IsBallistic>k__BackingField: 0
+    <View>k__BackingField: {fileID: 0}
+    <Ammo>k__BackingField: {fileID: 11400000, guid: 891875d345a406a449c3c45c7c73132d, type: 2}
+    <NameTag>k__BackingField: 
   <DifficultyLevel>k__BackingField: 1
   <BonusesOnKill>k__BackingField: 2

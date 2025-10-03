@@ -78,7 +78,7 @@ namespace WizardsPlatformer
         public CharacterStats Stats { get; protected set; }
         public ActionsHolder Actions { get; protected set; }
 
-        protected IArtifactExecutor weapon;
+        public IArtifactExecutor Weapon { get; protected set; }
 
         public Transform Barrel { get; protected set; }
 
@@ -88,7 +88,7 @@ namespace WizardsPlatformer
 
         protected ActiveObject(LevelObjectConfig config, Vector2 position) : base(config, position)
         {
-            Stats = new(config.MaxHealth, config.Speed, config.JumpForce);
+            Stats = new(config);
             Stats.OnDeath += Die;
             MaxHealth = Stats.MaxHealth;
             IsPlayer = false;
@@ -98,10 +98,7 @@ namespace WizardsPlatformer
             _weapon.Init(this);
 
             if(Actions.GetActionsFor(PropertyActivators.Explicit).Count > 0)
-                weapon = Actions.GetActionsFor(PropertyActivators.Explicit)[0];
-
-            //weapon = new AttackActor(config.MainWeaponConfig);
-            //weapon.SetHolder(this);
+                Weapon = Actions.GetActionsFor(PropertyActivators.Explicit)[0];
 
             bonusesOnKill = config.BonusesOnKill;
         }
@@ -109,31 +106,7 @@ namespace WizardsPlatformer
         public bool IsPlayer { get; protected set; }
 
         public Vector2 Direction { get; protected set; }
-
-
-        public virtual IInteractionResponder GetTargetAt(float distance)
-        {
-            var hits = Physics.RaycastAll(Barrel.position, Direction, distance)
-            .Select(h => h.transform.GetComponent<LevelObjectView>());
-
-            IInteractionResponder hit = null;
-
-            foreach (var h in hits)
-            {
-                if (h != null && h.InteractionResponder != null)
-                {
-                    hit = h.InteractionResponder;
-                    break;
-                }
-            }
-
-            return hit;
-        }
-
-        void IArtifactUser.PlaceAmmo(LevelObject ammo)
-        {
-            ammo.InitiateView(GameObject.Instantiate(ammo.Prefab, Barrel.position, Quaternion.identity, Barrel));
-        }
+        public IViewMover Mover => view.Mover;
 
         public override void SetSubscriptions(ILevelEventAccounter subscriber)
         {
@@ -180,8 +153,6 @@ namespace WizardsPlatformer
 
 
         protected virtual void SetNewPlayerPosition(Vector3 playerPosition) => currentPlayerPosition = playerPosition;
-
-        public IJump JumpExecutioner => view.Jumper;
 
         Coroutine IArtifactUser.SetTimer(float time, Action<float> informOnRemainingTime, Coroutine toStop = null)
         {

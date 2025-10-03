@@ -22,5 +22,6 @@ MonoBehaviour:
     <ActionValue>k__BackingField: 10
     <CoolDown>k__BackingField: 1
     <View>k__BackingField: {fileID: 6176215044522108244, guid: c659eb280467ba544918e6afd673640c, type: 3}
+    <Ammo>k__BackingField: {fileID: 11400000, guid: 891875d345a406a449c3c45c7c73132d, type: 2}
     <NameTag>k__BackingField: 
   <ExtraProperties>k__BackingField: []

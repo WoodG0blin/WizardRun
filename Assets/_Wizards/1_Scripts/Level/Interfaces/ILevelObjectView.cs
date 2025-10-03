@@ -14,7 +14,6 @@ namespace WizardsPlatformer
         Vector3 Position { get; }
 
         public IViewMover Mover { get; }
-        public IJump Jumper { get; }
 
         IContactsPuller AccessContacts();
     }

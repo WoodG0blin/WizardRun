@@ -22,7 +22,7 @@ namespace WizardsPlatformer
             var rot = CalculateRotationParameters(targetPosition);
             //Debug.Log($"Rotation parameters are: angle {rot.angle}, axis {rot.axis}");
             Barrel.rotation = Quaternion.AngleAxis(rot.angle, rot.axis);
-            return new(Barrel.up.x, Barrel.up.y);
+            return new(Barrel.right.x, Barrel.right.y);
         }
 
         protected (float angle, Vector3 axis) CalculateRotationParameters(Vector3 targetPosition)
@@ -36,12 +36,12 @@ namespace WizardsPlatformer
 
                 if (Mathf.Abs(targetApprox - targetPosition.y) < 0.5f)
                 {
-                    _angle = (90 - i) * (int)Mathf.Sign(targetPosition.x - Position.x);
+                    _angle = 90 - i * (int)Mathf.Sign(targetPosition.x - Position.x);
                     break;
                 }
             }
 
-            return (_angle, Vector3.back);
+            return (_angle, Vector3.forward);
         }
 
         private float CalcBallisticDY(float dx, float angle)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace WizardsPlatformer
@@ -22,6 +23,7 @@ namespace WizardsPlatformer
         public PlayerController(PlayerModel playerModel, Vector2Int startPosition) : base(playerModel.Config, startPosition)
         {
             IsPlayer = true;
+            
 
             _playerModel = playerModel;
 
@@ -42,7 +44,7 @@ namespace WizardsPlatformer
 
             for(int i = 0; i < explicits.Count; i++)
             {
-                if (i == 0) weapon = explicits[0];
+                if (i == 0) Weapon = explicits[0];
                 //else set for buttons
             }
         }
@@ -62,7 +64,7 @@ namespace WizardsPlatformer
         public void OnJump()
         {
             if (_playerView.Mover.IsGrounded)
-                _playerView.Jumper?.Jump(Stats.JumpForce);
+                _playerView.Mover?.Jump(Stats.JumpForce);
 
             foreach (var ex in Actions.GetActionsFor(PropertyActivators.OnJump))
                 ex.Use(this);
@@ -74,13 +76,13 @@ namespace WizardsPlatformer
         {
             Direction = new(_playerView.XDirection, 0);
             
-            if (weapon.IsReady)
+            if (Weapon.IsReady)
                 _playerView.DisplayAttack(onAttackPositionReady: Attack);
         }
 
         private void Attack()
         {
-            weapon.Use(this);
+            Weapon.Use(this);
 
             foreach (var ex in Actions.GetActionsFor(PropertyActivators.OnAttack))
                 ex.Use(this);

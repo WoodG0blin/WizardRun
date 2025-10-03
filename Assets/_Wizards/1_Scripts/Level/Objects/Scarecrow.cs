@@ -27,8 +27,8 @@ namespace WizardsPlatformer
         private void Fire(Vector3 direction)
         {
             Direction = direction;
-            if (weapon.IsReady)
-                weapon.Use(this);
+            if (Weapon.IsReady)
+                Weapon.Use(this);
         }
     }
 }

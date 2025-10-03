@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BasicBoots
   m_EditorClassIdentifier: 
   <NameTag>k__BackingField: BasicBoots
-  <Icon>k__BackingField: {fileID: 21300000, guid: 2794efd5d36dfef4d9be253789a9229c, type: 3}
+  <Icon>k__BackingField: {fileID: 21300000, guid: d9bbcf34fe6d0db4ba2853c82561d38e, type: 3}
   <SlotType>k__BackingField: 3
   <BaseProperty>k__BackingField:
     <ActivatorType>k__BackingField: 0
@@ -22,5 +22,14 @@ MonoBehaviour:
     <ActionValue>k__BackingField: 0
     <CoolDown>k__BackingField: 0
     <View>k__BackingField: {fileID: 0}
+    <Ammo>k__BackingField: {fileID: 0}
     <NameTag>k__BackingField: 
-  <ExtraProperties>k__BackingField: []
+  <ExtraProperties>k__BackingField:
+  - <ActivatorType>k__BackingField: 21
+    <ExecutionType>k__BackingField: 0
+    <TargetParameter>k__BackingField: 0
+    <ActionValue>k__BackingField: 2
+    <CoolDown>k__BackingField: 0
+    <View>k__BackingField: {fileID: 0}
+    <Ammo>k__BackingField: {fileID: 0}
+    <NameTag>k__BackingField: ExtraJump

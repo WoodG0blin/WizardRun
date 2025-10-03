@@ -13,7 +13,6 @@ namespace WizardsPlatformer
         private Action _onUpdateAction;
 
         public IViewMover Mover { get; protected set; }
-        public IJump Jumper { get; protected set; }
 
 
         protected bool initiated = false;
@@ -23,7 +22,7 @@ namespace WizardsPlatformer
         public IInteractionResponder InteractionResponder { get; set; }
 
         public Vector3 Position { get => transform.position; }
-        public float XDirection { get => Mathf.Sign(transform.forward.z); }
+        public float XDirection { get => Mathf.Sign(transform.right.x); }
 
         public Action<IInteractionResponder> OnInteraction { get; set; }
 
@@ -117,13 +116,18 @@ namespace WizardsPlatformer
         protected virtual void OnAnyContact(Transform collided) { }
     }
 
-    public interface IViewMover : IJump
+    public interface IViewMover
     {
+        void Update(float deltaTime);
         Vector2 Velocity { get; }
 
-        void GetKickOff(float force);
         void SetInput(Vector2 direction, float speed = 1);
-        void Update(float deltaTime);
+
+        void Jump(float force);
+        bool IsGrounded { get; }
+        bool IsExecutingJump { get; }
+
+        void GetKickOff(float force);
     }
 
     public class ViewMover : IViewMover
@@ -144,13 +148,10 @@ namespace WizardsPlatformer
         protected float horizontalInput;
         protected float jumpImpulseInput;
 
-        //protected Rigidbody rigidbody;
         private Transform _transform;
-        //private Vector3 _initialScale;
-
-        //protected IContactsPuller contacts;
 
         public bool IsGrounded => groundedTimer > 0;
+        public bool IsExecutingJump => verticalVelocity > MOVE_THRESHOLD;
         public Vector2 Velocity => new(horizontalInput, verticalVelocity);
 
         internal ViewMover(Transform levelObject)
@@ -158,13 +159,6 @@ namespace WizardsPlatformer
             _transform = levelObject;
 
             if (!_transform.TryGetComponent<CharacterController>(out characterController)) characterController = _transform.AddComponent<CharacterController>();
-
-            //if (!_transform.TryGetComponent<Rigidbody>(out rigidbody)) rigidbody = _transform.AddComponent<Rigidbody>();
-            //rigidbody.isKinematic = true;
-            //rigidbody.useGravity = false;
-            //_initialScale = _transform.localScale;
-
-            //this.contacts = contacts;
         }
 
         public void Update(float deltaTime)
@@ -195,9 +189,6 @@ namespace WizardsPlatformer
             }
 
             characterController.Move(new Vector3(horizontalInput, verticalVelocity, 0) * deltaTime);
-            //rigidbody.MovePosition(_transform.position + new Vector3(horizontalInput, verticalVelocity, 0) * deltaTime);
-            //rigidbody.velocity = new Vector3(horizontalInput, verticalVelocity, 0) * deltaTime;
-            //_transform.position += new Vector3(horizontalInput, verticalVelocity, 0) * deltaTime;
 
             AdjustToStop(deltaTime / STOP_TIME);
         }

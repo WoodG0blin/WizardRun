@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BasicHat
   m_EditorClassIdentifier: 
   <NameTag>k__BackingField: BasicHat
-  <Icon>k__BackingField: {fileID: 21300000, guid: 2794efd5d36dfef4d9be253789a9229c, type: 3}
+  <Icon>k__BackingField: {fileID: 21300000, guid: e6b56e30e9cd8084fb458b6d727b76e6, type: 3}
   <SlotType>k__BackingField: 1
   <BaseProperty>k__BackingField:
     <ActivatorType>k__BackingField: 0
@@ -22,5 +22,14 @@ MonoBehaviour:
     <ActionValue>k__BackingField: 0
     <CoolDown>k__BackingField: 0
     <View>k__BackingField: {fileID: 0}
+    <Ammo>k__BackingField: {fileID: 0}
     <NameTag>k__BackingField: 
-  <ExtraProperties>k__BackingField: []
+  <ExtraProperties>k__BackingField:
+  - <ActivatorType>k__BackingField: 20
+    <ExecutionType>k__BackingField: 0
+    <TargetParameter>k__BackingField: 0
+    <ActionValue>k__BackingField: 1
+    <CoolDown>k__BackingField: 0
+    <View>k__BackingField: {fileID: 0}
+    <Ammo>k__BackingField: {fileID: 0}
+    <NameTag>k__BackingField: ExtraShot
