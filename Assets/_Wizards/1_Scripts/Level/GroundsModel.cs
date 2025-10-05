@@ -8,13 +8,14 @@ namespace WizardsPlatformer
     internal class GroundsModel
     {
         private int _maxLength;
-        private int _lenthCounter;
+        private int _lengthCounter;
         private int _minPlatformLength = 3;
         private int _maxPlatformLength = 10;
         private int _minPlatformHeight = 3;
         private int _maxPlatformHeight = 10;
         private int _minGapLength = 1;
         private int _maxGapLength = 4;
+        private int _bossGroundSpread = 50;
 
         private LevelObjectFactory _factory;
         private List<LevelElement> _elements;
@@ -41,7 +42,7 @@ namespace WizardsPlatformer
 
         private void SetModel()
         {
-            _lenthCounter = 0;
+            _lengthCounter = 0;
 
             _elements.Clear();
             _levelObjects.Clear();
@@ -56,8 +57,10 @@ namespace WizardsPlatformer
         private void Generate()
         {
             int platformLength, platformHeight, gapLength;
+            int interimBosses = Mathf.RoundToInt(_maxLength / _bossGroundSpread);
+            int bossCounter = 1;
 
-            while (_lenthCounter < _maxLength)
+            while (_lengthCounter < _maxLength)
             {
                 platformLength = Random.Range(_minPlatformLength, _maxPlatformLength + 1);
                 platformHeight = Random.Range(_minPlatformHeight, _maxPlatformHeight);
@@ -68,15 +71,31 @@ namespace WizardsPlatformer
 
                 _elements.Add(new Gap(gapLength, platformHeight));
 
-                _lenthCounter += _elements[_elements.Count - 1].Length + _elements[_elements.Count - 2].Length;
+                _lengthCounter += _elements[_elements.Count - 1].Length + _elements[_elements.Count - 2].Length;
+
+                if(bossCounter <= interimBosses && _lengthCounter >= _bossGroundSpread * bossCounter)
+                {
+                    _elements.Add(new BossGround(15, _minPlatformHeight));
+                    gapLength = Random.Range(_minGapLength, _maxGapLength);
+                    _elements.Add(new Gap(gapLength, _minPlatformHeight));
+                }
             }
+
+            _elements.Add(new BossGround(15, _minPlatformHeight));
+            gapLength = Random.Range(_minGapLength, _maxGapLength);
+
+            _elements.Add(new Gap(gapLength, _minPlatformHeight));
         }
+
 
         private void SetDrawingGrid()
         {
             int position = 0;
 
-            _squareGrid = new bool[_lenthCounter, _maxPlatformHeight + 3];
+            _lengthCounter = 0;
+            foreach (var el in _elements) _lengthCounter += el.Length;
+
+            _squareGrid = new bool[_lengthCounter, _maxPlatformHeight + 3];
 
             foreach (LevelElement element in _elements)
             {

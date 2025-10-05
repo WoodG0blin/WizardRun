@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f316a2f5f5c19a2498b17e61a93a296a, type: 3}
-  m_Name: Demon
+  m_Name: BallisticShooter
   m_EditorClassIdentifier: 
-  nameTag: Demon
-  <Prefab>k__BackingField: {fileID: 1510662696951145146, guid: f8931fb818ef33a4f8669c43157e4c6b, type: 3}
-  <MaxHealth>k__BackingField: 30
-  <Speed>k__BackingField: 2
+  nameTag: Fireplace
+  <Prefab>k__BackingField: {fileID: 8043961177668047658, guid: e3e0dc485cecfc54bbff330e428d7e3a, type: 3}
+  <MaxHealth>k__BackingField: 20
+  <Speed>k__BackingField: 0
   <JumpForce>k__BackingField: 0
-  <Damage>k__BackingField: 10
+  <Damage>k__BackingField: 5
   <WeaponConfig>k__BackingField:
     <ActivatorType>k__BackingField: 10
     <ExecutionType>k__BackingField: 0
     <TargetParameter>k__BackingField: 0
     <ActionValue>k__BackingField: 20
-    <CoolDown>k__BackingField: 1
-    <View>k__BackingField: {fileID: 0}
-    <Ammo>k__BackingField: {fileID: 11400000, guid: 199174bd406448342814b86f3f5ef213, type: 2}
+    <CoolDown>k__BackingField: 3
+    <View>k__BackingField: {fileID: 6176215044522108244, guid: 011136de26fdf6248b89b481da733c4d, type: 3}
+    <Ammo>k__BackingField: {fileID: 11400000, guid: bd2338b1c1d3d224fbfdaca6a6d589c3, type: 2}
     <NameTag>k__BackingField: 
-  <DifficultyLevel>k__BackingField: 1
-  <BonusesOnKill>k__BackingField: 1
+  <DifficultyLevel>k__BackingField: 0
+  <BonusesOnKill>k__BackingField: 2

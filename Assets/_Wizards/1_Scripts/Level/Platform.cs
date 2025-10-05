@@ -26,24 +26,12 @@ namespace WizardsPlatformer
             List<LevelObject> _levelObjects = new List<LevelObject>();
 
             int intervals = Length / 3;
-            //int choice;
             for (int i = 0; i < intervals; i++)
             {
-                //choice = Random.Range(i, 6);
                 var obj = factory.GenerateObstacleAt(
                         new Vector2Int(SetOnFreeSpace(true) + startXPosition, Height + 1),
                         i);
                 if (obj != null) _levelObjects.Add(obj);
-                //TODO pack into factory
-                //switch (choice)
-                //{
-                //    case 0: _levelObjects.Add(new Scarecrow(new Vector2Int(SetOnFreeSpace(true) + startXPosition, Height+1))); break;
-                //    case 1: _levelObjects.Add(new Bowl(new Vector2Int(SetOnFreeSpace(true) + startXPosition, Height+1))); break;
-                //    case 2: _levelObjects.Add(new Fireplace(new Vector2Int(SetOnFreeSpace() + startXPosition, Height+1))); break;
-                //    case 3: _levelObjects.Add(new Spikes(new Vector2Int(SetOnFreeSpace() + startXPosition, Height+1))); break;
-                //    case 4: _levelObjects.Add(new Rock(new Vector2Int(SetOnFreeSpace() + startXPosition, Height+1))); break;
-                //    default: break;
-                //}
             }
 
             if (Length > 5) _levelObjects.Add(
@@ -57,5 +45,38 @@ namespace WizardsPlatformer
 
             return _levelObjects;
         } 
+    }
+
+    internal class BossGround : Platform
+    {
+        private List<(int gap, Platform plat)> _extraPlatforms;
+        private LevelObjectConfig _bossConfig; 
+
+        public BossGround(int length, int height) : base(length, height)
+        {
+            _extraPlatforms = new();
+            _extraPlatforms.Add((gap: 3, plat: new Platform(3, height + 2)));
+            _extraPlatforms.Add((gap: 5, plat: new Platform(3, height + 4)));
+            _extraPlatforms.Add((gap: 7, plat: new Platform(3, height + 2)));
+        }
+
+        public override int DrawIntoGrid(ref bool[,] squareGrid, int position)
+        {
+            foreach (var p in _extraPlatforms)
+            {
+                int pos = position + p.gap;
+                for (int x = pos; x < pos + p.plat.Length; x++)
+                {
+                    squareGrid[x, p.plat.Height] = true;
+                };
+            }
+
+            return base.DrawIntoGrid(ref squareGrid, position);
+        }
+
+        public override IEnumerable<LevelObject> FillWithObjects(int startXPosition, LevelObjectFactory factory, int positioningYDelta)
+        {
+            return new List<LevelObject>();
+        }
     }
 }

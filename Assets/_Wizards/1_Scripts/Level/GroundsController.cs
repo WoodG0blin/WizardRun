@@ -31,7 +31,7 @@ namespace WizardsPlatformer
         public Action<int> OnCoinsCountChange { get; set; }
 
 
-        public GroundsController(GroundsModel groundsModel, IGroundsView groundsView, GroundsConfig config, Action onGroundsCleared)
+        public GroundsController(GroundsModel groundsModel, IGroundsView groundsView, LevelConfig config, Action onGroundsCleared)
         {
             _groundsModel = groundsModel;
 

@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using UnityEngine.UIElements;
 using UnityEngine;
 using System.Linq;
-using Unity.VisualScripting;
 
 namespace WizardsPlatformer
 {
     public class LevelObjectFactory
     {
         private AllLevelObjectsConfigs _configs;
+        private List<LevelObjectConfig> _bossGrounds;
 
         internal LevelObjectFactory(AllLevelObjectsConfigs configs) => _configs = configs;
 

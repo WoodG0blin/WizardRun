@@ -6,6 +6,7 @@ namespace WizardsPlatformer
     {
         ISceneLoader SceneLoader { get; }
         GroundsModel GetGroundsModel(AllLevelObjectsConfigs configs);
+        LevelConfig GetLevelConfig();
         PlayerModel GetPlayerModel();
 
         void AccountForBonuses(Dictionary<BonusType, int> bonuses);
