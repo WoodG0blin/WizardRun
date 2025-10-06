@@ -118,5 +118,10 @@ namespace WizardsPlatformer
 
             _loadScreen.FinishLoad();
         }
+
+        LevelConfig ILevelInfo.GetLevelConfig()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
