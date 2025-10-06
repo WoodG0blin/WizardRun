@@ -5,7 +5,7 @@ using UnityEngine;
 namespace WizardsPlatformer
 {
     [CreateAssetMenu(fileName = nameof(AllLevelObjectsConfigs), menuName = "Configs/" + nameof(AllLevelObjectsConfigs), order = 4)]
-    internal class AllLevelObjectsConfigs : ScriptableObject
+    public class AllLevelObjectsConfigs : ScriptableObject
     {
         [field: SerializeField] public List<LevelObjectConfig> Elements { get; private set; }
         [field: SerializeField] public List<LevelObjectConfig> Obstacles { get; private set; }

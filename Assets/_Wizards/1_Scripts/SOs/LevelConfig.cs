@@ -5,7 +5,7 @@ using UnityEngine;
 namespace WizardsPlatformer
 {
     [CreateAssetMenu(fileName = nameof(LevelConfig), menuName = "Configs/" + nameof(LevelConfig), order = 8)]
-    internal sealed class LevelConfig : ScriptableObject
+    public sealed class LevelConfig : ScriptableObject
     {
         [field: SerializeField] public int LevelLength { get; set; } = 20;
         [field: SerializeField] public Sprite[] BackGroundSprites { get; private set; }

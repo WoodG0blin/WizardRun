@@ -26,7 +26,7 @@ namespace WizardsPlatformer
         private void Awake()
         {
             //Replace with DIc
-            _levelInfo = FindObjectOfType<GameManager>();
+            _levelInfo = FindFirstObjectByType<GameManager>();
             Init();
             _levelInfo.SceneLoader.FinishSceneLoad();
         }
@@ -34,7 +34,11 @@ namespace WizardsPlatformer
 
         private void Init()
         {
-            _groundsModel = _levelInfo.GetGroundsModel(_groundsConfig.Objects);
+            _groundsConfig = _levelInfo.GetLevelConfig();
+
+            _groundsModel = new(_groundsConfig);
+
+            //_groundsModel = _levelInfo.GetGroundsModel(_groundsConfig.Objects);
             _playerModel = _levelInfo.GetPlayerModel();
 
             _playerController = new PlayerController(_playerModel, _groundsModel.LocalStartPosition);

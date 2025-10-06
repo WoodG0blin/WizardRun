@@ -17,7 +17,6 @@ namespace WizardsPlatformer
 
         [Header("CONFIGS")]
         [SerializeField] private LevelObjectConfig _playerConfig;
-        [SerializeField] private LevelObjectConfig _player3DConfig;
         [SerializeField] private AllItemConfigs _artifactDatabase;
         [SerializeField] private LocationsConfig _locationsConfig;
 
@@ -34,7 +33,7 @@ namespace WizardsPlatformer
         }
         private void Init(PlayerSavedData data)
         {
-            _gameModel = new(data, _player3DConfig);
+            _gameModel = new(data, _playerConfig);
             DataSaveAndLoad.Save(_gameModel.GetSaveData());
         }
 
@@ -48,7 +47,8 @@ namespace WizardsPlatformer
         private void FillUpLocations(ref List<Location> locations)
         {
             if (locations == null || locations.Count == 0) locations = GenerateNewLocations();
-            foreach (var l in locations) l.Sprite = _locationsConfig.GetLocationImage(l.Type, l.SpriteID);
+            //foreach (var l in locations) l.Sprite = _locationsConfig.GetLocationImage(l.Type, l.SpriteID);
+            foreach (var l in locations) l.SetConfig(_locationsConfig.LoadLocation(l.Type)); 
         }
 
         private List<Location> GenerateNewLocations()
@@ -57,15 +57,10 @@ namespace WizardsPlatformer
 
             for (int i = 0; i < 4; i++)
             {
-                var type = _locationsConfig.GetRandomLocationType();
-                Sprite img = _locationsConfig.GetRandomLocationImage(type);
-
-                list.Add(new Location()
-                {
-                    Type = type,
-                    SpriteID = img.name,
-                    Sprite = img
-                });
+                var config = _locationsConfig.GetRandomLocation();
+                Location location = new();
+                location.SetConfig(config);
+                list.Add(location);
             }
 
             return list;
@@ -79,7 +74,6 @@ namespace WizardsPlatformer
 
 
         PlayerModel ILevelInfo.GetPlayerModel() => _gameModel.PlayerModel;
-        GroundsModel ILevelInfo.GetGroundsModel(AllLevelObjectsConfigs configs) => _gameModel.GetGroundsModel(new(configs));
         void ILevelInfo.AccountForBonuses(Dictionary<BonusType, int> bonuses)
         {
             foreach(KeyValuePair<BonusType, int> b in bonuses) _gameModel.PlayerModel.AddBonus(b.Key, b.Value);
@@ -119,9 +113,7 @@ namespace WizardsPlatformer
             _loadScreen.FinishLoad();
         }
 
-        LevelConfig ILevelInfo.GetLevelConfig()
-        {
-            throw new NotImplementedException();
-        }
+        LevelConfig ILevelInfo.GetLevelConfig() =>
+            _gameModel.GetLevelConfig();
     }
 }

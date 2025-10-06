@@ -55,7 +55,8 @@ namespace WizardsPlatformer
 
         public void AddScore(int score) => _activeLocation?.AccountForScore(score);
 
-        public GroundsModel GetGroundsModel(LevelObjectFactory factory) => new GroundsModel(CalculateGroundsLenght(), factory);
+        public LevelConfig GetLevelConfig() => _activeLocation.GetLevelConfig(CalculateGroundsLenght());
+
 
         private int CalculateGroundsLenght() => 20;
     }

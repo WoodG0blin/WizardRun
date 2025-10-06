@@ -5,7 +5,6 @@ namespace WizardsPlatformer
     interface ILevelInfo
     {
         ISceneLoader SceneLoader { get; }
-        GroundsModel GetGroundsModel(AllLevelObjectsConfigs configs);
         LevelConfig GetLevelConfig();
         PlayerModel GetPlayerModel();
 

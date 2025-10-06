@@ -40,6 +40,18 @@ namespace WizardsPlatformer
             SetModel();
         }
 
+        public GroundsModel(LevelConfig config)
+        {
+            _maxLength = config.LevelLength;
+
+            _factory = new(config.Objects);
+
+            _elements = new List<LevelElement>();
+            _levelObjects = new List<LevelObject>();
+
+            SetModel();
+        }
+
         private void SetModel()
         {
             _lengthCounter = 0;

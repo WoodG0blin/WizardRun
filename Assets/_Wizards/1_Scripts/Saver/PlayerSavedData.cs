@@ -23,7 +23,17 @@ namespace WizardsPlatformer
         public int Score;
 
         [NonSerialized] public Sprite Sprite;
+        [NonSerialized] public LevelConfig LevelConfig;
         [NonSerialized] private int _baseScore;
+
+
+        public void SetConfig(LocationConfig config)
+        {
+            Type = config.Type;
+            SpriteID ??= config.SetSprite();
+            Sprite = config.GetSprite(SpriteID);
+            LevelConfig = config.LevelConfig;
+        }
 
         public void AccountForScore(int score)
         {
@@ -40,5 +50,11 @@ namespace WizardsPlatformer
         }
 
         public void SetBaseScore() => _baseScore = Score;
+
+        public LevelConfig GetLevelConfig(int length)
+        {
+            LevelConfig.LevelLength = length;
+            return LevelConfig;
+        }
     }
 }
