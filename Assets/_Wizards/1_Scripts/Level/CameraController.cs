@@ -17,7 +17,7 @@ namespace WizardsPlatformer
         public void UpdateToPlayerPosition(Vector3 newPosition)
         {
             float targetX = newPosition.x;
-            float targetY = Mathf.Clamp(newPosition.y, -3.5f, 3.5f);
+            float targetY = Mathf.Clamp(newPosition.y, -1f, newPosition.y);
             _camera.SetNewTargetPosition(targetX, targetY);
         }
     }

@@ -31,6 +31,7 @@ namespace WizardsPlatformer
         {
             var temp = new GameObject("image");
             temp.transform.SetParent(parent);
+            temp.transform.localPosition = Vector3.zero;
             
             var res = temp.AddComponent<RectTransform>();
             

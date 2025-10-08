@@ -51,7 +51,7 @@ namespace WizardsPlatformer
 
         public override void SetSubscriptions(ILevelEventAccounter subscriber)
         {
-            OnPlayerPositionChange += (v) => subscriber.OnPlayerPositionChange?.Invoke(v);
+            OnPlayerPositionChange += (v) => subscriber.UpdatePlayerPosition(v);
         }
 
         public void OnHorizontalMove(float newValue)

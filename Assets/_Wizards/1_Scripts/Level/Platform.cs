@@ -23,21 +23,23 @@ namespace WizardsPlatformer
 
         public override IEnumerable<LevelObject> FillWithObjects(int startXPosition, LevelObjectFactory factory, int positioningYDelta)
         {
-            List<LevelObject> _levelObjects = new List<LevelObject>();
+            List<LevelObject> _levelObjects = new();
 
             int intervals = Length / 3;
+            if (Length > 5) intervals++;
+
             for (int i = 0; i < intervals; i++)
             {
-                var obj = factory.GenerateObstacleAt(
+                var obj = factory.GenerateObjectAt(
                         new Vector2Int(SetOnFreeSpace(true) + startXPosition, Height + 1),
                         i);
                 if (obj != null) _levelObjects.Add(obj);
             }
 
-            if (Length > 5) _levelObjects.Add(
-                factory.GetEnemyAt(
-                    new Vector2Int(SetOnFreeSpace() + startXPosition, Height +1),
-                    difficulty: 0));
+            //if (Length > 5) _levelObjects.Add(
+            //    factory.GetEnemyAt(
+            //        new Vector2Int(SetOnFreeSpace() + startXPosition, Height +1),
+            //        difficulty: 3));
 
             _levelObjects.Add(
                 factory.GetBonusAt(
@@ -49,15 +51,15 @@ namespace WizardsPlatformer
 
     internal class BossGround : Platform
     {
-        private List<(int gap, Platform plat)> _extraPlatforms;
+        private List<(int gap, Platform plat)> _extraPlatforms = new();
         private LevelObjectConfig _bossConfig; 
 
-        public BossGround(int length, int height) : base(length, height)
+
+        public BossGround(BossGroundConfig config, int height) : base(config.MainPlatformLength, height)
         {
-            _extraPlatforms = new();
-            _extraPlatforms.Add((gap: 3, plat: new Platform(3, height + 2)));
-            _extraPlatforms.Add((gap: 5, plat: new Platform(3, height + 4)));
-            _extraPlatforms.Add((gap: 7, plat: new Platform(3, height + 2)));
+            _bossConfig = config.Boss;
+            foreach(var platform in config.ExtraPlatforms)
+                _extraPlatforms.Add((gap: platform.StartGap, plat: new Platform(platform.Length, platform.Height)));
         }
 
         public override int DrawIntoGrid(ref bool[,] squareGrid, int position)
@@ -67,7 +69,7 @@ namespace WizardsPlatformer
                 int pos = position + p.gap;
                 for (int x = pos; x < pos + p.plat.Length; x++)
                 {
-                    squareGrid[x, p.plat.Height] = true;
+                    squareGrid[x, p.plat.Height + Height] = true;
                 };
             }
 
@@ -76,7 +78,7 @@ namespace WizardsPlatformer
 
         public override IEnumerable<LevelObject> FillWithObjects(int startXPosition, LevelObjectFactory factory, int positioningYDelta)
         {
-            return new List<LevelObject>();
+            return new List<LevelObject>() { factory.GetObjectAt(new Vector2Int(startXPosition + Length-1, Height+1), _bossConfig) };
         }
     }
 }

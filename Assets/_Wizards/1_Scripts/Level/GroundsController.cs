@@ -8,6 +8,7 @@ namespace WizardsPlatformer
     public interface ILevelEventAccounter
     {
         Action<Vector3> OnPlayerPositionChange { get; set; }
+        void UpdatePlayerPosition(Vector3 newPosition);
         void AccountForBonus(BonusType type, int value);
         void AccountForDamage(int damage);
         void SetLevelCleared();
@@ -51,7 +52,7 @@ namespace WizardsPlatformer
         }
 
 
-        public void UpdatePlayerposition(Vector3 newPosition) => OnPlayerPositionChange?.Invoke(newPosition);
+        public void UpdatePlayerPosition(Vector3 newPosition) => OnPlayerPositionChange?.Invoke(newPosition);
         public void ClearBonuses() => BonusesCollected = new();
 
 

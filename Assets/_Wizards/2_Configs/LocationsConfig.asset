@@ -17,19 +17,24 @@ MonoBehaviour:
     Images:
     - {fileID: 21300000, guid: 5c9f0afbb459fe34c8f48769111729e2, type: 3}
     - {fileID: 21300000, guid: be3004768ed2df94cad9edd004f83861, type: 3}
+    LevelConfig: {fileID: 11400000, guid: 335daf4b450b0894d8fa079630fd934d, type: 2}
   - Type: 1
     Images:
     - {fileID: 21300000, guid: fb64af7f3f9ce7a4ba042b9e11e50fe6, type: 3}
     - {fileID: 21300000, guid: 2a759fd89fcba1d4798112db7c615d70, type: 3}
     - {fileID: 21300000, guid: f824e4db66e369d4391e4ca5743061c6, type: 3}
+    LevelConfig: {fileID: 11400000, guid: 335daf4b450b0894d8fa079630fd934d, type: 2}
   - Type: 2
     Images:
     - {fileID: 21300000, guid: b10fc43fbad13c64699a177d4bba1a15, type: 3}
     - {fileID: 21300000, guid: 35fbe486299545645bc3a475b82e05ff, type: 3}
+    LevelConfig: {fileID: 11400000, guid: 335daf4b450b0894d8fa079630fd934d, type: 2}
   - Type: 3
     Images:
     - {fileID: 21300000, guid: 5d1e5ea2ab20d9747908c9b73cd23c79, type: 3}
+    LevelConfig: {fileID: 11400000, guid: 335daf4b450b0894d8fa079630fd934d, type: 2}
   - Type: 4
     Images:
     - {fileID: 21300000, guid: 7882b4b673b9248499170df96f68c452, type: 3}
     - {fileID: 21300000, guid: 19c67bd072cf4ec4d9e0f5edb9537f88, type: 3}
+    LevelConfig: {fileID: 11400000, guid: 335daf4b450b0894d8fa079630fd934d, type: 2}

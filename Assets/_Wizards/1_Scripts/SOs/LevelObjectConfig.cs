@@ -4,10 +4,20 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
+    public enum LevelObjectType
+    {
+        Obstacle = 0,
+        Trap = 5,
+        DirectShooter = 10,
+        BallisticShooter = 15,
+        MeleeEnemy = 20
+    }
+
     [CreateAssetMenu(fileName = nameof(LevelObjectConfig), menuName = "Configs/" + nameof(LevelObjectConfig), order = 5)]
     public class LevelObjectConfig : ScriptableObject
     {
         [SerializeField] private string nameTag;
+        [field: SerializeField] public LevelObjectType Type { get; private set; }
         [field: SerializeField] public GameObject Prefab { get; private set; }
 
         [field: Space(10), Header("STATS")]

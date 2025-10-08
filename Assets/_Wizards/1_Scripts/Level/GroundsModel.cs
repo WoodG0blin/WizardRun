@@ -18,6 +18,7 @@ namespace WizardsPlatformer
         private int _bossGroundSpread = 50;
 
         private LevelObjectFactory _factory;
+
         private List<LevelElement> _elements;
         private List<LevelObject> _levelObjects;
 
@@ -40,11 +41,11 @@ namespace WizardsPlatformer
             SetModel();
         }
 
-        public GroundsModel(LevelConfig config)
+        public GroundsModel(LevelConfig config, LevelObjectConfig bonusPrefab = null, LevelObjectConfig portalPrefab = null)
         {
             _maxLength = config.LevelLength;
 
-            _factory = new(config.Objects);
+            _factory = new(config, bonusPrefab, portalPrefab);
 
             _elements = new List<LevelElement>();
             _levelObjects = new List<LevelObject>();
@@ -87,13 +88,13 @@ namespace WizardsPlatformer
 
                 if(bossCounter <= interimBosses && _lengthCounter >= _bossGroundSpread * bossCounter)
                 {
-                    _elements.Add(new BossGround(15, _minPlatformHeight));
+                    _elements.Add(new BossGround(_factory.GetBossConfig(), _minPlatformHeight));
                     gapLength = Random.Range(_minGapLength, _maxGapLength);
                     _elements.Add(new Gap(gapLength, _minPlatformHeight));
                 }
             }
 
-            _elements.Add(new BossGround(15, _minPlatformHeight));
+            _elements.Add(new BossGround(_factory.GetBossConfig(), _minPlatformHeight));
             gapLength = Random.Range(_minGapLength, _maxGapLength);
 
             _elements.Add(new Gap(gapLength, _minPlatformHeight));
@@ -133,6 +134,7 @@ namespace WizardsPlatformer
             foreach (var lo in _levelObjects)
                 TotalHealth += lo.MaxHealth;
         }
+
 
         public void AddPlayer(LevelObject player) => _levelObjects.Add(player);
 

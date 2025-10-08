@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f316a2f5f5c19a2498b17e61a93a296a, type: 3}
-  m_Name: Scarecrow
+  m_Name: MeleeEnemy
   m_EditorClassIdentifier: 
-  nameTag: Scarecrow
-  <Prefab>k__BackingField: {fileID: 2136296686074945429, guid: f726411476b631b4785657d2daa15959, type: 3}
-  <MaxHealth>k__BackingField: 20
-  <Speed>k__BackingField: 0
+  nameTag: Demon
+  <Type>k__BackingField: 20
+  <Prefab>k__BackingField: {fileID: 1510662696951145146, guid: f8931fb818ef33a4f8669c43157e4c6b, type: 3}
+  <MaxHealth>k__BackingField: 30
+  <Speed>k__BackingField: 2
   <JumpForce>k__BackingField: 0
   <Damage>k__BackingField: 10
   <WeaponConfig>k__BackingField:
-    <ActivatorType>k__BackingField: 0
+    <ActivatorType>k__BackingField: 10
     <ExecutionType>k__BackingField: 0
     <TargetParameter>k__BackingField: 0
-    <ActionValue>k__BackingField: 0
-    <CoolDown>k__BackingField: 0
-    <View>k__BackingField: {fileID: 0}
-    <Ammo>k__BackingField: {fileID: 11400000, guid: bd2338b1c1d3d224fbfdaca6a6d589c3, type: 2}
+    <ActionValue>k__BackingField: 20
+    <CoolDown>k__BackingField: 1
+    <Ammo>k__BackingField: {fileID: 11400000, guid: 199174bd406448342814b86f3f5ef213, type: 2}
     <NameTag>k__BackingField: 
-  <DifficultyLevel>k__BackingField: 0
-  <BonusesOnKill>k__BackingField: 2
+  <DifficultyLevel>k__BackingField: 3
+  <BonusesOnKill>k__BackingField: 1

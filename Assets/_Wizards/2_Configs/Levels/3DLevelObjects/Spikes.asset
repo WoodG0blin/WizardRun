@@ -10,21 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f316a2f5f5c19a2498b17e61a93a296a, type: 3}
-  m_Name: Lift
+  m_Name: Spikes
   m_EditorClassIdentifier: 
-  nameTag: Lift
-  <Prefab>k__BackingField: {fileID: 8043961177668047658, guid: 5ea71ed80282d81438c52acc162795fc, type: 3}
+  nameTag: Spikes
+  <Type>k__BackingField: 5
+  <Prefab>k__BackingField: {fileID: 8043961177668047658, guid: 20cc2a90dadef434e8ed3fe463c63431, type: 3}
   <MaxHealth>k__BackingField: 0
   <Speed>k__BackingField: 0
   <JumpForce>k__BackingField: 0
-  <MainWeaponConfig>k__BackingField:
+  <Damage>k__BackingField: 30
+  <WeaponConfig>k__BackingField:
     <ActivatorType>k__BackingField: 0
-    <NameTag>k__BackingField: 
+    <ExecutionType>k__BackingField: 0
+    <TargetParameter>k__BackingField: 0
     <ActionValue>k__BackingField: 0
-    <ActionDistance>k__BackingField: 0
-    <ActionSpeed>k__BackingField: 0
     <CoolDown>k__BackingField: 0
     <Ammo>k__BackingField: {fileID: 0}
-    <IsBallistic>k__BackingField: 0
+    <NameTag>k__BackingField: 
   <DifficultyLevel>k__BackingField: 0
   <BonusesOnKill>k__BackingField: 0

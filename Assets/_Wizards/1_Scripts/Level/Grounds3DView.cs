@@ -46,6 +46,7 @@ namespace WizardsPlatformer
             {
                 prefabPosition = new Vector3((float)levelObject.LocalPosition.x, (float)levelObject.LocalPosition.y, 0) + screenOffset;
 
+                //Debug.Log($"Instantiating {levelObject}. Has prefab? {levelObject.Prefab != null}");
                 ILevelObjectView view = levelObject.InitiateView(GameObject.Instantiate(levelObject.Prefab, prefabPosition, Quaternion.identity, transform));
 
                 if (view != null) _levelObjectViews.Add(view);
