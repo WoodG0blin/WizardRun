@@ -5,10 +5,9 @@ namespace WizardsPlatformer
 {
     public class LevelManager : MonoBehaviour
     {
-        [SerializeField] private LevelObjectConfig _bonusPrefab;
+        [SerializeField] private LevelObjectFactory _levelFactory;
 
         [Header("CONFIGS")]
-        [SerializeField] private LevelConfig _groundsConfig;
         [SerializeField] private InputConfig _inputConfig;
 
         [Header("VIEWS")]
@@ -17,13 +16,14 @@ namespace WizardsPlatformer
 
         private ILevelInfo _levelInfo;
 
+        private LevelConfig _groundsConfig;
         private GroundsModel _groundsModel;
         private PlayerModel _playerModel;
 
         private GroundsController _groundsController;
-        private InputController _inputController;
         private PlayerController _playerController;
-        private CameraController _cameraController;
+
+        private IInputView _inputView;
 
         private void Awake()
         {
@@ -38,7 +38,7 @@ namespace WizardsPlatformer
         {
             _groundsConfig = _levelInfo.GetLevelConfig();
 
-            _groundsModel = new(_groundsConfig, _bonusPrefab);
+            _groundsModel = new(_groundsConfig, _levelFactory);
 
             _playerModel = _levelInfo.GetPlayerModel();
 
@@ -46,16 +46,12 @@ namespace WizardsPlatformer
             _groundsModel.AddPlayer(_playerController);
 
             _groundsController = new(_groundsModel, _groundsView, _groundsConfig, FinishLevel);
-            _cameraController = new(Camera.main, _groundsConfig.BackGroundSprites);
-            _groundsController.OnPlayerPositionChange += _cameraController.UpdateToPlayerPosition;
+            _groundsController.SetCamera(new(Camera.main, _groundsConfig.BackGroundSprites));
 
             GameObject temp = GameObject.Instantiate(_inputConfig.Prefab);
-            _inputController = new InputController(temp.GetComponent<InputView>() ?? temp.AddComponent<InputView>());
+            _inputView = temp.GetComponent<InputView>() ?? temp.AddComponent<InputView>();
 
-
-            _inputController.OnMoveInput = _playerController.SetMoveInput;
-            _inputController.OnFireInput = _playerController.OnFire;
-
+            _playerController.SubscribeOnInput(_inputView);
             _playerController.Stats.OnCurrentHealthChange += _levelDisplay.SetHealth;
             _playerController.OnPlayerDeath += Die;
 
@@ -79,9 +75,6 @@ namespace WizardsPlatformer
         {
             _levelInfo.AccountForBonuses(_groundsController.BonusesCollected);
             _levelInfo.AccountForScore(_playerController.PlayerHealthValue - _groundsController.LevelHealthValue);
-
-            _inputController.OnMoveInput = null;
-            _inputController.OnFireInput = null;
 
             _levelInfo.SceneLoader.LoadMainMenu();
         }

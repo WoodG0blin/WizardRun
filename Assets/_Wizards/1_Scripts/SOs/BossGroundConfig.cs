@@ -10,6 +10,7 @@ namespace WizardsPlatformer
         [field: SerializeField] public int MainPlatformLength { get; private set; } = 15;
         [field: SerializeField] public List<PlatformConfig> ExtraPlatforms { get; private set; }
         [field: SerializeField] public LevelObjectConfig Boss { get; private set; }
+        public LevelObjectConfig Grounds { get; set; }
     }
 
     [Serializable]

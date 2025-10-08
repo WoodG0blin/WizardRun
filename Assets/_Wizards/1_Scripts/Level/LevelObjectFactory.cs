@@ -4,21 +4,22 @@ using System.Linq;
 
 namespace WizardsPlatformer
 {
-    public class LevelObjectFactory
+    public class LevelObjectFactory : MonoBehaviour
     {
+        [SerializeField] private LevelObjectConfig _bonus;
+        [SerializeField] private LevelObjectConfig _bossGrounds;
+
         private List<LevelObjectConfig> _levelObjects;
         private LevelObjectConfig _basePlatform;
         private LevelObjectConfig _bridge;
-        private LevelObjectConfig _bonus;
-        private List<BossGroundConfig> _bossGrounds;
+        private List<BossGroundConfig> _bossConfigs;
 
-        internal LevelObjectFactory(LevelConfig configs, LevelObjectConfig bonus)
+        public void InitLevelObjectFactory(LevelConfig configs)
         {
             _levelObjects = configs.LevelObjects;
             _basePlatform = configs.BasePlatform;
             _bridge = configs.Bridge;
-            _bonus = bonus;
-            _bossGrounds = configs.BossGrounds;
+            _bossConfigs = configs.BossGrounds;
         }
 
         internal LevelObject GenerateObjectAt(Vector2Int gridPosition, int difficulty)
@@ -39,7 +40,6 @@ namespace WizardsPlatformer
                 LevelObjectType.DirectShooter => new DirectShooter(config, gridPosition),
                 LevelObjectType.BallisticShooter => new BallisticShooter(config, gridPosition),
                 LevelObjectType.MeleeEnemy => new MeleeEnemy(config, gridPosition),
-                LevelObjectType.Boss => new LevelBoss(config, gridPosition),
                 _ => new SimpleObject(config, gridPosition)
             };
 
@@ -56,9 +56,13 @@ namespace WizardsPlatformer
 
         internal BossGroundConfig GetBossConfig()
         {
-            if(_bossGrounds.Count > 0)
-                return _bossGrounds[UnityEngine.Random.Range(0, _bossGrounds.Count)];
-            return null;
+            BossGroundConfig res = null;
+            if (_bossConfigs.Count > 0)
+            {
+                res = _bossConfigs[UnityEngine.Random.Range(0, _bossConfigs.Count)];
+                res.Grounds = _bossGrounds;
+            }
+            return res;
         }
 
         private LevelObjectConfig GetRandomConfigFromList(List<LevelObjectConfig> list, int difficulty)

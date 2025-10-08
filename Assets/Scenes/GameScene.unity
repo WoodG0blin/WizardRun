@@ -698,8 +698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a4da78b21ed1664ea2ef08cb6b45e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bonusPrefab: {fileID: 11400000, guid: 4d974c7306952a54a9a52604a7f08307, type: 2}
-  _groundsConfig: {fileID: 11400000, guid: 717ef63bb7ca67141bd55499d5869594, type: 2}
+  _levelFactory: {fileID: 7910444846382188182}
   _inputConfig: {fileID: 11400000, guid: c99220445b1f29a4a8745e314b8d6465, type: 2}
   _groundsView: {fileID: 7910444846382188181}
   _levelDisplay: {fileID: 8564428384582521276}
@@ -2592,6 +2591,7 @@ GameObject:
   - component: {fileID: 907993919578669107}
   - component: {fileID: 7910444846382188180}
   - component: {fileID: 7910444846382188181}
+  - component: {fileID: 7910444846382188182}
   m_Layer: 0
   m_Name: Grounds
   m_TagString: Untagged
@@ -3182,6 +3182,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45d2264a68d5eb94997bda2110bd8ebe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7910444846382188182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907993919578669106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 291030d7d5b28724f8020395ba49a6ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bonus: {fileID: 11400000, guid: 4d974c7306952a54a9a52604a7f08307, type: 2}
+  _bossGrounds: {fileID: 11400000, guid: b8f49277938abe2498152fcece1084d8, type: 2}
 --- !u!114 &8564428384582521276
 MonoBehaviour:
   m_ObjectHideFlags: 0

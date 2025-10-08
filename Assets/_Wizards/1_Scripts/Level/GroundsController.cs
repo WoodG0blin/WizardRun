@@ -19,6 +19,8 @@ namespace WizardsPlatformer
         private readonly GroundsModel _groundsModel;
         private readonly IGroundsView _groundsView;
 
+        private CameraController _cameraController;
+
         private int _levelObjectsCurrentHealth;
         private Action onLevelCleared;
 
@@ -52,6 +54,11 @@ namespace WizardsPlatformer
             _groundsView.DrawGrounds(_groundsModel.Grid, _groundsModel.LevelObjects);
         }
 
+        public void SetCamera(CameraController camera)
+        {
+            _cameraController= camera;
+            OnPlayerPositionChange += _cameraController.UpdateToPlayerPosition;
+        }
 
         public void ClearBonuses() => BonusesCollected = new();
 

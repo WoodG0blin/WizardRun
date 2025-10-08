@@ -41,11 +41,12 @@ namespace WizardsPlatformer
             SetModel();
         }
 
-        public GroundsModel(LevelConfig config, LevelObjectConfig bonusPrefab = null)
+        public GroundsModel(LevelConfig config, LevelObjectFactory factory)
         {
             _maxLength = config.LevelLength;
 
-            _factory = new(config, bonusPrefab);
+            _factory = factory;
+            _factory.InitLevelObjectFactory(config);
 
             _elements = new List<LevelElement>();
             _levelObjects = new List<LevelObject>();

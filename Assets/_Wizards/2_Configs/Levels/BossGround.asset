@@ -10,26 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f316a2f5f5c19a2498b17e61a93a296a, type: 3}
-  m_Name: DirectShooter
+  m_Name: BossGround
   m_EditorClassIdentifier: 
-  nameTag: Bowl
-  <Type>k__BackingField: 10
-  <Prefab>k__BackingField: {fileID: 8043961177668047658, guid: 0d5837e11b1e6494ebb21e7cb9952673, type: 3}
-  <MaxHealth>k__BackingField: 20
+  nameTag: 
+  <Type>k__BackingField: 0
+  <Prefab>k__BackingField: {fileID: 8043961177668047658, guid: 2a525beb3e9defe46844cefe8cf0cfe5, type: 3}
+  <MaxHealth>k__BackingField: 0
   <Speed>k__BackingField: 0
   <JumpForce>k__BackingField: 0
-  <Damage>k__BackingField: 10
+  <Damage>k__BackingField: 0
   <WeaponConfig>k__BackingField:
-    <ActivatorType>k__BackingField: 10
+    <ActivatorType>k__BackingField: 0
     <ExecutionType>k__BackingField: 0
     <TargetParameter>k__BackingField: 0
-    <ActionValue>k__BackingField: 5
-    <CoolDown>k__BackingField: 2
-    <Ammo>k__BackingField: {fileID: 11400000, guid: 891875d345a406a449c3c45c7c73132d, type: 2}
+    <ActionValue>k__BackingField: 0
+    <CoolDown>k__BackingField: 0
+    <Ammo>k__BackingField: {fileID: 0}
     <NameTag>k__BackingField: 
-  <DifficultyLevel>k__BackingField: 2
-  <BonusesOnKill>k__BackingField:
-  - Type: 5
-    Value: 1
-  - Type: 0
-    Value: 1
+  <DifficultyLevel>k__BackingField: 0
+  <BonusesOnKill>k__BackingField: []

@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace WizardsPlatformer
@@ -50,7 +48,17 @@ namespace WizardsPlatformer
                 //else set for buttons
             }
         }
+        public void SubscribeOnInput(IInputView input)
+        {
+            input.OnMoveInput += SetMoveInput;
+            input.OnFireInput += SetFire;
 
+            OnPlayerDeath += () =>
+            {
+                input.OnMoveInput -= SetMoveInput;
+                input.OnFireInput -= SetFire;
+            };
+        }
         public override void SetSubscriptions(ILevelEventAccounter subscriber)
         {
             OnPlayerPositionChange += (v) => subscriber.OnPlayerPositionChange?.Invoke(v);
@@ -58,7 +66,7 @@ namespace WizardsPlatformer
             OnPortalExit += subscriber.SetLevelCleared;
         }
 
-        public void SetMoveInput(Vector2 input)
+        private void SetMoveInput(Vector2 input)
         {
             float xInput = input.x;
             float yInput = input.y;
@@ -81,7 +89,7 @@ namespace WizardsPlatformer
                 ex.Use(this);
         }
 
-        public void OnFire()
+        private void SetFire()
         {
             Direction = new(_playerView.XDirection, 0);
             

@@ -48,15 +48,16 @@ namespace WizardsPlatformer
     {
         private List<(int gap, Platform plat)> _extraPlatforms = new();
         private LevelObjectConfig _bossConfig;
+        private LevelObjectConfig _groundConfig;
 
         private bool _final;
-        private LevelBoss _boss;
 
         public Action OnCleared;
 
         public BossGround(BossGroundConfig config, int height, bool final = false) : base(config.MainPlatformLength, height)
         {
             _bossConfig = config.Boss;
+            _groundConfig = config.Grounds;
             _final = final;
             foreach(var platform in config.ExtraPlatforms)
                 _extraPlatforms.Add((gap: platform.StartGap, plat: new Platform(platform.Length, platform.Height)));
@@ -78,9 +79,12 @@ namespace WizardsPlatformer
 
         public override IEnumerable<LevelObject> FillWithObjects(int startXPosition, LevelObjectFactory factory, int positioningYDelta)
         {
-            _boss = factory.GetObjectAt(new Vector2Int(startXPosition + Length - 1, Height + 1), _bossConfig) as LevelBoss;
-            if (_final) _boss.SetFinal();
-            return new List<LevelObject>() { _boss };
+            Vector2Int middle = new(startXPosition + Length / 2, Height);
+            BossZone zone = new(_groundConfig, middle);
+            zone.SetBoss(factory.GetObjectAt(middle, _bossConfig));
+            zone.SetFinal(_final);
+
+            return new List<LevelObject>() { zone };
         }
     }
 }
