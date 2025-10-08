@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
-using UnityEngine.Events;
 using UnityStandardAssets.CrossPlatformInput;
-using UnityEngine.PlayerLoop;
 
 namespace WizardsPlatformer
 {
@@ -13,8 +11,7 @@ namespace WizardsPlatformer
     {
         Action OnPauseMenu { set; }
         Action OnFireInput { set; }
-        Action<float> OnHorizontalMoveInput { set; }
-        Action OnJumpInput { set; }
+        Action<Vector2> OnMoveInput { set; }
     }
 
     internal class InputView : MonoBehaviour, IInputView
@@ -30,16 +27,15 @@ namespace WizardsPlatformer
             }
         }
 
-        public Action<float> OnHorizontalMoveInput { private get; set; }
-        public Action OnJumpInput { private get; set; }
+        public Action<Vector2> OnMoveInput { private get; set; }
         public Action OnFireInput { private get; set; }
 
         
         private void Update()
         {
-            OnHorizontalMoveInput?.Invoke(CrossPlatformInputManager.GetAxis("Horizontal"));
+            OnMoveInput?.Invoke(new(CrossPlatformInputManager.GetAxis("Horizontal"), CrossPlatformInputManager.GetAxis("Vertical")));
 
-            if (CrossPlatformInputManager.GetButtonDown("Jump")) OnJumpInput?.Invoke();
+            //if (CrossPlatformInputManager.GetButtonDown("Jump")) OnJumpInput?.Invoke();
             if (CrossPlatformInputManager.GetButtonDown("Fire")) OnFireInput?.Invoke();
 #if !MOBILE_INPUT
             if(Input.GetKeyDown(KeyCode.Escape)) _onEsc?.Invoke();
@@ -49,9 +45,7 @@ namespace WizardsPlatformer
         private void OnDestroy()
         {
             OnFireInput = null;
-            OnJumpInput = null;
             OnPauseMenu = null;
-            OnHorizontalMoveInput = null;
             _pauseMenuButton?.onClick.RemoveAllListeners();
         }
     }

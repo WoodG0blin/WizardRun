@@ -10,8 +10,7 @@ namespace WizardsPlatformer
 
         private IInputView input;
 
-        public Action<float> OnHorizontalInput;
-        public Action OnJumpInput;
+        public Action<Vector2> OnMoveInput;
         public Action OnFireInput;
 
 
@@ -19,8 +18,7 @@ namespace WizardsPlatformer
         {
             input = inputView;
 
-            input.OnHorizontalMoveInput = (f) => OnHorizontalInput?.Invoke(f);
-            input.OnJumpInput = () => OnJumpInput?.Invoke();
+            input.OnMoveInput = (v) => OnMoveInput?.Invoke(v);
             input.OnPauseMenu = () => Debug.Log("Paused");
             input.OnFireInput = () => OnFireInput?.Invoke();
         }

@@ -54,14 +54,23 @@ namespace WizardsPlatformer
             OnPlayerPositionChange += (v) => subscriber.UpdatePlayerPosition(v);
         }
 
-        public void OnHorizontalMove(float newValue)
+        public void SetMoveInput(Vector2 input)
+        {
+            float xInput = input.x;
+            float yInput = input.y;
+
+            if (Mathf.Abs(xInput) > _moveThreshold) SetMove(xInput);
+            if (Mathf.Abs(yInput) > _moveThreshold) SetJump();
+        }
+
+        private void SetMove(float newValue)
         {
             if (Mathf.Abs(newValue) > _moveThreshold)
                 _playerView.Mover?.SetInput(new(newValue, 0), Stats.Speed);
 
             OnPlayerPositionChange?.Invoke(_playerView.Position);
         }
-        public void OnJump()
+        private void SetJump()
         {
             if (_playerView.Mover.IsGrounded)
                 _playerView.Mover?.Jump(Stats.JumpForce);
