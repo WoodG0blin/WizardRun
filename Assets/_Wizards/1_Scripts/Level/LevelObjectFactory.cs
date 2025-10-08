@@ -52,7 +52,7 @@ namespace WizardsPlatformer
 
         //internal LevelObject GetEnemyAt(Vector2Int gridPosition, int difficulty) => new MeleeEnemy(_configs.Enemies[0], gridPosition);
 
-        internal LevelObject GetBonusAt(Vector2Int gridPosition) => new Bonus(_bonus, gridPosition);
+        internal LevelObject GetBonusAt(Vector2Int gridPosition) => new BonusObject(_bonus, gridPosition);
 
         internal BossGroundConfig GetBossConfig()
         {

@@ -9,7 +9,7 @@ namespace WizardsPlatformer
     {
         Action<Vector3> OnPlayerPositionChange { get; set; }
         Action OnExitAvailable { get; set; }
-        void AccountForBonus(BonusType type, int value);
+        void AccountForBonus(Bonus bonus);
         void AccountForDamage(int damage);
         void SetLevelCleared();
     }
@@ -56,13 +56,13 @@ namespace WizardsPlatformer
         public void ClearBonuses() => BonusesCollected = new();
 
 
-        void ILevelEventAccounter.AccountForBonus(BonusType type, int value)
+        void ILevelEventAccounter.AccountForBonus(Bonus bonus)
         {
-            if(!BonusesCollected.ContainsKey(type)) BonusesCollected.Add(type, 0);
+            if(!BonusesCollected.ContainsKey(bonus.Type)) BonusesCollected.Add(bonus.Type, 0);
 
-            BonusesCollected[type] += value;
+            BonusesCollected[bonus.Type] += bonus.Value;
 
-            if (type == BonusType.coin) OnCoinsCountChange?.Invoke(BonusesCollected[BonusType.coin]);
+            if (bonus.Type == BonusType.Coin) OnCoinsCountChange?.Invoke(BonusesCollected[BonusType.Coin]);
         }
         
         void ILevelEventAccounter.AccountForDamage(int damage)

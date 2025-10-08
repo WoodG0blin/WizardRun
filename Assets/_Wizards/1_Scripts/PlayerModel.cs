@@ -15,7 +15,7 @@ namespace WizardsPlatformer
         public CharacterStats Stats { get; private set; }
 
         public string Name { get; private set; }
-        public int Bonuses => _bonuses[BonusType.coin];
+        public int Bonuses => _bonuses[BonusType.Coin];
         public PlayerSavedData SaveData { get; private set; }
 
         public List<IArtifact> EquippedArtifacts => _artifacts.Values.Where(a => a!=null).Cast<IArtifact>().ToList();
@@ -36,7 +36,7 @@ namespace WizardsPlatformer
             Stats = new(Config);
 
             _bonuses = new BonusStats(false);
-            _bonuses[BonusType.coin] = data.Bonuses;
+            _bonuses[BonusType.Coin] = data.Bonuses;
 
             _artifacts = new()
             {
@@ -116,7 +116,7 @@ namespace WizardsPlatformer
         public void AddBonus(BonusType type, int value)
         {
             _bonuses[type] += value;
-            SaveData.Bonuses = _bonuses[BonusType.coin];
+            SaveData.Bonuses = _bonuses[BonusType.Coin];
         }
 
     }

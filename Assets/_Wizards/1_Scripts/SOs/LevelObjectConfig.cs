@@ -33,8 +33,7 @@ namespace WizardsPlatformer
 
         [field: Space(10), Header("LEVEL CONFIGS")]
         [field: SerializeField] public int DifficultyLevel { get; private set; }
-        [field: SerializeField] public int BonusesOnKill { get; private set; }
-
+        [field: SerializeField] public List<Bonus> BonusesOnKill { get; private set; } = new();
 
         public string Name => nameTag;
     }

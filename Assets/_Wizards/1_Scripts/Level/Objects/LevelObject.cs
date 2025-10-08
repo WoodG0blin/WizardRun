@@ -73,7 +73,7 @@ namespace WizardsPlatformer
 
     internal abstract class ActiveObject : InteractableObject, IInteractionResponder, IArtifactHolder, IArtifactUser
     {
-        protected int bonusesOnKill;
+        protected List<Bonus> bonusesOnKill;
 
         public CharacterStats Stats { get; protected set; }
         public ActionsHolder Actions { get; protected set; }
@@ -84,7 +84,7 @@ namespace WizardsPlatformer
 
         protected Vector3 currentPlayerPosition;
         protected Action<int> OnReceiveDamage;
-        protected Action<BonusType, int> OnBonusCollect;
+        protected Action<Bonus> OnBonusCollect;
 
         protected ActiveObject(LevelObjectConfig config, Vector2 position) : base(config, position)
         {
@@ -100,7 +100,8 @@ namespace WizardsPlatformer
             if(Actions.GetActionsFor(PropertyActivators.Explicit).Count > 0)
                 Weapon = Actions.GetActionsFor(PropertyActivators.Explicit)[0];
 
-            bonusesOnKill = config.BonusesOnKill;
+            bonusesOnKill = new();
+            foreach (var b in config.BonusesOnKill) bonusesOnKill.Add(b);
         }
 
         public bool IsPlayer { get; protected set; }
@@ -123,8 +124,9 @@ namespace WizardsPlatformer
         protected virtual void Die()
         {
             Destroy();
-            OnBonusCollect?.Invoke(
-                BonusType.coin, bonusesOnKill);
+
+            foreach (var b in bonusesOnKill)
+                OnBonusCollect?.Invoke(b);
         }
 
         public virtual void Destroy()

@@ -30,7 +30,7 @@ namespace WizardsPlatformer
 
         public BonusStats(bool isSavable = false)
         {
-            PlayerPrefs.SetInt(BonusType.coin.ToString(), 0);
+            PlayerPrefs.SetInt(BonusType.Coin.ToString(), 0);
             _IsSavable = isSavable;
         }
 
@@ -45,4 +45,24 @@ namespace WizardsPlatformer
 
         public IEnumerator GetEnumerator() => _bonuses.GetEnumerator();
     }
+
+    [Serializable]
+    public class Bonus
+    {
+        public BonusType Type;
+        public int Value;
+
+        public Bonus()
+        {
+            Type = BonusType.Coin;
+            Value = 0;
+        }
+
+        public Bonus(BonusType type, int value)
+        {
+            Type = type;
+            Value = value;
+        }
+    }
+
 }

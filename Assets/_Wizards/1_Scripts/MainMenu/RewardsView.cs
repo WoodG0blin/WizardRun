@@ -26,7 +26,7 @@ namespace WizardsPlatformer
 
         public void OnDailyClick()
         {
-            OnRewardCollect?.Invoke(BonusType.coin, 10);
+            OnRewardCollect?.Invoke(BonusType.Coin, 10);
 
             string now = _now.ToString();
             //Debug.Log($"Writing current dateTime {now}");
@@ -49,7 +49,7 @@ namespace WizardsPlatformer
 
         public void OnWeeklyClick()
         {
-            OnRewardCollect?.Invoke(BonusType.coin, 50);
+            OnRewardCollect?.Invoke(BonusType.Coin, 50);
 
             _countWeekly = 0;
             PlayerPrefs.SetInt(COUNT_WEEKLY, _countWeekly);
@@ -57,7 +57,7 @@ namespace WizardsPlatformer
 
         public void OnMonthlyClick()
         {
-            OnRewardCollect?.Invoke(BonusType.coin, 200);
+            OnRewardCollect?.Invoke(BonusType.Coin, 200);
 
             _countMonthly = 0;
             PlayerPrefs.SetInt(COUNT_MONTHLY,_countMonthly);

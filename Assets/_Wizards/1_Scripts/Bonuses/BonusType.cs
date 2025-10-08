@@ -4,5 +4,10 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    public enum BonusType { coin }
+    public enum BonusType
+    {
+        Coin = 0,
+        Souls = 5,
+        Artifacts = 10
+    }
 }
