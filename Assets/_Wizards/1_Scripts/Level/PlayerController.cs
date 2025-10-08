@@ -13,8 +13,10 @@ namespace WizardsPlatformer
         private int _startHealth;
 
         private float _moveThreshold = 0.02f;
+        private float _jumpThreshold = 0.2f;
 
         private Action<Vector3> OnPlayerPositionChange;
+        private Action OnPortalExit;
 
         public Action OnPlayerDeath;
         public float PlayerHealthValue => (float) Stats.Health / _startHealth;
@@ -51,7 +53,9 @@ namespace WizardsPlatformer
 
         public override void SetSubscriptions(ILevelEventAccounter subscriber)
         {
-            OnPlayerPositionChange += (v) => subscriber.UpdatePlayerPosition(v);
+            OnPlayerPositionChange += (v) => subscriber.OnPlayerPositionChange?.Invoke(v);
+            subscriber.OnExitAvailable += SetExit;
+            OnPortalExit += subscriber.SetLevelCleared;
         }
 
         public void SetMoveInput(Vector2 input)
@@ -60,15 +64,13 @@ namespace WizardsPlatformer
             float yInput = input.y;
 
             if (Mathf.Abs(xInput) > _moveThreshold) SetMove(xInput);
-            if (Mathf.Abs(yInput) > _moveThreshold) SetJump();
+            if (Mathf.Abs(yInput) > _jumpThreshold) SetJump();
         }
 
         private void SetMove(float newValue)
         {
             if (Mathf.Abs(newValue) > _moveThreshold)
                 _playerView.Mover?.SetInput(new(newValue, 0), Stats.Speed);
-
-            OnPlayerPositionChange?.Invoke(_playerView.Position);
         }
         private void SetJump()
         {
@@ -77,8 +79,6 @@ namespace WizardsPlatformer
 
             foreach (var ex in Actions.GetActionsFor(PropertyActivators.OnJump))
                 ex.Use(this);
-
-            //_actions.TryUseForAction(Artifact.ArtifactActivatorTypes.Jump);
         }
 
         public void OnFire()
@@ -95,7 +95,11 @@ namespace WizardsPlatformer
 
             foreach (var ex in Actions.GetActionsFor(PropertyActivators.OnAttack))
                 ex.Use(this);
-            //_actions.TryUseForAction(Artifact.ArtifactActivatorTypes.Attack);
+        }
+
+        private void SetExit()
+        {
+            _playerView.InitiatePortal(OnPortalExit, new(3,0,0));
         }
 
         protected override void Die()
@@ -118,7 +122,11 @@ namespace WizardsPlatformer
 
             OnReceiveDamage += (d) => _playerView.DisplayHit();
 
+            _playerView.SetUpdateActions(() => OnPlayerPositionChange?.Invoke(_playerView.Position));
+
             base.OnInitiateView();
+
+            _playerView.InitiatePortal(null, Vector3.zero);
         }
 
         protected override void ActionsOnInteraction(IInteractionResponder interactor)

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f316a2f5f5c19a2498b17e61a93a296a, type: 3}
-  m_Name: Player3D
+  m_Name: Player
   m_EditorClassIdentifier: 
   nameTag: player
   <Prefab>k__BackingField: {fileID: 712456408780077035, guid: 3df535050b98fab4db6e9437afd81f77, type: 3}

@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace WizardsPlatformer
@@ -15,7 +15,7 @@ namespace WizardsPlatformer
             {
                 squareGrid[x, Height] = true;
                 squareGrid[x, Height - 1] = (x > position && x < position + Length - 1);
-                squareGrid[x, Height - 2] = (x > position + 1 && x < position + Length - 2) && Random.Range(0, 100) < 40;
+                squareGrid[x, Height - 2] = (x > position + 1 && x < position + Length - 2) && UnityEngine.Random.Range(0, 100) < 40;
             }
 
             return position + Length;
@@ -36,11 +36,6 @@ namespace WizardsPlatformer
                 if (obj != null) _levelObjects.Add(obj);
             }
 
-            //if (Length > 5) _levelObjects.Add(
-            //    factory.GetEnemyAt(
-            //        new Vector2Int(SetOnFreeSpace() + startXPosition, Height +1),
-            //        difficulty: 3));
-
             _levelObjects.Add(
                 factory.GetBonusAt(
                     new Vector2Int(SetOnFreeFloatingPlace() + startXPosition, Height + 3)));
@@ -52,12 +47,17 @@ namespace WizardsPlatformer
     internal class BossGround : Platform
     {
         private List<(int gap, Platform plat)> _extraPlatforms = new();
-        private LevelObjectConfig _bossConfig; 
+        private LevelObjectConfig _bossConfig;
 
+        private bool _final;
+        private LevelBoss _boss;
 
-        public BossGround(BossGroundConfig config, int height) : base(config.MainPlatformLength, height)
+        public Action OnCleared;
+
+        public BossGround(BossGroundConfig config, int height, bool final = false) : base(config.MainPlatformLength, height)
         {
             _bossConfig = config.Boss;
+            _final = final;
             foreach(var platform in config.ExtraPlatforms)
                 _extraPlatforms.Add((gap: platform.StartGap, plat: new Platform(platform.Length, platform.Height)));
         }
@@ -78,7 +78,9 @@ namespace WizardsPlatformer
 
         public override IEnumerable<LevelObject> FillWithObjects(int startXPosition, LevelObjectFactory factory, int positioningYDelta)
         {
-            return new List<LevelObject>() { factory.GetObjectAt(new Vector2Int(startXPosition + Length-1, Height+1), _bossConfig) };
+            _boss = factory.GetObjectAt(new Vector2Int(startXPosition + Length - 1, Height + 1), _bossConfig) as LevelBoss;
+            if (_final) _boss.SetFinal();
+            return new List<LevelObject>() { _boss };
         }
     }
 }

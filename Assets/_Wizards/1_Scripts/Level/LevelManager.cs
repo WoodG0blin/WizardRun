@@ -6,7 +6,6 @@ namespace WizardsPlatformer
     public class LevelManager : MonoBehaviour
     {
         [SerializeField] private LevelObjectConfig _bonusPrefab;
-        [SerializeField] private LevelObjectConfig _portalPrefab;
 
         [Header("CONFIGS")]
         [SerializeField] private LevelConfig _groundsConfig;
@@ -39,7 +38,7 @@ namespace WizardsPlatformer
         {
             _groundsConfig = _levelInfo.GetLevelConfig();
 
-            _groundsModel = new(_groundsConfig, _bonusPrefab, _portalPrefab);
+            _groundsModel = new(_groundsConfig, _bonusPrefab);
 
             _playerModel = _levelInfo.GetPlayerModel();
 

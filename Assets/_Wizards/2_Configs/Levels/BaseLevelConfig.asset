@@ -37,4 +37,4 @@ MonoBehaviour:
     - StartGap: 7
       Length: 3
       Height: 2
-    <Boss>k__BackingField: {fileID: 11400000, guid: 4f6b62bff59aec14bb08c714269dab62, type: 2}
+    <Boss>k__BackingField: {fileID: 11400000, guid: f6be208ab7f233c4f86eea4c0fba99b8, type: 2}

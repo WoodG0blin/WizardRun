@@ -8,7 +8,7 @@ namespace WizardsPlatformer
     public interface ILevelEventAccounter
     {
         Action<Vector3> OnPlayerPositionChange { get; set; }
-        void UpdatePlayerPosition(Vector3 newPosition);
+        Action OnExitAvailable { get; set; }
         void AccountForBonus(BonusType type, int value);
         void AccountForDamage(int damage);
         void SetLevelCleared();
@@ -26,6 +26,7 @@ namespace WizardsPlatformer
 
         public float LevelHealthValue => (float)_levelObjectsCurrentHealth / _groundsModel.TotalHealth;
         public Action OnLevelClearanceChanged { get; set; }
+        public Action OnExitAvailable { get; set; }
 
         public Action<Vector3> OnPlayerPositionChange { get; set; }
 
@@ -52,7 +53,6 @@ namespace WizardsPlatformer
         }
 
 
-        public void UpdatePlayerPosition(Vector3 newPosition) => OnPlayerPositionChange?.Invoke(newPosition);
         public void ClearBonuses() => BonusesCollected = new();
 
 

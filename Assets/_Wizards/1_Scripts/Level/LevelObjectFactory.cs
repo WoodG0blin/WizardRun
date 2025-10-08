@@ -10,16 +10,14 @@ namespace WizardsPlatformer
         private LevelObjectConfig _basePlatform;
         private LevelObjectConfig _bridge;
         private LevelObjectConfig _bonus;
-        private LevelObjectConfig _portal;
         private List<BossGroundConfig> _bossGrounds;
 
-        internal LevelObjectFactory(LevelConfig configs, LevelObjectConfig bonus, LevelObjectConfig portal)
+        internal LevelObjectFactory(LevelConfig configs, LevelObjectConfig bonus)
         {
             _levelObjects = configs.LevelObjects;
             _basePlatform = configs.BasePlatform;
             _bridge = configs.Bridge;
             _bonus = bonus;
-            _portal = portal;
             _bossGrounds = configs.BossGrounds;
         }
 
@@ -41,6 +39,7 @@ namespace WizardsPlatformer
                 LevelObjectType.DirectShooter => new DirectShooter(config, gridPosition),
                 LevelObjectType.BallisticShooter => new BallisticShooter(config, gridPosition),
                 LevelObjectType.MeleeEnemy => new MeleeEnemy(config, gridPosition),
+                LevelObjectType.Boss => new LevelBoss(config, gridPosition),
                 _ => new SimpleObject(config, gridPosition)
             };
 
@@ -54,7 +53,6 @@ namespace WizardsPlatformer
         //internal LevelObject GetEnemyAt(Vector2Int gridPosition, int difficulty) => new MeleeEnemy(_configs.Enemies[0], gridPosition);
 
         internal LevelObject GetBonusAt(Vector2Int gridPosition) => new Bonus(_bonus, gridPosition);
-        internal LevelObject GetPortalAt(Vector2Int gridPosition) => new Portal(_portal, gridPosition);
 
         internal BossGroundConfig GetBossConfig()
         {

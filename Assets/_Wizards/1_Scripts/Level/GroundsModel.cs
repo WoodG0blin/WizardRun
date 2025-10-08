@@ -41,11 +41,11 @@ namespace WizardsPlatformer
             SetModel();
         }
 
-        public GroundsModel(LevelConfig config, LevelObjectConfig bonusPrefab = null, LevelObjectConfig portalPrefab = null)
+        public GroundsModel(LevelConfig config, LevelObjectConfig bonusPrefab = null)
         {
             _maxLength = config.LevelLength;
 
-            _factory = new(config, bonusPrefab, portalPrefab);
+            _factory = new(config, bonusPrefab);
 
             _elements = new List<LevelElement>();
             _levelObjects = new List<LevelObject>();
@@ -94,7 +94,7 @@ namespace WizardsPlatformer
                 }
             }
 
-            _elements.Add(new BossGround(_factory.GetBossConfig(), _minPlatformHeight));
+            _elements.Add(new BossGround(_factory.GetBossConfig(), _minPlatformHeight, final: true));
             gapLength = Random.Range(_minGapLength, _maxGapLength);
 
             _elements.Add(new Gap(gapLength, _minPlatformHeight));
@@ -129,7 +129,7 @@ namespace WizardsPlatformer
             }
 
             //_levelObjects.Add(_elements[_elements.Count - 1].AddFinishPortal(position));
-            _levelObjects.Add(_factory.GetPortalAt(new Vector2Int(_elements[_elements.Count - 1].Length - 1 + position, _elements[_elements.Count - 1].Height + 2)));
+            //_levelObjects.Add(_factory.GetPortalAt(new Vector2Int(_elements[_elements.Count - 1].Length - 1 + position, _elements[_elements.Count - 1].Height + 2)));
 
             foreach (var lo in _levelObjects)
                 TotalHealth += lo.MaxHealth;

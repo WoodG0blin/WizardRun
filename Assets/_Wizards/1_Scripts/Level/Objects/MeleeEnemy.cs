@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
+
     internal class MeleeEnemy : ActiveObject, IDemonStateContext
     {
         private new MeleeEnemyView view;

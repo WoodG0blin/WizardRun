@@ -10,7 +10,8 @@ namespace WizardsPlatformer
         Trap = 5,
         DirectShooter = 10,
         BallisticShooter = 15,
-        MeleeEnemy = 20
+        MeleeEnemy = 20,
+        Boss = 30
     }
 
     [CreateAssetMenu(fileName = nameof(LevelObjectConfig), menuName = "Configs/" + nameof(LevelObjectConfig), order = 5)]
