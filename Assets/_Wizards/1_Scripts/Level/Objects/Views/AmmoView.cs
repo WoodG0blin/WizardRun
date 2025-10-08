@@ -84,7 +84,7 @@ namespace WizardsPlatformer
             finish = collided;
             if (!finish)
             {
-                transform.position += new Vector3(horizontalVelocity, 0, 0) * deltaTime;
+                transform.position += new Vector3(horizontalVelocity, verticalVelocity, 0) * deltaTime;
                 distanceAccount += horizontalVelocity * deltaTime;
             }
         }
