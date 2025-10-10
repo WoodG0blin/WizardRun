@@ -12,6 +12,7 @@ namespace WizardsPlatformer
 
         private float _moveThreshold = 0.02f;
         private float _jumpThreshold = 0.2f;
+        private float _lastVerticalInput = 0f;
 
         private Action<Vector3> OnPlayerPositionChange;
         private Action OnPortalExit;
@@ -70,9 +71,12 @@ namespace WizardsPlatformer
         {
             float xInput = input.x;
             float yInput = input.y;
+            bool jump = yInput > _lastVerticalInput;
 
             if (Mathf.Abs(xInput) > _moveThreshold) SetMove(xInput);
-            if (Mathf.Abs(yInput) > _jumpThreshold) SetJump();
+            if (Mathf.Abs(yInput) > _jumpThreshold && jump) SetJump();
+
+            _lastVerticalInput = yInput;
         }
 
         private void SetMove(float newValue)

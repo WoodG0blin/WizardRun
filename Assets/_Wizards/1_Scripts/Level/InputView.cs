@@ -35,7 +35,7 @@ namespace WizardsPlatformer
         private void Update()
         {
             OnMoveInput?.Invoke(new(CrossPlatformInputManager.GetAxis("Horizontal"), CrossPlatformInputManager.GetAxis("Vertical")));
-
+            //Debug.Log($"H{CrossPlatformInputManager.GetAxis("Horizontal")}, V{CrossPlatformInputManager.GetAxis("Vertical")}");
             //if (CrossPlatformInputManager.GetButtonDown("Jump")) OnJumpInput?.Invoke();
             if (CrossPlatformInputManager.GetButtonDown("Fire")) OnFireInput?.Invoke();
 #if !MOBILE_INPUT
