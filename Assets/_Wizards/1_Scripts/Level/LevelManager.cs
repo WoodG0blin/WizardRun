@@ -11,7 +11,7 @@ namespace WizardsPlatformer
         [SerializeField] private InputConfig _inputConfig;
 
         [Header("VIEWS")]
-        [SerializeField] private Grounds3DView _groundsView;
+        [SerializeField] private GroundsView _groundsView;
         [SerializeField] private LevelDisplayView _levelDisplay;
 
         private ILevelInfo _levelInfo;
@@ -39,13 +39,14 @@ namespace WizardsPlatformer
             _groundsConfig = _levelInfo.GetLevelConfig();
 
             _groundsModel = new(_groundsConfig, _levelFactory);
+            _groundsView.InitGroundBlocks(_groundsConfig.GroundBlocks);
 
             _playerModel = _levelInfo.GetPlayerModel();
 
             _playerController = new PlayerController(_playerModel, _groundsModel.LocalStartPosition);
             _groundsModel.AddPlayer(_playerController);
 
-            _groundsController = new(_groundsModel, _groundsView, _groundsConfig, FinishLevel);
+            _groundsController = new(_groundsModel, _groundsView, FinishLevel);
             _groundsController.SetCamera(new(Camera.main, _groundsConfig.BackGroundSprites));
 
             GameObject temp = GameObject.Instantiate(_inputConfig.Prefab);

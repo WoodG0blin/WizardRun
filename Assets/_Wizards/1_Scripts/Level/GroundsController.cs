@@ -35,7 +35,7 @@ namespace WizardsPlatformer
         public Action<int> OnCoinsCountChange { get; set; }
 
 
-        public GroundsController(GroundsModel groundsModel, IGroundsView groundsView, LevelConfig config, Action onGroundsCleared)
+        public GroundsController(GroundsModel groundsModel, IGroundsView groundsView, Action onGroundsCleared)
         {
             _groundsModel = groundsModel;
 
@@ -44,8 +44,6 @@ namespace WizardsPlatformer
             onLevelCleared = onGroundsCleared;
 
             BonusesCollected = new();
-
-            _groundsView.InitTiles3D(config.Block);
 
             foreach (var lo in _groundsModel.LevelObjects) lo.SetSubscriptions(this);
 

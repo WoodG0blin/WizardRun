@@ -16,7 +16,14 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1b9a7b0f13c5213409aa89f8616fe7be, type: 3}
   - {fileID: 21300000, guid: 6c5a16d2a59410e43be6719f57ec5900, type: 3}
   - {fileID: 21300000, guid: 056e3d6c8ab3366459037bb0bc06febc, type: 3}
-  <Block>k__BackingField: {fileID: 8043961177668047658, guid: efcf9696294322842888662922a50433, type: 3}
+  <GroundBlocks>k__BackingField:
+    FillBlock: {fileID: 6575063704060135265, guid: 6a268b2a5c2025144b8c3e2e859e66dc, type: 3}
+    Connection11: {fileID: 6575063704060135265, guid: c12b17411ab8aff4098f5a590d9680a3, type: 3}
+    Connection12: {fileID: 6575063704060135265, guid: 5da2ce20ccc27a44981230b841c9f078, type: 3}
+    Connection13: {fileID: 6575063704060135265, guid: ff7249650afbb3d46bd4aa09df668aa8, type: 3}
+    Connection22: {fileID: 6575063704060135265, guid: f64f306981b55f243b710eb23ea0ef70, type: 3}
+    Connection23: {fileID: 6575063704060135265, guid: b258772f7a440d849af3e1baa138d527, type: 3}
+    Connection33: {fileID: 6575063704060135265, guid: ddb47d93b44139948899f4abf57f8a04, type: 3}
   <LevelObjects>k__BackingField:
   - {fileID: 11400000, guid: adf7a9965ec0cd64b83968e92b6e25c3, type: 2}
   - {fileID: 11400000, guid: 60389c88998bd7d42a04a7e0fc5d0da4, type: 2}

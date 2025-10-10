@@ -25,6 +25,7 @@ namespace WizardsPlatformer
                     grid[i, j].TopLeft += (grid[i-1, j].Active?1:0) + (grid[i-1, j+1].Active ? 1 : 0) + (grid[i, j+1].Active ? 1 : 0);
                     grid[i, j].BottomRight += (grid[i+1, j].Active?1:0) + (grid[i+1, j-1].Active ? 1 : 0) + (grid[i, j-1].Active ? 1 : 0);
                     grid[i, j].BottomLeft += (grid[i-1, j].Active?1:0) + (grid[i-1, j-1].Active ? 1 : 0) + (grid[i, j-1].Active ? 1 : 0);
+                    grid[i, j].HasBottomBlock = grid[i, j - 1].Active;
                 }
         }
 
@@ -39,7 +40,8 @@ namespace WizardsPlatformer
         public int BottomRight = 0;
         public int BottomLeft = 0;
 
-        public bool Active;
+        public bool Active { get; private set; }
+        public bool HasBottomBlock;
 
         public Square(bool active) { Active = active; }
 

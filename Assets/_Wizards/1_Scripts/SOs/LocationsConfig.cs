@@ -26,28 +26,6 @@ namespace WizardsPlatformer
 
         public LocationConfig LoadLocation(LocationType type) =>
             _locations.Where(c => c.Type == type).FirstOrDefault();
-
-        //public LocationType GetRandomLocationType()
-        //{
-        //    var locs = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
-        //    return locs[UnityEngine.Random.Range(1, locs.Count)];
-        //}
-
-        //public Sprite GetRandomLocationImage(LocationType type)
-        //{
-        //    var pool = _locations.Where(t => t.Type == type).FirstOrDefault();
-        //    if(pool != null) return pool.Images[UnityEngine.Random.Range(0, pool.Images.Count)];
-        //    else return _locations[0].Images[UnityEngine.Random.Range(0, _locations[0].Images.Count)];
-        //}
-
-        //public Sprite GetLocationImage(LocationType type, string id)
-        //{
-        //    var pool = _locations.Where(t => t.Type == type).FirstOrDefault();
-        //    var img = (pool != null) ?
-        //        pool.Images.Where(i => i.name == id).FirstOrDefault() :
-        //        _locations[0].Images[UnityEngine.Random.Range(0, _locations[0].Images.Count)];
-        //    return img;
-        //}
     }
 
     [Serializable]
