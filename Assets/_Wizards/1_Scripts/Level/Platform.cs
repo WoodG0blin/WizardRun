@@ -14,8 +14,8 @@ namespace WizardsPlatformer
             for(int x = position; x < position + Length; x++)
             {
                 squareGrid[x, Height] = true;
-                squareGrid[x, Height - 1] = (x > position && x < position + Length - 1);
-                squareGrid[x, Height - 2] = (x > position + 1 && x < position + Length - 2) && UnityEngine.Random.Range(0, 100) < 40;
+                squareGrid[x, Height - 1] = (x > position && x < position + Length - 1) && UnityEngine.Random.Range(0, 100) < 40;
+                //squareGrid[x, Height - 2] = (x > position + 1 && x < position + Length - 2) && UnityEngine.Random.Range(0, 100) < 40;
             }
 
             return position + Length;
