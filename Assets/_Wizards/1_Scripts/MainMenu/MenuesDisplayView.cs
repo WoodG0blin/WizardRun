@@ -39,10 +39,10 @@ namespace WizardsPlatformer
 
         public void Init(IMenuInfo menuInfo)
         {
-            for (int i = 0; i < _menues.Count; i++)
-                _menues[i].Init(menuInfo);
+            //for (int i = 0; i < _menues.Count; i++)
+            //    _menues[i].Init(menuInfo);
             
-            ActivateMenuByIndex(_menues.IndexOf(_accountDisplay));
+            //ActivateMenuByIndex(_menues.IndexOf(_accountDisplay));
 
             //SetControls
         }
