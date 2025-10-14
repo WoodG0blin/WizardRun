@@ -16,7 +16,7 @@ namespace WizardsPlatformer
         private void Awake()
         {
             //Replace with DIc
-            _menuInfo = FindObjectOfType<GameManager>();
+            _menuInfo = FindFirstObjectByType<GameManager>();
             Init();
             _menuInfo.SceneLoader.FinishSceneLoad();
             _startUI.UpdateValues();

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class BonusStats : IEnumerable<KeyValuePair<BonusType, int>>
+    public class BonusStats : IEnumerable<KeyValuePair<BonusType, int>>
     {
         private Dictionary<BonusType, int> _bonuses = new Dictionary<BonusType, int>();
         private readonly bool _IsSavable;

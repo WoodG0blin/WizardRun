@@ -9,13 +9,12 @@ namespace WizardsPlatformer
     {
         public LevelObjectConfig Config {get; private set; }
 
-        private BonusStats _bonuses;
+        public BonusStats Bonuses { get; private set; }
         private Dictionary<ArtifactSlotType, Artifact> _artifacts;
         
         public CharacterStats Stats { get; private set; }
 
         public string Name { get; private set; }
-        public int Bonuses => _bonuses[BonusType.Coin];
         public PlayerSavedData SaveData { get; private set; }
 
         public List<IArtifact> EquippedArtifacts => _artifacts.Values.Where(a => a!=null).Cast<IArtifact>().ToList();
@@ -35,8 +34,8 @@ namespace WizardsPlatformer
 
             Stats = new(Config);
 
-            _bonuses = new BonusStats(false);
-            _bonuses[BonusType.Coin] = data.Bonuses;
+            Bonuses = new BonusStats(false);
+            Bonuses[BonusType.Coin] = data.Bonuses;
 
             _artifacts = new()
             {
@@ -115,8 +114,8 @@ namespace WizardsPlatformer
 
         public void AddBonus(BonusType type, int value)
         {
-            _bonuses[type] += value;
-            SaveData.Bonuses = _bonuses[BonusType.Coin];
+            Bonuses[type] += value;
+            SaveData.Bonuses = Bonuses[BonusType.Coin];
         }
 
     }

@@ -6,6 +6,7 @@ using WizardsPlatformer;
 
 public class StartUIView : MonoBehaviour
 {
+    [SerializeField] private Camera _playerDisplayCamera;
     //[SerializeField] private Button _startButton;
     [SerializeField] private Button _exitButton;
     [SerializeField] private MenuesDisplayView _menues;
@@ -17,19 +18,34 @@ public class StartUIView : MonoBehaviour
 
     public void SetActive(bool active) => gameObject.SetActive(active);
     
-    void Awake()
+    private void Update()
     {
-        //_startButton.onClick.AddListener(() => OnStartClick?.Invoke());
-        _exitButton.onClick.AddListener(() => OnExitClick?.Invoke());
+        SetPlayerDisplay();
+    }
+
+    private void SetPlayerDisplay()
+    {
+        var tex = _playerDisplayCamera.targetTexture;
+        Texture2D texture = new(tex.width, tex.height, TextureFormat.ARGB32, false);
+
+        Graphics.CopyTexture(tex, texture);
+
+        Sprite res = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        _playerData.UpdateDisplay(res);
     }
 
     public void Init(IMenuInfo info)
     {
+        _exitButton.onClick.AddListener(() => OnExitClick?.Invoke());
+
         _playerData.Display(info);
+        SetPlayerDisplay();
+
         _menues.Init(info);
 
         _worldPanel.Init(info.Locations, l => OnStartClick?.Invoke(l));
     }
+
     public void RegisterNewPlayer(Action<string> onFinish) => _playerData.Register(onFinish);
 
     public void UpdateValues() => _worldPanel.UpdateValues();
