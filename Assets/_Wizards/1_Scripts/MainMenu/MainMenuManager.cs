@@ -19,7 +19,7 @@ namespace WizardsPlatformer
             _menuInfo = FindFirstObjectByType<GameManager>();
             Init();
             _menuInfo.SceneLoader.FinishSceneLoad();
-            _startUI.UpdateValues();
+            _startUI.InitiateLocationsDisplay();
         }
 
         private void Init()

@@ -17,10 +17,6 @@ namespace WizardsPlatformer
         public UnityAction OnAddRequest { set => _showAdButton.onClick.AddListener(value); }
         public event Action<BonusType, int> OnRewardCollection;
 
-        protected override void OnInit()
-        {
-            
-        }
 
         public void OnProductBuy(Product product)
         {

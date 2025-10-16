@@ -6,22 +6,27 @@ using UnityEngine.UI;
 
 namespace WizardsPlatformer
 {
-    public class WorldPanelView : MonoBehaviour
+    public class WorldPanelView : MenuPanelView
     {
         [SerializeField] private List<LocationDisplayView> _locationDisplays;
 
-        public void Init(List<Location> locations, Action<Location> onStart)
+        public Action<Location> OnStart;
+
+
+        protected override void OnInit()
         {
-            for (int i = 0; i < Mathf.Min(locations.Count, _locationDisplays.Count); i++)
+            for (int i = 0; i < Mathf.Min(menuInfo.Locations.Count, _locationDisplays.Count); i++)
             {
-                var loc = locations[i];
-                _locationDisplays[i].Display(loc, (l) => onStart?.Invoke(l));
+                var loc = menuInfo.Locations[i];
+                _locationDisplays[i].Display(loc, TriggerStart);
             }
         }
 
-        public void UpdateValues()
+        protected override void OnActivation()
         {
             foreach (var ld in _locationDisplays) ld.UpdateScore();
         }
+
+        private void TriggerStart(Location choice) => OnStart?.Invoke(choice);
     }
 }

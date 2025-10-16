@@ -6,8 +6,5 @@ namespace WizardsPlatformer
 {
     internal class SettingsView : MenuPanelView
     {
-        protected override void OnInit()
-        {
-        }
     }
 }

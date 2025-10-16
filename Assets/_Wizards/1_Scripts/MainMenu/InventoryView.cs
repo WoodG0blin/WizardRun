@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace WizardsPlatformer
 {
     internal class InventoryView : MenuPanelView
     {
+        [SerializeField] private GameObject _inventoryWindow;
+        [SerializeField] private Button _inventoryButton;
+        [SerializeField] private GameObject _craftWindow;
+        [SerializeField] private Button _craftButton;
+
         [SerializeField] private GameObject _itemPrefab;
         [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private Transform _container;
@@ -20,9 +26,21 @@ namespace WizardsPlatformer
 
         protected override void OnInit()
         {
+            _inventoryButton.onClick.RemoveAllListeners();
+            _craftButton.onClick.RemoveAllListeners();
+            _inventoryButton.onClick.AddListener(() => ShowInventory(true));
+            _craftButton.onClick.AddListener(() => ShowInventory(false));
+
+
             _inventoryItems = new();
             _equipDisplay.Init(transform, TryEquipNewItemTo);
             Display();
+        }
+
+        private void ShowInventory(bool inventory)
+        {
+            _inventoryWindow.SetActive(inventory);
+            _craftWindow.SetActive(!inventory);
         }
 
         private void Display()
