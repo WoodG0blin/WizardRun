@@ -9,26 +9,35 @@ namespace WizardsPlatformer
 {
     internal class ShopView : MenuPanelView
     {
-        public enum Tab { shop, rewards}
+        [SerializeField] private MenuPanelView _shop;
+        [SerializeField] private RewardsView _rewards;
+        [SerializeField] private MenuPanelView _specials;
 
         [SerializeField] private Button _showAdButton;
-        [SerializeField] private RewardsView _rewards;
 
-        public UnityAction OnAddRequest { set => _showAdButton.onClick.AddListener(value); }
-        public event Action<BonusType, int> OnRewardCollection;
+        private MenuPanelsManager _subPanelsManager;
 
+        protected override void OnInit()
+        {
+            _subPanelsManager = new(
+                panels: new() { _shop, _rewards, _specials },
+                input: menuInfo);
+
+            _subPanelsManager.ActivatePanel(_shop);
+
+            _rewards.OnRewardCollect += CollectedReward;
+        }
+
+        private void CollectedReward(BonusType type, int value)
+        {
+            Debug.Log($"Collected {type} {value}");
+            //set reward through menuInfo
+        }
 
         public void OnProductBuy(Product product)
         {
             Debug.Log($"Product {product.definition.id} is purchased");
             //Analytics.Transaction(product.definition.id, 1, product.metadata.isoCurrencyCode);
         }
-
-        private void Awake()
-        {
-            _rewards.OnRewardCollect += CollectedReward;
-        }
-
-        private void CollectedReward(BonusType type, int value) => OnRewardCollection?.Invoke(type, value);
     }
 }

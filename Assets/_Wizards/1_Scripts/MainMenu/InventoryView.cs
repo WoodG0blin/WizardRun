@@ -9,10 +9,8 @@ namespace WizardsPlatformer
 {
     internal class InventoryView : MenuPanelView
     {
-        [SerializeField] private GameObject _inventoryWindow;
-        [SerializeField] private Button _inventoryButton;
-        [SerializeField] private GameObject _craftWindow;
-        [SerializeField] private Button _craftButton;
+        [SerializeField] private MenuPanelView _equip;
+        [SerializeField] private MenuPanelView _craft;
 
         [SerializeField] private GameObject _itemPrefab;
         [SerializeField] private GameObject _slotPrefab;
@@ -23,25 +21,21 @@ namespace WizardsPlatformer
         [SerializeField] private EquipDisplayView _equipDisplay;
 
         private Dictionary<InventoryItemView, IItem> _inventoryItems;
+        private MenuPanelsManager _subPanelsManager;
 
         protected override void OnInit()
         {
-            _inventoryButton.onClick.RemoveAllListeners();
-            _craftButton.onClick.RemoveAllListeners();
-            _inventoryButton.onClick.AddListener(() => ShowInventory(true));
-            _craftButton.onClick.AddListener(() => ShowInventory(false));
+            _subPanelsManager = new(
+                panels: new() { _equip, _craft },
+                input: menuInfo);
 
+            _subPanelsManager.ActivatePanel(_equip);
 
             _inventoryItems = new();
             _equipDisplay.Init(transform, TryEquipNewItemTo);
             Display();
         }
 
-        private void ShowInventory(bool inventory)
-        {
-            _inventoryWindow.SetActive(inventory);
-            _craftWindow.SetActive(!inventory);
-        }
 
         private void Display()
         {

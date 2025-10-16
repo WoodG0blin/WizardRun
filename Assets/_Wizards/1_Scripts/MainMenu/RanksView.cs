@@ -5,23 +5,18 @@ namespace WizardsPlatformer
 {
     internal class RanksView : MenuPanelView
     {
-        [SerializeField] private GameObject _ranksWindow;
-        [SerializeField] private Button _ranksButton;
-        [SerializeField] private GameObject _statsWindow;
-        [SerializeField] private Button _statsButton;
+        [SerializeField] private MenuPanelView _rankings;
+        [SerializeField] private MenuPanelView _stats;
+
+        private MenuPanelsManager _subPanelsManager;
 
         protected override void OnInit()
         {
-            _ranksButton.onClick.RemoveAllListeners();
-            _statsButton.onClick.RemoveAllListeners();
-            _ranksButton.onClick.AddListener(() => ShowStats(false));
-            _statsButton.onClick.AddListener(() => ShowStats(true));
-        }
+            _subPanelsManager = new(
+                panels: new() { _rankings, _stats},
+                input: menuInfo);
 
-        private void ShowStats(bool stats)
-        {
-            _statsWindow.SetActive(stats);
-            _ranksWindow.SetActive(!stats);
+            _subPanelsManager.ActivatePanel(_rankings);
         }
     }
 }

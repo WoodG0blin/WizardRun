@@ -1,17 +1,28 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace WizardsPlatformer
 {
-    public abstract class MenuPanelView : MonoBehaviour
+    public class MenuPanelView : MonoBehaviour
     {
+        [SerializeField] private Button _activationButton;
+
         protected IMenuInfo menuInfo;
+
+        public Action OnPanelActivate { get; set; }
         public void SetActive(bool active)
         {
             gameObject.SetActive(active);
-            if(active) OnActivation();
+            if (active)
+            {
+                OnPanelActivate?.Invoke();
+                OnActivation();
+            }
         }
         public void Init(IMenuInfo info)
         {
+            _activationButton.onClick.AddListener(() => SetActive(true));
             menuInfo= info;
             OnInit();
         }

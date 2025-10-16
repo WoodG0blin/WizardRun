@@ -12,41 +12,46 @@ namespace WizardsPlatformer
         [SerializeField] private InventoryView _inventory;
         [SerializeField] private ShopView _shop;
         [SerializeField] private SettingsView _settings;
-        [Space(10)]
-        [SerializeField] private Button _locationsButton;
-        [SerializeField] private Button _ranksButton;
-        [SerializeField] private Button _inventoryButton;
-        [SerializeField] private Button _shopButton;
-        [SerializeField] private Button _settingsButton;
+        //[Space(10)]
+        //[SerializeField] private Button _locationsButton;
+        //[SerializeField] private Button _ranksButton;
+        //[SerializeField] private Button _inventoryButton;
+        //[SerializeField] private Button _shopButton;
+        //[SerializeField] private Button _settingsButton;
 
-        private List<MenuPanelView> _menues;
-
+        //private List<MenuPanelView> _menues;
+        private MenuPanelsManager _menuesManager;
 
         public void Init(IMenuInfo menuInfo, Action<Location> onStart)
         {
-            _menues = new() { _locations, _rankings, _inventory, _shop, _settings };
+            _menuesManager = new(
+                panels: new() { _locations, _rankings, _inventory, _shop, _settings },
+                input: menuInfo);
 
-            _locationsButton.onClick.AddListener(ShowLocations);
-            _ranksButton.onClick.AddListener(ShowRanks);
-            _inventoryButton.onClick.AddListener(ShowInventory);
-            _shopButton.onClick.AddListener(ShowShop);
-            _settingsButton.onClick.AddListener(ShowSettings);
+            //_locationsButton.onClick.AddListener(ShowLocations);
+            //_ranksButton.onClick.AddListener(ShowRanks);
+            //_inventoryButton.onClick.AddListener(ShowInventory);
+            //_shopButton.onClick.AddListener(ShowShop);
+            //_settingsButton.onClick.AddListener(ShowSettings);
 
-            for (int i = 0; i < _menues.Count; i++)
-                _menues[i].Init(menuInfo);
+            //for (int i = 0; i < _menues.Count; i++)
+            //    _menues[i].Init(menuInfo);
             _locations.OnStart = onStart;
         }
 
-        public void ShowLocations() => ActivateMenuByIndex(_menues.IndexOf(_locations));
-        private void ShowRanks() => ActivateMenuByIndex(_menues.IndexOf(_rankings));
-        private void ShowInventory() => ActivateMenuByIndex(_menues.IndexOf(_inventory));
-        private void ShowShop() => ActivateMenuByIndex(_menues.IndexOf(_shop));
-        private void ShowSettings() => ActivateMenuByIndex(_menues.IndexOf(_settings));
+        public void ShowLocations() => _menuesManager.ActivatePanel(_locations);
 
-        private void ActivateMenuByIndex(int index)
-        {
-            for (int i = 0; i < _menues.Count; i++)
-                _menues[i].SetActive(i == index);
-        }
+        //public void ShowLocations() => ActivateMenuByIndex(_menues.IndexOf(_locations));
+        //private void ShowRanks() => ActivateMenuByIndex(_menues.IndexOf(_rankings));
+        //private void ShowInventory() => ActivateMenuByIndex(_menues.IndexOf(_inventory));
+        //private void ShowShop() => ActivateMenuByIndex(_menues.IndexOf(_shop));
+        //private void ShowSettings() => ActivateMenuByIndex(_menues.IndexOf(_settings));
+
+        //private void ActivateMenuByIndex(int index)
+        //{
+        //    for (int i = 0; i < _menues.Count; i++)
+        //        _menues[i].SetActive(i == index);
+        //}
     }
+
 }

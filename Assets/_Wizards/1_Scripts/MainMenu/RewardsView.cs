@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace WizardsPlatformer
 {
-    internal class RewardsView : MonoBehaviour
+    internal class RewardsView : MenuPanelView
     {
         private const string LAST_DAILY = "LastDailyReward";
         private const string COUNT_WEEKLY = "CountConsequtiveInWeek";
@@ -22,7 +22,50 @@ namespace WizardsPlatformer
         private int _countWeekly;
         private int _countMonthly;
 
-        public event Action<BonusType, int> OnRewardCollect;
+        public Action<BonusType, int> OnRewardCollect;
+
+        protected override void OnInit()
+        {
+            _daily.onClick.AddListener(OnDailyClick);
+            _weekly.onClick.AddListener(OnWeeklyClick);
+            _monthly.onClick.AddListener(OnMonthlyClick);
+        }
+
+        protected override void OnActivation()
+        {
+            GetDates();
+
+            SetActiveDaily();
+            SetActiveWeekly();
+            SetActiveMonthly();
+        }
+
+        private void GetDates()
+        {
+            _now = DateTime.Now;
+            string lastDaily = PlayerPrefs.GetString(LAST_DAILY);
+            if (lastDaily != "") _lastDaily = DateTime.Parse(lastDaily);
+            else _lastDaily = DateTime.MinValue;
+
+            _countWeekly = PlayerPrefs.GetInt(COUNT_WEEKLY);
+            _countMonthly = PlayerPrefs.GetInt(COUNT_MONTHLY);
+        }
+
+        private void SetActiveDaily()
+        {
+            _daily.interactable = _now.Subtract(_lastDaily).TotalSeconds > DAY_LENGTH_MINUTES;
+        }
+
+        private void SetActiveWeekly()
+        {
+            _weekly.interactable = _countWeekly >= 7d;
+        }
+
+        private void SetActiveMonthly()
+        {
+            _monthly.interactable = _countMonthly >= DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+        }
+
 
         public void OnDailyClick()
         {
@@ -45,6 +88,8 @@ namespace WizardsPlatformer
 
             PlayerPrefs.SetInt(COUNT_WEEKLY, _countWeekly);
             PlayerPrefs.SetInt(COUNT_MONTHLY, _countMonthly);
+
+            OnActivation();
         }
 
         public void OnWeeklyClick()
@@ -53,6 +98,8 @@ namespace WizardsPlatformer
 
             _countWeekly = 0;
             PlayerPrefs.SetInt(COUNT_WEEKLY, _countWeekly);
+
+            OnActivation();
         }
 
         public void OnMonthlyClick()
@@ -61,44 +108,10 @@ namespace WizardsPlatformer
 
             _countMonthly = 0;
             PlayerPrefs.SetInt(COUNT_MONTHLY,_countMonthly);
-        }
 
-        private void FixedUpdate()
-        {
-            GetDates();
-
-            SetActiveDaily();
-            SetActiveWeekly();
-            SetActiveMonthly();
+            OnActivation();
         }
 
 
-        private void GetDates()
-        {
-            _now = DateTime.Now;
-            string lastDaily = PlayerPrefs.GetString(LAST_DAILY);
-            if (lastDaily != "") _lastDaily = DateTime.Parse(lastDaily);
-            else _lastDaily = DateTime.MinValue;
-
-            _countWeekly = PlayerPrefs.GetInt(COUNT_WEEKLY);
-            _countMonthly = PlayerPrefs.GetInt(COUNT_MONTHLY);
-
-            //Debug.Log($"Date difference is {_now - _lastDaily}");
-        }
-
-        private void SetActiveDaily()
-        {
-            _daily.interactable = _now.Subtract(_lastDaily).TotalSeconds > DAY_LENGTH_MINUTES;
-        }
-
-        private void SetActiveWeekly()
-        {
-            _weekly.interactable = _countWeekly >= 7d;
-        }
-
-        private void SetActiveMonthly()
-        {
-            _monthly.interactable = _countMonthly >= DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
-        }
     }
 }
