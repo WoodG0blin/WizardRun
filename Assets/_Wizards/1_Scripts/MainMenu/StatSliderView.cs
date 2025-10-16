@@ -29,4 +29,11 @@ public class StatSliderView : MonoBehaviour
         _valueSlider.value += delta;
         OnValueChanged?.Invoke((int)_valueSlider.value);
     }
+
+    private void OnValidate()
+    {
+        _iconPlace.sprite = _icon;
+        _valueSlider.maxValue = _maxSliderValue;
+        _valueSlider.minValue = 1;
+    }
 }

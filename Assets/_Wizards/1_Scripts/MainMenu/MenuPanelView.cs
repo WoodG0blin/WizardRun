@@ -6,7 +6,7 @@ namespace WizardsPlatformer
 {
     public class MenuPanelView : MonoBehaviour
     {
-        [SerializeField] private Button _activationButton;
+        [SerializeField] private ButtonView _activationButton;
 
         protected IMenuInfo menuInfo;
 
@@ -22,7 +22,7 @@ namespace WizardsPlatformer
         }
         public void Init(IMenuInfo info)
         {
-            _activationButton.onClick.AddListener(() => SetActive(true));
+            _activationButton.SetClick(() => SetActive(true));
             menuInfo= info;
             OnInit();
         }

@@ -8,7 +8,7 @@ using WizardsPlatformer;
 public class StartUIView : MonoBehaviour
 {
     [SerializeField] private Camera _playerDisplayCamera;
-    [SerializeField] private Button _exitButton;
+    [SerializeField] private ButtonView _exitButton;
 
     [Space(10)]
     [SerializeField] private PlayerDataView _playerData;
@@ -46,7 +46,7 @@ public class StartUIView : MonoBehaviour
 
     public void Init(IMenuInfo info)
     {
-        _exitButton.onClick.AddListener(() => OnExitClick?.Invoke());
+        _exitButton.SetClick(() => OnExitClick?.Invoke());
 
         _playerData.Display(info);
         SetPlayerDisplay();
@@ -66,7 +66,6 @@ public class StartUIView : MonoBehaviour
     {
         OnStartClick = null;
         OnExitClick= null;
-        _exitButton.onClick.RemoveAllListeners();
     }
 }
 

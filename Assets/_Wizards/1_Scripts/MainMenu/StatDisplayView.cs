@@ -16,5 +16,10 @@ namespace WizardsPlatformer
         }
 
         public void SetValue(int value) => _valueText.text = $"{value}";
+
+        private void OnValidate()
+        {
+            _iconPlace.sprite = _icon;
+        }
     }
 }
