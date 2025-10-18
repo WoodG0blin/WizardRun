@@ -652,6 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10fc0f08c5261ed4dbc6c2d01d44a247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StatType: 0
   _icon: {fileID: 0}
   _iconPlace: {fileID: 7529925094680940840}
   _valueSlider: {fileID: 7091734557502016552}
@@ -731,7 +732,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 134.40002, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8417869157390882198
 MonoBehaviour:

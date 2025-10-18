@@ -49,6 +49,7 @@ public class StartUIView : MonoBehaviour
         _exitButton.SetClick(() => OnExitClick?.Invoke());
 
         _playerData.Display(info);
+        info.PlayerModel.Stats.OnBaseParametersChange += () => _playerData.Display(info);
         SetPlayerDisplay();
 
         _menuesManager = new(

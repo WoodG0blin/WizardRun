@@ -700,7 +700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelFactory: {fileID: 7910444846382188182}
   _inputConfig: {fileID: 11400000, guid: c99220445b1f29a4a8745e314b8d6465, type: 2}
-  _groundsView: {fileID: 7910444846382188181}
+  _groundsView: {fileID: 7910444846382188180}
   _levelDisplay: {fileID: 8564428384582521276}
 --- !u!114 &519420036
 MonoBehaviour:
@@ -3169,7 +3169,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28b9834fb420f2a49adc58d78c2b00d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groundTilemap: {fileID: 0}
 --- !u!114 &7910444846382188181
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,6 +11,8 @@ namespace WizardsPlatformer
         public int LastEntryDate;
         public int Bonuses;
 
+        public Dictionary<CharacterStatType, int> BaseStatsModifiers = new();
+
         public List<Location> Locations = new();
     }
 

@@ -25,9 +25,9 @@ namespace WizardsPlatformer
 
             _coins.SetValue(gameData.PlayerModel.Bonuses[BonusType.Coin]);
             _energy.SetValue(gameData.PlayerModel.Bonuses[BonusType.Souls]);
-            _health.SetValue(gameData.PlayerModel.Stats.Health);
-            _speed.SetValue(gameData.PlayerModel.Stats.Damage);
-            _damage.SetValue(gameData.PlayerModel.Stats.Speed);
+            _health.SetValue(gameData.PlayerModel.Stats.MaxHealth);
+            _speed.SetValue(gameData.PlayerModel.Stats.Speed);
+            _damage.SetValue(gameData.PlayerModel.Stats.Damage);
             _defence.SetValue(gameData.PlayerModel.Stats.Defence);
         }
 

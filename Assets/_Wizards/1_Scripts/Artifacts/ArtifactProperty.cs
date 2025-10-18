@@ -47,18 +47,17 @@ namespace WizardsPlatformer
     public class ArtifactProperty : IArtifactExecutor
     {
         private bool _isBaseProperty;
-        private ParametersModifier<ActorStatTypes> _internalModifiers = new();
 
         protected IArtifactHolder holder;
 
         protected ArtifactPropertyExecutor executor;
 
         protected int baseActionValue;
-        public int ActionValue => baseActionValue + _internalModifiers.GetModifier(ActorStatTypes.Value);
+        public int ActionValue => baseActionValue;
         
         protected int baseCooldown;
         protected Coroutine cooldownTimer;
-        public int Cooldown => baseCooldown + _internalModifiers.GetModifier(ActorStatTypes.Cooldown);
+        public int Cooldown => baseCooldown;
         public float RemainingCooldown { get; protected set; }
         public bool IsReady => RemainingCooldown <= 0;
 
@@ -110,14 +109,14 @@ namespace WizardsPlatformer
             executor.Init(holder);
 
             if (ActivatorType == PropertyActivators.Passive)
-                holder.Stats.AddStatsModifier(TargetParameter, ActionValue);
+                holder.Stats.Modifiers.AddModifier(TargetParameter, ActionValue);
             else holder.Actions.AddAction(ActivatorType, this, _isBaseProperty);
         }
 
         public void DeInit()
         {
             if (ActivatorType == PropertyActivators.Passive)
-                holder.Stats.AddStatsModifier(TargetParameter, -ActionValue);
+                holder.Stats.Modifiers.AddModifier(TargetParameter, -ActionValue);
             else holder.Actions.RemoveAction(ActivatorType, this);
         }
 
@@ -125,13 +124,6 @@ namespace WizardsPlatformer
         {
             executor.Use(holder);
             cooldownTimer = holder.SetTimer(Cooldown, t => RemainingCooldown = t, cooldownTimer);
-        }
-
-
-        public void SetModifier(ActorStatTypes type, int value, int seconds = 0)
-        {
-            if (seconds > 0) _internalModifiers.AddModifierTemp(type, value, seconds);
-            else _internalModifiers.AddModifier(type, value);
         }
     }
 }

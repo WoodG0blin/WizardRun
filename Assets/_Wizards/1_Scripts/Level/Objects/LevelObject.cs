@@ -88,7 +88,7 @@ namespace WizardsPlatformer
 
         protected ActiveObject(LevelObjectConfig config, Vector2 position) : base(config, position)
         {
-            Stats = new(config);
+            Stats = new(config, new());
             Stats.OnDeath += Die;
             MaxHealth = Stats.MaxHealth;
             IsPlayer = false;

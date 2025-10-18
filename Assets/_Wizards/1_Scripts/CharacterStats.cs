@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace WizardsPlatformer
@@ -12,7 +13,7 @@ namespace WizardsPlatformer
         private int _jumpForce;
         private int _damage;
 
-        private ParametersModifier<CharacterStatType> _modifiers;
+        public ParametersModifier Modifiers { get; private set; }
 
         private int _currentHealth;
         
@@ -22,11 +23,11 @@ namespace WizardsPlatformer
         public Action OnBaseParametersChange;
         public Action OnDeath;
         
-        public int MaxHealth => _maxHealth + _modifiers.GetModifier(CharacterStatType.MaxHealth);
-        public int Defence => _defence + _modifiers.GetModifier(CharacterStatType.Defence);
-        public int Speed => _speed + _modifiers.GetModifier(CharacterStatType.Speed);
-        public int JumpForce => _jumpForce + _modifiers.GetModifier(CharacterStatType.JumpForce);
-        public int Damage => _damage + _modifiers.GetModifier(CharacterStatType.Damage);
+        public int MaxHealth => Mathf.RoundToInt(_maxHealth * (1f + 0.05f * Modifiers.GetModifier(CharacterStatType.MaxHealth)));
+        public int Defence => Mathf.RoundToInt(_defence * (1f + 0.05f * Modifiers.GetModifier(CharacterStatType.Defence)));
+        public int Speed => Mathf.RoundToInt(_speed * (1f + 0.05f * Modifiers.GetModifier(CharacterStatType.Speed)));
+        public int JumpForce => Mathf.RoundToInt(_jumpForce * (1f + 0.05f * Modifiers.GetModifier(CharacterStatType.JumpForce)));
+        public int Damage => Mathf.RoundToInt(_damage * (1f + 0.05f * Modifiers.GetModifier(CharacterStatType.Damage)));
         public int Health
         {
             get => _currentHealth;
@@ -40,19 +41,20 @@ namespace WizardsPlatformer
         }
         
 
-        public CharacterStats(LevelObjectConfig config)
+        public CharacterStats(LevelObjectConfig config, Dictionary<CharacterStatType, int> baseModifiers)
         {
             _maxHealth = config.MaxHealth;
             _currentHealth = _maxHealth;
 
-            _defence = 0;
+            _defence = 10;
 
             _damage = config.Damage;
 
             _speed = config.Speed;
             _jumpForce = config.JumpForce;
 
-            _modifiers = new();
+            Modifiers = new(baseModifiers);
+            Modifiers.OnModified += () => OnBaseParametersChange?.Invoke();
         }
         
         internal void SetStatsDisplay(IStatsHeadDisplay display)
@@ -62,13 +64,8 @@ namespace WizardsPlatformer
         }
         
         public void AddStatsModifier(CharacterStatType type, int modifierValue) =>
-            _modifiers.AddModifier(type, modifierValue);
+            Modifiers.AddModifier(type, modifierValue);
         public void RemoveStatsModifier(CharacterStatType type, int modifierValue) =>
-            _modifiers.AddModifier(type, modifierValue);
-        public void ClearAllModifiers()
-        {
-            _modifiers.CancelAllTempEffects();
-            _modifiers = new();
-        }
+            Modifiers.AddModifier(type, modifierValue);
     }
 }
