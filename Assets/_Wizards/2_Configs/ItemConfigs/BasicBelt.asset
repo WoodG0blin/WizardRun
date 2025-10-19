@@ -19,9 +19,8 @@ MonoBehaviour:
     <ActivatorType>k__BackingField: 0
     <ExecutionType>k__BackingField: 0
     <TargetParameter>k__BackingField: 10
-    <ActionValue>k__BackingField: 0
+    <ActionValue>k__BackingField: 1
     <CoolDown>k__BackingField: 0
-    <View>k__BackingField: {fileID: 0}
     <Ammo>k__BackingField: {fileID: 0}
     <NameTag>k__BackingField: 
   <ExtraProperties>k__BackingField: []

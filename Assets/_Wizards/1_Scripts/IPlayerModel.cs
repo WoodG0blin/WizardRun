@@ -10,10 +10,10 @@ namespace WizardsPlatformer
         BonusStats Bonuses { get; }
 
         List<IArtifact> EquippedArtifacts { get; }
+        List<ItemConfig> Chest { get; }
         //List<ArtifactActor> ArtifactActors { get; }
         //IArtifactExecutorsContainer Executors { get; }
 
-
-        bool TrySetArtifactAt(ArtifactSlotType slot, ItemConfig artifact);
+        void EquipArtifact(ArtifactSlotType slot, ItemConfig artifact);
     }
 }

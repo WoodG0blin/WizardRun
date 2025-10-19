@@ -17,7 +17,7 @@ public class StartUIView : MonoBehaviour
     [Header("MENUES:")]
     [SerializeField] private WorldPanelView _locations;
     [SerializeField] private RanksView _rankings;
-    [SerializeField] private InventoryView _inventory;
+    [SerializeField] private InventoryDisplayView _inventory;
     [SerializeField] private ShopView _shop;
     [SerializeField] private SettingsView _settings;
 

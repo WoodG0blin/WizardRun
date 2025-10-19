@@ -65,6 +65,8 @@ namespace WizardsPlatformer
             if (!_modifiers.ContainsKey(type)) _modifiers.Add(type, 0);
             _modifiers[type] += value;
 
+            Debug.Log($"Adding modifier for {type} at {value})");
+
             OnModified?.Invoke();
         }
 

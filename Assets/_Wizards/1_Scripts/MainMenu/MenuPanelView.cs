@@ -22,7 +22,7 @@ namespace WizardsPlatformer
         }
         public void Init(IMenuInfo info)
         {
-            _activationButton.SetClick(() => SetActive(true));
+            if(_activationButton != null) _activationButton.SetClick(() => SetActive(true));
             menuInfo= info;
             OnInit();
         }

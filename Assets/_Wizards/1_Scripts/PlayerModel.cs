@@ -19,6 +19,7 @@ namespace WizardsPlatformer
         public PlayerSavedData SaveData { get; private set; }
 
         public List<IArtifact> EquippedArtifacts => _artifacts.Values.Where(a => a!=null).Cast<IArtifact>().ToList();
+        public List<ItemConfig> Chest { get; private set; } = new();
         public ActionsHolder Actions { get; private set; }
 
         bool IArtifactHolder.IsPlayer => true;
@@ -45,6 +46,7 @@ namespace WizardsPlatformer
                 { ArtifactSlotType.Waist, null},
                 { ArtifactSlotType.Legs, null}
             };
+            Chest = new();
 
             Actions = new(this);
             ArtifactProperty _weapon = new(config.WeaponConfig, Name, isBaseProperty: true);
@@ -52,28 +54,27 @@ namespace WizardsPlatformer
         }
 
 
-        public bool TrySetArtifactAt(ArtifactSlotType slot, ItemConfig artifact)
+        public void EquipArtifact(ArtifactSlotType slot, ItemConfig artifact)
         {
-            bool res =
-                artifact != null ?
-                slot == artifact.SlotType : true;
-
-            // conditions to equip
-            if (res)
+            if (_artifacts[slot] != null)
             {
-                _artifacts[slot]?.Unequip();
-
-                _artifacts[slot] = null;
-
-                if(artifact != null)
-                {
-                    var a = new Artifact(artifact);
-                    _artifacts[slot] = a;
-                    a.Equip(this);
-                }
+                _artifacts[slot].Unequip();
+                Chest.Add(_artifacts[slot].Config);
             }
-            
-            return res;
+
+            _artifacts[slot] = null;
+
+            if(artifact != null)
+            {
+                if(Chest.Contains(artifact)) Chest.Remove(artifact);
+                var a = new Artifact(artifact);
+                _artifacts[slot] = a;
+                a.Equip(this);
+            }
+        }
+        public void AddArtifact(ItemConfig artifact)
+        {
+            Chest.Add(artifact);
         }
 
         public void AddBonus(BonusType type, int value)

@@ -4,43 +4,40 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    internal class EquipDisplayView : MonoBehaviour
+    internal class EquipDisplayView : MenuPanelView
     {
-        [SerializeField] private InventorySlotView _weaponSlot;
-        [SerializeField] private InventorySlotView _headSlot;
-        [SerializeField] private InventorySlotView _neckSlot;
-        [SerializeField] private InventorySlotView _waistSlot;
-        [SerializeField] private InventorySlotView _legsSlot;
+        [SerializeField] private List<InventorySlotView> _equipSlots;
 
-        private Dictionary<ArtifactSlotType, InventorySlotView> _slots;
-
-        public void Init(Transform mainContainer, Func<InventoryItemView, ArtifactSlotType, bool> tryEquipItemToSlot)
+        protected override void OnInit()
         {
-            _slots = new()
+            foreach (var slot in _equipSlots)
             {
-                { ArtifactSlotType.Weapon, _weaponSlot },
-                { ArtifactSlotType.Head, _headSlot },
-                { ArtifactSlotType.Neck, _neckSlot },
-                { ArtifactSlotType.Waist, _waistSlot },
-                { ArtifactSlotType.Legs, _legsSlot}
-            };
+                slot.Init();
+                slot.OnNewItemPlaced = i => EquipArtifact(slot.SlotType, i);
+            }
+        }
 
-            foreach (var kvp in _slots)
-                kvp.Value.Init(
-                    mainContainer,
-                    (i) => tryEquipItemToSlot(i, kvp.Key));
+        private void EquipArtifact(ArtifactSlotType slotType, InventoryItemView item)
+        {
+            menuInfo.PlayerModel.EquipArtifact(slotType, item != null ? item.ItemConfig : null);
         }
 
         public void Display(List<InventoryItemView> equippedArtifacts)
         {
             foreach (var a in equippedArtifacts)
-                _slots[a.SlotType].TrySetItem(a);
+            {
+                for(int i = 0; i < _equipSlots.Count; i++)
+                {
+                    if (_equipSlots[i].CanSetItem(a) && _equipSlots[i].Item != null)
+                        _equipSlots[i].SetItem(a);
+                }
+            }
         }
 
-        public void HighlightSlot(ArtifactSlotType slot)
+        public void HighlightSlot(ArtifactSlotType slotType)
         {
-            foreach (var kvp in _slots)
-                kvp.Value.Highlight(kvp.Key == slot);
+            foreach (var slot in _equipSlots)
+                slot.Highlight(slot.SlotType == slotType);
         }
     }
 }

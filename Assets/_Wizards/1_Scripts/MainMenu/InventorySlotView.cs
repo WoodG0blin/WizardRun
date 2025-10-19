@@ -7,44 +7,35 @@ namespace WizardsPlatformer
 {
     internal class InventorySlotView : MonoBehaviour, IDropHandler
     {
+        public ArtifactSlotType SlotType = ArtifactSlotType.Universal;
         public InventoryItemView Item { get; private set; }
-        [field: SerializeField] public Transform Container { get; private set; }
 
+        [Space(10)]
         [SerializeField] private Image _background;
 
         [SerializeField] private Color _selected;
         [SerializeField] private Color _unselected;
+        [field: SerializeField] public RectTransform ItemPlace { get; private set; }
 
-        private Func<InventoryItemView, bool> _checkUpdateCondition;
+        public Action<InventoryItemView> OnNewItemPlaced { get; set; }
 
-        public Transform MainContainer { get; private set; }
-
-        public void Init(Transform mainContainer, Func<InventoryItemView, bool> checkSlotUpdateCondition = null)
+        public void Init()
         {
-            MainContainer = mainContainer;
-
             gameObject.SetActive(true);
-            _checkUpdateCondition = checkSlotUpdateCondition;
 
             Highlight(false);
 
             if(Item!= null) GameObject.Destroy(Item.gameObject);
         }
 
-        public bool TrySetItem(InventoryItemView item)
+        public bool CanSetItem(InventoryItemView item) =>  SlotType == ArtifactSlotType.Universal || item == null  || item.ItemConfig.SlotType == SlotType;
+
+        public void SetItem(InventoryItemView item)
         {
-            bool check =
-                _checkUpdateCondition != null ?
-                    _checkUpdateCondition(item) : true;
-
-            if(check)
-            {
-                Item = item;
-                item?.SetParentSlot(this);
-                Highlight(false);
-            }
-
-            return check;
+            Item = item;
+            item?.SetParentSlot(this);
+            Highlight(false);
+            OnNewItemPlaced?.Invoke(item);
         }
 
         public void Highlight(bool active) =>
@@ -52,15 +43,14 @@ namespace WizardsPlatformer
 
         public void OnDrop(PointerEventData eventData)
         {
-            var drop = eventData.pointerDrag.GetComponent<InventoryItemView>();
+            InventoryItemView initialItem = eventData.pointerDrag.GetComponent<InventoryItemView>();
+            InventorySlotView startSlot = initialItem.ParentSlot;
+            InventoryItemView exchangeItem = Item; 
 
-            var prevItem = Item;
-            var dropParent = drop.ParentSlot;
-
-            if (!TrySetItem(drop) || !dropParent.TrySetItem(prevItem))
+            if(startSlot.CanSetItem(exchangeItem) && CanSetItem(initialItem))
             {
-                TrySetItem(prevItem);
-                drop.SetParentSlot(dropParent);
+                startSlot.SetItem(exchangeItem);
+                SetItem(initialItem);
             }
         }
     }

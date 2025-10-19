@@ -34,6 +34,8 @@ namespace WizardsPlatformer
         private void Init(PlayerSavedData data)
         {
             _gameModel = new(data, _playerConfig);
+            foreach(var art in _artifactDatabase.Configs)
+                _gameModel.PlayerModel.AddArtifact(art);
             DataSaveAndLoad.Save(_gameModel.GetSaveData());
         }
 
