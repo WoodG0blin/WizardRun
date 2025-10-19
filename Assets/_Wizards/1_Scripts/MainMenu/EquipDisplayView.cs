@@ -40,7 +40,7 @@ namespace WizardsPlatformer
             }
 
             menuInfo.PlayerModel.EquipArtifact(slotType, newItem);
-            HighlightSlot(ArtifactSlotType.Universal);
+            //HighlightSlot(ArtifactSlotType.Universal);
         }
 
         private void UpdateControlAllocations(List<ItemConfig> changedItems)
@@ -58,7 +58,7 @@ namespace WizardsPlatformer
             {
                 for(int i = 0; i < _equipSlots.Count; i++)
                 {
-                    if (_equipSlots[i].CanSetItem(a) && _equipSlots[i].Item != null)
+                    if (_equipSlots[i].CanSetItem(a) && _equipSlots[i].Item == null)
                         _equipSlots[i].SetItem(a);
                 }
             }

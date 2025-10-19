@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 namespace WizardsPlatformer
 {
-    internal class InventoryView : MenuPanelView
+    internal class InventoryView : MenuPanelView, IDropHandler, IPointerClickHandler
     {
         [SerializeField] private GameObject _itemPrefab;
         [SerializeField] private GameObject _slotPrefab;
@@ -19,6 +21,8 @@ namespace WizardsPlatformer
 
         public Transform Container;
 
+        private List<InventorySlotView> _chestSlots;
+
         protected override void OnInit()
         {
             Display();
@@ -28,6 +32,14 @@ namespace WizardsPlatformer
         private void Display()
         {
             Clear();
+
+            _chestSlots = new();
+            for(int i = 0; i < menuInfo.PlayerModel.MaxInventorySlots; i++)
+            {
+                var temp = GameObject.Instantiate(_slotPrefab, _container).GetComponent<InventorySlotView>();
+                temp.Init();
+                _chestSlots.Add(temp);
+            }
 
             List<InventoryItemView> unequippedItems = new();
             foreach (var i in menuInfo.PlayerModel.Chest)
@@ -51,24 +63,70 @@ namespace WizardsPlatformer
             for (int i = _container.childCount - 1; i >= 0; i--)
                 GameObject.Destroy(_container.GetChild(i).gameObject);
         }
+
         private InventoryItemView CreateItem(ItemConfig artifact)
         {
             var temp = GameObject.Instantiate(_itemPrefab).GetComponent<InventoryItemView>();
-            temp.Init(artifact, () => DisplayItemInfo(artifact), Container);
+            temp.Init(artifact, DisplayItemInfo, Container);
             return temp;
         }
-        private void DisplayItemInfo(IItem item)
+        private void DisplayItemInfo(ItemConfig item)
         {
-            _itemInfoText.text = item.Name;
-            _equipDisplay.HighlightSlot(item.SlotType);
+            if (item != null)
+            {
+                _itemInfoText.text = item.Name;
+                _equipDisplay.HighlightSlot(item.SlotType);
+            }
+            else
+            {
+                _itemInfoText.text = "";
+                _equipDisplay.HighlightSlot(ArtifactSlotType.Universal);
+            }
         }
 
         private void DisplayItem(InventoryItemView item)
         {
-            var temp = GameObject.Instantiate(_slotPrefab, _container)
-                .GetComponent<InventorySlotView>();
-            temp.Init();
-            temp.SetItem(item);
+            //var temp = GameObject.Instantiate(_slotPrefab, _container)
+            //    .GetComponent<InventorySlotView>();
+            //temp.Init();
+            //temp.SetItem(item);
+            //temp.OnNewItemPlaced = i => { if (i == null) GameObject.Destroy(temp.gameObject); };
+
+            for (int i = 0; i < _chestSlots.Count; i++)
+            {
+                if (_chestSlots[i].Item == null)
+                {
+                    _chestSlots[i].SetItem(item);
+                    break;
+                }
+            }
+        }
+
+        public void OnDrop(PointerEventData eventData)
+        {
+            InventoryItemView initialItem = eventData.pointerDrag.GetComponent<InventoryItemView>();
+            if (initialItem == null) return;
+
+            InventorySlotView startSlot = initialItem.ParentSlot;
+
+            bool hasEmpty = false;
+            for (int i = 0; i < _chestSlots.Count; i++)
+            {
+                hasEmpty = _chestSlots[i].Item == null;
+                if (hasEmpty) break;
+            }
+
+            if (hasEmpty)
+            {
+                startSlot.SetItem(null);
+                DisplayItem(initialItem);
+            }
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            _itemInfoText.text = "";
+            _equipDisplay.HighlightSlot(ArtifactSlotType.Universal);
         }
     }
 }

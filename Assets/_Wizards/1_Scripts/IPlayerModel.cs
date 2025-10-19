@@ -11,6 +11,7 @@ namespace WizardsPlatformer
 
         List<IArtifact> EquippedArtifacts { get; }
         List<ItemConfig> Chest { get; }
+        int MaxInventorySlots { get; }
         //List<ArtifactActor> ArtifactActors { get; }
         //IArtifactExecutorsContainer Executors { get; }
 

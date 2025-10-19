@@ -6,17 +6,17 @@ using UnityEngine.UI;
 
 namespace WizardsPlatformer
 {
-    internal class InventoryItemView : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+    internal class InventoryItemView : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerClickHandler
     {
         [SerializeField] private Image _icon;
         public InventorySlotView ParentSlot { get; private set; }
         public ItemConfig ItemConfig { get; private set; }
 
-        private Action _displayDescription;
+        private Action<ItemConfig> _displayDescription;
 
         private Transform _container;
         
-        public void Init(ItemConfig item, Action displayDescription, Transform container)
+        public void Init(ItemConfig item, Action<ItemConfig> displayDescription, Transform container)
         {
             ItemConfig = item;
             _icon.sprite = ItemConfig.Icon;
@@ -47,7 +47,7 @@ namespace WizardsPlatformer
             transform.SetParent(_container);
             transform.SetAsLastSibling();
             _icon.raycastTarget = false;
-            _displayDescription();
+            _displayDescription(ItemConfig);
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -60,6 +60,12 @@ namespace WizardsPlatformer
             //ParentSlot.SetItem(this);
             SetParentSlot(ParentSlot);
             _icon.raycastTarget = true;
+            _displayDescription(null);
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            _displayDescription(ItemConfig);
         }
     }
 }

@@ -20,6 +20,7 @@ namespace WizardsPlatformer
 
         public List<IArtifact> EquippedArtifacts => _artifacts.Values.Where(a => a!=null).Cast<IArtifact>().ToList();
         public List<ItemConfig> Chest { get; private set; } = new();
+        public int MaxInventorySlots { get; private set; } = 10;
         public ActionsHolder Actions { get; private set; }
 
         bool IArtifactHolder.IsPlayer => true;
