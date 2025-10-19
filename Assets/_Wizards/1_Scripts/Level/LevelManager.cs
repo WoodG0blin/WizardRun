@@ -56,11 +56,10 @@ namespace WizardsPlatformer
             _playerController.Stats.OnCurrentHealthChange += _levelDisplay.SetHealth;
             _playerController.OnPlayerDeath += Die;
 
-            _groundsController.OnCoinsCountChange = _levelDisplay.SetCoinsCount;
+            _groundsController.OnBonusCollected = _levelDisplay.SetBonusCount;
             _groundsController.OnLevelClearanceChanged = () => _levelDisplay.SetLevelClearanceValue(_groundsController.LevelHealthValue);
 
-            _levelDisplay.SetHealth(_playerController.Stats.Health);
-            _levelDisplay.SetCoinsCount(0);
+            _levelDisplay.InitPlayer(_playerModel);
             _levelDisplay.SetLevelClearanceValue(_groundsController.LevelHealthValue);
         }
 

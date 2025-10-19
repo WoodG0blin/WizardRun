@@ -32,7 +32,7 @@ namespace WizardsPlatformer
 
         public Action<Vector3> OnPlayerPositionChange { get; set; }
 
-        public Action<int> OnCoinsCountChange { get; set; }
+        public Action<BonusType, int> OnBonusCollected { get; set; }
 
 
         public GroundsController(GroundsModel groundsModel, IGroundsView groundsView, Action onGroundsCleared)
@@ -67,7 +67,7 @@ namespace WizardsPlatformer
 
             BonusesCollected[bonus.Type] += bonus.Value;
 
-            if (bonus.Type == BonusType.Coin) OnCoinsCountChange?.Invoke(BonusesCollected[BonusType.Coin]);
+            OnBonusCollected?.Invoke(bonus.Type, BonusesCollected[bonus.Type]);
         }
         
         void ILevelEventAccounter.AccountForDamage(int damage)
