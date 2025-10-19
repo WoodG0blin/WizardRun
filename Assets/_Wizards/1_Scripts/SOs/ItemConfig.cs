@@ -40,7 +40,11 @@ namespace WizardsPlatformer
         [field: SerializeField] public ArtifactSlotType SlotType { get; protected set; }
         [field: SerializeField] public ArtifactPropertyConfig BaseProperty { get; set; }
         [field: SerializeField] public List<ArtifactPropertyConfig> ExtraProperties { get; set; }
+        public int ControlIndex { get; set; } = -1;
 
         public string Name => NameTag;
+        public bool HasExplicitProperty =>
+            BaseProperty.ActivatorType == PropertyActivators.Explicit
+            || ExtraProperties.Where(p => p.ActivatorType == PropertyActivators.Explicit).FirstOrDefault() != null;
     }
 }

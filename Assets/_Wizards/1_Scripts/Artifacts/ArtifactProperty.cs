@@ -44,10 +44,8 @@ namespace WizardsPlatformer
     }
 
 
-    public class ArtifactProperty : IArtifactExecutor
+    public class ArtifactProperty : IArtifactExecutor, IDisplayInfo
     {
-        private bool _isBaseProperty;
-
         protected IArtifactHolder holder;
 
         protected ArtifactPropertyExecutor executor;
@@ -65,16 +63,23 @@ namespace WizardsPlatformer
         public PropertyActivators ActivatorType { get; protected set; }
         public PropertyExecution ExecutionType { get; protected set; }
         public CharacterStatType TargetParameter { get; protected set; }
+        public int ControlIndex { get; protected set; }
         
         public ArtifactPropertyConfig Config { get; protected set; }
         public string NameTag { get; protected set; }
-
+        string IDisplayInfo.Name => NameTag;
+        public Sprite Icon { get; private set; }
         public AmmoConfig Ammo => Config.Ammo;
 
 
-        public ArtifactProperty(ArtifactPropertyConfig config, string artName, bool isBaseProperty = false)
+        public ArtifactProperty(ArtifactPropertyConfig config, Artifact parentArt, int controlIndex = -1)
         {
-            NameTag = artName;
+            if (parentArt != null)
+            {
+                NameTag = parentArt.NameTag;
+                Icon = parentArt.Icon;
+            }
+
             Config = config;
 
             ActivatorType = config.ActivatorType;
@@ -85,7 +90,7 @@ namespace WizardsPlatformer
 
             baseCooldown = config.CoolDown;
 
-            _isBaseProperty = isBaseProperty;
+            ControlIndex = controlIndex;
 
             executor = GetSpecificExecutor(config.NameTag);
             executor ??= ActivatorType switch
@@ -93,6 +98,7 @@ namespace WizardsPlatformer
                 PropertyActivators.Explicit => new AttackExecutor(this),
                 _ => new(this)
             };
+            ControlIndex = controlIndex;
         }
 
         private ArtifactPropertyExecutor GetSpecificExecutor(string tag) => tag switch
@@ -110,7 +116,7 @@ namespace WizardsPlatformer
 
             if (ActivatorType == PropertyActivators.Passive)
                 holder.Stats.Modifiers.AddModifier(TargetParameter, ActionValue);
-            else holder.Actions.AddAction(ActivatorType, this, _isBaseProperty);
+            else holder.Actions.AddAction(ActivatorType, this, ControlIndex >= 0);
         }
 
         public void DeInit()

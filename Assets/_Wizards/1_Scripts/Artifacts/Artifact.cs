@@ -40,9 +40,9 @@ namespace WizardsPlatformer
             SlotType = config.SlotType;
             Icon = config.Icon;
 
-            properties.Add(new(config.BaseProperty, NameTag, isBaseProperty: true));
+            properties.Add(new(config.BaseProperty, this, controlIndex: config.ControlIndex < 0 ? 0 : config.ControlIndex));
             foreach (var conf in config.ExtraProperties)
-                properties.Add(new(conf, NameTag));
+                properties.Add(new(conf, this, config.ControlIndex));
         }
 
         public void Equip(IArtifactHolder holder)

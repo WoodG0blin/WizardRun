@@ -47,6 +47,14 @@ public class ButtonView : MonoBehaviour
     public void AddAction(Action action) =>
         _button.onClick.AddListener(() => action());
 
+    public void SetImage(Sprite image)
+    {
+        _sprite = image;
+        SetVisuals();
+    }
+
+    public void SetActive(bool active) => _button.interactable = active;
+
     private void OnValidate()
     {
         SetVisuals();

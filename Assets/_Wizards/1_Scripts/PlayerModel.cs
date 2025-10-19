@@ -44,12 +44,13 @@ namespace WizardsPlatformer
                 { ArtifactSlotType.Head, null},
                 { ArtifactSlotType.Neck, null},
                 { ArtifactSlotType.Waist, null},
-                { ArtifactSlotType.Legs, null}
+                { ArtifactSlotType.Legs, null},
+                { ArtifactSlotType.Ring, null}
             };
             Chest = new();
 
             Actions = new(this);
-            ArtifactProperty _weapon = new(config.WeaponConfig, Name, isBaseProperty: true);
+            ArtifactProperty _weapon = new(config.WeaponConfig, null, 0);
             _weapon.Init(this);
         }
 
@@ -58,8 +59,9 @@ namespace WizardsPlatformer
         {
             if (_artifacts[slot] != null)
             {
+                if(_artifacts[slot].Config != artifact)
+                    Chest.Add(_artifacts[slot].Config);
                 _artifacts[slot].Unequip();
-                Chest.Add(_artifacts[slot].Config);
             }
 
             _artifacts[slot] = null;
@@ -72,6 +74,7 @@ namespace WizardsPlatformer
                 a.Equip(this);
             }
         }
+
         public void AddArtifact(ItemConfig artifact)
         {
             Chest.Add(artifact);

@@ -94,7 +94,7 @@ namespace WizardsPlatformer
             IsPlayer = false;
 
             Actions = new(this);
-            ArtifactProperty _weapon = new(config.WeaponConfig, Name, isBaseProperty: true);
+            ArtifactProperty _weapon = new(config.WeaponConfig, null, 0);
             _weapon.Init(this);
 
             if(Actions.GetActionsFor(PropertyActivators.Explicit).Count > 0)
