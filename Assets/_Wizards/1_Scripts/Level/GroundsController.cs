@@ -27,7 +27,8 @@ namespace WizardsPlatformer
         public Dictionary<BonusType, int> BonusesCollected { get; private set; }
 
         public float LevelHealthValue => (float)_levelObjectsCurrentHealth / _groundsModel.TotalHealth;
-        public Action OnLevelClearanceChanged { get; set; }
+        public int TotalDamageReceived { get; private set; } = 0;
+        public Action<float> OnLevelClearanceChanged { get; set; }
         public Action OnExitAvailable { get; set; }
 
         public Action<Vector3> OnPlayerPositionChange { get; set; }
@@ -43,7 +44,7 @@ namespace WizardsPlatformer
 
             onLevelCleared = onGroundsCleared;
 
-            BonusesCollected = new();
+            ClearBonuses();
 
             foreach (var lo in _groundsModel.LevelObjects) lo.SetSubscriptions(this);
 
@@ -58,7 +59,12 @@ namespace WizardsPlatformer
             OnPlayerPositionChange += _cameraController.UpdateToPlayerPosition;
         }
 
-        public void ClearBonuses() => BonusesCollected = new();
+        public void ClearBonuses() => BonusesCollected = new()
+            {
+                { BonusType.Coin, 0},
+                { BonusType.Souls, 0},
+                { BonusType.Artifacts, 0}
+            };
 
 
         void ILevelEventAccounter.AccountForBonus(Bonus bonus)
@@ -73,7 +79,8 @@ namespace WizardsPlatformer
         void ILevelEventAccounter.AccountForDamage(int damage)
         {
             _levelObjectsCurrentHealth -= damage;
-            OnLevelClearanceChanged?.Invoke();
+            TotalDamageReceived += damage;
+            OnLevelClearanceChanged?.Invoke((float)TotalDamageReceived / _groundsModel.TotalHealth);
         }
 
         void ILevelEventAccounter.SetLevelCleared() => onLevelCleared?.Invoke();

@@ -12,13 +12,13 @@ namespace WizardsPlatformer
 
         [Header("VIEWS")]
         [SerializeField] private GroundsView _groundsView;
-        [SerializeField] private LevelDisplayView _levelDisplay;
+        [SerializeField] private LevelUIView _levelUI;
 
         private ILevelInfo _levelInfo;
 
         private LevelConfig _groundsConfig;
         private GroundsModel _groundsModel;
-        private PlayerModel _playerModel;
+        private IPlayerModel _playerModel;
 
         private GroundsController _groundsController;
         private PlayerController _playerController;
@@ -39,44 +39,63 @@ namespace WizardsPlatformer
             _groundsConfig = _levelInfo.GetLevelConfig();
 
             _groundsModel = new(_groundsConfig, _levelFactory);
-            _groundsView.InitGroundBlocks(_groundsConfig.GroundBlocks);
 
-            _playerModel = _levelInfo.GetPlayerModel();
-
-            _playerController = new PlayerController(_playerModel, _groundsModel.LocalStartPosition);
-            _groundsModel.AddPlayer(_playerController);
-
-            _groundsController = new(_groundsModel, _groundsView, FinishLevel);
-            _groundsController.SetCamera(new(Camera.main, _groundsConfig.BackGroundSprites));
-
-            GameObject temp = GameObject.Instantiate(_inputConfig.Prefab);
-            _inputView = temp.GetComponent<InputView>() ?? temp.AddComponent<InputView>();
-
-            _playerController.SubscribeOnInput(_inputView);
-            _playerController.Stats.OnCurrentHealthChange += _levelDisplay.SetHealth;
-            _playerController.OnPlayerDeath += Die;
-
-            _groundsController.OnBonusCollected = _levelDisplay.SetBonusCount;
-            _groundsController.OnLevelClearanceChanged = () => _levelDisplay.SetLevelClearanceValue(_groundsController.LevelHealthValue);
-
-            _levelDisplay.InitPlayer(_playerModel);
-            _levelDisplay.SetLevelClearanceValue(_groundsController.LevelHealthValue);
+            StartLevel();
         }
 
+        private void StartLevel()
+        {
+            _levelInfo.AccountForScore(-10);
+
+            _groundsView.InitGroundBlocks(_groundsConfig.GroundBlocks);
+
+            _playerModel = _levelInfo.PlayerModel;
+
+            _playerController = new PlayerController(_playerModel, _groundsModel.LocalStartPosition);
+            _playerController.OnPlayerDeath = Die;
+            _groundsModel.AddPlayer(_playerController);
+
+            _groundsController = new(_groundsModel, _groundsView, () => FinishLevel(true));
+            _groundsController.SetCamera(new(Camera.main, _groundsConfig.BackGroundSprites));
+
+            _levelUI.Init(_levelInfo);
+            _levelUI.OnRestartRequest = Restart;
+            _levelUI.OnRunRequest = Run;
+
+            _playerController.SubscribeOnInput(_levelUI.Input);
+            _playerController.Stats.OnCurrentHealthChange = _levelUI.PlayerDisplay.SetHealth;
+
+            _groundsController.OnBonusCollected = _levelUI.PlayerDisplay.SetBonusCount;
+            _groundsController.OnLevelClearanceChanged = _levelUI.PlayerDisplay.SetLevelClearanceValue;
+        }
+
+        private void Restart()
+        {
+            _groundsModel.Refresh();
+            StartLevel();
+        }
+        private void Run()
+        {
+            _playerController.ReceiveDamage(_playerModel.Stats.Health);
+        }
 
         private void Die()
         {
             Debug.Log("You died");
             _groundsController.ClearBonuses();
-            FinishLevel();
+            FinishLevel(false);
         }
 
-        private void FinishLevel()
+        private void FinishLevel(bool isWin)
         {
-            _levelInfo.AccountForBonuses(_groundsController.BonusesCollected);
-            _levelInfo.AccountForScore(_playerController.PlayerHealthValue - _groundsController.LevelHealthValue);
+            int extraScore = Mathf.RoundToInt((_playerController.PlayerHealthValue + (float) _groundsController.TotalDamageReceived / _groundsModel.TotalHealth) * 10);
 
-            _levelInfo.SceneLoader.LoadMainMenu();
+            _levelInfo.AccountForBonuses(_groundsController.BonusesCollected);
+            _levelInfo.AccountForScore(extraScore);
+
+            _levelUI.DisplayFinish(isWin, extraScore - 10, _groundsController.BonusesCollected);
+
+            //_levelInfo.SceneLoader.LoadMainMenu();
         }
     }
 }

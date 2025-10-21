@@ -4,7 +4,14 @@ using TMPro;
 
 namespace WizardsPlatformer
 {
-    internal class LevelDisplayView : MonoBehaviour
+    public interface IPlayerDisplay
+    {
+        void SetBonusCount(BonusType type, int value);
+        void SetHealth(int health);
+        void SetLevelClearanceValue(float value);
+    }
+
+    internal class LevelDisplayView : MonoBehaviour, IPlayerDisplay
     {
         [SerializeField] private Image _playerImage;
         [SerializeField] private Image _bossImage;
@@ -18,7 +25,7 @@ namespace WizardsPlatformer
 
         [SerializeField] private Slider _levelClearance;
 
-        public void InitPlayer(PlayerModel player)
+        public void InitPlayer(IPlayerModel player)
         {
             _playerNameText.text = player.Name;
             _playerHealth.maxValue = player.Stats.MaxHealth;
@@ -40,6 +47,6 @@ namespace WizardsPlatformer
             };
             display.SetValue(value);
         }
-        public void SetLevelClearanceValue(float value) => _levelClearance.value = 1f - value ;
+        public void SetLevelClearanceValue(float value) => _levelClearance.value = value;
     }
 }

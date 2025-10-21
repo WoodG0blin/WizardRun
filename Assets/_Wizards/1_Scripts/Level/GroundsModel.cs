@@ -21,6 +21,7 @@ namespace WizardsPlatformer
 
         private List<LevelElement> _elements;
         private List<LevelObject> _levelObjects;
+        private LevelObject _player;
 
         private bool[,] _squareGrid;
         private SquaresGrid _grid;
@@ -53,6 +54,12 @@ namespace WizardsPlatformer
 
             SetModel();
         }
+
+        public void Refresh()
+        {
+            foreach (var lo in _levelObjects) lo.Recreate();
+        }
+
 
         private void SetModel()
         {
@@ -137,7 +144,12 @@ namespace WizardsPlatformer
         }
 
 
-        public void AddPlayer(LevelObject player) => _levelObjects.Add(player);
+        public void AddPlayer(LevelObject player)
+        {
+            if(_levelObjects.Contains(_player)) _levelObjects.Remove(_player);
+            _player = player;
+            _levelObjects.Add(_player);
+        }
 
         public LevelElement GetElement(int lengthPosition)
         {

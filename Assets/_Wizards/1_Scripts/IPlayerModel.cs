@@ -6,12 +6,14 @@ namespace WizardsPlatformer
     {
         string Name { get; }
 
+        LevelObjectConfig Config { get; }
         CharacterStats Stats { get; }
         BonusStats Bonuses { get; }
 
         List<IArtifact> EquippedArtifacts { get; }
         List<ItemConfig> Chest { get; }
         int MaxInventorySlots { get; }
+        ActionsHolder Actions { get; }
         //List<ArtifactActor> ArtifactActors { get; }
         //IArtifactExecutorsContainer Executors { get; }
 

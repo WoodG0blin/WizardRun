@@ -53,6 +53,8 @@ public class ButtonView : MonoBehaviour
         SetVisuals();
     }
 
+    public void Trigger() => _button.onClick?.Invoke();
+
     public void SetActive(bool active) => _button.interactable = active;
 
     private void OnValidate()

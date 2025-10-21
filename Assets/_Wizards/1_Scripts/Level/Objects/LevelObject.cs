@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.Rendering.STP;
 
 namespace WizardsPlatformer
 {
@@ -27,6 +28,8 @@ namespace WizardsPlatformer
 
             LocalPosition = position;
         }
+
+        public virtual void Recreate() { }
 
         public ILevelObjectView InitiateView(GameObject gameObject)
         {
@@ -74,6 +77,7 @@ namespace WizardsPlatformer
     internal abstract class ActiveObject : InteractableObject, IInteractionResponder, IArtifactHolder, IArtifactUser
     {
         protected List<Bonus> bonusesOnKill;
+        protected LevelObjectConfig config;
 
         public CharacterStats Stats { get; protected set; }
         public ActionsHolder Actions { get; protected set; }
@@ -88,6 +92,12 @@ namespace WizardsPlatformer
 
         protected ActiveObject(LevelObjectConfig config, Vector2 position) : base(config, position)
         {
+            this.config = config;
+            Recreate();
+        }
+
+        public override void Recreate()
+        {
             Stats = new(config, new());
             Stats.OnDeath += Die;
             MaxHealth = Stats.MaxHealth;
@@ -97,7 +107,7 @@ namespace WizardsPlatformer
             ArtifactProperty _weapon = new(config.WeaponConfig, null, 0);
             _weapon.Init(this);
 
-            if(Actions.GetActionsFor(PropertyActivators.Explicit).Count > 0)
+            if (Actions.GetActionsFor(PropertyActivators.Explicit).Count > 0)
                 Weapon = Actions.GetActionsFor(PropertyActivators.Explicit)[0];
 
             bonusesOnKill = new();
@@ -118,8 +128,9 @@ namespace WizardsPlatformer
 
         public void ReceiveDamage(int damage)
         {
+            int damageReceived = Mathf.Min(Stats.Health, damage);
             Stats.Health -= damage;
-            OnReceiveDamage?.Invoke(damage);
+            OnReceiveDamage?.Invoke(damageReceived);
         }
         protected virtual void Die()
         {

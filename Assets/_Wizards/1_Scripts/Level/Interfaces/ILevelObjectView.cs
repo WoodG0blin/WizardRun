@@ -16,5 +16,7 @@ namespace WizardsPlatformer
         public IViewMover Mover { get; }
 
         IContactsPuller AccessContacts();
+
+        void Destroy();
     }
 }

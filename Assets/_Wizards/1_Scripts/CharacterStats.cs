@@ -19,7 +19,7 @@ namespace WizardsPlatformer
         
         private IStatsHeadDisplay _statsHeadDisplay;
         
-        public Action<int> OnCurrentHealthChange;
+        public Action<int> OnCurrentHealthChange { get; set; }
         public Action OnBaseParametersChange;
         public Action OnDeath;
         

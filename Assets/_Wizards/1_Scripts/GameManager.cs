@@ -75,15 +75,14 @@ namespace WizardsPlatformer
         public void FinishSceneLoad() => _sceneLoadComplete = true;
 
 
-        PlayerModel ILevelInfo.GetPlayerModel() => _gameModel.PlayerModel;
         void ILevelInfo.AccountForBonuses(Dictionary<BonusType, int> bonuses)
         {
             foreach(KeyValuePair<BonusType, int> b in bonuses) _gameModel.PlayerModel.AddBonus(b.Key, b.Value);
         }
-        void ILevelInfo.AccountForScore(float levelScore) => _gameModel.AddScore(Mathf.RoundToInt(levelScore * 10));
+        void ILevelInfo.AccountForScore(int levelScore) => _gameModel.AddScore(levelScore);
 
 
-        IPlayerModel IMenuInfo.PlayerModel => _gameModel.PlayerModel;
+        public IPlayerModel PlayerModel => _gameModel.PlayerModel;
         IReadOnlyList<ItemConfig> IMenuInfo.ArtifactDatabase => _artifactDatabase.Configs;
         void IMenuInfo.RegisterNewPlayer(string name)
         {

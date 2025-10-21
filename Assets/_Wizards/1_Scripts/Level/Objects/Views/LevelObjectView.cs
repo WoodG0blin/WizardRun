@@ -114,6 +114,11 @@ namespace WizardsPlatformer
 
         protected virtual void OnCollision(IInteractionResponder interactor) => OnInteraction?.Invoke(interactor);
         protected virtual void OnAnyContact(Transform collided) { }
+
+        public void Destroy()
+        {
+            GameObject.Destroy(gameObject);
+        }
     }
 
     public interface IViewMover

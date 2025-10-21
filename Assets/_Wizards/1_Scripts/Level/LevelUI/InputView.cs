@@ -7,7 +7,7 @@ using UnityStandardAssets.CrossPlatformInput;
 
 namespace WizardsPlatformer
 {
-    internal interface IInputView
+    public interface IInputView
     {
         Action OnPauseMenu { get; set; }
         Action OnFireInput { get;  set; }
@@ -38,10 +38,14 @@ namespace WizardsPlatformer
             //Debug.Log($"H{CrossPlatformInputManager.GetAxis("Horizontal")}, V{CrossPlatformInputManager.GetAxis("Vertical")}");
             //if (CrossPlatformInputManager.GetButtonDown("Jump")) OnJumpInput?.Invoke();
             if (CrossPlatformInputManager.GetButtonDown("Fire")) OnFireInput?.Invoke();
-#if !MOBILE_INPUT
-            if(Input.GetKeyDown(KeyCode.Escape)) _onEsc?.Invoke();
-#endif
         }
+
+#if !MOBILE_INPUT
+        private void FixedUpdate()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape)) _onEsc?.Invoke();
+        }
+#endif
 
         private void OnDestroy()
         {

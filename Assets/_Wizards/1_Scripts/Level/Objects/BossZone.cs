@@ -12,10 +12,7 @@ namespace WizardsPlatformer
         private bool _isFinal = false;
         private Action onBossCleared;
 
-        public BossZone(LevelObjectConfig config, Vector2 position) : base(config, position)
-        {
-            onBossCleared = Deactivate;
-        }
+        public BossZone(LevelObjectConfig config, Vector2 position) : base(config, position) { }
 
         public void SetFinal(bool final) => _isFinal = final;
         public void SetBoss(LevelObject boss) => _levelBoss = boss as ActiveObject;
@@ -24,6 +21,7 @@ namespace WizardsPlatformer
 
         public override void SetSubscriptions(ILevelEventAccounter subscriber)
         {
+            onBossCleared = Deactivate;
             if (_isFinal) onBossCleared += () => subscriber.OnExitAvailable?.Invoke();
             base.SetSubscriptions(subscriber);
         }

@@ -56,7 +56,7 @@ namespace WizardsPlatformer
 
 
         private GroundBlocksManager _groundBlocks;
-        private List<ILevelObjectView> _levelObjectViews;
+        private List<ILevelObjectView> _levelObjectViews = new();
         private Vector2 _screenOffset;
 
         public event Action onLevelEnd;
@@ -65,6 +65,13 @@ namespace WizardsPlatformer
         public void InitGroundBlocks(GroundsConfig blocks)
         {
             _groundBlocks = new(blocks, transform);
+
+            for(int i = transform.childCount; i >0; i--)
+                GameObject.Destroy(transform.GetChild(i-1).gameObject);
+
+            for(int i = _levelObjectViews.Count; i >0; i--)
+                _levelObjectViews[i-1].Destroy();
+            _levelObjectViews = new();
         }
 
         public void DrawGrounds(SquaresGrid grid, IReadOnlyList<LevelObject> levelObjects)

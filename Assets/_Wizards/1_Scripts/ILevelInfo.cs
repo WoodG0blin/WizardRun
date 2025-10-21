@@ -2,13 +2,13 @@
 
 namespace WizardsPlatformer
 {
-    interface ILevelInfo
+    public interface ILevelInfo
     {
         ISceneLoader SceneLoader { get; }
+        IPlayerModel PlayerModel { get; }
         LevelConfig GetLevelConfig();
-        PlayerModel GetPlayerModel();
 
         void AccountForBonuses(Dictionary<BonusType, int> bonuses);
-        void AccountForScore(float levelScore);
+        void AccountForScore(int levelScore);
     }
 }

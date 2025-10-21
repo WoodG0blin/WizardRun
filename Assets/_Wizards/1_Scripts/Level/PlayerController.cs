@@ -6,7 +6,7 @@ namespace WizardsPlatformer
     internal class PlayerController : ActiveObject
     {
         private PlayerView _playerView;
-        private PlayerModel _playerModel;
+        private IPlayerModel _playerModel;
 
         private int _startHealth;
 
@@ -17,11 +17,11 @@ namespace WizardsPlatformer
         private Action<Vector3> OnPlayerPositionChange;
         private Action OnPortalExit;
 
-        public Action OnPlayerDeath;
+        public Action OnPlayerDeath { get; set; }
         public float PlayerHealthValue => (float) Stats.Health / _startHealth;
 
 
-        public PlayerController(PlayerModel playerModel, Vector2Int startPosition) : base(playerModel.Config, startPosition)
+        public PlayerController(IPlayerModel playerModel, Vector2Int startPosition) : base(playerModel.Config, startPosition)
         {
             IsPlayer = true;
             
