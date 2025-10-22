@@ -23,7 +23,7 @@ namespace WizardsPlatformer
         private GroundsController _groundsController;
         private PlayerController _playerController;
 
-        private IInputView _inputView;
+        private float _startScore = -1f;
 
         private void Awake()
         {
@@ -45,7 +45,7 @@ namespace WizardsPlatformer
 
         private void StartLevel()
         {
-            _levelInfo.AccountForScore(-10);
+            _levelInfo.AccountForScore(_startScore);
 
             _groundsView.InitGroundBlocks(_groundsConfig.GroundBlocks);
 
@@ -88,12 +88,12 @@ namespace WizardsPlatformer
 
         private void FinishLevel(bool isWin)
         {
-            int extraScore = Mathf.RoundToInt((_playerController.PlayerHealthValue + (float) _groundsController.TotalDamageReceived / _groundsModel.TotalHealth) * 10);
+            float extraScore = _playerController.PlayerHealthValue + (float) _groundsController.TotalDamageReceived / _groundsModel.TotalHealth;
 
             _levelInfo.AccountForBonuses(_groundsController.BonusesCollected);
             _levelInfo.AccountForScore(extraScore);
 
-            _levelUI.DisplayFinish(isWin, extraScore - 10, _groundsController.BonusesCollected);
+            _levelUI.DisplayFinish(isWin, extraScore + _startScore, _groundsController.BonusesCollected);
 
             //_levelInfo.SceneLoader.LoadMainMenu();
         }

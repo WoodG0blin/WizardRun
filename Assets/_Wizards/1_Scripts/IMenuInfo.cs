@@ -9,6 +9,7 @@ namespace WizardsPlatformer
         IReadOnlyList<ItemConfig> ArtifactDatabase { get; }
 
         void RegisterNewPlayer(string name);
+        void QuitGame();
         void SaveGame();
 
         List<Location> Locations { get; }

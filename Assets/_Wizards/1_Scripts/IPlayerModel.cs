@@ -6,9 +6,11 @@ namespace WizardsPlatformer
     {
         string Name { get; }
 
+        MasteryData Mastery { get; }
+
         LevelObjectConfig Config { get; }
         CharacterStats Stats { get; }
-        BonusStats Bonuses { get; }
+        Dictionary<BonusType, int> Bonuses { get; }
 
         List<IArtifact> EquippedArtifacts { get; }
         List<ItemConfig> Chest { get; }

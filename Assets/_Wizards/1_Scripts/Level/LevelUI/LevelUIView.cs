@@ -33,7 +33,8 @@ namespace WizardsPlatformer
             _inputView.OnPauseMenu = _pauseDisplay.Display;
         }
 
-        public void DisplayFinish(bool isWin, int score, Dictionary<BonusType, int> bonuses) =>
-            _finishDisplay.Display(isWin, score, bonuses);
+
+        public void DisplayFinish(bool isWin, float score, Dictionary<BonusType, int> bonuses) =>
+            _finishDisplay.Display(isWin, Mathf.RoundToInt(score * 100), bonuses);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,27 +8,32 @@ namespace WizardsPlatformer
 {
     internal class PlayerModel : IPlayerModel, IArtifactHolder
     {
+        private PlayerSavedData _saveData;
+
         public LevelObjectConfig Config {get; private set; }
 
-        public BonusStats Bonuses { get; private set; }
+        public MasteryData Mastery { get; private set; } = new();
+
+        public Dictionary<BonusType, int> Bonuses { get; private set; }
         private Dictionary<ArtifactSlotType, Artifact> _artifacts;
         
         public CharacterStats Stats { get; private set; }
         public int ModificationsCount { get; private set; } = 5;
 
         public string Name { get; private set; }
-        public PlayerSavedData SaveData { get; private set; }
 
         public List<IArtifact> EquippedArtifacts => _artifacts.Values.Where(a => a!=null).Cast<IArtifact>().ToList();
         public List<ItemConfig> Chest { get; private set; } = new();
         public int MaxInventorySlots { get; private set; } = 10;
         public ActionsHolder Actions { get; private set; }
 
+        public Action OnValuesChanged { get; set; }
+
         bool IArtifactHolder.IsPlayer => true;
 
         public PlayerModel(PlayerSavedData data, LevelObjectConfig config)
         {
-            SaveData = data;
+            _saveData = data;
 
             Name = data.Name;
 
@@ -36,8 +42,19 @@ namespace WizardsPlatformer
             Stats = new(Config, data.BaseStatsModifiers);
             Stats.Modifiers.AddToAvailableModsCount(ModificationsCount);
 
-            Bonuses = new BonusStats(false);
-            Bonuses[BonusType.Coin] = data.Bonuses;
+            Bonuses = new()
+            {
+                { BonusType.Coin, 0 },
+                { BonusType.Souls, 0},
+                { BonusType.Artifacts, 0}
+            };
+            foreach(var b in data.BonusStats)
+                Bonuses[b.Type]= b.Value;
+            Mastery = new(data.MasteryLevel);
+
+            Actions = new(this);
+            ArtifactProperty _weapon = new(config.WeaponConfig, null, 0);
+            _weapon.Init(this);
 
             _artifacts = new()
             {
@@ -48,13 +65,14 @@ namespace WizardsPlatformer
                 { ArtifactSlotType.Legs, null},
                 { ArtifactSlotType.Ring, null}
             };
+            foreach(var item in data.EquipedArtifacts)
+                if(item != null) EquipArtifact(item.SlotType, item);
+            
             Chest = new();
+            foreach (var item in data.ChestArtifacts)
+                AddArtifact(item);
 
-            Actions = new(this);
-            ArtifactProperty _weapon = new(config.WeaponConfig, null, 0);
-            _weapon.Init(this);
         }
-
 
         public void EquipArtifact(ArtifactSlotType slot, ItemConfig artifact)
         {
@@ -74,19 +92,39 @@ namespace WizardsPlatformer
                 _artifacts[slot] = a;
                 a.Equip(this);
             }
+
+            OnValuesChanged?.Invoke();
         }
 
         public void AddArtifact(ItemConfig artifact)
         {
             Chest.Add(artifact);
+            OnValuesChanged?.Invoke();
         }
 
         public void AddBonus(BonusType type, int value)
         {
+            if(!Bonuses.ContainsKey(type)) Bonuses.Add(type, 0);
             Bonuses[type] += value;
-            SaveData.Bonuses = Bonuses[BonusType.Coin];
+            OnValuesChanged?.Invoke();
         }
 
+        public PlayerSavedData GetSaveData()
+        {
+            _saveData.EquipedArtifacts = EquippedArtifacts.Select(a => a.Config).ToList();
+            _saveData.ChestArtifacts = Chest;
+
+            _saveData.BonusStats = new();
+            foreach(var kvp in Bonuses)
+                _saveData.BonusStats.Add(new(kvp.Key, kvp.Value));
+            _saveData.MasteryLevel = Mastery.Current;
+
+            _saveData.BaseStatsModifiers = new();
+            foreach (var kvp in Stats.Modifiers.BaseModifiers)
+                _saveData.BaseStatsModifiers.Add(new(kvp.Key, kvp.Value));
+
+            return _saveData;
+        }
     }
 
     public class ActionsHolder
@@ -116,6 +154,44 @@ namespace WizardsPlatformer
             if (!_availableActions.ContainsKey(activatorType)) return;
             if (!_availableActions[activatorType].Contains(action)) return;
             _availableActions[activatorType].Remove(action);
+        }
+    }
+
+    [Serializable]
+    public class MasteryData
+    {
+        private List<int> gradesThresholds = new()
+        {
+            10,
+            50,
+            100,
+            200,
+            500,
+            1000
+        };
+
+        public MasteryData() : this(0) { }
+        public MasteryData(int initial) => Change(initial);
+
+
+        public int Current;
+        public int Grade { get; private set; }
+        public int MaxLevelForGrade { get; private set; }
+
+        public void Change(int change)
+        {
+            Current = Mathf.Max(Current + change, 0);
+            Grade = GetCurrentGrade();
+            MaxLevelForGrade = (gradesThresholds.Count < Grade) ? gradesThresholds[Grade] : 0;
+        }
+
+        private int GetCurrentGrade()
+        {
+            for (int i = 0; i < gradesThresholds.Count; i++)
+            {
+                if (Current < gradesThresholds[i]) return i;
+            }
+            return gradesThresholds.Count;
         }
     }
 }

@@ -9,6 +9,7 @@ namespace WizardsPlatformer
 
         public static void Save(PlayerSavedData data)
         {
+            Debug.Log("Saving game to " + DATA_PATH);
             var save = JsonUtility.ToJson(data);
             File.WriteAllText(DATA_PATH, save);
         }

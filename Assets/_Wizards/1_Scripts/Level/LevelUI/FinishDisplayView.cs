@@ -29,6 +29,7 @@ namespace WizardsPlatformer
             _mainMenuButton.SetClick(MainMenuClick);
         }
 
+
         public void Display(bool isWin, int score, Dictionary<BonusType, int> bonuses)
         {
             gameObject.SetActive(true);
@@ -36,7 +37,7 @@ namespace WizardsPlatformer
             _winLabel.SetActive(isWin);
             _failLabel.SetActive(!isWin);
 
-            _scoreText.text = $"SCORE: {score}";
+            _scoreText.text = $"LEVEL MASTERED: {score}%";
 
             _coinsDisplay.SetValue(bonuses[BonusType.Coin]);
             _soulsDisplay.SetValue(bonuses[BonusType.Souls]);

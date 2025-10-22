@@ -7,6 +7,8 @@ namespace WizardsPlatformer
     {
         [SerializeField] private MenuPanelView _rankings;
         [SerializeField] private MenuPanelView _stats;
+        [SerializeField] private MasteryDisplayView _mastery;
+
 
         private MenuPanelsManager _subPanelsManager;
 
@@ -17,6 +19,10 @@ namespace WizardsPlatformer
                 input: menuInfo);
 
             _subPanelsManager.ActivatePanel(_rankings);
+
+            var mastery = menuInfo.PlayerModel.Mastery;
+            _mastery.SetValues(mastery.Current, mastery.MaxLevelForGrade, mastery.Grade);
+
         }
     }
 }

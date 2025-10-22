@@ -18,9 +18,11 @@ namespace WizardsPlatformer
 
         private CancellationTokenSource _cancellation;
 
-        public ParametersModifier(Dictionary<CharacterStatType, int> baseModifiers)
+        public ParametersModifier(List<Modifier> baseModifiers)
         {
-            BaseModifiers = baseModifiers;
+            BaseModifiers = new();
+            foreach (var m in baseModifiers)
+                BaseModifiers.Add(m.type, m.value);
             AvailableModsCount = GetBaseModsCount();
             _modifiers = new();
             _cancellation = new();

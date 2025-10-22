@@ -41,7 +41,7 @@ namespace WizardsPlatformer
         }
         
 
-        public CharacterStats(LevelObjectConfig config, Dictionary<CharacterStatType, int> baseModifiers)
+        public CharacterStats(LevelObjectConfig config, List<Modifier> baseModifiers)
         {
             _maxHealth = config.MaxHealth;
             _currentHealth = _maxHealth;

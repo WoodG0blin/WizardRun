@@ -9,9 +9,16 @@ namespace WizardsPlatformer
     {
         public string Name;
         public int LastEntryDate;
-        public int Bonuses;
 
-        public Dictionary<CharacterStatType, int> BaseStatsModifiers = new();
+        public List<Bonus> BonusStats = new();
+
+        public int MasteryLevel;
+
+        public List<ItemConfig> EquipedArtifacts = new();
+        public List<ItemConfig> ChestArtifacts = new();
+
+        //public Dictionary<CharacterStatType, int> BaseStatsModifiers = new();
+        public List<Modifier> BaseStatsModifiers = new();
 
         public List<Location> Locations = new();
     }
@@ -59,4 +66,19 @@ namespace WizardsPlatformer
             return LevelConfig;
         }
     }
+
+    [Serializable]
+    public class Modifier
+    {
+        public CharacterStatType type;
+        public int value;
+
+        public Modifier() { }
+        public Modifier(CharacterStatType type, int value)
+        {
+            this.type = type;
+            this.value = value;
+        }
+    }
+
 }

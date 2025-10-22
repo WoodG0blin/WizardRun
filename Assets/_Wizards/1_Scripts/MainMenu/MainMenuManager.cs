@@ -30,7 +30,7 @@ namespace WizardsPlatformer
             if (_menuInfo.PlayerModel.Name == null) _startUI.RegisterNewPlayer(CreatePlayer);
             else
             {
-                _menuInfo.SaveGame();
+                //_menuInfo.SaveGame();
                 _startUI.Init(_menuInfo);
             }
         }
@@ -51,8 +51,7 @@ namespace WizardsPlatformer
 
         private void OnExit()
         {
-            Debug.Log("Closing game");
-            //Application.Quit();
+            _menuInfo.QuitGame();
         }
     }
 }

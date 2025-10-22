@@ -2326,7 +2326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelFactory: {fileID: 7910444846382188182}
   _inputConfig: {fileID: 11400000, guid: c99220445b1f29a4a8745e314b8d6465, type: 2}
-  _groundsView: {fileID: 7910444846382188180}
+  _groundsView: {fileID: 7910444846382188181}
   _levelUI: {fileID: 1438782819}
 --- !u!114 &519420036
 MonoBehaviour:
@@ -4032,7 +4032,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 31.3
+  m_fontSize: 31.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -34,8 +34,14 @@ namespace WizardsPlatformer
         private void Init(PlayerSavedData data)
         {
             _gameModel = new(data, _playerConfig);
-            foreach(var art in _artifactDatabase.Configs)
-                _gameModel.PlayerModel.AddArtifact(art);
+
+            if (data.ChestArtifacts.Count == 0)
+            {
+                foreach (var art in _artifactDatabase.Configs)
+                    _gameModel.PlayerModel.AddArtifact(art);
+            }
+
+            _gameModel.PlayerModel.OnValuesChanged += SaveGame;
             DataSaveAndLoad.Save(_gameModel.GetSaveData());
         }
 
@@ -79,7 +85,7 @@ namespace WizardsPlatformer
         {
             foreach(KeyValuePair<BonusType, int> b in bonuses) _gameModel.PlayerModel.AddBonus(b.Key, b.Value);
         }
-        void ILevelInfo.AccountForScore(int levelScore) => _gameModel.AddScore(levelScore);
+        void ILevelInfo.AccountForScore(float levelScore) => _gameModel.AddLevelScore(levelScore);
 
 
         public IPlayerModel PlayerModel => _gameModel.PlayerModel;
@@ -90,7 +96,7 @@ namespace WizardsPlatformer
             FillUpLocations(ref data.Locations);
             Init(data);
         }
-        void IMenuInfo.SaveGame() => DataSaveAndLoad.Save(_gameModel.GetSaveData());
+        public void SaveGame() => DataSaveAndLoad.Save(_gameModel.GetSaveData());
 
         List<Location> IMenuInfo.Locations => _gameModel.Locations;
         void IMenuInfo.SetActiveLocation(Location location) => _gameModel.SetActiveLocation(location);
@@ -112,6 +118,13 @@ namespace WizardsPlatformer
             while (!_sceneLoadComplete) yield return null;
 
             _loadScreen.FinishLoad();
+        }
+
+        public void QuitGame()
+        {
+            SaveGame();
+            Debug.Log("Closing game");
+            //Application.Quit();
         }
 
         LevelConfig ILevelInfo.GetLevelConfig() =>

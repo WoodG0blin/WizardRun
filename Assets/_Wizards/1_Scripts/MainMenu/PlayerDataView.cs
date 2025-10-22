@@ -31,18 +31,12 @@ namespace WizardsPlatformer
             _defence.SetValue(gameData.PlayerModel.Stats.Defence);
         }
 
-        public void UpdateDisplay(Sprite playerDisplay)
+        public void UpdateDisplayImage(Sprite playerDisplay)
         {
             _playerDisplay.sprite = playerDisplay;
             _playerDisplay.preserveAspect= true;
         }
 
-        private int CalculateScore(List<Location> locations)
-        {
-            int res = 0;
-            foreach (Location location in locations) res += location.Score;
-            return Mathf.RoundToInt(res / 4f);
-        }
 
         public void Register(Action<string> onRegister)
         {

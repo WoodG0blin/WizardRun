@@ -9,6 +9,6 @@ namespace WizardsPlatformer
         LevelConfig GetLevelConfig();
 
         void AccountForBonuses(Dictionary<BonusType, int> bonuses);
-        void AccountForScore(int levelScore);
+        void AccountForScore(float levelScore);
     }
 }

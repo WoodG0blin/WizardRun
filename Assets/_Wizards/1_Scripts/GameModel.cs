@@ -7,6 +7,7 @@ namespace WizardsPlatformer
     internal class GameModel
     {
         private const float DAILY_SCORE_REDUCTION = 0.1f;
+        public const int LEVEL_SCORE_MULTIPLIER = 10;
 
         private Location _activeLocation;
 
@@ -21,6 +22,8 @@ namespace WizardsPlatformer
             Locations = data.Locations;
 
             AdjustForDate();
+
+            data.LastEntryDate++;
         }
 
         private void AdjustForDate()
@@ -38,13 +41,11 @@ namespace WizardsPlatformer
                     l.AccountForScore(-red);
                 }
             }
-
-            PlayerModel.SaveData.LastEntryDate++;
         }
 
         public PlayerSavedData GetSaveData()
         {
-            var data = PlayerModel.SaveData;
+            var data = PlayerModel.GetSaveData();
 
             data.Locations = Locations;
 
@@ -53,7 +54,27 @@ namespace WizardsPlatformer
 
         public void SetActiveLocation(Location location) => _activeLocation = location;
 
-        public void AddScore(int score) => _activeLocation?.AccountForScore(score);
+        public void AddLevelScore(float score)
+        {
+            int accounted = Mathf.RoundToInt(score * LEVEL_SCORE_MULTIPLIER);
+            if (accounted < 0)
+            {
+                PlayerModel.Mastery.Change(accounted);
+            }
+            else
+            {
+                bool allMastered = true;
+                foreach (var l in Locations)
+                {
+                    allMastered = l.Score >= 100;
+                    if (!allMastered) break;
+                }
+                if (allMastered)
+                    PlayerModel.Mastery.Change(Mathf.RoundToInt(score * LEVEL_SCORE_MULTIPLIER / Locations.Count));
+            }
+            _activeLocation.AccountForScore(accounted);
+            PlayerModel.OnValuesChanged?.Invoke();
+        }
 
         public LevelConfig GetLevelConfig() => _activeLocation.GetLevelConfig(CalculateGroundsLenght());
 
