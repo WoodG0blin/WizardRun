@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace WizardsPlatformer
 {
@@ -14,21 +16,57 @@ namespace WizardsPlatformer
         private LevelObjectConfig _bridge;
         private List<BossGroundConfig> _bossConfigs;
 
-        public void InitLevelObjectFactory(LevelConfig configs)
+        private int _currentDifficulty;
+        private int _currentLength;
+
+        public void InitLevelObjectFactory(LevelConfig configs, int difficulty, int length)
         {
+            _currentDifficulty = difficulty;
+            _currentLength = length;
+
             _levelObjects = configs.LevelObjects;
             _basePlatform = configs.BasePlatform;
             _bridge = configs.Bridge;
             _bossConfigs = configs.BossGrounds;
         }
 
-        internal LevelObject GenerateObjectAt(Vector2Int gridPosition, int difficulty)
+        internal List<LevelObject> GenerateObjectsFor(Platform platform, int xOffset)
         {
-            LevelObjectConfig config = GetRandomConfigFromList(_levelObjects, Random.Range(0, difficulty+1));
+            List<LevelObject> res = new();
 
-            if (config == null) return null;
+            _currentLength -= platform.Length;
+            int density = _currentDifficulty > 5 ? 2 : 3;
+            int count = platform.Length / density;
 
-            return GetObjectAt(gridPosition, config);
+            for (int i = 0; i < count; i++)
+            {
+                Vector2Int gridPosition = platform.GetFreeSpace + new Vector2Int(xOffset, 0);
+
+                int maxAvailable = getAvailableDifficultyIndex();
+                var targetList = _levelObjects.Where(c => c.DifficultyLevel == maxAvailable).ToList();
+
+                LevelObjectConfig config = (targetList != null && targetList.Count > 0) ?
+                    targetList[Random.Range(0, targetList.Count)] : null;
+
+                if (config != null) res.Add(GetObjectAt(gridPosition, config));
+            }
+            return res;
+        }
+
+        private int getAvailableDifficultyIndex()
+        {
+            //redo to difficulty tables
+
+            int difficulty = Random.Range(0, _currentDifficulty);
+
+            int maxAvailable = 0;
+            foreach (var lo in _levelObjects)
+                if (difficulty >= lo.DifficultyLevel && lo.DifficultyLevel > maxAvailable)
+                    maxAvailable = lo.DifficultyLevel;
+
+            //add corrections for max levels according to length
+
+            return maxAvailable;
         }
 
         internal LevelObject GetObjectAt(Vector2Int gridPosition, LevelObjectConfig config)

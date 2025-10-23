@@ -26,9 +26,9 @@ namespace WizardsPlatformer
             _coins.SetValue(gameData.PlayerModel.Bonuses[BonusType.Coin]);
             _energy.SetValue(gameData.PlayerModel.Bonuses[BonusType.Souls]);
             _health.SetValue(gameData.PlayerModel.Stats.MaxHealth);
-            _speed.SetValue(gameData.PlayerModel.Stats.Speed);
+            _speed.SetValue($"x{gameData.PlayerModel.Stats.Speed:F2}");
             _damage.SetValue(gameData.PlayerModel.Stats.Damage);
-            _defence.SetValue(gameData.PlayerModel.Stats.Defence);
+            _defence.SetValue($"-{gameData.PlayerModel.Stats.Defence:P0}");
         }
 
         public void UpdateDisplayImage(Sprite playerDisplay)

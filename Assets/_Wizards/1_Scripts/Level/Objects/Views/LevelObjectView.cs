@@ -141,6 +141,7 @@ namespace WizardsPlatformer
         protected Collider collider;
 
         protected const float GRAVITY = 9.81f;
+        protected const float BASE_MOVE_SPEED = 2f;
         protected const float FLUCTUATION_TIME = 0.2f;
         protected const float STOP_TIME = 0.2f;
         protected const float MOVE_THRESHOLD = 0.005f;
@@ -186,7 +187,7 @@ namespace WizardsPlatformer
 
             if (jumpTimer > 0)
             {
-                verticalVelocity += Mathf.Sqrt(jumpImpulseInput * 2 * GRAVITY);
+                verticalVelocity += jumpImpulseInput;
 
                 groundedTimer = 0;
                 jumpTimer = 0;
@@ -208,14 +209,14 @@ namespace WizardsPlatformer
         public void SetInput(Vector2 direction, float speed = 1)
         {
             if (isControlled)
-                horizontalInput = Mathf.Clamp(direction.x, -1, 1) * speed;
+                horizontalInput = Mathf.Clamp(direction.x, -1, 1) * BASE_MOVE_SPEED * speed;
         }
 
-        public void Jump(float force)
+        public void Jump(float speed)
         {
             if (isControlled)
             {
-                jumpImpulseInput = force;
+                jumpImpulseInput = Mathf.Sqrt(2 * speed * BASE_MOVE_SPEED * GRAVITY);
                 jumpTimer = FLUCTUATION_TIME;
             }
         }

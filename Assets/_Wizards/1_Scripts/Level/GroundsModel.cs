@@ -7,7 +7,24 @@ namespace WizardsPlatformer
 {
     internal class GroundsModel
     {
+        private List<int> _lengthThresholds = new()
+        {
+            30,
+            50,
+            70,
+            100,
+            130,
+            160,
+            200,
+            240,
+            300,
+            350,
+            400,
+            500
+        };
+
         private int _maxLength;
+        private int _difficulty;
         private int _lengthCounter;
         private int _minPlatformLength = 3;
         private int _maxPlatformLength = 10;
@@ -31,23 +48,14 @@ namespace WizardsPlatformer
         public Vector2Int LocalStartPosition { get; private set; }
         public int TotalHealth { get; private set; }
 
-        public GroundsModel(int maxLength, LevelObjectFactory factory)
-        {
-            _maxLength = maxLength;
-
-            _factory = factory;
-            _elements = new List<LevelElement>();
-            _levelObjects = new List<LevelObject>();
-
-            SetModel();
-        }
 
         public GroundsModel(LevelConfig config, LevelObjectFactory factory)
         {
-            _maxLength = config.LevelLength;
+            _difficulty = config.Difficulty;
+            _maxLength = _lengthThresholds.Count > _difficulty ? _lengthThresholds[_difficulty] : _lengthThresholds[_lengthThresholds.Count-1];
 
             _factory = factory;
-            _factory.InitLevelObjectFactory(config);
+            _factory.InitLevelObjectFactory(config, _difficulty, _maxLength);
 
             _elements = new List<LevelElement>();
             _levelObjects = new List<LevelObject>();
@@ -141,6 +149,7 @@ namespace WizardsPlatformer
 
             foreach (var lo in _levelObjects)
                 TotalHealth += lo.MaxHealth;
+            if(TotalHealth <= 0) TotalHealth = 1;
         }
 
 

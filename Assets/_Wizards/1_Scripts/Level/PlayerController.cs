@@ -87,7 +87,7 @@ namespace WizardsPlatformer
         private void SetJump()
         {
             if (_playerView.Mover.IsGrounded)
-                _playerView.Mover?.Jump(Stats.JumpForce);
+                _playerView.Mover?.Jump(Stats.Speed);
 
             foreach (var ex in Actions.GetActionsFor(PropertyActivators.OnJump))
                 ex.Use(this);

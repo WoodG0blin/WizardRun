@@ -76,9 +76,14 @@ namespace WizardsPlatformer
             PlayerModel.OnValuesChanged?.Invoke();
         }
 
-        public LevelConfig GetLevelConfig() => _activeLocation.GetLevelConfig(CalculateGroundsLenght());
+        public LevelConfig GetLevelConfig() => _activeLocation.GetLevelConfig(CalculateDifficultyLevel());
 
 
-        private int CalculateGroundsLenght() => 20;
+        private int CalculateDifficultyLevel()
+        {
+            int res = PlayerModel.Mastery.Grade;
+            res += Mathf.FloorToInt(_activeLocation.Score / LEVEL_SCORE_MULTIPLIER);
+            return res;
+        }
     }
 }

@@ -62,7 +62,7 @@ namespace WizardsPlatformer
 
         public LevelConfig GetLevelConfig(int length)
         {
-            LevelConfig.LevelLength = length;
+            LevelConfig.Difficulty = length;
             return LevelConfig;
         }
     }

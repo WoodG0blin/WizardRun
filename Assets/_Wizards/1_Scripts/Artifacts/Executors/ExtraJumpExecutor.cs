@@ -15,7 +15,7 @@ namespace WizardsPlatformer
             {
                 if(_counter < parentProperty.ActionValue && !holder.Mover.IsExecutingJump)
                 {
-                    holder.Mover.Jump(holder.Stats.JumpForce);
+                    holder.Mover.Jump(holder.Stats.Speed);
                     _counter++;
                 }
             }

@@ -13,7 +13,7 @@ namespace WizardsPlatformer
         [field: SerializeField] public LevelObjectConfig BasePlatform { get; private set; }
         [field: SerializeField] public LevelObjectConfig Bridge { get; private set; }
         [field: SerializeField, Space(20)] public List<BossGroundConfig> BossGrounds { get; private set; }
-        public int LevelLength { get; set; } = 20;
+        public int Difficulty { get; set; } = 0;
     }
 
     [Serializable]

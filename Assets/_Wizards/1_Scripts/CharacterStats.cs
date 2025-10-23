@@ -7,10 +7,11 @@ namespace WizardsPlatformer
 {
     public class CharacterStats
     {
+        private const float STAT_CHANGE_PER_MODIFIER_POINT = 0.05f;
+
         private int _maxHealth;
         private int _defence;
         private int _speed;
-        private int _jumpForce;
         private int _damage;
 
         public ParametersModifier Modifiers { get; private set; }
@@ -23,11 +24,10 @@ namespace WizardsPlatformer
         public Action OnBaseParametersChange;
         public Action OnDeath;
         
-        public int MaxHealth => Mathf.RoundToInt(_maxHealth * (1f + 0.05f * Modifiers.GetModifier(CharacterStatType.MaxHealth)));
-        public int Defence => Mathf.RoundToInt(_defence * (1f + 0.05f * Modifiers.GetModifier(CharacterStatType.Defence)));
-        public int Speed => Mathf.RoundToInt(_speed * (1f + 0.05f * Modifiers.GetModifier(CharacterStatType.Speed)));
-        public int JumpForce => Mathf.RoundToInt(_jumpForce * (1f + 0.05f * Modifiers.GetModifier(CharacterStatType.JumpForce)));
-        public int Damage => Mathf.RoundToInt(_damage * (1f + 0.05f * Modifiers.GetModifier(CharacterStatType.Damage)));
+        public int MaxHealth => Mathf.RoundToInt(_maxHealth * (1f + STAT_CHANGE_PER_MODIFIER_POINT * Modifiers.GetModifier(CharacterStatType.MaxHealth)));
+        public float Defence => (_defence + Modifiers.GetModifier(CharacterStatType.Defence)) * STAT_CHANGE_PER_MODIFIER_POINT;
+        public float Speed => 1f + (_speed + Modifiers.GetModifier(CharacterStatType.Speed)) * STAT_CHANGE_PER_MODIFIER_POINT;
+        public int Damage => Mathf.RoundToInt(_damage * (1f + STAT_CHANGE_PER_MODIFIER_POINT * Modifiers.GetModifier(CharacterStatType.Damage)));
         public int Health
         {
             get => _currentHealth;
@@ -49,9 +49,8 @@ namespace WizardsPlatformer
             _defence = 10;
 
             _damage = config.Damage;
-
+            _defence = config.Defence;
             _speed = config.Speed;
-            _jumpForce = config.JumpForce;
 
             Modifiers = new(baseModifiers);
             Modifiers.OnModified += () => OnBaseParametersChange?.Invoke();

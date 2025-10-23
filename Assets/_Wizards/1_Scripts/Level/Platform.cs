@@ -9,6 +9,7 @@ namespace WizardsPlatformer
     {
         public Platform(int length, int height) : base(length, height) {}
 
+        public Vector2Int GetFreeSpace => new(SetOnFreeSpace(true), Height + 1);
         public override int DrawIntoGrid(ref bool[,] squareGrid, int position)
         {
             for(int x = position; x < position + Length; x++)
@@ -25,16 +26,9 @@ namespace WizardsPlatformer
         {
             List<LevelObject> _levelObjects = new();
 
-            int intervals = Length / 3;
-            if (Length > 5) intervals++;
 
-            for (int i = 0; i < intervals; i++)
-            {
-                var obj = factory.GenerateObjectAt(
-                        new Vector2Int(SetOnFreeSpace(true) + startXPosition, Height + 1),
-                        i);
-                if (obj != null) _levelObjects.Add(obj);
-            }
+            _levelObjects = factory.GenerateObjectsFor(this, startXPosition);
+
 
             _levelObjects.Add(
                 factory.GetBonusAt(
