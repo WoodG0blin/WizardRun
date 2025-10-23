@@ -73,7 +73,7 @@ namespace WizardsPlatformer
 
         public override IEnumerable<LevelObject> FillWithObjects(int startXPosition, LevelObjectFactory factory, int positioningYDelta)
         {
-            Vector2Int middle = new(startXPosition + Length / 2, Height);
+            Vector2Int middle = new(Mathf.RoundToInt(startXPosition + Length / 2), Height);
             BossZone zone = new(_groundConfig, middle);
             zone.SetBoss(factory.GetObjectAt(middle, _bossConfig));
             zone.SetFinal(_final);

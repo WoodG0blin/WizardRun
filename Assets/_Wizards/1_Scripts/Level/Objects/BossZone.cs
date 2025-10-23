@@ -15,15 +15,21 @@ namespace WizardsPlatformer
         public BossZone(LevelObjectConfig config, Vector2 position) : base(config, position) { }
 
         public void SetFinal(bool final) => _isFinal = final;
-        public void SetBoss(LevelObject boss) => _levelBoss = boss as ActiveObject;
+        public void SetBoss(LevelObject boss)
+        {
+            _levelBoss = boss as ActiveObject;
+            MaxHealth = boss.MaxHealth;
+        }
 
         protected override LevelObjectView SetView(GameObject gameObject) => gameObject.AddComponent<BossZoneView>();
 
         public override void SetSubscriptions(ILevelEventAccounter subscriber)
         {
             onBossCleared = Deactivate;
+            //onBossCleared += () => subscriber.AccountForDamage(MaxHealth);
             if (_isFinal) onBossCleared += () => subscriber.OnExitAvailable?.Invoke();
             base.SetSubscriptions(subscriber);
+            _levelBoss?.SetSubscriptions(subscriber);
         }
 
         protected override void OnInitiateView()

@@ -16,6 +16,7 @@ namespace WizardsPlatformer
         [SerializeField] bool HasContactRight;
         [SerializeField] bool NoGap;
         [SerializeField] float xDir;
+        [SerializeField] public Vector2 Velocity;
 
 
         private LayerMask _layerMask;
@@ -45,6 +46,7 @@ namespace WizardsPlatformer
             NoGap = CheckNoGap(XDirection);
 
             xDir = XDirection;
+            Velocity = Mover.Velocity;
         }
 
 

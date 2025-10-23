@@ -9,7 +9,6 @@ namespace WizardsPlatformer
     internal class MeleeEnemy : ActiveObject, IDemonStateContext
     {
         private new MeleeEnemyView view;
-        private LevelObjectConfig config;
 
         private DemonState _currentState;
 
@@ -20,7 +19,6 @@ namespace WizardsPlatformer
         {
             //weaponArtifact = new Weapon(config.WeaponConfig);
             //weapon = weaponArtifact.GetExecutor(ArtifactExecutorType.Attack);
-            this.config = config;
 
             _currentState = new DemonIdle(this);
 
@@ -95,8 +93,10 @@ namespace WizardsPlatformer
         private bool isInAttackDistance(float targetDirection) =>
             targetDirection * view.XDirection >= 0 && Mathf.Abs(targetDirection) < _closingDistance;
 
-        void IDemonStateContext.Move(float direction) =>
+        void IDemonStateContext.Move(float direction)
+        {
             view.Mover?.SetInput(new(direction, 0), Stats.Speed);
+        }
 
         void IDemonStateContext.Fire()
         {
@@ -110,7 +110,12 @@ namespace WizardsPlatformer
 
         private IEnumerator Wait(float seconds, Action onFinish)
         {
-            yield return new WaitForSeconds(seconds);
+            float elapsed = 0;
+            while(elapsed < seconds)
+            {
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
             onFinish?.Invoke();
         }
 
@@ -190,7 +195,6 @@ namespace WizardsPlatformer
             else
             {
                 int moveDirection = context.GetPatrolDirection();
-                
                 if (context.IsPathClear(moveDirection)) context.Move(moveDirection);
                 else context.SetNewState(DemonStates.Idle);
             }
