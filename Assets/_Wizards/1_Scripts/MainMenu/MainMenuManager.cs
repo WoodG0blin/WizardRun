@@ -1,14 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace WizardsPlatformer
 {
     public class MainMenuManager : MonoBehaviour
     {
-        [Header("CONTROLS")]
         [SerializeField] private StartUIView _startUI;
 
         private IMenuInfo _menuInfo;
@@ -17,41 +12,15 @@ namespace WizardsPlatformer
         {
             //Replace with DIc
             _menuInfo = FindFirstObjectByType<GameManager>();
-            Init();
+            _startUI.Init(_menuInfo, OnStart);
             _menuInfo.SceneLoader.FinishSceneLoad();
-            _startUI.InitiateLocationsDisplay();
         }
-
-        private void Init()
-        {
-            _startUI.OnStartClick += OnStart;
-            _startUI.OnExitClick += OnExit;
-
-            if (_menuInfo.PlayerModel.Name == null) _startUI.RegisterNewPlayer(CreatePlayer);
-            else
-            {
-                //_menuInfo.SaveGame();
-                _startUI.Init(_menuInfo);
-            }
-        }
-
-        private void CreatePlayer(string name)
-        {
-            _menuInfo.RegisterNewPlayer(name);
-            _startUI.Init(_menuInfo);
-        }
-
 
         private void OnStart(Location location)
         {
             _menuInfo.SetActiveLocation(location);
             _startUI.SetActive(false);
             _menuInfo.SceneLoader.LoadLevel();
-        }
-
-        private void OnExit()
-        {
-            _menuInfo.QuitGame();
         }
     }
 }

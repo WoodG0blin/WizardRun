@@ -5,7 +5,7 @@ namespace WizardsPlatformer
     public interface IPlayerModel
     {
         string Name { get; }
-
+        void SetNewDisplayName(string newName);
         MasteryData Mastery { get; }
 
         LevelObjectConfig Config { get; }

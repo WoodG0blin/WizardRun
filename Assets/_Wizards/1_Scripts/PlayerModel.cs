@@ -20,7 +20,8 @@ namespace WizardsPlatformer
         public CharacterStats Stats { get; private set; }
         public int ModificationsCount { get; private set; } = 5;
 
-        public string Name { get; private set; }
+        public string Name => _saveData.Name;
+        public Sprite Icon { get; private set; }
 
         public List<IArtifact> EquippedArtifacts => _artifacts.Values.Where(a => a!=null).Cast<IArtifact>().ToList();
         public List<ItemConfig> Chest { get; private set; } = new();
@@ -34,8 +35,6 @@ namespace WizardsPlatformer
         public PlayerModel(PlayerSavedData data, LevelObjectConfig config)
         {
             _saveData = data;
-
-            Name = data.Name;
 
             Config = config;
 
@@ -107,6 +106,13 @@ namespace WizardsPlatformer
             if(!Bonuses.ContainsKey(type)) Bonuses.Add(type, 0);
             Bonuses[type] += value;
             OnValuesChanged?.Invoke();
+        }
+
+        public void SetNewDisplayName(string newName)
+        {
+            _saveData.Name = newName;
+            OnValuesChanged?.Invoke();
+            Stats.OnBaseParametersChange?.Invoke();
         }
 
         public PlayerSavedData GetSaveData()

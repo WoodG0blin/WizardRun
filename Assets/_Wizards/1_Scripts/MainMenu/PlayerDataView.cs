@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using TMPro;
-using System.Collections.Generic;
 using UnityEngine.UI;
 
 namespace WizardsPlatformer
@@ -16,7 +15,6 @@ namespace WizardsPlatformer
         [SerializeField] private StatDisplayView _speed;
         [SerializeField] private StatDisplayView _damage;
         [SerializeField] private StatDisplayView _defence;
-        [SerializeField] private RegisterView _registerView;
 
 
         public void Display(IMenuInfo gameData)
@@ -35,13 +33,6 @@ namespace WizardsPlatformer
         {
             _playerDisplay.sprite = playerDisplay;
             _playerDisplay.preserveAspect= true;
-        }
-
-
-        public void Register(Action<string> onRegister)
-        {
-            Debug.Log("Registering new player");
-            _registerView.ShowRegisterMenu(onRegister);
         }
     }
 }

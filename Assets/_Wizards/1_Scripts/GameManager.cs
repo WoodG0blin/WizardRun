@@ -1,3 +1,6 @@
+using PlayFab;
+using PlayFab.ClientModels;
+using PlayFab.SharedModels;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,15 +27,20 @@ namespace WizardsPlatformer
         private GameModel _gameModel;
         private bool _sceneLoadComplete;
 
+        public PLayFabController PlayFabController { get; private set; }
 
         private void Awake() => DontDestroyOnLoad(this);
         private void Start()
         {
-            Init(LoadPlayerData());
-            LoadMainMenu();
+            PlayFabController = new(this);
         }
-        private void Init(PlayerSavedData data)
+
+        private void Init()
         {
+            PlayerSavedData data = PlayFabController.LoadPlayerData();
+            Debug.Log($"Starting new for {data.Name}");
+            FillUpLocations(ref data.Locations);
+
             _gameModel = new(data, _playerConfig);
 
             if (data.ChestArtifacts.Count == 0)
@@ -42,20 +50,14 @@ namespace WizardsPlatformer
             }
 
             _gameModel.PlayerModel.OnValuesChanged += SaveGame;
-            DataSaveAndLoad.Save(_gameModel.GetSaveData());
-        }
+            SaveGame();
 
-        private PlayerSavedData LoadPlayerData()
-        {
-            var data = DataSaveAndLoad.Load();
-            FillUpLocations(ref data.Locations);
-            return data;
+            LoadMainMenu();
         }
 
         private void FillUpLocations(ref List<Location> locations)
         {
             if (locations == null || locations.Count == 0) locations = GenerateNewLocations();
-            //foreach (var l in locations) l.Sprite = _locationsConfig.GetLocationImage(l.Type, l.SpriteID);
             foreach (var l in locations) l.SetConfig(_locationsConfig.LoadLocation(l.Type)); 
         }
 
@@ -90,13 +92,8 @@ namespace WizardsPlatformer
 
         public IPlayerModel PlayerModel => _gameModel.PlayerModel;
         IReadOnlyList<ItemConfig> IMenuInfo.ArtifactDatabase => _artifactDatabase.Configs;
-        void IMenuInfo.RegisterNewPlayer(string name)
-        {
-            PlayerSavedData data = new() { Name = name };
-            FillUpLocations(ref data.Locations);
-            Init(data);
-        }
-        public void SaveGame() => DataSaveAndLoad.Save(_gameModel.GetSaveData());
+        public void StartForNewPlayer() => Init();
+        public void SaveGame() => PlayFabController.SavePlayerData(_gameModel.GetSaveData());
 
         List<Location> IMenuInfo.Locations => _gameModel.Locations;
         void IMenuInfo.SetActiveLocation(Location location) => _gameModel.SetActiveLocation(location);
@@ -130,4 +127,5 @@ namespace WizardsPlatformer
         LevelConfig ILevelInfo.GetLevelConfig() =>
             _gameModel.GetLevelConfig();
     }
+
 }

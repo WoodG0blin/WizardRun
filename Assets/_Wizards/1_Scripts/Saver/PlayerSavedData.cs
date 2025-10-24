@@ -8,6 +8,7 @@ namespace WizardsPlatformer
     public class PlayerSavedData
     {
         public string Name;
+        public string SpriteID;
         public int LastEntryDate;
 
         public List<Bonus> BonusStats = new();

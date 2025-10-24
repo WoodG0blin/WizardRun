@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using PlayFab.ClientModels;
+using System.Collections.Generic;
 
 namespace WizardsPlatformer
 {
@@ -8,7 +9,9 @@ namespace WizardsPlatformer
         IPlayerModel PlayerModel { get; }
         IReadOnlyList<ItemConfig> ArtifactDatabase { get; }
 
-        void RegisterNewPlayer(string name);
+        PLayFabController PlayFabController { get; }
+
+        void StartForNewPlayer();
         void QuitGame();
         void SaveGame();
 

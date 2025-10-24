@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.XR;
 using WizardsPlatformer;
 
 public class StartUIView : MonoBehaviour
@@ -20,11 +18,9 @@ public class StartUIView : MonoBehaviour
     [SerializeField] private InventoryDisplayView _inventory;
     [SerializeField] private ShopView _shop;
     [SerializeField] private SettingsView _settings;
+    [SerializeField] private RegisterView _registry;
 
     private MenuPanelsManager _menuesManager;
-
-    public Action<Location> OnStartClick;
-    public Action OnExitClick;
 
     public void SetActive(bool active) => gameObject.SetActive(active);
     
@@ -44,29 +40,25 @@ public class StartUIView : MonoBehaviour
         _playerData.UpdateDisplayImage(res);
     }
 
-    public void Init(IMenuInfo info)
+    public void Init(IMenuInfo info, Action<Location> onLevelSelected)
     {
-        _exitButton.SetClick(() => OnExitClick?.Invoke());
+        _exitButton.SetClick(info.QuitGame);
 
         _playerData.Display(info);
         info.PlayerModel.Stats.OnBaseParametersChange += () => _playerData.Display(info);
         SetPlayerDisplay();
 
+        _registry.Init(info);
+
         _menuesManager = new(
-            panels: new() { _locations, _rankings, _inventory, _shop, _settings },
+            panels: new() { _locations, _rankings, _inventory, _shop, _settings, _registry },
             input: info);
 
-        _locations.OnStart = l => OnStartClick?.Invoke(l);
-    }
+        _locations.OnStart = onLevelSelected;
+        _registry.OnRegisterFinished = () => _menuesManager.ActivatePanel(_locations);
 
-    public void RegisterNewPlayer(Action<string> onFinish) => _playerData.Register(onFinish);
-
-    public void InitiateLocationsDisplay() => _menuesManager.ActivatePanel(_locations);
-
-    private void OnDestroy()
-    {
-        OnStartClick = null;
-        OnExitClick= null;
+        if (info.PlayFabController.IsLoggedIn) _menuesManager.ActivatePanel(_locations);
+        else _menuesManager.ActivatePanel(_registry);
     }
 }
 
