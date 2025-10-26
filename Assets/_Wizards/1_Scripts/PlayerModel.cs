@@ -40,6 +40,7 @@ namespace WizardsPlatformer
 
             Stats = new(Config, data.BaseStatsModifiers);
             Stats.Modifiers.AddToAvailableModsCount(ModificationsCount);
+            Stats.OnBaseParametersChange += () => OnValuesChanged?.Invoke();
 
             Bonuses = new()
             {

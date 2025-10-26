@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace WizardsPlatformer
@@ -18,9 +19,14 @@ namespace WizardsPlatformer
         List<ItemConfig> Chest { get; }
         int MaxInventorySlots { get; }
         ActionsHolder Actions { get; }
+
+
+        Action OnValuesChanged { get; set; }
         //List<ArtifactActor> ArtifactActors { get; }
         //IArtifactExecutorsContainer Executors { get; }
 
         void EquipArtifact(ArtifactSlotType slot, ItemConfig artifact);
+        void AddArtifact(ItemConfig artifact);
+        void AddBonus(BonusType type, int value);
     }
 }

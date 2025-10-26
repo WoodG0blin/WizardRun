@@ -55,6 +55,7 @@ public class ButtonView : MonoBehaviour
 
     public void SetText(string text)
     {
+        _name = text;
         _nameText.text = text;
     }
 

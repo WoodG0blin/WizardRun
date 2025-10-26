@@ -45,7 +45,7 @@ public class StartUIView : MonoBehaviour
         _exitButton.SetClick(info.QuitGame);
 
         _playerData.Display(info);
-        info.PlayerModel.Stats.OnBaseParametersChange += () => _playerData.Display(info);
+        info.PlayerModel.OnValuesChanged += () => _playerData.Display(info);
         SetPlayerDisplay();
 
         _registry.Init(info);

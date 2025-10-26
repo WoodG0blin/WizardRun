@@ -21,7 +21,7 @@ namespace WizardsPlatformer
         private IStatsHeadDisplay _statsHeadDisplay;
         
         public Action<int> OnCurrentHealthChange { get; set; }
-        public Action OnBaseParametersChange;
+        public Action OnBaseParametersChange { get; set; }
         public Action OnDeath;
         
         public int MaxHealth => Mathf.RoundToInt(_maxHealth * (1f + STAT_CHANGE_PER_MODIFIER_POINT * Modifiers.GetModifier(CharacterStatType.MaxHealth)));
