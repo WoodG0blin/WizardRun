@@ -72,6 +72,7 @@ namespace WizardsPlatformer
             _picture.sprite = sprite;
             _picture.preserveAspect = true;
             _activationButton.SetImage(sprite);
+            menuInfo.PlayerModel.Icon = sprite;
         }
 
         private void onEmailSet(string email)
