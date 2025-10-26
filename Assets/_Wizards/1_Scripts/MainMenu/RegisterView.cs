@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using PlayFab;
+using System.Linq;
 
 
 namespace WizardsPlatformer
@@ -16,6 +17,7 @@ namespace WizardsPlatformer
         [SerializeField] private ButtonView _register;
         [SerializeField] private Image _picture;
         [SerializeField] private TextMeshProUGUI _messageText;
+        [SerializeField] private Transform _iconsContainer;
 
         private string _displayName;
         private string _login;
@@ -43,6 +45,33 @@ namespace WizardsPlatformer
             _register.SetClick(Close);
 
             _messageText.text = "";
+
+            foreach (Transform child in _iconsContainer)
+            {
+                Button button = child.GetComponent<Button>();
+                if (button != null)
+                {
+                    button.onClick.AddListener(() => onImageChosen(child.GetComponent<Image>().sprite));
+                }
+            }
+
+            if(menuInfo.PlayFabController.SpriteID != "")
+            {
+                Debug.Log($"Looking for sprite {menuInfo.PlayFabController.SpriteID}");
+                var image = _iconsContainer.GetComponentsInChildren<Image>()
+                    .Where(i => i.sprite.name == menuInfo.PlayFabController.SpriteID)
+                    .FirstOrDefault();
+                Debug.Log($"Has image? {image != null}");
+                if (image != null) onImageChosen(image.sprite);
+
+            }
+        }
+
+        private void onImageChosen(Sprite sprite)
+        {
+            _picture.sprite = sprite;
+            _picture.preserveAspect = true;
+            _activationButton.SetImage(sprite);
         }
 
         private void onEmailSet(string email)
@@ -84,6 +113,7 @@ namespace WizardsPlatformer
             SetActive(false);
 
             menuInfo.PlayerModel.SetNewDisplayName(_displayName);
+            menuInfo.PlayerModel.Icon = _picture.sprite;
 
             if (_restartRequired) menuInfo.StartForNewPlayer();
             else OnRegisterFinished?.Invoke();

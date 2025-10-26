@@ -28,6 +28,7 @@ namespace WizardsPlatformer
         public void InitPlayer(IPlayerModel player)
         {
             _playerNameText.text = player.Name;
+            _playerImage.sprite = player.Icon;
             _playerHealth.maxValue = player.Stats.MaxHealth;
             _playerHealth.value = player.Stats.Health;
 

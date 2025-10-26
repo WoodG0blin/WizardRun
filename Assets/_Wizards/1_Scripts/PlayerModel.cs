@@ -21,7 +21,7 @@ namespace WizardsPlatformer
         public int ModificationsCount { get; private set; } = 5;
 
         public string Name => _saveData.Name;
-        public Sprite Icon { get; private set; }
+        public Sprite Icon { get; set; }
 
         public List<IArtifact> EquippedArtifacts => _artifacts.Values.Where(a => a!=null).Cast<IArtifact>().ToList();
         public List<ItemConfig> Chest { get; private set; } = new();
@@ -117,6 +117,8 @@ namespace WizardsPlatformer
 
         public PlayerSavedData GetSaveData()
         {
+            if(Icon != null) _saveData.SpriteID = Icon.name;
+
             _saveData.EquipedArtifacts = EquippedArtifacts.Select(a => a.Config).ToList();
             _saveData.ChestArtifacts = Chest;
 

@@ -6,7 +6,7 @@ namespace WizardsPlatformer
 {
     public class MenuPanelView : MonoBehaviour
     {
-        [SerializeField] private ButtonView _activationButton;
+        [SerializeField] protected ButtonView _activationButton;
 
         protected IMenuInfo menuInfo;
 

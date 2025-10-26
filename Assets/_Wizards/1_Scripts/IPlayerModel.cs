@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace WizardsPlatformer
 {
     public interface IPlayerModel
     {
         string Name { get; }
+        Sprite Icon { get; set; }
         void SetNewDisplayName(string newName);
         MasteryData Mastery { get; }
 

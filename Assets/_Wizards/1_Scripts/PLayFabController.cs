@@ -16,7 +16,7 @@ namespace WizardsPlatformer
         public string Login { get; private set; }
         public string Password { get; private set; }
         public string DisplayName => _playerData.Name;
-        public string SpriteID { get; private set; }
+        public string SpriteID => _playerData.SpriteID;
 
         private Action<bool> _sendPlayerUpdatedCheck;
         private Action<PlayFabError> _sendErrorMessage;
@@ -90,7 +90,7 @@ namespace WizardsPlatformer
             PlayFabClientAPI.GetUserData(new GetUserDataRequest(),
                 r => {
                     if(r.Data.ContainsKey("PlayerData"))
-                        _playerData = JsonUtility.FromJson<PlayerSavedData>(r.Data["PlayerData"].Value);
+                       _playerData = JsonUtility.FromJson<PlayerSavedData>(r.Data["PlayerData"].Value);
                     _sendPlayerUpdatedCheck?.Invoke(true);
                 },
                 _sendErrorMessage);
