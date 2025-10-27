@@ -28,6 +28,9 @@ namespace WizardsPlatformer
         public int MaxInventorySlots { get; private set; } = 10;
         public ActionsHolder Actions { get; private set; }
 
+        public IReadOnlyList<RewardData> CollectedRewards => _saveData.CollectedRewards.AsReadOnly();
+        public DateTime LastEntryDate => DateTime.Parse(_saveData.LastEntryDate);
+        public DateTime CurrentEntryDate { get; private set; }
         public Action OnValuesChanged { get; set; }
 
         bool IArtifactHolder.IsPlayer => true;
@@ -35,6 +38,8 @@ namespace WizardsPlatformer
         public PlayerModel(PlayerSavedData data, LevelObjectConfig config)
         {
             _saveData = data;
+
+            CurrentEntryDate = DateTime.Now;
 
             Config = config;
 
@@ -70,7 +75,7 @@ namespace WizardsPlatformer
             
             Chest = new();
             foreach (var item in data.ChestArtifacts)
-                AddArtifact(item);
+                if(item != null) AddArtifact(item);
 
         }
 
@@ -106,6 +111,15 @@ namespace WizardsPlatformer
         {
             if(!Bonuses.ContainsKey(type)) Bonuses.Add(type, 0);
             Bonuses[type] += value;
+            OnValuesChanged?.Invoke();
+        }
+
+        public void AccountReward(RewardData reward)
+        {
+            var rew = _saveData.CollectedRewards.Where(r => r.ID == reward.ID).FirstOrDefault();
+            if (rew != null) _saveData.CollectedRewards.Remove(rew);
+
+            _saveData.CollectedRewards.Add(reward);
             OnValuesChanged?.Invoke();
         }
 

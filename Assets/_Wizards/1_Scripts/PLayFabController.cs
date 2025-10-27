@@ -100,15 +100,17 @@ namespace WizardsPlatformer
         {
             if(IsLoggedIn)
                 {
-                string displayName = data.Name;
-                PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest()
+                if (_playerData.Name != data.Name)
                 {
-                    DisplayName = displayName
-                },
-                s => Debug.Log("Display name updated"),
-                e => Debug.Log(e.ErrorMessage)
-                );
-
+                    string displayName = data.Name;
+                    PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest()
+                    {
+                        DisplayName = displayName
+                    },
+                    s => Debug.Log("Display name updated"),
+                    e => Debug.Log(e.ErrorMessage)
+                    );
+                }
 
                 string jsonData = JsonUtility.ToJson(data);
                 var request = new UpdateUserDataRequest()

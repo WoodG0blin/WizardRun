@@ -43,7 +43,7 @@ namespace WizardsPlatformer
 
             _gameModel = new(data, _playerConfig);
 
-            if (data.ChestArtifacts.Count == 0)
+            if (data.ChestArtifacts == null || data.ChestArtifacts.Count == 0)
             {
                 foreach (var art in _artifactDatabase.Configs)
                     _gameModel.PlayerModel.AddArtifact(art);

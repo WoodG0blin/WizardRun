@@ -44,9 +44,12 @@ namespace WizardsPlatformer
             List<InventoryItemView> unequippedItems = new();
             foreach (var i in menuInfo.PlayerModel.Chest)
             {
-                var item = CreateItem(i);
-                unequippedItems.Add(item);
-                DisplayItem(item);
+                if (i != null)
+                {
+                    var item = CreateItem(i);
+                    unequippedItems.Add(item);
+                    DisplayItem(item);
+                }
             }
 
             List<InventoryItemView> equippedItems = new();
@@ -86,12 +89,6 @@ namespace WizardsPlatformer
 
         private void DisplayItem(InventoryItemView item)
         {
-            //var temp = GameObject.Instantiate(_slotPrefab, _container)
-            //    .GetComponent<InventorySlotView>();
-            //temp.Init();
-            //temp.SetItem(item);
-            //temp.OnNewItemPlaced = i => { if (i == null) GameObject.Destroy(temp.gameObject); };
-
             for (int i = 0; i < _chestSlots.Count; i++)
             {
                 if (_chestSlots[i].Item == null)

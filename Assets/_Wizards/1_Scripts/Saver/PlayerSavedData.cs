@@ -9,16 +9,17 @@ namespace WizardsPlatformer
     {
         public string Name;
         public string SpriteID;
-        public int LastEntryDate;
+        public string LastEntryDate;
 
         public List<Bonus> BonusStats = new();
 
         public int MasteryLevel;
 
+        public List<RewardData> CollectedRewards = new();
+
         public List<ItemConfig> EquipedArtifacts = new();
         public List<ItemConfig> ChestArtifacts = new();
 
-        //public Dictionary<CharacterStatType, int> BaseStatsModifiers = new();
         public List<Modifier> BaseStatsModifiers = new();
 
         public List<Location> Locations = new();
@@ -82,4 +83,17 @@ namespace WizardsPlatformer
         }
     }
 
+    [Serializable]
+    public class RewardData 
+    {
+        public string ID;
+        public string data;
+
+        public RewardData() { }
+        public RewardData(string id, string data)
+        {
+            ID = id;
+            this.data = data;
+        }
+    }
 }

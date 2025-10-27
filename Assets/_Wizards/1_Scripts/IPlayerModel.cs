@@ -20,6 +20,9 @@ namespace WizardsPlatformer
         int MaxInventorySlots { get; }
         ActionsHolder Actions { get; }
 
+        IReadOnlyList<RewardData> CollectedRewards { get; }
+        DateTime LastEntryDate { get; }
+        DateTime CurrentEntryDate { get; }
 
         Action OnValuesChanged { get; set; }
         //List<ArtifactActor> ArtifactActors { get; }
@@ -28,5 +31,6 @@ namespace WizardsPlatformer
         void EquipArtifact(ArtifactSlotType slot, ItemConfig artifact);
         void AddArtifact(ItemConfig artifact);
         void AddBonus(BonusType type, int value);
+        void AccountReward(RewardData reward);
     }
 }

@@ -16,9 +16,6 @@ namespace WizardsPlatformer
         [SerializeField] private List<ShopItemConfig> _shopItems;
         [SerializeField] private ShopItemView _shopItemPrefab;
         [SerializeField] private Transform _shopContainer;
-
-        [Space(10)]
-        [SerializeField] private Button _showAdButton;
         [SerializeField] private TMPro.TextMeshProUGUI _descriptionText;
 
         private MenuPanelsManager _subPanelsManager;

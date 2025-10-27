@@ -23,7 +23,7 @@ namespace WizardsPlatformer
 
             AdjustForDate();
 
-            data.LastEntryDate++;
+            //data.LastEntryDate++;
         }
 
         private void AdjustForDate()
