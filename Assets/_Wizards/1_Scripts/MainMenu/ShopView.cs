@@ -1,8 +1,8 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.UI;
-using System;
-using System.Collections.Generic;
 
 namespace WizardsPlatformer
 {
@@ -14,68 +14,51 @@ namespace WizardsPlatformer
 
         [Space(10)]
         [SerializeField] private List<ShopItemConfig> _shopItems;
-        [SerializeField] private ShopItemView _shopItemPrefab;
+        [SerializeField] private ItemSlotView _itemSlotPrefab;
         [SerializeField] private Transform _shopContainer;
-        [SerializeField] private TMPro.TextMeshProUGUI _descriptionText;
 
         private MenuPanelsManager _subPanelsManager;
 
         protected override void OnInit()
         {
-            InitGameShop();
-
             _subPanelsManager = new(
                 panels: new() { _shop, _rewards, _specials },
                 input: menuInfo);
 
             _subPanelsManager.ActivatePanel(_shop);
-
-            _rewards.OnRewardCollect += CollectedReward;
         }
 
-        private void InitGameShop()
+        protected override void OnActivation()
         {
+            for (int i = _shopContainer.childCount - 1; i >= 0; i--)
+                GameObject.Destroy(_shopContainer.GetChild(i).gameObject);
+
             foreach (var itemConfig in _shopItems)
             {
-                var itemView = Instantiate(_shopItemPrefab, _shopContainer);
-                itemView.Init(itemConfig, DisplayDescription, () => OnProductBuy(itemView));
+                var itemView = Instantiate(_itemSlotPrefab, _shopContainer);
+                Action click = (menuInfo.PlayerModel.Bonuses[BonusType.Coin] >= itemConfig.Price) ? () => OnProductBuy(itemConfig) : null;
+                itemView.Init(itemConfig, click);
             }
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_shopContainer.GetComponent<RectTransform>());
         }
 
-        private void CollectedReward(BonusType type, int value)
+
+        public void OnProductBuy(ShopItemConfig item)
         {
-            Debug.Log($"Collected {type} {value}");
-            //set reward through menuInfo
-        }
+            menuInfo.PlayerModel.AddBonus(BonusType.Coin, (int)-item.Price);
 
-        public void OnProductBuy(ShopItemView slot)
-        {
-            var item = slot.ItemConfig;
-
-            Debug.Log($"Trying to buy {item.name}");
-
-            if (menuInfo.PlayerModel.Bonuses[BonusType.Coin] >= item.Price)
+            if (item.Item != null)
             {
-                menuInfo.PlayerModel.AddBonus(BonusType.Coin, -item.Price);
-
-                if (item.Item != null)
-                {
-                    Debug.Log($"Adding item {item.Item.Name}");
-                    menuInfo.PlayerModel.AddArtifact(item.Item);
-                }
-                else
-                {
-                    Debug.Log($"Adding bonus {item.Bonus.Type} {item.Bonus.Value}");
-                    menuInfo.PlayerModel.AddBonus(item.Bonus.Type, item.Bonus.Value);
-                }
-
-                //Analytics.Transaction(product.definition.id, 1, product.metadata.isoCurrencyCode);
+                Debug.Log($"Adding item {item.Item.Name}");
+                menuInfo.PlayerModel.AddArtifact((ItemConfig)item.Item);
             }
-        }
-
-        private void DisplayDescription(ShopItemConfig item)
-        {
-            _descriptionText.text = item.Item != null ? item.Item.Name : $"{item.Bonus.Type} +{item.Bonus.Value}";
+            else
+            {
+                Debug.Log($"Adding bonus {item.Bonus.Type} {item.Bonus.Value}");
+                menuInfo.PlayerModel.AddBonus((BonusType)item.Bonus.Type, (int)item.Bonus.Value);
+            }
+            SetActive(true);
+            //Analytics.Transaction(product.definition.id, 1, product.metadata.isoCurrencyCode);
         }
     }
 }

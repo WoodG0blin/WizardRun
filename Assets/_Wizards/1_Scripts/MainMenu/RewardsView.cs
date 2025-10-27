@@ -10,9 +10,7 @@ namespace WizardsPlatformer
     {
         [SerializeField] private List<RewardConfig> _rewardConfigs;
         [SerializeField] private Transform _rewardsContainer;
-        [SerializeField] private RewardView _slotPrefab;
-
-        public Action<BonusType, int> OnRewardCollect;
+        [SerializeField] private ItemSlotView _slotPrefab;
 
         private List<Reward> _rewards = new();
 
