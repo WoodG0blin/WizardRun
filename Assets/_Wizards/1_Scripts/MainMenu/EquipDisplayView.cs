@@ -15,7 +15,7 @@ namespace WizardsPlatformer
             foreach (var slot in _equipSlots)
             {
                 slot.Init();
-                slot.OnNewItemPlaced = i => EquipArtifact(slot.SlotType, i);
+                slot.OnNewItemPlaced = EquipArtifact;
             }
             _controlsAllocation.Init(menuInfo);
         }
@@ -25,21 +25,19 @@ namespace WizardsPlatformer
             _controlsAllocation.SetActive(false);
         }
 
-        private void EquipArtifact(ArtifactSlotType slotType, InventoryItemView item)
+        private void EquipArtifact(InventoryItemView placed, InventoryItemView removed)
         {
-            ItemConfig newItem = null;
+            ItemConfig newItem = placed != null ? placed.ItemConfig : null;
+            ItemConfig removedItem = removed != null ? removed.ItemConfig : null;
 
-            if(item != null)
+            menuInfo.PlayerModel.EquipArtifact(newItem, removedItem);
+
+            if (newItem != null && newItem.HasExplicitProperty)
             {
-                newItem = item.ItemConfig;
-                if(newItem.HasExplicitProperty)
-                {
-                    if (newItem.SlotType == ArtifactSlotType.Weapon) newItem.ControlIndex = 0;
-                    else _controlsAllocation.Display(UpdateControlAllocations, newItem);
-                }
+                if (newItem.SlotType == ArtifactSlotType.Weapon) newItem.ControlIndex = 0;
+                else _controlsAllocation.Display(UpdateControlAllocations, newItem);
             }
 
-            menuInfo.PlayerModel.EquipArtifact(slotType, newItem);
             //HighlightSlot(ArtifactSlotType.Universal);
         }
 
@@ -48,7 +46,7 @@ namespace WizardsPlatformer
             _controlsAllocation.SetActive(false);
 
             foreach(var item in changedItems)
-                menuInfo.PlayerModel.EquipArtifact(item.SlotType, item);
+                menuInfo.PlayerModel.EquipArtifact(item, item);
         }
 
 
@@ -59,7 +57,10 @@ namespace WizardsPlatformer
                 for(int i = 0; i < _equipSlots.Count; i++)
                 {
                     if (_equipSlots[i].CanSetItem(a) && _equipSlots[i].Item == null)
-                        _equipSlots[i].SetItem(a);
+                    {
+                        _equipSlots[i].SetItem(a, false);
+                        break;
+                    }
                 }
             }
         }

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f4c5eef8ba33d43bf20ed72e6abf11, type: 3}
+  m_Name: HealingRing
+  m_EditorClassIdentifier: 
+  <NameTag>k__BackingField: HealingRing
+  <Icon>k__BackingField: {fileID: 21300000, guid: 5b1a64ea234fb2343b8d0686c51280de, type: 3}
+  <SlotType>k__BackingField: 5
+  <BaseProperty>k__BackingField:
+    <ActivatorType>k__BackingField: 10
+    <ExecutionType>k__BackingField: 0
+    <TargetParameter>k__BackingField: 0
+    <ActionValue>k__BackingField: 10
+    <CoolDown>k__BackingField: 1
+    <Ammo>k__BackingField: {fileID: 11400000, guid: 891875d345a406a449c3c45c7c73132d, type: 2}
+    <NameTag>k__BackingField: 
+  <ExtraProperties>k__BackingField: []

@@ -49,20 +49,34 @@ namespace WizardsPlatformer
             var expl = menuInfo.PlayerModel.EquippedArtifacts.Where(a => a.Config.HasExplicitProperty).ToList();
 
             _setupControls = new();
-            foreach(var b in _controlButtons) _setupControls.Add(null);
+            foreach (var b in _controlButtons)
+            {
+                b.SetImage(null);
+                _setupControls.Add(null);
+            }
             _changedItems = new();
 
+            for(int i = _artButtonsContainer.childCount -1; i >=0; i--)
+                GameObject.Destroy(_artButtonsContainer.GetChild(i).gameObject);
+
+            
+
+            if (expl == null) return;
             foreach (var ex in expl)
             {
-                ButtonView next = GameObject.Instantiate(_artButtonPrefab.gameObject, _artButtonsContainer).GetComponent<ButtonView>();
-                next.SetImage(ex.Icon);
                 int control = ex.Config.ControlIndex;
-                if(_setupControls[control] == null)
+                if (control >= 0 && _setupControls[control] == null)
                 {
                     _setupControls[control] = ex.Config;
                     _controlButtons[control].SetImage(ex.Icon);
                 }
-                next.SetClick(() => OnArtifactSelect(ex.Config));
+
+                if (ex.SlotType != ArtifactSlotType.Weapon)
+                {
+                    ButtonView next = GameObject.Instantiate(_artButtonPrefab.gameObject, _artButtonsContainer).GetComponent<ButtonView>();
+                    next.SetImage(ex.Icon);
+                    next.SetClick(() => OnArtifactSelect(ex.Config));
+                }
             }
             for (int i = 0; i < _controlButtons.Count; i++)
                 _controlButtons[i].SetActive(false);
@@ -76,13 +90,7 @@ namespace WizardsPlatformer
             _finishButton.SetClick(() => onUpdateAllocations(_changedItems));
 
             if (newAllocation != null)
-            {
-                ButtonView next = GameObject.Instantiate(_artButtonPrefab.gameObject, _artButtonsContainer).GetComponent<ButtonView>();
-                next.SetImage(newAllocation.Icon);
-                next.SetClick(() => OnArtifactSelect(newAllocation));
                 OnArtifactSelect(newAllocation);
-            }
-
         }
 
         private void OnArtifactSelect(ItemConfig selected)

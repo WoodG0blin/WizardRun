@@ -15,15 +15,13 @@ namespace WizardsPlatformer
         public MasteryData Mastery { get; private set; } = new();
 
         public Dictionary<BonusType, int> Bonuses { get; private set; }
-        private Dictionary<ArtifactSlotType, Artifact> _artifacts;
-        
         public CharacterStats Stats { get; private set; }
         public int ModificationsCount { get; private set; } = 5;
 
         public string Name => _saveData.Name;
         public Sprite Icon { get; set; }
 
-        public List<IArtifact> EquippedArtifacts => _artifacts.Values.Where(a => a!=null).Cast<IArtifact>().ToList();
+        public List<IArtifact> EquippedArtifacts { get; private set; }
         public List<ItemConfig> Chest { get; private set; } = new();
         public int MaxInventorySlots { get; private set; } = 10;
         public ActionsHolder Actions { get; private set; }
@@ -60,41 +58,34 @@ namespace WizardsPlatformer
             Actions = new(this);
             ArtifactProperty _weapon = new(config.WeaponConfig, null, 0);
             _weapon.Init(this);
-
-            _artifacts = new()
-            {
-                { ArtifactSlotType.Weapon, null},
-                { ArtifactSlotType.Head, null},
-                { ArtifactSlotType.Neck, null},
-                { ArtifactSlotType.Waist, null},
-                { ArtifactSlotType.Legs, null},
-                { ArtifactSlotType.Ring, null}
-            };
-            foreach(var item in data.EquipedArtifacts)
-                if(item != null) EquipArtifact(item.SlotType, item);
             
             Chest = new();
             foreach (var item in data.ChestArtifacts)
                 if(item != null) AddArtifact(item);
 
+            EquippedArtifacts = new();
+            foreach (var item in data.EquipedArtifacts)
+                if(item != null) EquipArtifact(item);
         }
 
-        public void EquipArtifact(ArtifactSlotType slot, ItemConfig artifact)
+        public void EquipArtifact(ItemConfig artifact, ItemConfig toRemove = null)
         {
-            if (_artifacts[slot] != null)
+            if(toRemove != null)
             {
-                if(_artifacts[slot].Config != artifact)
-                    Chest.Add(_artifacts[slot].Config);
-                _artifacts[slot].Unequip();
+                var artToRemove = EquippedArtifacts.Where(a => a.Config == toRemove).FirstOrDefault();
+                if (artToRemove != null)
+                {
+                    EquippedArtifacts.Remove(artToRemove);
+                    Chest.Add(toRemove);
+                    artToRemove.Unequip();
+                }
             }
 
-            _artifacts[slot] = null;
-
-            if(artifact != null)
+            if (artifact != null)
             {
-                if(Chest.Contains(artifact)) Chest.Remove(artifact);
+                if (Chest.Contains(artifact)) Chest.Remove(artifact);
                 var a = new Artifact(artifact);
-                _artifacts[slot] = a;
+                EquippedArtifacts.Add(a);
                 a.Equip(this);
             }
 

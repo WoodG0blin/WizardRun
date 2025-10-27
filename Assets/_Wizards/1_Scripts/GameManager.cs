@@ -49,7 +49,7 @@ namespace WizardsPlatformer
                     _gameModel.PlayerModel.AddArtifact(art);
             }
 
-            _gameModel.PlayerModel.OnValuesChanged += SaveGame;
+            //_gameModel.PlayerModel.OnValuesChanged += SaveGame;
             SaveGame();
 
             LoadMainMenu();
@@ -101,6 +101,7 @@ namespace WizardsPlatformer
 
         IEnumerator LoadScene(string sceneName)
         {
+            SaveGame();
             Debug.Log($"start loading {sceneName}");
             _loadScreen.StartLoad();
             _sceneLoadComplete = false;

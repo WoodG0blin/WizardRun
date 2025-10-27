@@ -28,7 +28,7 @@ namespace WizardsPlatformer
         //List<ArtifactActor> ArtifactActors { get; }
         //IArtifactExecutorsContainer Executors { get; }
 
-        void EquipArtifact(ArtifactSlotType slot, ItemConfig artifact);
+        void EquipArtifact(ItemConfig artifact, ItemConfig toRemove = null);
         void AddArtifact(ItemConfig artifact);
         void AddBonus(BonusType type, int value);
         void AccountReward(RewardData reward);

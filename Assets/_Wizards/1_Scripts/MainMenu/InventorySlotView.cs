@@ -17,7 +17,7 @@ namespace WizardsPlatformer
         [SerializeField] private Color _unselected;
         [field: SerializeField] public RectTransform ItemPlace { get; private set; }
 
-        public Action<InventoryItemView> OnNewItemPlaced { get; set; }
+        public Action<InventoryItemView, InventoryItemView> OnNewItemPlaced { get; set; }
 
         public void Init()
         {
@@ -30,12 +30,13 @@ namespace WizardsPlatformer
 
         public bool CanSetItem(InventoryItemView item) =>  SlotType == ArtifactSlotType.Universal || item == null  || item.ItemConfig.SlotType == SlotType;
 
-        public void SetItem(InventoryItemView item)
+        public void SetItem(InventoryItemView item, bool inform = true)
         {
+            var old = Item;
             Item = item;
             item?.SetParentSlot(this);
             Highlight(false);
-            OnNewItemPlaced?.Invoke(item);
+            if(inform) OnNewItemPlaced?.Invoke(item, old);
         }
 
         public void Highlight(bool active) =>
