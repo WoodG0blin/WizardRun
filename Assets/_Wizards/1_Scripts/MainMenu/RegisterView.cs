@@ -57,11 +57,9 @@ namespace WizardsPlatformer
 
             if(menuInfo.PlayFabController.SpriteID != "")
             {
-                Debug.Log($"Looking for sprite {menuInfo.PlayFabController.SpriteID}");
                 var image = _iconsContainer.GetComponentsInChildren<Image>()
                     .Where(i => i.sprite.name == menuInfo.PlayFabController.SpriteID)
                     .FirstOrDefault();
-                Debug.Log($"Has image? {image != null}");
                 if (image != null) onImageChosen(image.sprite);
 
             }

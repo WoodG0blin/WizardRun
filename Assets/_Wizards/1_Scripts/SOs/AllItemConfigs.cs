@@ -10,9 +10,9 @@ namespace WizardsPlatformer
     }
 
     [CreateAssetMenu(fileName = nameof(AllItemConfigs), menuName = "Configs/" + nameof(AllItemConfigs), order = 4)]
-    internal class AllItemConfigs : ScriptableObject, IDataSource<ItemConfig>
+    internal class AllItemConfigs : ScriptableObject, IDataSource<ItemSO>
     {
-        [SerializeField] private ItemConfig[] _configs;
-        public IReadOnlyList<ItemConfig> Configs => _configs;
+        [SerializeField] private ItemSO[] _configs;
+        public IReadOnlyList<ItemSO> Configs => _configs;
     }
 }

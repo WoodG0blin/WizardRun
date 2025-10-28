@@ -48,8 +48,6 @@ public class StartUIView : MonoBehaviour
         info.PlayerModel.OnValuesChanged += () => _playerData.Display(info);
         SetPlayerDisplay();
 
-        _registry.Init(info);
-
         _menuesManager = new(
             panels: new() { _locations, _rankings, _inventory, _shop, _settings, _registry },
             input: info);

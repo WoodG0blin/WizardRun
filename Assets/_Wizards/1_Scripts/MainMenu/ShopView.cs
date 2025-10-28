@@ -49,12 +49,10 @@ namespace WizardsPlatformer
 
             if (item.Item != null)
             {
-                Debug.Log($"Adding item {item.Item.Name}");
-                menuInfo.PlayerModel.AddArtifact((ItemConfig)item.Item);
+                menuInfo.PlayerModel.AddArtifact(item.Item.GetConfig());
             }
             else
             {
-                Debug.Log($"Adding bonus {item.Bonus.Type} {item.Bonus.Value}");
                 menuInfo.PlayerModel.AddBonus((BonusType)item.Bonus.Type, (int)item.Bonus.Value);
             }
             SetActive(true);

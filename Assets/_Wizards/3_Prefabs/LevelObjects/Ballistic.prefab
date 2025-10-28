@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 6462396163812076672}
   - component: {fileID: 2976287929755959743}
   m_Layer: 0
-  m_Name: Ballistic3D
+  m_Name: Ballistic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

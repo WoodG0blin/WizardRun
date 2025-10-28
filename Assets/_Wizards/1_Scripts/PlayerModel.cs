@@ -76,7 +76,7 @@ namespace WizardsPlatformer
                 if (artToRemove != null)
                 {
                     EquippedArtifacts.Remove(artToRemove);
-                    Chest.Add(toRemove);
+                    if(!Chest.Contains(artifact)) Chest.Add(toRemove);
                     artToRemove.Unequip();
                 }
             }
@@ -94,7 +94,7 @@ namespace WizardsPlatformer
 
         public void AddArtifact(ItemConfig artifact)
         {
-            Chest.Add(artifact);
+            if(!Chest.Contains(artifact)) Chest.Add(artifact);
             OnValuesChanged?.Invoke();
         }
 

@@ -12,22 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f4c5eef8ba33d43bf20ed72e6abf11, type: 3}
   m_Name: BasicHat
   m_EditorClassIdentifier: 
-  <NameTag>k__BackingField: BasicHat
-  <Icon>k__BackingField: {fileID: 21300000, guid: e6b56e30e9cd8084fb458b6d727b76e6, type: 3}
-  <SlotType>k__BackingField: 1
-  <BaseProperty>k__BackingField:
-    <ActivatorType>k__BackingField: 0
-    <ExecutionType>k__BackingField: 0
-    <TargetParameter>k__BackingField: 40
-    <ActionValue>k__BackingField: 1
-    <CoolDown>k__BackingField: 0
-    <Ammo>k__BackingField: {fileID: 0}
-    <NameTag>k__BackingField: 
-  <ExtraProperties>k__BackingField:
-  - <ActivatorType>k__BackingField: 20
-    <ExecutionType>k__BackingField: 0
-    <TargetParameter>k__BackingField: 0
-    <ActionValue>k__BackingField: 1
-    <CoolDown>k__BackingField: 0
-    <Ammo>k__BackingField: {fileID: 0}
-    <NameTag>k__BackingField: ExtraShot
+  _config:
+    <NameTag>k__BackingField: BasicHat
+    <Icon>k__BackingField: {fileID: 21300000, guid: e6b56e30e9cd8084fb458b6d727b76e6, type: 3}
+    <SlotType>k__BackingField: 1
+    <BaseProperty>k__BackingField:
+      <ActivatorType>k__BackingField: 0
+      <ExecutionType>k__BackingField: 0
+      <TargetParameter>k__BackingField: 40
+      <ActionValue>k__BackingField: 2
+      <CoolDown>k__BackingField: 0
+      <Ammo>k__BackingField: {fileID: 0}
+      <NameTag>k__BackingField: 
+    <ExtraProperties>k__BackingField: []

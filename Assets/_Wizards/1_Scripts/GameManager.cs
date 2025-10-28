@@ -38,7 +38,6 @@ namespace WizardsPlatformer
         private void Init()
         {
             PlayerSavedData data = PlayFabController.LoadPlayerData();
-            Debug.Log($"Starting new for {data.Name}");
             FillUpLocations(ref data.Locations);
 
             _gameModel = new(data, _playerConfig);
@@ -46,10 +45,9 @@ namespace WizardsPlatformer
             if (data.ChestArtifacts == null || data.ChestArtifacts.Count == 0)
             {
                 foreach (var art in _artifactDatabase.Configs)
-                    _gameModel.PlayerModel.AddArtifact(art);
+                    _gameModel.PlayerModel.AddArtifact(art.GetConfig());
             }
 
-            //_gameModel.PlayerModel.OnValuesChanged += SaveGame;
             SaveGame();
 
             LoadMainMenu();
@@ -91,7 +89,7 @@ namespace WizardsPlatformer
 
 
         public IPlayerModel PlayerModel => _gameModel.PlayerModel;
-        IReadOnlyList<ItemConfig> IMenuInfo.ArtifactDatabase => _artifactDatabase.Configs;
+        IReadOnlyList<ItemSO> IMenuInfo.ArtifactDatabase => _artifactDatabase.Configs;
         public void StartForNewPlayer() => Init();
         public void SaveGame() => PlayFabController.SavePlayerData(_gameModel.GetSaveData());
 
@@ -102,7 +100,6 @@ namespace WizardsPlatformer
         IEnumerator LoadScene(string sceneName)
         {
             SaveGame();
-            Debug.Log($"start loading {sceneName}");
             _loadScreen.StartLoad();
             _sceneLoadComplete = false;
 

@@ -9,7 +9,7 @@ namespace WizardsPlatformer
     {
         [field: SerializeField] public int Price { get; set; }
         [field: SerializeField] public Sprite DisplayImage { get; set; }
-        [field: SerializeField] public ItemConfig Item { get; set; }
+        [field: SerializeField] public ItemSO Item { get; set; }
         [field: SerializeField] public Bonus Bonus { get; set; }
     }
 }

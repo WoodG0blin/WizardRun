@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f4c5eef8ba33d43bf20ed72e6abf11, type: 3}
   m_Name: BasicAmulet
   m_EditorClassIdentifier: 
-  <NameTag>k__BackingField: BasicAmulet
-  <Icon>k__BackingField: {fileID: 21300000, guid: ff251380ed4da1b428f7ce8f1b7e41da, type: 3}
-  <SlotType>k__BackingField: 4
-  <BaseProperty>k__BackingField:
-    <ActivatorType>k__BackingField: 0
-    <ExecutionType>k__BackingField: 0
-    <TargetParameter>k__BackingField: 0
-    <ActionValue>k__BackingField: 1
-    <CoolDown>k__BackingField: 0
-    <Ammo>k__BackingField: {fileID: 0}
-    <NameTag>k__BackingField: 
-  <ExtraProperties>k__BackingField: []
+  _config:
+    <NameTag>k__BackingField: BasicAmulet
+    <Icon>k__BackingField: {fileID: 21300000, guid: ff251380ed4da1b428f7ce8f1b7e41da, type: 3}
+    <SlotType>k__BackingField: 4
+    <BaseProperty>k__BackingField:
+      <ActivatorType>k__BackingField: 0
+      <ExecutionType>k__BackingField: 0
+      <TargetParameter>k__BackingField: 0
+      <ActionValue>k__BackingField: 1
+      <CoolDown>k__BackingField: 0
+      <Ammo>k__BackingField: {fileID: 0}
+      <NameTag>k__BackingField: 
+    <ExtraProperties>k__BackingField: []

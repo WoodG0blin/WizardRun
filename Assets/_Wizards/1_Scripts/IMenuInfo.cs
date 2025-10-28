@@ -7,7 +7,7 @@ namespace WizardsPlatformer
     {
         ISceneLoader SceneLoader { get; }
         IPlayerModel PlayerModel { get; }
-        IReadOnlyList<ItemConfig> ArtifactDatabase { get; }
+        IReadOnlyList<ItemSO> ArtifactDatabase { get; }
 
         PLayFabController PlayFabController { get; }
 

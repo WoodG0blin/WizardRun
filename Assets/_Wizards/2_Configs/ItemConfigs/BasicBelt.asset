@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f4c5eef8ba33d43bf20ed72e6abf11, type: 3}
   m_Name: BasicBelt
   m_EditorClassIdentifier: 
-  <NameTag>k__BackingField: BasicBelt
-  <Icon>k__BackingField: {fileID: 21300000, guid: 621f2f925cd0dc645a26537831586e72, type: 3}
-  <SlotType>k__BackingField: 2
-  <BaseProperty>k__BackingField:
-    <ActivatorType>k__BackingField: 0
-    <ExecutionType>k__BackingField: 0
-    <TargetParameter>k__BackingField: 10
-    <ActionValue>k__BackingField: 1
-    <CoolDown>k__BackingField: 0
-    <Ammo>k__BackingField: {fileID: 0}
-    <NameTag>k__BackingField: 
-  <ExtraProperties>k__BackingField: []
+  _config:
+    <NameTag>k__BackingField: BasicBelt
+    <Icon>k__BackingField: {fileID: 21300000, guid: 621f2f925cd0dc645a26537831586e72, type: 3}
+    <SlotType>k__BackingField: 2
+    <BaseProperty>k__BackingField:
+      <ActivatorType>k__BackingField: 0
+      <ExecutionType>k__BackingField: 0
+      <TargetParameter>k__BackingField: 10
+      <ActionValue>k__BackingField: 1
+      <CoolDown>k__BackingField: 0
+      <Ammo>k__BackingField: {fileID: 0}
+      <NameTag>k__BackingField: 
+    <ExtraProperties>k__BackingField: []

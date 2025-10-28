@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f4c5eef8ba33d43bf20ed72e6abf11, type: 3}
   m_Name: AttackRing
   m_EditorClassIdentifier: 
-  <NameTag>k__BackingField: AttackRing
-  <Icon>k__BackingField: {fileID: 21300000, guid: 9866a92691696b346901281f2b329034, type: 3}
-  <SlotType>k__BackingField: 5
-  <BaseProperty>k__BackingField:
-    <ActivatorType>k__BackingField: 10
-    <ExecutionType>k__BackingField: 0
-    <TargetParameter>k__BackingField: 0
-    <ActionValue>k__BackingField: 10
-    <CoolDown>k__BackingField: 1
-    <Ammo>k__BackingField: {fileID: 11400000, guid: 891875d345a406a449c3c45c7c73132d, type: 2}
-    <NameTag>k__BackingField: 
-  <ExtraProperties>k__BackingField: []
+  _config:
+    <NameTag>k__BackingField: AttackRing
+    <Icon>k__BackingField: {fileID: 827549879493030194, guid: 8033d207ac3fdc840938a575ddb7c58c, type: 3}
+    <SlotType>k__BackingField: 5
+    <BaseProperty>k__BackingField:
+      <ActivatorType>k__BackingField: 10
+      <ExecutionType>k__BackingField: 0
+      <TargetParameter>k__BackingField: 0
+      <ActionValue>k__BackingField: 10
+      <CoolDown>k__BackingField: 0
+      <Ammo>k__BackingField: {fileID: 11400000, guid: 891875d345a406a449c3c45c7c73132d, type: 2}
+      <NameTag>k__BackingField: Explosion
+    <ExtraProperties>k__BackingField: []

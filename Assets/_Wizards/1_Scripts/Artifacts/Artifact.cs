@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-    public interface IArtifact : IItem
+    public interface IArtifact : IDisplayInfo
     {
+        string NameTag { get; }
+        ArtifactSlotType SlotType { get; }
         void Equip(IArtifactHolder holder);
         void Unequip();
         ItemConfig Config { get; }

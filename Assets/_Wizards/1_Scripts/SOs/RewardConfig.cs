@@ -11,7 +11,7 @@ namespace WizardsPlatformer
         [field: SerializeField] public string ID { get; private set; }
         [field: SerializeField] public Sprite DisplayImage { get; private set; }
         [field: SerializeField] public string Description { get; private set; }
-        [field: SerializeField] public List<ItemConfig> Items { get; private set; }
+        [field: SerializeField] public List<ItemSO> Items { get; private set; }
         [field: SerializeField] public List<Bonus> Bonuses { get; private set; }
         [field: SerializeField] public bool IsAccountable { get; private set; } = true;
         [field: SerializeField] public int ConditionValue { get; private set; }
@@ -43,7 +43,7 @@ namespace WizardsPlatformer
 
         public Sprite Icon => _config.DisplayImage;
         public string Description => _config.Description;
-        public List<ItemConfig> Items =>_config.Items;
+        public List<ItemSO> Items =>_config.Items;
         public List<Bonus> Bonuses => _config.Bonuses;
 
 
@@ -83,7 +83,7 @@ namespace WizardsPlatformer
         {
             foreach (var itemConfig in _config.Items)
             {
-                player.AddArtifact(itemConfig);
+                player.AddArtifact(itemConfig.GetConfig());
             }
             foreach (var bonus in _config.Bonuses)
             {
