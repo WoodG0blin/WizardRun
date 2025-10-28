@@ -10,6 +10,7 @@ namespace WizardsPlatformer
         IReadOnlyList<ItemSO> ArtifactDatabase { get; }
 
         PLayFabController PlayFabController { get; }
+        SoundManager SoundManager { get; }
 
         void StartForNewPlayer();
         void QuitGame();

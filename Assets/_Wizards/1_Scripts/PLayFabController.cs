@@ -11,6 +11,7 @@ namespace WizardsPlatformer
     {
         private PlayFabLoginResultCommon _currentLogin;
         private PlayerSavedData _playerData;
+        private SoundSettings _soundSettings;
 
         public bool IsLoggedIn => _currentLogin != null && _currentLogin.AuthenticationContext.IsEntityLoggedIn();
         public string Login { get; private set; }
@@ -24,6 +25,7 @@ namespace WizardsPlatformer
         public PLayFabController(GameManager gameManager)
         {
             _playerData = new();
+            _soundSettings = new SoundSettings();
 
             Login = PlayerPrefs.GetString("PlayFabLogin");
             Password = PlayerPrefs.GetString("PlayFabPassword");
@@ -91,12 +93,14 @@ namespace WizardsPlatformer
                 r => {
                     if(r.Data.ContainsKey("PlayerData"))
                        _playerData = JsonUtility.FromJson<PlayerSavedData>(r.Data["PlayerData"].Value);
+                    if(r.Data.ContainsKey("Settings"))
+                       _soundSettings = JsonUtility.FromJson<SoundSettings>(r.Data["Settings"].Value);
                     _sendPlayerUpdatedCheck?.Invoke(true);
                 },
                 _sendErrorMessage);
         }
 
-        public void SavePlayerData(PlayerSavedData data)
+        public void SavePlayerData(PlayerSavedData data, SoundSettings settings)
         {
             if(IsLoggedIn)
                 {
@@ -113,11 +117,13 @@ namespace WizardsPlatformer
                 }
 
                 string jsonData = JsonUtility.ToJson(data);
+                string jsonSettings = JsonUtility.ToJson(settings);
                 var request = new UpdateUserDataRequest()
                 {
                     Data = new Dictionary<string, string>()
                     {
-                        { "PlayerData", jsonData }
+                        { "PlayerData", jsonData },
+                        { "Settings", jsonSettings }
                     }
                 };
                 PlayFabClientAPI.UpdateUserData(request,
@@ -127,6 +133,7 @@ namespace WizardsPlatformer
         }
 
         public PlayerSavedData LoadPlayerData() => _playerData;
+        public SoundSettings LoadSoundSettings() => _soundSettings;
     }
 
 }

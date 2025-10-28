@@ -54,6 +54,7 @@ public class StartUIView : MonoBehaviour
 
         _locations.OnStart = onLevelSelected;
         _registry.OnRegisterFinished = () => _menuesManager.ActivatePanel(_locations);
+        _settings.OnSettingsSet = () => _menuesManager.ActivatePanel(_locations);
 
         if (info.PlayFabController.IsLoggedIn) _menuesManager.ActivatePanel(_locations);
         else _menuesManager.ActivatePanel(_registry);

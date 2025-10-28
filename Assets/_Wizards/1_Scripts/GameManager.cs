@@ -28,6 +28,7 @@ namespace WizardsPlatformer
         private bool _sceneLoadComplete;
 
         public PLayFabController PlayFabController { get; private set; }
+        public SoundManager SoundManager { get; private set; }
 
         private void Awake() => DontDestroyOnLoad(this);
         private void Start()
@@ -38,6 +39,9 @@ namespace WizardsPlatformer
         private void Init()
         {
             PlayerSavedData data = PlayFabController.LoadPlayerData();
+            SoundManager = new(PlayFabController.LoadSoundSettings());
+            SoundManager.OnSettingsUpdated = SaveGame;
+
             FillUpLocations(ref data.Locations);
 
             _gameModel = new(data, _playerConfig);
@@ -48,15 +52,13 @@ namespace WizardsPlatformer
                     _gameModel.PlayerModel.AddArtifact(art.GetConfig());
             }
 
-            SaveGame();
-
             LoadMainMenu();
         }
 
         private void FillUpLocations(ref List<Location> locations)
         {
             if (locations == null || locations.Count == 0) locations = GenerateNewLocations();
-            foreach (var l in locations) l.SetConfig(_locationsConfig.LoadLocation(l.Type)); 
+            foreach (var l in locations) l.SetConfig(_locationsConfig.LoadLocation(l.Type));
         }
 
         private List<Location> GenerateNewLocations()
@@ -83,7 +85,7 @@ namespace WizardsPlatformer
 
         void ILevelInfo.AccountForBonuses(Dictionary<BonusType, int> bonuses)
         {
-            foreach(KeyValuePair<BonusType, int> b in bonuses) _gameModel.PlayerModel.AddBonus(b.Key, b.Value);
+            foreach (KeyValuePair<BonusType, int> b in bonuses) _gameModel.PlayerModel.AddBonus(b.Key, b.Value);
         }
         void ILevelInfo.AccountForScore(float levelScore) => _gameModel.AddLevelScore(levelScore);
 
@@ -91,7 +93,7 @@ namespace WizardsPlatformer
         public IPlayerModel PlayerModel => _gameModel.PlayerModel;
         IReadOnlyList<ItemSO> IMenuInfo.ArtifactDatabase => _artifactDatabase.Configs;
         public void StartForNewPlayer() => Init();
-        public void SaveGame() => PlayFabController.SavePlayerData(_gameModel.GetSaveData());
+        public void SaveGame() => PlayFabController.SavePlayerData(_gameModel.GetSaveData(), SoundManager.SoundSettings);
 
         List<Location> IMenuInfo.Locations => _gameModel.Locations;
         void IMenuInfo.SetActiveLocation(Location location) => _gameModel.SetActiveLocation(location);
@@ -126,4 +128,22 @@ namespace WizardsPlatformer
             _gameModel.GetLevelConfig();
     }
 
+    public class SoundManager
+    {
+        public SoundSettings SoundSettings { get; private set; }
+        public Action OnSettingsUpdated { get; set; }
+
+        public SoundManager(SoundSettings settings)
+        {
+            SoundSettings = settings;
+        }
+
+        public void UpdateSettings(SoundSettings settings)
+        {
+            SoundSettings = settings;
+            Debug.Log($"New settings: music {settings.MusicVolume}, effects {settings.SFXVolume}, mute {settings.IsMuted}");
+            OnSettingsUpdated?.Invoke();
+            // set values to audio sources
+        }
+    }
 }
