@@ -1,57 +1,47 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace WizardsPlatformer
 {
     internal class SettingsView : MenuPanelView
     {
-        [SerializeField] private StatSliderView _musicVolumeSlider;
-        [SerializeField] private StatSliderView _sfxVolumeSlider;
-        [SerializeField] private ButtonView _muteButton;
+        [SerializeField] private SoundSettingsView _soundSettingsView;
 
-        [SerializeField] private Sprite _muteOn;
-        [SerializeField] private Sprite _muteOff;
+        //[SerializeField] private StatSliderView _musicVolumeSlider;
+        //[SerializeField] private StatSliderView _sfxVolumeSlider;
+        //[SerializeField] private ButtonView _muteButton;
 
-        private SoundSettings _soundSettings;
+        //[SerializeField] private Sprite _muteOn;
+        //[SerializeField] private Sprite _muteOff;
+
 
         public Action OnSettingsSet { get; set; }
 
         protected override void OnInit()
         {
-            _soundSettings = menuInfo.SoundManager.SoundSettings;
+            _soundSettingsView.Init(menuInfo.SoundManager.UpdateSettings);
+            //_soundSettings = menuInfo.SoundManager.SoundSettings;
         }
 
         protected override void OnActivation()
         {
             _activationButton.SetClick(ResetActivation);
+            _soundSettingsView.Activate(menuInfo.SoundManager.SoundSettings);
 
-            _musicVolumeSlider.SetValue(_soundSettings.MusicVolume);
-            _sfxVolumeSlider.SetValue(_soundSettings.SFXVolume);
-            _muteButton.SetImage(_soundSettings.IsMuted ? _muteOn : _muteOff);
+            //_musicVolumeSlider.SetValue(_soundSettings.MusicVolume);
+            //_sfxVolumeSlider.SetValue(_soundSettings.SFXVolume);
+            //_muteButton.SetImage(_soundSettings.IsMuted ? _muteOn : _muteOff);
 
-            _musicVolumeSlider.OnValueChanged = v => _soundSettings.MusicVolume = v;
-            _sfxVolumeSlider.OnValueChanged = v => _soundSettings.SFXVolume = v;
+            //_musicVolumeSlider.OnValueChanged = v => _soundSettings.MusicVolume = v;
+            //_sfxVolumeSlider.OnValueChanged = v => _soundSettings.SFXVolume = v;
 
-            _muteButton.SetClick(ToggleMute);
+            //_muteButton.SetClick(ToggleMute);
         }
 
         private void ResetActivation()
         {
             _activationButton.SetClick(() => SetActive(true));
             OnSettingsSet?.Invoke();
-        }
-
-        private void ToggleMute()
-        {
-            _soundSettings.IsMuted = !_soundSettings.IsMuted;
-            _muteButton.SetImage(_soundSettings.IsMuted ? _muteOn : _muteOff);
-        }
-
-        private void OnDisable()
-        {
-            menuInfo.SoundManager.UpdateSettings(_soundSettings);
         }
     }
 

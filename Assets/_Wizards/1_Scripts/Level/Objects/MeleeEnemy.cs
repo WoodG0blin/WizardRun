@@ -22,7 +22,7 @@ namespace WizardsPlatformer
 
             _currentState = new DemonIdle(this);
 
-            _closingDistance = config.WeaponConfig.Ammo.ActionRange;
+            _closingDistance = this.config.Ammo.ActionRange;
             _patrolDistance = _closingDistance * 5;
         }
 

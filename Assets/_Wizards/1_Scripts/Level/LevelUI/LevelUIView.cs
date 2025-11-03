@@ -25,7 +25,9 @@ namespace WizardsPlatformer
 
             _onFinish = info.SceneLoader.LoadMainMenu;
 
-            _pauseDisplay.Init(onRun: () => OnRunRequest?.Invoke());
+            _pauseDisplay.Init(
+                onRun: () => OnRunRequest?.Invoke(),
+                sound: info.SoundManager);
             _finishDisplay.Init(
                 onExit: () => _onFinish?.Invoke(),
                 onRestart: () => OnRestartRequest?.Invoke());
