@@ -50,7 +50,7 @@ namespace WizardsPlatformer
 
             _damage = config.Damage;
             _defence = config.Defence;
-            _speed = config.Speed;
+            _speed = config.SpeedModifier;
 
             Modifiers = new(baseModifiers);
             Modifiers.OnModified += () => OnBaseParametersChange?.Invoke();

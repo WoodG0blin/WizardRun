@@ -17,7 +17,7 @@ MonoBehaviour:
   <Prefab>k__BackingField: {fileID: 8043961177668047658, guid: e3e0dc485cecfc54bbff330e428d7e3a, type: 3}
   <MaxHealth>k__BackingField: 20
   <Speed>k__BackingField: 0
-  <JumpForce>k__BackingField: 0
+  <Defence>k__BackingField: 0
   <Damage>k__BackingField: 5
   <WeaponConfig>k__BackingField:
     <ActivatorType>k__BackingField: 10
@@ -25,8 +25,9 @@ MonoBehaviour:
     <TargetParameter>k__BackingField: 0
     <ActionValue>k__BackingField: 20
     <CoolDown>k__BackingField: 3
-    <Ammo>k__BackingField: {fileID: 11400000, guid: bd2338b1c1d3d224fbfdaca6a6d589c3, type: 2}
     <NameTag>k__BackingField: 
+    <AmmoReference>k__BackingField: 
+  <Ammo>k__BackingField: {fileID: 11400000, guid: bd2338b1c1d3d224fbfdaca6a6d589c3, type: 2}
   <DifficultyLevel>k__BackingField: 1
   <BonusesOnKill>k__BackingField:
   - Type: 5

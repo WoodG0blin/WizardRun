@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f4c5eef8ba33d43bf20ed72e6abf11, type: 3}
   m_Name: AttackRing
   m_EditorClassIdentifier: 
+  <Icon>k__BackingField: {fileID: 827549879493030194, guid: 8033d207ac3fdc840938a575ddb7c58c, type: 3}
   _config:
+    <Hash>k__BackingField: 
     <NameTag>k__BackingField: AttackRing
-    <Icon>k__BackingField: {fileID: 827549879493030194, guid: 8033d207ac3fdc840938a575ddb7c58c, type: 3}
+    <IconReference>k__BackingField: 
     <SlotType>k__BackingField: 5
     <BaseProperty>k__BackingField:
       <ActivatorType>k__BackingField: 10
@@ -22,6 +24,8 @@ MonoBehaviour:
       <TargetParameter>k__BackingField: 0
       <ActionValue>k__BackingField: 10
       <CoolDown>k__BackingField: 0
-      <Ammo>k__BackingField: {fileID: 11400000, guid: 891875d345a406a449c3c45c7c73132d, type: 2}
       <NameTag>k__BackingField: Explosion
+      <AmmoReference>k__BackingField: MeleeAmmo
     <ExtraProperties>k__BackingField: []
+    <ControlIndex>k__BackingField: -1
+  _baseAmmo: {fileID: 11400000, guid: 199174bd406448342814b86f3f5ef213, type: 2}

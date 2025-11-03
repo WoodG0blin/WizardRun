@@ -20,7 +20,7 @@ namespace WizardsPlatformer
 
         [Header("CONFIGS")]
         [SerializeField] private LevelObjectConfig _playerConfig;
-        [SerializeField] private AllItemConfigs _artifactDatabase;
+        [SerializeField] private ArtifactDatabase _artifactDatabase;
         [SerializeField] private LocationsConfig _locationsConfig;
 
 
@@ -33,7 +33,10 @@ namespace WizardsPlatformer
         private void Awake() => DontDestroyOnLoad(this);
         private void Start()
         {
+            _artifactDatabase.SetInstance();
+
             PlayFabController = new(this);
+            PlayFabController.LogIn(PlayFabController.Login, PlayFabController.Password, b => Init(), e => Init());
         }
 
         private void Init()
@@ -48,7 +51,7 @@ namespace WizardsPlatformer
 
             if (data.ChestArtifacts == null || data.ChestArtifacts.Count == 0)
             {
-                foreach (var art in _artifactDatabase.Configs)
+                foreach (var art in _artifactDatabase.BaseArtifacts)
                     _gameModel.PlayerModel.AddArtifact(art.GetConfig());
             }
 
@@ -91,7 +94,7 @@ namespace WizardsPlatformer
 
 
         public IPlayerModel PlayerModel => _gameModel.PlayerModel;
-        IReadOnlyList<ItemSO> IMenuInfo.ArtifactDatabase => _artifactDatabase.Configs;
+        IReadOnlyList<ItemSO> IMenuInfo.ArtifactDatabase => _artifactDatabase.BaseArtifacts;
         public void StartForNewPlayer() => Init();
         public void SaveGame() => PlayFabController.SavePlayerData(_gameModel.GetSaveData(), SoundManager.SoundSettings);
 

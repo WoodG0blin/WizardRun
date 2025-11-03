@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e45beb46d2edf74ea35a47f8aca45b0, type: 3}
   m_Name: ItemConfigs
   m_EditorClassIdentifier: 
-  _configs:
-  - {fileID: 11400000, guid: 56198d381684fe9428b54406b18ace06, type: 2}
-  - {fileID: 11400000, guid: 99a0e96ed81f6584a978df23b26668ba, type: 2}
-  - {fileID: 11400000, guid: a46367e0d241dfa4d9f1aec1889fbb29, type: 2}
-  - {fileID: 11400000, guid: 9baa8f4edfa6dae479fef209e70bda74, type: 2}
-  - {fileID: 11400000, guid: e28a3f1b95c5a8549be8ea473da2c18a, type: 2}
+  BaseArtifacts:
   - {fileID: 11400000, guid: bbc3725edd39e564f842211eb5c45099, type: 2}
+  - {fileID: 11400000, guid: a46367e0d241dfa4d9f1aec1889fbb29, type: 2}
+  - {fileID: 11400000, guid: 99a0e96ed81f6584a978df23b26668ba, type: 2}
+  - {fileID: 11400000, guid: e28a3f1b95c5a8549be8ea473da2c18a, type: 2}
+  - {fileID: 11400000, guid: 56198d381684fe9428b54406b18ace06, type: 2}
+  - {fileID: 11400000, guid: 9baa8f4edfa6dae479fef209e70bda74, type: 2}
   - {fileID: 11400000, guid: a242687596fad2646b6556ca81536aa1, type: 2}
+  BaseProperties: []
+  Ammos:
+  - {fileID: 11400000, guid: bd2338b1c1d3d224fbfdaca6a6d589c3, type: 2}
+  - {fileID: 11400000, guid: 199174bd406448342814b86f3f5ef213, type: 2}
+  - {fileID: 11400000, guid: 891875d345a406a449c3c45c7c73132d, type: 2}

@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f4c5eef8ba33d43bf20ed72e6abf11, type: 3}
   m_Name: HealingRing
   m_EditorClassIdentifier: 
+  <Icon>k__BackingField: {fileID: -517388500986470850, guid: 91bbb47957fc32f4e91aa204d33ccdda, type: 3}
   _config:
+    <Hash>k__BackingField: 
     <NameTag>k__BackingField: HealingRing
-    <Icon>k__BackingField: {fileID: -517388500986470850, guid: 91bbb47957fc32f4e91aa204d33ccdda, type: 3}
+    <IconReference>k__BackingField: 
     <SlotType>k__BackingField: 5
     <BaseProperty>k__BackingField:
       <ActivatorType>k__BackingField: 10
@@ -25,3 +27,4 @@ MonoBehaviour:
       <Ammo>k__BackingField: {fileID: 11400000, guid: 199174bd406448342814b86f3f5ef213, type: 2}
       <NameTag>k__BackingField: Heal
     <ExtraProperties>k__BackingField: []
+    <ControlIndex>k__BackingField: -1

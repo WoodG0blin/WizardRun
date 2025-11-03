@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Newtonsoft;
+using Newtonsoft.Json;
 
 namespace WizardsPlatformer
 {
@@ -21,6 +25,19 @@ namespace WizardsPlatformer
         Modifier = 20
     }
 
+    public class ArtifactPropertySO : ScriptableObject
+    {
+        public ArtifactPropertyConfig Config;
+        public AmmoConfig Ammo;
+
+        public ArtifactPropertyConfig GetConfig()
+        {
+            var res = Config.Clone();
+            res.SetAmmo(Ammo);
+            return res;
+        }
+    }
+
     [Serializable]
     public class ArtifactPropertyConfig
     {
@@ -33,9 +50,32 @@ namespace WizardsPlatformer
         [field: SerializeField] public int CoolDown { get; set; }
 
         [field: Space(10)]
-        [field: SerializeField] public AmmoConfig Ammo { get; set; }
         [field: SerializeField] public string NameTag { get; set; }
+        [field: SerializeField, HideInInspector] public string AmmoReference { get; set; }
+        public AmmoConfig Ammo { get; set; }
+
+        public void SetAmmo(AmmoConfig ammo)
+        {
+            Ammo = ammo;
+            AmmoReference = Ammo != null ? Ammo.name : "";
+        }
+
+        public void LoadResources() =>
+            SetAmmo(ArtifactDatabase.GetAmmoByName(AmmoReference));
+
+        public ArtifactPropertyConfig Clone() => new()
+        {
+            ActivatorType = this.ActivatorType,
+            ExecutionType = this.ExecutionType,
+            TargetParameter = this.TargetParameter,
+            ActionValue = this.ActionValue,
+            CoolDown = this.CoolDown,
+            NameTag = this.NameTag,
+            Ammo = this.Ammo,
+            AmmoReference = this.AmmoReference
+        };
     }
+
 
     public interface IArtifactExecutor
     {

@@ -56,7 +56,9 @@ namespace WizardsPlatformer
             Mastery = new(data.MasteryLevel);
 
             Actions = new(this);
-            ArtifactProperty _weapon = new(config.WeaponConfig, null, 0);
+            var weaponConfig = config.WeaponConfig.Clone();
+            weaponConfig.SetAmmo(config.Ammo);
+            ArtifactProperty _weapon = new(weaponConfig, null, 0);
             _weapon.Init(this);
             
             Chest = new();

@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   nameTag: player
-  <Prefab>k__BackingField: {fileID: 712456408780077035, guid: 3df535050b98fab4db6e9437afd81f77, type: 3}
+  <Type>k__BackingField: 0
+  <Prefab>k__BackingField: {fileID: 712456408780077035, guid: b1d31c8adf74feb459de6ad5df8ca0de, type: 3}
   <MaxHealth>k__BackingField: 300
-  <Speed>k__BackingField: 5
-  <JumpForce>k__BackingField: 1
+  <Speed>k__BackingField: 1
+  <Defence>k__BackingField: 0
   <Damage>k__BackingField: 10
   <WeaponConfig>k__BackingField:
     <ActivatorType>k__BackingField: 10
@@ -24,7 +25,8 @@ MonoBehaviour:
     <TargetParameter>k__BackingField: 0
     <ActionValue>k__BackingField: 5
     <CoolDown>k__BackingField: 1
-    <Ammo>k__BackingField: {fileID: 11400000, guid: 891875d345a406a449c3c45c7c73132d, type: 2}
     <NameTag>k__BackingField: 
+    <AmmoReference>k__BackingField: 
+  <Ammo>k__BackingField: {fileID: 11400000, guid: 891875d345a406a449c3c45c7c73132d, type: 2}
   <DifficultyLevel>k__BackingField: 0
-  <BonusesOnKill>k__BackingField: 0
+  <BonusesOnKill>k__BackingField: []

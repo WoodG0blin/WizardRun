@@ -23,6 +23,12 @@ namespace WizardsPlatformer
         public List<Modifier> BaseStatsModifiers = new();
 
         public List<Location> Locations = new();
+
+        public void LoadResources()
+        {
+            foreach (var e in EquipedArtifacts) e.LoadResources();
+            foreach (var c in ChestArtifacts) c.LoadResources();
+        }
     }
 
     [Serializable]

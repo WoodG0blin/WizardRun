@@ -32,16 +32,16 @@ namespace WizardsPlatformer
 
             Debug.Log($"Checking for {Login} and {Password}");
 
-            if(Login != "" && Password != "")
-                LogIn(Login, Password,
-                    message =>
-                        gameManager.StartForNewPlayer(),
-                    error =>
-                    {
-                        Debug.Log(error.ErrorMessage);
-                        gameManager.StartForNewPlayer();
-                    });
-            else gameManager.StartForNewPlayer();
+            //if(Login != "" && Password != "")
+            //    LogIn(Login, Password,
+            //        message =>
+            //            gameManager.StartForNewPlayer(),
+            //        error =>
+            //        {
+            //            Debug.Log(error.ErrorMessage);
+            //            gameManager.StartForNewPlayer();
+            //        });
+            //else gameManager.StartForNewPlayer();
         }
 
         public void LogIn(string login, string password, Action<bool> onSuccess, Action<PlayFabError> onError)
@@ -91,8 +91,12 @@ namespace WizardsPlatformer
 
             PlayFabClientAPI.GetUserData(new GetUserDataRequest(),
                 r => {
-                    if(r.Data.ContainsKey("PlayerData"))
-                       _playerData = JsonUtility.FromJson<PlayerSavedData>(r.Data["PlayerData"].Value);
+                    if (r.Data.ContainsKey("PlayerData"))
+                    {
+                        _playerData = JsonUtility.FromJson<PlayerSavedData>(r.Data["PlayerData"].Value);
+                        //_playerData = Newtonsoft.Json.JsonConvert.DeserializeObject<PlayerSavedData>(r.Data["PlayerData"].Value);
+                        _playerData.LoadResources();
+                    }
                     if(r.Data.ContainsKey("Settings"))
                        _soundSettings = JsonUtility.FromJson<SoundSettings>(r.Data["Settings"].Value);
                     _sendPlayerUpdatedCheck?.Invoke(true);
@@ -117,6 +121,7 @@ namespace WizardsPlatformer
                 }
 
                 string jsonData = JsonUtility.ToJson(data);
+                //string jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(data, Newtonsoft.Json.Formatting.Indented);
                 string jsonSettings = JsonUtility.ToJson(settings);
                 var request = new UpdateUserDataRequest()
                 {
