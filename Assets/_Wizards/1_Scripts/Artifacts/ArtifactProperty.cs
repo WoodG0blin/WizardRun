@@ -111,6 +111,8 @@ namespace WizardsPlatformer
         public Sprite Icon { get; private set; }
         public AmmoConfig Ammo => Config.Ammo;
 
+        public Action OnCooldownFinish;
+
 
         public ArtifactProperty(ArtifactPropertyConfig config, Artifact parentArt, int controlIndex = -1)
         {
@@ -145,6 +147,7 @@ namespace WizardsPlatformer
         {
             string a when a.Contains("ExtraJump") => new ExtraJumpExecutor(this),
             string a when a.Contains("ExtraShot") => new ExtraShotExecutor(this),
+            string a when a.Contains("Fly") => new FlyingExecutor(this),
             _ => null
         };
 
@@ -169,7 +172,9 @@ namespace WizardsPlatformer
         public void Use(IArtifactUser holder)
         {
             executor.Use(holder);
-            cooldownTimer = holder.SetTimer(Cooldown, t => RemainingCooldown = t, cooldownTimer);
+            cooldownTimer = holder.SetTimer(Cooldown,
+                t => { RemainingCooldown = t; if (IsReady) OnCooldownFinish?.Invoke(); },
+                cooldownTimer);
         }
     }
 }

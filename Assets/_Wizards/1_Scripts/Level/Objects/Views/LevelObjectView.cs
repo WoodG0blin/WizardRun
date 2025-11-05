@@ -12,7 +12,7 @@ namespace WizardsPlatformer
 
         private Action _onUpdateAction;
 
-        public IViewMover Mover { get; protected set; }
+        public IViewMover Mover { get; set; }
 
 
         protected bool initiated = false;
@@ -118,114 +118,6 @@ namespace WizardsPlatformer
         public void Destroy()
         {
             GameObject.Destroy(gameObject);
-        }
-    }
-
-    public interface IViewMover
-    {
-        void Update(float deltaTime);
-        Vector2 Velocity { get; }
-
-        void SetInput(Vector2 direction, float speed = 1);
-
-        void Jump(float force);
-        bool IsGrounded { get; }
-        bool IsExecutingJump { get; }
-
-        void GetKickOff(float force);
-    }
-
-    public class ViewMover : IViewMover
-    {
-        protected CharacterController characterController;
-        protected Collider collider;
-
-        protected const float GRAVITY = 9.81f;
-        protected const float BASE_MOVE_SPEED = 2f;
-        protected const float FLUCTUATION_TIME = 0.2f;
-        protected const float STOP_TIME = 0.2f;
-        protected const float MOVE_THRESHOLD = 0.005f;
-
-        protected bool isControlled = true;
-
-        protected float groundedTimer;
-        protected float jumpTimer;
-        protected float verticalVelocity;
-        protected float horizontalInput;
-        protected float jumpImpulseInput;
-
-        private Transform _transform;
-
-        public bool IsGrounded => groundedTimer > 0;
-        public bool IsExecutingJump => verticalVelocity > MOVE_THRESHOLD;
-        public Vector2 Velocity => new(horizontalInput, verticalVelocity);
-
-        internal ViewMover(Transform levelObject)
-        {
-            _transform = levelObject;
-
-            if (!_transform.TryGetComponent<CharacterController>(out characterController)) characterController = _transform.AddComponent<CharacterController>();
-        }
-
-        public void Update(float deltaTime)
-        {
-            if (groundedTimer > 0) groundedTimer -= deltaTime; //allowance for grounded fluctuations of less than FLUCTUATION TIME
-            if (jumpTimer > 0) jumpTimer -= deltaTime;
-
-            if (characterController.isGrounded)
-            {
-                groundedTimer = FLUCTUATION_TIME;
-                if (verticalVelocity < 0) verticalVelocity = 0;
-                isControlled = true;
-            }
-
-            verticalVelocity -= GRAVITY * deltaTime;
-
-            //FaceForward if not in uncontrolled kickOff & with enough movement force
-            if (isControlled && Mathf.Abs(horizontalInput) > MOVE_THRESHOLD)
-                _transform.forward = (Vector3.forward * horizontalInput).normalized;
-
-            if (jumpTimer > 0)
-            {
-                verticalVelocity += jumpImpulseInput;
-
-                groundedTimer = 0;
-                jumpTimer = 0;
-                jumpImpulseInput = 0;
-            }
-
-            characterController.Move(new Vector3(horizontalInput, verticalVelocity, 0) * deltaTime);
-
-            AdjustToStop(deltaTime / STOP_TIME);
-        }
-
-        private void AdjustToStop(float deltaCoeff)
-        {
-            float absSpeed = Mathf.Abs(horizontalInput);
-            absSpeed -= absSpeed * deltaCoeff;
-            horizontalInput = Mathf.Sign(horizontalInput) * Mathf.Clamp(absSpeed, 0, absSpeed);
-        }
-
-        public void SetInput(Vector2 direction, float speed = 1)
-        {
-            if (isControlled)
-                horizontalInput = Mathf.Clamp(direction.x, -1, 1) * BASE_MOVE_SPEED * speed;
-        }
-
-        public void Jump(float speed)
-        {
-            if (isControlled)
-            {
-                jumpImpulseInput = Mathf.Sqrt(2 * speed * BASE_MOVE_SPEED * GRAVITY);
-                jumpTimer = FLUCTUATION_TIME;
-            }
-        }
-
-        public void GetKickOff(float force)
-        {
-            SetInput(new(-Velocity.x, 0), force * 3);
-            Jump(force);
-            isControlled = false;
         }
     }
 }

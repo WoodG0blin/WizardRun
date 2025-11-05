@@ -1,4 +1,5 @@
 using System;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace WizardsPlatformer
@@ -10,7 +11,6 @@ namespace WizardsPlatformer
 
         private int _startHealth;
 
-        private float _moveThreshold = 0.02f;
         private float _jumpThreshold = 0.2f;
         private float _lastVerticalInput = 0f;
 
@@ -69,21 +69,14 @@ namespace WizardsPlatformer
 
         private void SetMoveInput(Vector2 input)
         {
-            float xInput = input.x;
-            float yInput = input.y;
-            bool jump = yInput > _lastVerticalInput;
+            bool jump = input.y > _lastVerticalInput;
 
-            if (Mathf.Abs(xInput) > _moveThreshold) SetMove(xInput);
-            if (Mathf.Abs(yInput) > _jumpThreshold && jump) SetJump();
+            _playerView.Mover?.SetInput(input, Stats.Speed);
+            if (Mathf.Abs(input.y) > _jumpThreshold && jump) SetJump();
 
-            _lastVerticalInput = yInput;
+            _lastVerticalInput = input.y;
         }
 
-        private void SetMove(float newValue)
-        {
-            if (Mathf.Abs(newValue) > _moveThreshold)
-                _playerView.Mover?.SetInput(new(newValue, 0), Stats.Speed);
-        }
         private void SetJump()
         {
             if (_playerView.Mover.IsGrounded)

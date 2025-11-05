@@ -21,11 +21,14 @@ namespace WizardsPlatformer
 
         public void SetInstance() => _instance = this;
 
-        public static AmmoConfig GetAmmoByName(string name) =>
-            _instance.Ammos.Where(a => a.name == name).FirstOrDefault();
+        public static AmmoConfig GetAmmoByName(string name)
+        {
+            var res = _instance.Ammos.Where(a => a.name == name).FirstOrDefault();
+            res ??= _instance.BaseArtifacts.Select(a => a.GetConfig().BaseProperty.Ammo).Where(ammo => ammo != null && ammo.name == name).FirstOrDefault();
+            return res;
+        }
         public static Sprite GetArtifactSpriteByName(string nameTag)
         {
-            Debug.Log($"trying to det sprite for {nameTag}. Has instance? {_instance != null}. Artifacts count {_instance.BaseArtifacts.Length}");
             var reference = _instance.BaseArtifacts.Where(a => a.NameTag == nameTag).FirstOrDefault();
             if (reference != null) return reference.Icon;
             else return null;

@@ -165,7 +165,7 @@ namespace WizardsPlatformer
         }
 
         public void KickOff(float force) => view.Mover?.GetKickOff(force);
-
+        public void ResetMover(Func<Transform, IViewMover> setter) => view.Mover = setter(view.transform);
 
         protected virtual void SetNewPlayerPosition(Vector3 playerPosition) => currentPlayerPosition = playerPosition;
 

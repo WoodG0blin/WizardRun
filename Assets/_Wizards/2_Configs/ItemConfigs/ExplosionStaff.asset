@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f4c5eef8ba33d43bf20ed72e6abf11, type: 3}
+  m_Name: ExplosionStaff
+  m_EditorClassIdentifier: 
+  <Icon>k__BackingField: {fileID: 21300000, guid: f4263d332f452474e88c02a75bba01b8, type: 3}
+  _config:
+    <Hash>k__BackingField: 
+    <NameTag>k__BackingField: ExplosionStaff
+    <IconReference>k__BackingField: 
+    <SlotType>k__BackingField: 0
+    <BaseProperty>k__BackingField:
+      <ActivatorType>k__BackingField: 10
+      <ExecutionType>k__BackingField: 0
+      <TargetParameter>k__BackingField: 0
+      <ActionValue>k__BackingField: 10
+      <CoolDown>k__BackingField: 1
+      <NameTag>k__BackingField: 
+      <AmmoReference>k__BackingField: ExplosiveAmmo
+    <ExtraProperties>k__BackingField: []
+    <ControlIndex>k__BackingField: -1
+  _baseAmmo: {fileID: 11400000, guid: 9c3457b6d6fe56c4c8919c001714c868, type: 2}

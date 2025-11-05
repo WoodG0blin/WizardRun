@@ -20,8 +20,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 56198d381684fe9428b54406b18ace06, type: 2}
   - {fileID: 11400000, guid: 9baa8f4edfa6dae479fef209e70bda74, type: 2}
   - {fileID: 11400000, guid: a242687596fad2646b6556ca81536aa1, type: 2}
+  - {fileID: 11400000, guid: e79ea35a7ee80414d9dda4149e55d27a, type: 2}
   BaseProperties: []
   Ammos:
   - {fileID: 11400000, guid: bd2338b1c1d3d224fbfdaca6a6d589c3, type: 2}
   - {fileID: 11400000, guid: 199174bd406448342814b86f3f5ef213, type: 2}
   - {fileID: 11400000, guid: 891875d345a406a449c3c45c7c73132d, type: 2}
+  - {fileID: 11400000, guid: 9c3457b6d6fe56c4c8919c001714c868, type: 2}
