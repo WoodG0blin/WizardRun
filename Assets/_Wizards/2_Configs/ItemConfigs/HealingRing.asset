@@ -23,8 +23,9 @@ MonoBehaviour:
       <ExecutionType>k__BackingField: 0
       <TargetParameter>k__BackingField: 0
       <ActionValue>k__BackingField: 20
-      <CoolDown>k__BackingField: 0
-      <Ammo>k__BackingField: {fileID: 11400000, guid: 199174bd406448342814b86f3f5ef213, type: 2}
+      <CoolDown>k__BackingField: 2
       <NameTag>k__BackingField: Heal
+      <AmmoReference>k__BackingField: 
     <ExtraProperties>k__BackingField: []
     <ControlIndex>k__BackingField: -1
+  _baseAmmo: {fileID: 0}

@@ -7,11 +7,12 @@ namespace WizardsPlatformer
 {
     internal class ControlAllocationView : MenuPanelView
     {
-        [SerializeField] private ButtonView _mainAttackButton;
-        [SerializeField] private ButtonView _extra1Button;
-        [SerializeField] private ButtonView _extra2Button;
-        [SerializeField] private ButtonView _extra3Button;
-        [SerializeField] private ButtonView _extra4Button;
+        [SerializeField] private ControlsView _controls;
+        //[SerializeField] private ButtonView _mainAttackButton;
+        //[SerializeField] private ButtonView _extra1Button;
+        //[SerializeField] private ButtonView _extra2Button;
+        //[SerializeField] private ButtonView _extra3Button;
+        //[SerializeField] private ButtonView _extra4Button;
 
         [Space(10)]
         [SerializeField] ButtonView _artButtonPrefab;
@@ -27,14 +28,16 @@ namespace WizardsPlatformer
 
         protected override void OnInit()
         {
-            _controlButtons = new()
-            {
-                _mainAttackButton,
-                _extra1Button,
-                _extra2Button,
-                _extra3Button,
-                _extra4Button
-            };
+            //_controlButtons = new()
+            //{
+            //    _mainAttackButton,
+            //    _extra1Button,
+            //    _extra2Button,
+            //    _extra3Button,
+            //    _extra4Button
+            //};
+
+            _controlButtons = _controls.ControlButtons;
 
             for (int i = 1; i < _controlButtons.Count; i++)
             {

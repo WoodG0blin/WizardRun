@@ -79,8 +79,12 @@ namespace WizardsPlatformer
 
     public interface IArtifactExecutor
     {
+        Sprite Icon { get; }
+        int ControlIndex { get; }
         void Use(IArtifactUser holder);
         bool IsReady { get; }
+        float RemainingCooldown { get; }
+        int Cooldown { get; }
     }
 
 

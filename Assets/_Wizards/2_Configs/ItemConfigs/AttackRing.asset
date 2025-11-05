@@ -23,9 +23,9 @@ MonoBehaviour:
       <ExecutionType>k__BackingField: 0
       <TargetParameter>k__BackingField: 0
       <ActionValue>k__BackingField: 10
-      <CoolDown>k__BackingField: 0
-      <NameTag>k__BackingField: Explosion
+      <CoolDown>k__BackingField: 4
+      <NameTag>k__BackingField: 
       <AmmoReference>k__BackingField: MeleeAmmo
     <ExtraProperties>k__BackingField: []
     <ControlIndex>k__BackingField: -1
-  _baseAmmo: {fileID: 11400000, guid: 199174bd406448342814b86f3f5ef213, type: 2}
+  _baseAmmo: {fileID: 11400000, guid: 9c3457b6d6fe56c4c8919c001714c868, type: 2}

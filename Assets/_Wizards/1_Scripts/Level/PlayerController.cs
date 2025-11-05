@@ -1,4 +1,7 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
@@ -13,6 +16,8 @@ namespace WizardsPlatformer
 
         private float _jumpThreshold = 0.2f;
         private float _lastVerticalInput = 0f;
+
+        private List<IArtifactExecutor> _explicits = new();
 
         private Action<Vector3> OnPlayerPositionChange;
         private Action OnPortalExit;
@@ -36,29 +41,17 @@ namespace WizardsPlatformer
 
             _startHealth = Stats.Health;
 
-            SetUpExplicitExecutors();
+            _explicits = Actions.GetActionsFor(PropertyActivators.Explicit);
+            Weapon = _explicits.Where(e => e.ControlIndex == 0).FirstOrDefault();
         }
 
-        private void SetUpExplicitExecutors()
-        {
-            var explicits = Actions.GetActionsFor(PropertyActivators.Explicit);
-
-            for(int i = 0; i < explicits.Count; i++)
-            {
-                if (i == 0) Weapon = explicits[0];
-                //else set for buttons
-            }
-        }
         public void SubscribeOnInput(IInputView input)
         {
             input.OnMoveInput += SetMoveInput;
-            input.OnFireInput += SetFire;
 
-            OnPlayerDeath += () =>
-            {
-                input.OnMoveInput -= SetMoveInput;
-                input.OnFireInput -= SetFire;
-            };
+            input.SetExplicitActions(_explicits, UseExplicit);
+
+            OnPlayerDeath += input.ClearInputs;
         }
         public override void SetSubscriptions(ILevelEventAccounter subscriber)
         {
@@ -86,12 +79,15 @@ namespace WizardsPlatformer
                 ex.Use(this);
         }
 
-        private void SetFire()
+        private void UseExplicit(IArtifactExecutor choice)
         {
             Direction = new(_playerView.XDirection, 0);
-            
-            if (Weapon.IsReady)
-                _playerView.DisplayAttack(onAttackPositionReady: Attack);
+
+            if(choice.IsReady)
+            {
+                if(choice == Weapon) _playerView.DisplayAttack(onAttackPositionReady: Attack);
+                else choice.Use(this);
+            }
         }
 
         private void Attack()

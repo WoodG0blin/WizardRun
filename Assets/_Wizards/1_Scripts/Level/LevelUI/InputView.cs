@@ -4,54 +4,68 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 using UnityStandardAssets.CrossPlatformInput;
+using System.Linq;
 
 namespace WizardsPlatformer
 {
     public interface IInputView
     {
         Action OnPauseMenu { get; set; }
-        Action OnFireInput { get;  set; }
         Action<Vector2> OnMoveInput { get; set; }
+        void ClearInputs();
+        void SetExplicitActions(List<IArtifactExecutor> actions, Action<IArtifactExecutor> onChoice);
     }
 
     internal class InputView : MonoBehaviour, IInputView
     {
-        [SerializeField] private Button _pauseMenuButton;
-        private Action _onEsc;
-        public Action OnPauseMenu
-        {
-            get => _onEsc;
-            set
-            {
-                _onEsc = value;
-                _pauseMenuButton?.onClick.AddListener(() => value.Invoke());
-            }
-        }
+        [SerializeField] private ControlsView _controls;
 
+        private List<Action> _updateActions = new();
+
+        public Action OnPauseMenu { get; set; }
         public Action<Vector2> OnMoveInput { get; set; }
-        public Action OnFireInput { get; set; }
 
-        
         private void Update()
         {
             OnMoveInput?.Invoke(new(CrossPlatformInputManager.GetAxis("Horizontal"), CrossPlatformInputManager.GetAxis("Vertical")));
-            //Debug.Log($"H{CrossPlatformInputManager.GetAxis("Horizontal")}, V{CrossPlatformInputManager.GetAxis("Vertical")}");
-            //if (CrossPlatformInputManager.GetButtonDown("Jump")) OnJumpInput?.Invoke();
-            if (CrossPlatformInputManager.GetButtonDown("Fire")) OnFireInput?.Invoke();
+            foreach (var action in _updateActions) action?.Invoke();
         }
 
 #if !MOBILE_INPUT
         private void FixedUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.Escape)) _onEsc?.Invoke();
+            if (Input.GetKeyDown(KeyCode.Escape)) OnPauseMenu?.Invoke();
+        }
+
+        public void SetExplicitActions(List<IArtifactExecutor> actions, Action<IArtifactExecutor> onChoice)
+        {
+            _updateActions = new();
+            for (int i = 0; i < _controls.ControlButtons.Count; i++)
+            {
+                var act = actions.Where(e => e.ControlIndex == i).FirstOrDefault();
+                ButtonView targetButton = _controls.ControlButtons[i];
+                if (act != null)
+                {
+                    targetButton.SetImage(act.Icon);
+                    targetButton.SetClick(() => onChoice?.Invoke(act));
+                    _updateActions.Add(() => targetButton.SetFill(1f - act.RemainingCooldown / act.Cooldown));
+                }
+                else
+                {
+                    targetButton.SetImage(null);
+                    targetButton.SetActive(false);
+                }
+            }
         }
 #endif
 
-        private void OnDestroy()
+        public void ClearInputs()
         {
-            OnFireInput = null;
             OnPauseMenu = null;
-            _pauseMenuButton?.onClick.RemoveAllListeners();
+            OnMoveInput = null;
+
+            foreach(var button in _controls.ControlButtons)
+                button.SetClick(null);
         }
     }
 }

@@ -53,6 +53,11 @@ public class ButtonView : MonoBehaviour
         SetVisuals();
     }
 
+    public void SetFill(float level)
+    {
+        _frameImage.fillAmount = Mathf.Clamp(level, 0f, 1f);
+    }
+
     public void SetText(string text)
     {
         _name = text;
