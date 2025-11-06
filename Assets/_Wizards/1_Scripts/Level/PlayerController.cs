@@ -12,9 +12,6 @@ namespace WizardsPlatformer
 
         private int _startHealth;
 
-        private float _jumpThreshold = 0.5f;
-        private float _lastVerticalInput = 0f;
-
         private List<IArtifactExecutor> _explicits = new();
 
         private Action<Vector3> OnPlayerPositionChange;
@@ -61,12 +58,7 @@ namespace WizardsPlatformer
 
         private void SetMoveInput(Vector2 input)
         {
-            //bool jump = input.y > _lastVerticalInput;
-
             _playerView.Mover?.SetInput(input, Stats.Speed);
-            //if (Mathf.Abs(input.y) > _jumpThreshold && jump) SetJump();
-
-            //_lastVerticalInput = input.y;
         }
 
         private void SetJump()

@@ -19,5 +19,6 @@ namespace WizardsPlatformer
         Coroutine SetTimer(float time, Action<float> informOnRemainingTime, Coroutine toStop = null);
         Transform Barrel { get; }
         void ResetMover(Func<Transform, IViewMover> setter);
+        void ReceiveDamage(int damage);
     }
 }

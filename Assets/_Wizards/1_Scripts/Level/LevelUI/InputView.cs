@@ -69,6 +69,7 @@ namespace WizardsPlatformer
         {
             OnPauseMenu = null;
             OnMoveInput = null;
+            OnJump = null;
 
             foreach(var button in _controls.ControlButtons)
                 button.SetClick(null);

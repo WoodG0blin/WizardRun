@@ -26,7 +26,6 @@ namespace WizardsPlatformer
         public void OnBeginDrag(PointerEventData eventData)
         {
             _currentDrag = true;
-            //_startPosition = eventData.position;
             _snapRadius = CalculateSnapRadius();
         }
 

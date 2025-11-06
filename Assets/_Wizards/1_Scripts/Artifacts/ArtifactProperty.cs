@@ -152,6 +152,7 @@ namespace WizardsPlatformer
             string a when a.Contains("ExtraJump") => new ExtraJumpExecutor(this),
             string a when a.Contains("ExtraShot") => new ExtraShotExecutor(this),
             string a when a.Contains("Fly") => new FlyingExecutor(this),
+            string a when a.Contains("Heal") => new HealExecutor(this),
             _ => null
         };
 
