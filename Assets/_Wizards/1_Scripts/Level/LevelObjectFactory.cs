@@ -77,7 +77,7 @@ namespace WizardsPlatformer
                 LevelObjectType.Trap => new Trap(config, gridPosition),
                 LevelObjectType.DirectShooter => new DirectShooter(config, gridPosition),
                 LevelObjectType.BallisticShooter => new BallisticShooter(config, gridPosition),
-                LevelObjectType.MeleeEnemy => new MeleeEnemy(config, gridPosition),
+                LevelObjectType.MeleeEnemy => new PatrollingEnemy(config, gridPosition),
                 _ => new SimpleObject(config, gridPosition)
             };
 

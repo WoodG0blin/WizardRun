@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Newtonsoft;
-using Newtonsoft.Json;
 
 namespace WizardsPlatformer
 {
@@ -85,6 +83,7 @@ namespace WizardsPlatformer
         bool IsReady { get; }
         float RemainingCooldown { get; }
         int Cooldown { get; }
+        bool CheckAction(Vector3 relativeTarget);
     }
 
 
@@ -181,5 +180,7 @@ namespace WizardsPlatformer
                 t => { RemainingCooldown = t; if (IsReady) OnCooldownFinish?.Invoke(); },
                 cooldownTimer);
         }
+
+        public bool CheckAction(Vector3 relativeTarget) => executor.CheckAction(relativeTarget);
     }
 }

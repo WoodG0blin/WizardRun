@@ -21,20 +21,21 @@ namespace WizardsPlatformer
         {
             view = base.view as DirectShooterView;
             view.Init();
-            view.SetUpdateActions(UpdateAim);
+            view.SetUpdateActions(SetAttack);
             
             Barrel = view.Barrel;
 
             base.OnInitiateView();
         }
 
-
-        private void UpdateAim()
+        protected override void SetAttack()
         {
-            if (InDistance)
+            if (Weapon != null)
             {
-                Direction = view.RotateBarrelTowards(currentPlayerPosition);
-                if (Weapon.IsReady) Weapon.Use(this);
+                float xDir = view.RotateBarrelTowards(currentPlayerPosition).x;
+                Direction = (currentPlayerPosition - view.Position);
+                if (Weapon.IsReady && Weapon.CheckAction(Direction * xDir))
+                    ExecuteAttackAction();
             }
         }
 

@@ -29,5 +29,7 @@ namespace WizardsPlatformer
         }
 
         private int CalculateDamage(IArtifactUser holder) => holder.Stats.Damage + parentProperty.ActionValue;
+
+        public override bool CheckAction(Vector3 relativeTarget) => _ammo.CheckAction(relativeTarget);
     }
 }

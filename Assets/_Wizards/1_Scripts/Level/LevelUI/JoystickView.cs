@@ -1,5 +1,7 @@
+using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityStandardAssets.CrossPlatformInput;
 
 namespace WizardsPlatformer
 {
@@ -23,6 +25,22 @@ namespace WizardsPlatformer
             _startPosition = _joystick.position;
         }
 
+        private void Update()
+        {
+            Vector2 current = new(CrossPlatformInputManager.GetAxis("Horizontal"), CrossPlatformInputManager.GetAxis("Vertical"));
+            float distance = current.magnitude;
+
+            if (distance < _dragRadius) distance = _dragRadius;
+            current *= (_dragRadius / distance);
+
+            Input = current.normalized;
+            //Jump = JoystickPosition.y > _jumpThreshold && JoystickPosition.y > _lastVerticalInput;
+            Jump = (Input.y - _lastVerticalInput) > _jumpThreshold;
+            _lastVerticalInput = Input.y;
+
+            _joystick.position = _startPosition + current;
+        }
+
         public void OnBeginDrag(PointerEventData eventData)
         {
             _currentDrag = true;
@@ -31,30 +49,31 @@ namespace WizardsPlatformer
 
         public void OnDrag(PointerEventData eventData)
         {
-            if(_currentDrag)
-            {
-                Vector2 pos = eventData.position;
-                float xDelta = pos.x - _startPosition.x;
-                float yDelta = pos.y - _startPosition.y;
+            //if(_currentDrag)
+            //{
+            //    Vector2 pos = eventData.position;
 
-                Vector2 current = new(xDelta, yDelta);
-                float distance = current.magnitude;
+            //    float xDelta = pos.x - _startPosition.x;
+            //    float yDelta = pos.y - _startPosition.y;
+
+            //    Vector2 current = new(xDelta, yDelta);
+            //    float distance = current.magnitude;
                 
-                if (distance > _snapRadius)
-                    FinishCurrentDrag();
-                else
-                {
-                    if (distance < _dragRadius) distance = _dragRadius;
-                    current *= (_dragRadius / distance);
+            //    if (distance > _snapRadius)
+            //        FinishCurrentDrag();
+            //    else
+            //    {
+            //        if (distance < _dragRadius) distance = _dragRadius;
+            //        current *= (_dragRadius / distance);
 
-                    Input = current.normalized;
-                    //Jump = JoystickPosition.y > _jumpThreshold && JoystickPosition.y > _lastVerticalInput;
-                    Jump = (Input.y - _lastVerticalInput) > _jumpThreshold;
-                    _lastVerticalInput = Input.y;
+            //        Input = current.normalized;
+            //        //Jump = JoystickPosition.y > _jumpThreshold && JoystickPosition.y > _lastVerticalInput;
+            //        Jump = (Input.y - _lastVerticalInput) > _jumpThreshold;
+            //        _lastVerticalInput = Input.y;
 
-                    _joystick.position = _startPosition + current;
-                }
-            }
+            //        _joystick.position = _startPosition + current;
+            //    }
+            //}
         }
 
         public void OnEndDrag(PointerEventData eventData)

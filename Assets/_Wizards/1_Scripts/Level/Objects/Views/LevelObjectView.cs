@@ -65,8 +65,10 @@ namespace WizardsPlatformer
 
 
         public void SetUpdateActions(Action onUpdate) => _onUpdateAction = onUpdate;
+        public void AddUpdateActions(Action onUpdate) => _onUpdateAction += onUpdate;
         public void FinishInitiation()
         {
+            SetMover(MovementType.None);
             OnInitiation();
             initiated = true;
         }
@@ -114,6 +116,17 @@ namespace WizardsPlatformer
 
         protected virtual void OnCollision(IInteractionResponder interactor) => OnInteraction?.Invoke(interactor);
         protected virtual void OnAnyContact(Transform collided) { }
+
+        protected void SetMover(MovementType type)
+        {
+            Mover = type switch
+            {
+                MovementType.Simple => new ViewMover(visualBody),
+                MovementType.Flying => new FlyingViewMover(visualBody),
+                _ => null
+            };
+            if(Mover != null) Mover.OnRequestReset = SetMover;
+        }
 
         public void Destroy()
         {

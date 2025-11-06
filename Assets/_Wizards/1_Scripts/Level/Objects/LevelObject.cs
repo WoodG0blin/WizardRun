@@ -2,9 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.Rendering.STP;
 
 namespace WizardsPlatformer
 {
@@ -155,6 +153,18 @@ namespace WizardsPlatformer
             view.FinishInitiation();
         }
 
+        protected virtual void SetAttack()
+        {
+            if(Weapon != null)
+            {
+                Direction = (currentPlayerPosition - view.Position);
+                if (Weapon.IsReady && Weapon.CheckAction(Direction * view.XDirection))
+                    ExecuteAttackAction();
+            }
+        }
+
+        protected virtual void ExecuteAttackAction() => Weapon.Use(this);
+
         protected override void ActionsOnInteraction(IInteractionResponder interactor)
         {
             if (interactor.IsPlayer)
@@ -165,7 +175,6 @@ namespace WizardsPlatformer
         }
 
         public void KickOff(float force) => view.Mover?.GetKickOff(force);
-        public void ResetMover(Func<Transform, IViewMover> setter) => view.Mover = setter(view.transform);
 
         protected virtual void SetNewPlayerPosition(Vector3 playerPosition) => currentPlayerPosition = playerPosition;
 

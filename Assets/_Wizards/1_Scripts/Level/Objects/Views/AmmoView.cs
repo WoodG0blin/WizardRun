@@ -9,16 +9,13 @@ namespace WizardsPlatformer
         [SerializeField] protected float lifetime = 5.0f;
 
         protected Action<float> moveMethod;
+        protected AmmoMover ammoMover;
 
         protected bool isFromPlayer;
 
         protected int damage;
 
         protected bool collided = false;
-        protected bool finish = false;
-
-        protected float horizontalVelocity;
-        protected float verticalVelocity;
 
         protected float distanceAccount;
 
@@ -28,11 +25,11 @@ namespace WizardsPlatformer
 
             isFromPlayer = fromPlayer;
 
-            moveMethod = type switch
+            ammoMover = type switch
             {
-                AmmoType.Ballistic => BallisticMove,
-                AmmoType.Explosion => ExplosiveMove,
-                _ => DirectMove
+                AmmoType.Ballistic => new BallisticAmmoMover(transform),
+                AmmoType.Explosion => new ExplosiveAmmoMover(transform),
+                _ => new DirectAmmoMover(transform)
             };
 
             SetActive(false);
@@ -40,12 +37,12 @@ namespace WizardsPlatformer
             transform.rotation = Quaternion.identity;
         }
 
-        public void Fire(Vector2 direction, float distance = 0)
+        public void Fire(Vector2 direction, float speed, float distance = 0)
         {
             transform.SetParent(null);
             SetActive(true);
 
-            StartCoroutine(Move(direction, distance));
+            StartCoroutine(Move(direction, speed, distance));
         }
 
 
@@ -60,17 +57,16 @@ namespace WizardsPlatformer
         }
         protected override void OnAnyContact(Transform collided) => this.collided = true;
 
-        private IEnumerator Move(Vector2 direction, float range)
+        private IEnumerator Move(Vector2 direction, float speed, float range)
         {
-            horizontalVelocity = direction.x;
-            verticalVelocity = direction.y;
+            ammoMover.SetVelocities(direction, speed);
 
             float timer = 0;
             float distance = -1;
 
-            while(timer < lifetime && distance < range && !finish)
+            while(timer < lifetime && distance < range)
             {
-                moveMethod?.Invoke(Time.deltaTime);
+                if(!ammoMover.Move(collided, Time.deltaTime, ref distanceAccount)) timer = lifetime;
                 timer += Time.deltaTime;
                 if (range > 0) distance = distanceAccount;
                 yield return null;
@@ -78,45 +74,115 @@ namespace WizardsPlatformer
 
             Destroy();
         }
+    }
 
-        private void DirectMove(float deltaTime)
+    public abstract class AmmoMover
+    {
+        protected Transform body;
+
+        protected float horizontalVelocity;
+        protected float verticalVelocity;
+
+        public AmmoMover(Transform body) => this.body = body;
+
+        public abstract void SetVelocities(Vector2 direction, float speed);
+        public abstract bool Move(bool collided, float deltaTime, ref float distanceAccount);
+    }
+
+    public class DirectAmmoMover : AmmoMover
+    {
+        public DirectAmmoMover(Transform body) : base(body) { }
+
+        public override bool Move(bool collided, float deltaTime, ref float distanceAccount)
         {
-            finish = collided;
-            if (!finish)
+            if (!collided)
             {
-                transform.position += new Vector3(horizontalVelocity, verticalVelocity, 0) * deltaTime;
+                body.position += new Vector3(horizontalVelocity, verticalVelocity, 0) * deltaTime;
                 distanceAccount += horizontalVelocity * deltaTime;
+                return true;
             }
+            return false;
         }
 
-        private void BallisticMove(float deltaTime)
+        public override void SetVelocities(Vector2 direction, float speed)
         {
-            finish = collided;
-            if (!finish)
+            var vel = direction.normalized * speed;
+            horizontalVelocity = vel.x;
+            verticalVelocity = vel.y;
+        }
+    }
+    public class BallisticAmmoMover : AmmoMover
+    {
+        private int _minAngle = 45;
+
+        private float _fireForce = 5;
+
+        public BallisticAmmoMover(Transform body) : base(body) { }
+
+        public override bool Move(bool collided, float deltaTime, ref float distanceAccount)
+        {
+            if (!collided)
             {
-                transform.position += new Vector3(horizontalVelocity, verticalVelocity, 0) * deltaTime;
+                body.position += new Vector3(horizontalVelocity, verticalVelocity, 0) * deltaTime;
                 verticalVelocity -= 9.81f * deltaTime;
                 distanceAccount += horizontalVelocity * deltaTime;
+                return true;
             }
+            return false;
         }
 
-        private void ExplosiveMove(float deltaTime)
+        public override void SetVelocities(Vector2 direction, float speed)
         {
-            finish = false;
-            transform.localScale += Vector3.one * deltaTime*10;
+            _fireForce = speed;
+
+            var res = CalculateRotationParameters(direction).normalized * speed;
+
+            horizontalVelocity = res.x;
+            verticalVelocity = res.y;
+            Debug.Log($"Velocity {res}");
+        }
+
+        protected Vector2 CalculateRotationParameters(Vector2 targetPosition)
+        {
+            float _angle = 0f;
+
+            for (int i = 89; i > _minAngle; i--)
+            {
+                float dx = Mathf.Abs(targetPosition.x);
+                float targetApprox = CalcBallisticDY(dx, i);
+
+                if (Mathf.Abs(targetApprox - targetPosition.y) < 0.5f)
+                {
+                    _angle = i;
+                    break;
+                }
+            }
+
+            return new(Mathf.Sign(targetPosition.x) * Mathf.Cos(RAD(_angle)), Mathf.Sin(RAD(_angle)));
+        }
+
+        private float CalcBallisticDY(float dx, float angle)
+        {
+            float tan = Mathf.Tan(RAD(angle));
+            float cos = Mathf.Cos(RAD(angle));
+
+            return dx * tan - 9.8f * (dx * dx) / (2 * _fireForce * _fireForce * cos * cos);
+        }
+
+        private float RAD(float angle) => Mathf.Deg2Rad * angle;
+    }
+
+    public class ExplosiveAmmoMover : AmmoMover
+    {
+        public ExplosiveAmmoMover(Transform body) : base(body) { }
+
+        public override bool Move(bool collided, float deltaTime, ref float distanceAccount)
+        {
+            body.localScale += Vector3.one * deltaTime * 10;
             distanceAccount += deltaTime * 10;
+            return false;
         }
 
-
-        protected void Destroy()
-        {
-            //if (_currentTimer != null)
-            //{
-            //    StopCoroutine(_currentTimer);
-            //    _currentTimer = null;
-            //}
-            SetActive(false);
-            GameObject.Destroy(gameObject);
-        }
+        public override void SetVelocities(Vector2 direction, float speed) { }
     }
 }

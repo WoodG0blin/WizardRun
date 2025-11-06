@@ -114,9 +114,8 @@ namespace WizardsPlatformer
 
             OnReceiveDamage += (d) => _playerView.DisplayHit();
 
-            _playerView.SetUpdateActions(() => OnPlayerPositionChange?.Invoke(_playerView.Position));
-
             base.OnInitiateView();
+            _playerView.SetUpdateActions(() => OnPlayerPositionChange?.Invoke(_playerView.Position));
 
             _playerView.InitiatePortal(null, Vector3.zero);
         }

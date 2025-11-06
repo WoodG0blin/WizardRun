@@ -17,6 +17,7 @@ namespace WizardsPlatformer
         [SerializeField] bool NoGap;
         [SerializeField] float xDir;
         [SerializeField] public Vector2 Velocity;
+        [SerializeField] public string message;
 
 
         private LayerMask _layerMask;
@@ -58,5 +59,6 @@ namespace WizardsPlatformer
             animator.TriggerAnimation(ActionState.Attack, () => onAttackPositionReady());
 
         public void DisplayState(string state) => stateText.text = state;
+        public void DisplayMessage(string state) => message = state;
     }
 }

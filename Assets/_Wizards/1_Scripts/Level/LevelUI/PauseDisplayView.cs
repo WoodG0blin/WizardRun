@@ -47,6 +47,7 @@ namespace WizardsPlatformer
         private void MainMenu()
         {
             gameObject.SetActive(false);
+            Time.timeScale = 1f;
             _onMainMenu?.Invoke();
         }
     }

@@ -1,4 +1,5 @@
-﻿using Unity.VisualScripting;
+﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace WizardsPlatformer
@@ -15,7 +16,18 @@ namespace WizardsPlatformer
         bool IsExecutingJump { get; }
 
         void GetKickOff(float force);
+
+        MovementType Type { get; }
+        Action<MovementType> OnRequestReset { get; set; }
     }
+
+    public enum MovementType
+    {
+        None = 0,
+        Simple = 1,
+        Flying = 10
+    }
+
 
     public class ViewMover : IViewMover
     {
@@ -41,9 +53,13 @@ namespace WizardsPlatformer
         public bool IsExecutingJump => moveInput.y > MOVE_THRESHOLD;
         public Vector2 Velocity => moveInput;
 
+        public Action<MovementType> OnRequestReset { get; set; }
+        public MovementType Type { get; protected set; }
+
         internal ViewMover(Transform levelObject)
         {
             _transform = levelObject;
+            Type = MovementType.Simple;
 
             if (!_transform.TryGetComponent<CharacterController>(out characterController)) characterController = _transform.AddComponent<CharacterController>();
         }
@@ -114,7 +130,7 @@ namespace WizardsPlatformer
 
     public class FlyingViewMover : ViewMover
     {
-        public FlyingViewMover(Transform levelObject) : base(levelObject) { }
+        public FlyingViewMover(Transform levelObject) : base(levelObject) { Type = MovementType.Flying; }
 
         public override void Update(float deltaTime)
         {
