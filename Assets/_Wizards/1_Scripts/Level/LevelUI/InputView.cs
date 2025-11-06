@@ -12,6 +12,7 @@ namespace WizardsPlatformer
     {
         Action OnPauseMenu { get; set; }
         Action<Vector2> OnMoveInput { get; set; }
+        Action OnJump {  get; set; }
         void ClearInputs();
         void SetExplicitActions(List<IArtifactExecutor> actions, Action<IArtifactExecutor> onChoice);
     }
@@ -19,15 +20,20 @@ namespace WizardsPlatformer
     internal class InputView : MonoBehaviour, IInputView
     {
         [SerializeField] private ControlsView _controls;
+        [SerializeField] private JoystickView _joystick;
 
         private List<Action> _updateActions = new();
 
         public Action OnPauseMenu { get; set; }
         public Action<Vector2> OnMoveInput { get; set; }
+        public Action OnJump { get; set; }
+
 
         private void Update()
         {
-            OnMoveInput?.Invoke(new(CrossPlatformInputManager.GetAxis("Horizontal"), CrossPlatformInputManager.GetAxis("Vertical")));
+            OnMoveInput?.Invoke(_joystick.Input);
+            if (_joystick.Jump) OnJump?.Invoke();
+
             foreach (var action in _updateActions) action?.Invoke();
         }
 

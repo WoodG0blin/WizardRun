@@ -1,8 +1,6 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace WizardsPlatformer
@@ -14,7 +12,7 @@ namespace WizardsPlatformer
 
         private int _startHealth;
 
-        private float _jumpThreshold = 0.2f;
+        private float _jumpThreshold = 0.5f;
         private float _lastVerticalInput = 0f;
 
         private List<IArtifactExecutor> _explicits = new();
@@ -48,6 +46,7 @@ namespace WizardsPlatformer
         public void SubscribeOnInput(IInputView input)
         {
             input.OnMoveInput += SetMoveInput;
+            input.OnJump += SetJump;
 
             input.SetExplicitActions(_explicits, UseExplicit);
 
@@ -62,12 +61,12 @@ namespace WizardsPlatformer
 
         private void SetMoveInput(Vector2 input)
         {
-            bool jump = input.y > _lastVerticalInput;
+            //bool jump = input.y > _lastVerticalInput;
 
             _playerView.Mover?.SetInput(input, Stats.Speed);
-            if (Mathf.Abs(input.y) > _jumpThreshold && jump) SetJump();
+            //if (Mathf.Abs(input.y) > _jumpThreshold && jump) SetJump();
 
-            _lastVerticalInput = input.y;
+            //_lastVerticalInput = input.y;
         }
 
         private void SetJump()
