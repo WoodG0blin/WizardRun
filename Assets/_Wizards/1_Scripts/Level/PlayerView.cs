@@ -24,6 +24,7 @@ namespace WizardsPlatformer
         protected override void OnUpdate()
         {
             animator.UpdateValues(Mover.Velocity);
+            XDirection = visualBody.right.x;
         }
 
         public Transform GetBarrelObject() { return _barrel ?? visualBody.Find("Barrel"); }

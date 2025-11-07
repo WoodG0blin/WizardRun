@@ -1,26 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace WizardsPlatformer
 {
-    internal class BallisticShooter : ActiveObject
+    internal class StandingEnemy : ActiveObject
     {
         private new EnemyView view;
 
-        public BallisticShooter(LevelObjectConfig config, Vector2Int gridPosition) : base(config, gridPosition) { }
+        public StandingEnemy(LevelObjectConfig config, Vector2Int gridPosition) : base(config, gridPosition) { }
 
         protected override LevelObjectView SetView(GameObject gameObject) =>
-            gameObject.AddComponent<BallisticShooterView>();
+            gameObject.AddComponent<EnemyView>();
 
         protected override void OnInitiateView()
         {
             view = base.view as EnemyView;
-
             Barrel = view.Barrel;
-
             base.OnInitiateView();
         }
     }

@@ -18,6 +18,6 @@ namespace WizardsPlatformer
             UnityEngine.Debug.Log($"Executing Stub for {parentProperty.NameTag}");
         }
 
-        public virtual bool CheckAction(Vector3 relativeTarget) => true;
+        public virtual bool CheckAction(Vector2 relativeTarget) => true;
     }
 }

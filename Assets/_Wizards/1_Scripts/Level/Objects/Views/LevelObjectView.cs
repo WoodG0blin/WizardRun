@@ -6,26 +6,24 @@ namespace WizardsPlatformer
 {
     public class LevelObjectView : MonoBehaviour, ILevelObjectView
     {
-        private Transform _visualBody;
+        [SerializeField] public string Message;
 
+        private Transform _visualBody;
         private ContactsPuller3D _contacts;
+        private AnimationController _animator;
 
         private Action _onUpdateAction;
 
-        public IViewMover Mover { get; set; }
-
-
         protected bool initiated = false;
-        private AnimationController _animator;
         protected float kickCoeff = 2f;
 
+        public IViewMover Mover { get; set; }
         public IInteractionResponder InteractionResponder { get; set; }
-
-        public Vector3 Position { get => transform.position; }
-        public float XDirection { get => Mathf.Sign(transform.right.x); }
-
         public Action<IInteractionResponder> OnInteraction { get; set; }
 
+        public Vector3 Position { get => transform.position; }
+        public float XDirection { get; protected set; }
+        //public float XDirection { get => Mathf.Sign(transform.right.x); }
 
         protected AnimationController animator
         {
@@ -41,39 +39,52 @@ namespace WizardsPlatformer
             }
         }
 
-        public Transform visualBody
+        protected Transform visualBody
         {
             get
             {
                 if (!_visualBody)
                     //_visualBody = transform.Find("VisualBody") ?? transform;
-                    _visualBody =  transform;
+                    _visualBody = transform;
                 return _visualBody;
             }
             private set => _visualBody = value;
         }
+
 
         public void Draw(Vector3 position)
         {
             transform.position = position;
             SetActive(true);
         }
-        public void SetActive(bool active)
-        {
-            gameObject.SetActive(active);
-        }
+        public void SetActive(bool active) => gameObject.SetActive(active);
 
 
         public void SetUpdateActions(Action onUpdate) => _onUpdateAction = onUpdate;
-        public void AddUpdateActions(Action onUpdate) => _onUpdateAction += onUpdate;
+
+
         public void FinishInitiation()
         {
             SetMover(MovementType.None);
             OnInitiation();
             initiated = true;
         }
+        protected void SetMover(MovementType type)
+        {
+            Mover = type switch
+            {
+                MovementType.Simple => new ViewMover(visualBody),
+                MovementType.Flying => new FlyingViewMover(visualBody),
+                _ => null
+            };
+            if (Mover != null) Mover.OnRequestReset = SetMover;
+        }
         protected virtual void OnInitiation() { }
 
+
+        public virtual void SetTargetDirection(Vector3 direction) => XDirection = (direction - Position).x > 0 ? 1 : -1;
+
+        
         private void Update()
         {
             if (initiated)
@@ -117,20 +128,7 @@ namespace WizardsPlatformer
         protected virtual void OnCollision(IInteractionResponder interactor) => OnInteraction?.Invoke(interactor);
         protected virtual void OnAnyContact(Transform collided) { }
 
-        protected void SetMover(MovementType type)
-        {
-            Mover = type switch
-            {
-                MovementType.Simple => new ViewMover(visualBody),
-                MovementType.Flying => new FlyingViewMover(visualBody),
-                _ => null
-            };
-            if(Mover != null) Mover.OnRequestReset = SetMover;
-        }
 
-        public void Destroy()
-        {
-            GameObject.Destroy(gameObject);
-        }
+        public void Destroy() => GameObject.Destroy(gameObject);
     }
 }

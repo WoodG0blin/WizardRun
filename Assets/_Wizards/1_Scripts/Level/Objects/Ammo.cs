@@ -58,7 +58,7 @@ namespace WizardsPlatformer
             view.Fire(direction, speed, Range);
         }
 
-        public bool CheckAction(Vector3 relativeTarget) => ammoType switch
+        public bool CheckAction(Vector2 relativeTarget) => ammoType switch
         {
             AmmoType.Melee => MeleeCheck(relativeTarget),
             AmmoType.SimpleRanged => DirectCheck(relativeTarget),
@@ -67,9 +67,9 @@ namespace WizardsPlatformer
             _ => true
         };
 
-        private bool MeleeCheck(Vector3 relativeTarget) => relativeTarget.x < Range && relativeTarget.x > 0;
-        private bool DirectCheck(Vector3 relativeTarget) => (Range > 0 ? relativeTarget.x < Range : true) && relativeTarget.x > 0;
-        private bool BallisticCheck(Vector3 relativeTarget) => (Range > 0 ? Mathf.Abs(relativeTarget.x) < Range : true);
-        private bool ExplosionCheck(Vector3 relativeTarget) => relativeTarget.magnitude < Range;
+        private bool MeleeCheck(Vector2 relativeTarget) => relativeTarget.x < Range && relativeTarget.x > 0;
+        private bool DirectCheck(Vector2 relativeTarget) => (Range > 0 ? relativeTarget.x < Range : true) && relativeTarget.x > 0;
+        private bool BallisticCheck(Vector2 relativeTarget) => (Range > 0 ? Mathf.Abs(relativeTarget.x) < Range : true);
+        private bool ExplosionCheck(Vector2 relativeTarget) => relativeTarget.magnitude < Range;
     }
 }

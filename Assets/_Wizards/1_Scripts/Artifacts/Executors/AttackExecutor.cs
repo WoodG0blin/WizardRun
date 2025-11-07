@@ -17,7 +17,7 @@ namespace WizardsPlatformer
         {
             if(_isReady)
             {
-                _ammo.Start(holder.Barrel, holder.Direction, CalculateDamage(holder));
+                _ammo.Start(holder.Barrel, holder.TargetDirection, CalculateDamage(holder));
                 _isReady = false;
                 holder.SetTimer(_techCooldown, rt => _isReady = rt <= 0);
             }
@@ -30,6 +30,6 @@ namespace WizardsPlatformer
 
         private int CalculateDamage(IArtifactUser holder) => holder.Stats.Damage + parentProperty.ActionValue;
 
-        public override bool CheckAction(Vector3 relativeTarget) => _ammo.CheckAction(relativeTarget);
+        public override bool CheckAction(Vector2 relativeTarget) => _ammo.CheckAction(relativeTarget);
     }
 }

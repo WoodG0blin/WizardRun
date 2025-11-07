@@ -72,7 +72,7 @@ namespace WizardsPlatformer
 
         private void UseExplicit(IArtifactExecutor choice)
         {
-            Direction = new(_playerView.XDirection, 0);
+            TargetDirection = new(_playerView.XDirection, 0);
 
             if(choice.IsReady)
             {
@@ -115,9 +115,13 @@ namespace WizardsPlatformer
             OnReceiveDamage += (d) => _playerView.DisplayHit();
 
             base.OnInitiateView();
-            _playerView.SetUpdateActions(() => OnPlayerPositionChange?.Invoke(_playerView.Position));
 
             _playerView.InitiatePortal(null, Vector3.zero);
+        }
+
+        protected override void ActionsOnUpdate()
+        {
+            OnPlayerPositionChange?.Invoke(_playerView.Position);
         }
 
         protected override void ActionsOnInteraction(IInteractionResponder interactor)

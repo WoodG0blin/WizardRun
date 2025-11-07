@@ -83,7 +83,7 @@ namespace WizardsPlatformer
         bool IsReady { get; }
         float RemainingCooldown { get; }
         int Cooldown { get; }
-        bool CheckAction(Vector3 relativeTarget);
+        bool CheckAction(Vector2 relativeTarget);
     }
 
 
@@ -181,6 +181,6 @@ namespace WizardsPlatformer
                 cooldownTimer);
         }
 
-        public bool CheckAction(Vector3 relativeTarget) => executor.CheckAction(relativeTarget);
+        public bool CheckAction(Vector2 relativeTarget) => IsReady && executor.CheckAction(relativeTarget);
     }
 }

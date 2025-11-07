@@ -13,7 +13,7 @@ namespace WizardsPlatformer
 
     public interface IArtifactUser : IArtifactHolder
     {
-        Vector2 Direction { get; }
+        Vector2 TargetDirection { get; }
         IArtifactExecutor Weapon { get; }
         IViewMover Mover { get; }
         Coroutine SetTimer(float time, Action<float> informOnRemainingTime, Coroutine toStop = null);

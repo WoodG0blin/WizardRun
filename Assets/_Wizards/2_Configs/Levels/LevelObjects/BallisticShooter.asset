@@ -28,7 +28,7 @@ MonoBehaviour:
     <NameTag>k__BackingField: 
     <AmmoReference>k__BackingField: 
   <Ammo>k__BackingField: {fileID: 11400000, guid: bd2338b1c1d3d224fbfdaca6a6d589c3, type: 2}
-  <DifficultyLevel>k__BackingField: 0
+  <DifficultyLevel>k__BackingField: 2
   <BonusesOnKill>k__BackingField:
   - Type: 5
     Value: 1

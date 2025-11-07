@@ -27,7 +27,7 @@ namespace WizardsPlatformer
             LocalPosition = position;
         }
 
-        public virtual void Recreate() { }
+        public virtual void SetUp() { }
 
         public ILevelObjectView InitiateView(GameObject gameObject)
         {
@@ -88,13 +88,18 @@ namespace WizardsPlatformer
         protected Action<int> OnReceiveDamage;
         protected Action<Bonus> OnBonusCollect;
 
+        public bool IsPlayer { get; protected set; }
+        public float LookDirection { get; protected set; }
+        public Vector2 TargetDirection { get; protected set; }
+        public IViewMover Mover => view.Mover;
+
         protected ActiveObject(LevelObjectConfig config, Vector2 position) : base(config, position)
         {
             this.config = config;
-            Recreate();
+            SetUp();
         }
 
-        public override void Recreate()
+        public override void SetUp()
         {
             Stats = new(config, new());
             Stats.OnDeath += Die;
@@ -114,14 +119,9 @@ namespace WizardsPlatformer
             foreach (var b in config.BonusesOnKill) bonusesOnKill.Add(b);
         }
 
-        public bool IsPlayer { get; protected set; }
-
-        public Vector2 Direction { get; protected set; }
-        public IViewMover Mover => view.Mover;
-
         public override void SetSubscriptions(ILevelEventAccounter subscriber)
         {
-            subscriber.OnPlayerPositionChange += SetNewPlayerPosition;
+            subscriber.OnPlayerPositionChange += p => currentPlayerPosition = p;
             OnBonusCollect = subscriber.AccountForBonus;
             OnReceiveDamage += subscriber.AccountForDamage;
         }
@@ -132,6 +132,7 @@ namespace WizardsPlatformer
             Stats.Health -= damage;
             OnReceiveDamage?.Invoke(damageReceived);
         }
+
         protected virtual void Die()
         {
             Destroy();
@@ -143,6 +144,7 @@ namespace WizardsPlatformer
         public virtual void Destroy()
         {
             view.SetActive(false);
+            //view.Destroy();
         }
 
 
@@ -150,19 +152,19 @@ namespace WizardsPlatformer
         {
             base.OnInitiateView();
             view.InteractionResponder = this;
+            view.SetUpdateActions(ActionsOnUpdate);
             view.FinishInitiation();
         }
 
-        protected virtual void SetAttack()
+        protected virtual void ActionsOnUpdate()
         {
-            if(Weapon != null)
-            {
-                Direction = (currentPlayerPosition - view.Position);
-                if (Weapon.IsReady && Weapon.CheckAction(Direction * view.XDirection))
-                    ExecuteAttackAction();
-            }
-        }
+            view.SetTargetDirection(currentPlayerPosition);
+            LookDirection = view.XDirection;
+            TargetDirection = (currentPlayerPosition - view.Position);
 
+            if (Weapon != null && Weapon.CheckAction(TargetDirection * LookDirection))
+                ExecuteAttackAction();
+        }
         protected virtual void ExecuteAttackAction() => Weapon.Use(this);
 
         protected override void ActionsOnInteraction(IInteractionResponder interactor)
@@ -173,10 +175,7 @@ namespace WizardsPlatformer
                 interactor.KickOff(0.5f);
             }
         }
-
         public void KickOff(float force) => view.Mover?.GetKickOff(force);
-
-        protected virtual void SetNewPlayerPosition(Vector3 playerPosition) => currentPlayerPosition = playerPosition;
 
         Coroutine IArtifactUser.SetTimer(float time, Action<float> informOnRemainingTime, Coroutine toStop = null)
         {

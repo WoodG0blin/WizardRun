@@ -152,16 +152,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f013fae2ca9a047acc2624de656000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateText: {fileID: 895808184270696961}
+  Message: 
   <Barrel>k__BackingField: {fileID: 5662477467427872952}
-  PatrolPointValue: {x: 0, y: 0, z: 0}
-  PositionValue: {x: 0, y: 0, z: 0}
-  HasContactLeft: 0
-  HasContactRight: 0
-  NoGap: 0
-  xDir: 0
-  Velocity: {x: 0, y: 0}
-  message: 
+  <BarrelRadius>k__BackingField: {fileID: 0}
+  _movementType: 1
+  StateText: 
+  <PatrolOffset>k__BackingField: {x: 2, y: 0}
 --- !u!1 &1600107033191877638
 GameObject:
   m_ObjectHideFlags: 0

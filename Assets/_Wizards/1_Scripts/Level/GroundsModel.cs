@@ -65,7 +65,7 @@ namespace WizardsPlatformer
 
         public void Refresh()
         {
-            foreach (var lo in _levelObjects) lo.Recreate();
+            foreach (var lo in _levelObjects) lo.SetUp();
         }
 
 

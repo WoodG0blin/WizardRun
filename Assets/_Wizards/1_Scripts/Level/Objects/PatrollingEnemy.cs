@@ -1,51 +1,47 @@
 using System;
 using System.Collections;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace WizardsPlatformer
 {
 
-    internal class PatrollingEnemy : ActiveObject, IMovingStateContext
+    internal class PatrollingEnemy : StandingEnemy, IMovingStateContext
     {
-        private new MeleeEnemyView view;
+        private new PatrollingEnemyView view;
 
         private BaseMovingState _currentState;
 
-        private float _patrolDistance;
+        private float _sensingDistance;
         private float _closingDistance;
 
         public PatrollingEnemy(LevelObjectConfig config, Vector2Int gridPosition) : base(config, gridPosition)
         {
-            //weaponArtifact = new Weapon(config.WeaponConfig);
-            //weapon = weaponArtifact.GetExecutor(ArtifactExecutorType.Attack);
-
             _currentState = new IdleState(this);
 
             _closingDistance = this.config.Ammo.ActionRange;
-            _patrolDistance = _closingDistance * 5;
+            _sensingDistance = _closingDistance * 5;
         }
 
         protected override LevelObjectView SetView(GameObject gameObject) =>
-            gameObject.AddComponent<MeleeEnemyView>();
+            gameObject.AddComponent<PatrollingEnemyView>();
 
         protected override void OnInitiateView()
         {
-            view = base.view as MeleeEnemyView;
-            view.Init(config);
-            view.SetUpdateActions(SetAttack);
-            view.AddUpdateActions(() => _currentState.Act());
-            view.AddUpdateActions(() => view.DisplayMessage($"Direction: {Direction}. Weapon check: {Weapon.CheckAction(Direction)}"));
-
-            Barrel = view.Barrel;
-
             base.OnInitiateView();
+            view = base.view as PatrollingEnemyView;
         }
 
-        public override void Destroy()
+        protected override void ActionsOnUpdate()
         {
-            base.Destroy();
-            //view.SetUpdateActions(null);
+            base.ActionsOnUpdate();
+            _currentState.Act();
+            view.Message = $"Direction: {TargetDirection}. Weapon check: {Weapon.CheckAction(TargetDirection)}";
+        }
+        protected override void ExecuteAttackAction()
+        {
+            view.DisplayAttack(() => Weapon.Use(this));
         }
 
         void IMovingStateContext.SetNewState(MovingStates state)
@@ -57,55 +53,24 @@ namespace WizardsPlatformer
                 MovingStates.Pursuing => new PursuingState(this),
                 _ => new StubMovingState(this),
             };
-            view.DisplayState(state.ToString());
+            view.StateText = state.ToString();
         }
 
-        bool IMovingStateContext.IsTargetInSight()
-        {
-            Vector3 targetDirection = currentPlayerPosition - view.Position;
-
-            return
-            (view.XDirection == Mathf.Sign(targetDirection.x)
-            && Vector3.SqrMagnitude(targetDirection) < (_patrolDistance * _patrolDistance)
-            && Mathf.Abs(Vector3.Dot(targetDirection.normalized, Vector3.right * view.XDirection)) > 0.8f);
+        Vector2 IMovingStateContext.TargetApproachDirection
+        { get
+            {
+                var dist = TargetDirection;
+                float closeCoeff = dist.magnitude / _closingDistance;
+                if (closeCoeff > 1) dist *= closeCoeff;
+                return dist;
+            }
         }
+        Vector2 IMovingStateContext.NextPatrolDirection => view.NextPatrolPoint - (Vector2)view.Position;
+        void IMovingStateContext.SwitchPatrolPoint() => view.SwitchPatrolPoint();
+        bool IMovingStateContext.IsTargetInSight => TargetDirection.magnitude < _sensingDistance && view.IsPointAccessable(TargetDirection);
+        bool IMovingStateContext.TryMove(Vector2 target) => view.TryMoveTo(target, Stats.Speed);
 
-        bool IMovingStateContext.IsPathClear(float direction)
-        {
-            float dir = direction == 0 ? view.XDirection : direction;
-            return view.CheckNoGap(dir) && !(dir > 0 ? view.AccessContacts().HasContactRight : view.AccessContacts().HasContactLeft);
-        }
-
-        int IMovingStateContext.GetPatrolDirection()
-        {
-            float moveDirection = view.PatrolPoint.x - view.Position.x;
-
-            if(Mathf.Abs(moveDirection) < _patrolDistance) moveDirection = view.XDirection;
-
-            return moveDirection < 0 ? -1 : 1;
-        }
-
-        int IMovingStateContext.GetPursuingDirection()
-        {
-            float targetDirection = currentPlayerPosition.x - view.Position.x;
-
-            if (isInAttackDistance(targetDirection)) return 0;
-            else return targetDirection < 0 ? -1 : 1;
-        }
-        private bool isInAttackDistance(float targetDirection) =>
-            targetDirection * view.XDirection >= 0 && Mathf.Abs(targetDirection) < _closingDistance;
-
-        void IMovingStateContext.Move(float direction)
-        {
-            view.Mover?.SetInput(new(direction, 0), Stats.Speed);
-        }
-
-        void IMovingStateContext.Fire()
-        {
-            Direction = new(view.XDirection, 0);
-            if (Weapon.IsReady)
-                view.DisplayAttack(() => Weapon.Use(this));
-        }
+        void IMovingStateContext.FlipDirection() => view.Mover.SetInput(new(-LookDirection * 0.01f, 0));
 
         void IMovingStateContext.SetWait(float time, Action onFinish) => 
             view.StartCoroutine(Wait(time, onFinish));
@@ -120,9 +85,6 @@ namespace WizardsPlatformer
             }
             onFinish?.Invoke();
         }
-
-        void IMovingStateContext.FlipDirection() =>
-            view.Mover.SetInput(new(-view.XDirection * 0.01f, 0));
     }
 
 
@@ -134,15 +96,14 @@ namespace WizardsPlatformer
         void SetNewState(MovingStates newState);
         void SetWait(float time, Action onFinish);
 
-        bool IsTargetInSight();
-        bool IsPathClear(float direction);
+        bool IsTargetInSight { get; }
+        Vector2 TargetApproachDirection { get; }
+        Vector2 NextPatrolDirection { get; }
 
-        int GetPatrolDirection();
-        int GetPursuingDirection();
+
+        bool TryMove(Vector2 target);
+        void SwitchPatrolPoint();
         void FlipDirection();
-
-        void Move(float direction);
-        void Fire();
     }
 
 
@@ -182,7 +143,7 @@ namespace WizardsPlatformer
         private void OnFinishIdle()
         {
             context.FlipDirection();
-            context.SetNewState(context.IsTargetInSight() ? MovingStates.Pursuing : MovingStates.Patrolling);
+            context.SetNewState(context.IsTargetInSight ? MovingStates.Pursuing : MovingStates.Patrolling);
             _idling = false;
         }
     }
@@ -193,13 +154,14 @@ namespace WizardsPlatformer
 
         protected override void OnAction()
         {
-            if (context.IsTargetInSight()) context.SetNewState(MovingStates.Pursuing);
+            if (context.IsTargetInSight)
+                context.SetNewState(MovingStates.Pursuing);
             else
-            {
-                int moveDirection = context.GetPatrolDirection();
-                if (context.IsPathClear(moveDirection)) context.Move(moveDirection);
-                else context.SetNewState(MovingStates.Idle);
-            }
+                if (!context.TryMove(context.NextPatrolDirection))
+                {
+                    context.SwitchPatrolPoint();
+                    context.SetNewState(MovingStates.Idle);
+                }
         }
     }
 
@@ -209,15 +171,10 @@ namespace WizardsPlatformer
 
         protected override void OnAction()
         {
-            if (!context.IsTargetInSight() || !context.IsPathClear(0)) context.SetNewState(MovingStates.Idle);
-            else
-            {
-                int direction = context.GetPursuingDirection();
-
-                //if (direction == 0) context.Fire();
-                //else context.Move(direction);
-                context.Move(direction);
-            }
+            var direction = context.TargetApproachDirection;
+            if (!context.TryMove(direction))
+                if(!(direction.magnitude < 0.05f))
+                    context.SetNewState(MovingStates.Idle);
         }
     }
 }
