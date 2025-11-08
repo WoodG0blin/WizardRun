@@ -157,7 +157,13 @@ MonoBehaviour:
   <BarrelRadius>k__BackingField: {fileID: 0}
   _movementType: 1
   StateText: 
+  CheckStepText: 
+  hasObstacle: 0
+  hasGap: 0
   <PatrolOffset>k__BackingField: {x: 2, y: 0}
+  _patrolPoint2: {x: 0, y: 0}
+  _patrolPoint1: {x: 0, y: 0}
+  <NextPatrolPoint>k__BackingField: {x: 0, y: 0}
 --- !u!1 &1600107033191877638
 GameObject:
   m_ObjectHideFlags: 0

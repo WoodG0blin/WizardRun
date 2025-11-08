@@ -21,7 +21,7 @@ namespace WizardsPlatformer
         public IInteractionResponder InteractionResponder { get; set; }
         public Action<IInteractionResponder> OnInteraction { get; set; }
 
-        public Vector3 Position { get => transform.position; }
+        [field: SerializeField] public Vector3 Position => transform.position;
         public float XDirection { get; protected set; }
         //public float XDirection { get => Mathf.Sign(transform.right.x); }
 

@@ -8,20 +8,22 @@ namespace WizardsPlatformer
     {
         public string StateText;
         public string CheckStepText;
+        public bool hasObstacle;
+        public bool hasGap;
         [field: SerializeField] public Vector2 PatrolOffset { get; protected set; }
         
         private LayerMask _groundsLayerMask;
-        private Vector2 _patrolPoint1;
-        private Vector2 _patrolPoint2;
+        [SerializeField] private Vector2 _patrolPoint2;
+        [SerializeField] private Vector2 _patrolPoint1;
 
-        public Vector2 NextPatrolPoint { get; private set; }
+        [field: SerializeField] public Vector2 NextPatrolPoint { get; private set; }
 
         protected override void OnInitiation()
         {
             base.OnInitiation();
 
             Vector3 offset = new(PatrolOffset.x, PatrolOffset.y, 0);
-            _patrolPoint1 = Position + offset;
+            _patrolPoint1 = (Vector2)(Position + offset);
             _patrolPoint2 = Position - offset;
             NextPatrolPoint = _patrolPoint1;
 
@@ -38,7 +40,7 @@ namespace WizardsPlatformer
         public bool TryMoveTo(Vector2 direction, float speed)
         {
             CheckStepText = $"dir {direction}. {CheckStep(direction, Position)}";
-            if (direction.magnitude < 0.05f || !CheckStep(direction, Position)) return false;
+            if (CheckApproach(direction) || !CheckStep(direction, Position)) return false;
             else
             {
                 Mover?.SetInput(direction, speed);
@@ -46,16 +48,21 @@ namespace WizardsPlatformer
             }
         }
 
+        protected virtual bool CheckApproach(Vector2 direction)
+        {
+            return Mathf.Abs(direction.x) < 0.05f;
+        }
+
         protected virtual bool CheckStep(Vector2 direction, Vector3 origin)
         {
             Vector3 checkDirection = new(direction.x, direction.y, 0);
+            checkDirection.Normalize();
             bool res = true;
 
-            Debug.DrawRay(origin, new(direction.x, 0, 0), Color.red, 1f);
-            Debug.DrawRay(origin, new(direction.x, -0.5f, 0), Color.green, 1f);
+            hasObstacle = Physics.Raycast(origin, new(checkDirection.x, 0, 0), 0.5f);
+            hasGap = !Physics.Raycast(origin, new(checkDirection.x, -0.5f, 0), 1.2f, _groundsLayerMask);
 
-            if (Physics.Raycast(origin, new(direction.x, 0, 0), 0.5f)) res = false;
-            //if (!Physics.Raycast(origin, new(direction.x, -0.5f, 0), 1.2f, _groundsLayerMask)) res = false;
+            if (hasObstacle || hasGap) res = false;
             return res;
         }
 
