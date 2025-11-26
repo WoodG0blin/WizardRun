@@ -29,7 +29,7 @@ namespace WizardsPlatformer
 
         public Transform GetBarrelObject() { return _barrel ?? visualBody.Find("Barrel"); }
 
-        public void InitiatePortal(Action onEnter, Vector3 offset)
+        public void InitiatePortal(Action onEnter, Vector2 offset)
         {
             var port = GameObject.Instantiate(_portal, Position + offset, Quaternion.identity, null);
             port.SetActive(true);

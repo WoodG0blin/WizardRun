@@ -139,7 +139,6 @@ namespace WizardsPlatformer
 
             horizontalVelocity = res.x;
             verticalVelocity = res.y;
-            Debug.Log($"Velocity {res}");
         }
 
         protected Vector2 CalculateRotationParameters(Vector2 targetPosition)

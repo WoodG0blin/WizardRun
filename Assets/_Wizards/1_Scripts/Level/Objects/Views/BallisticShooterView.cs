@@ -13,7 +13,7 @@ namespace WizardsPlatformer
             Barrel ??= transform;
         }
 
-        public Vector2 RotateBarrelTowards(Vector3 targetPosition)
+        public Vector2 RotateBarrelTowards(Vector2 targetPosition)
         {
             return targetPosition - Position;
         }

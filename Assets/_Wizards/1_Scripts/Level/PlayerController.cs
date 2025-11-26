@@ -91,7 +91,7 @@ namespace WizardsPlatformer
 
         private void SetExit()
         {
-            _playerView.InitiatePortal(OnPortalExit, new(3,0,0));
+            _playerView.InitiatePortal(OnPortalExit, new(3,0));
         }
 
         protected override void Die()
@@ -116,7 +116,7 @@ namespace WizardsPlatformer
 
             base.OnInitiateView();
 
-            _playerView.InitiatePortal(null, Vector3.zero);
+            _playerView.InitiatePortal(null, Vector2.zero);
         }
 
         protected override void ActionsOnUpdate()

@@ -10,8 +10,10 @@ namespace WizardsPlatformer
         Vector2 Velocity { get; }
 
         void SetInput(Vector2 direction, float speed = 1);
+        float CalculateMoveImpulse(Vector2 direction, float speed);
 
         void Jump(float force);
+        float CalculateJumpImpulse(float speed);
         bool IsGrounded { get; }
         bool IsExecutingJump { get; }
 
@@ -107,7 +109,7 @@ namespace WizardsPlatformer
         {
             if (isControlled && Mathf.Abs(direction.x) > MOVE_THRESHOLD)
             {
-                moveInput.x = Mathf.Clamp(direction.x, -1, 1) * BASE_MOVE_SPEED * speed;
+                moveInput.x = CalculateMoveImpulse(direction, speed);
             }
         }
 
@@ -115,10 +117,12 @@ namespace WizardsPlatformer
         {
             if (isControlled)
             {
-                jumpImpulseInput = Mathf.Sqrt(2 * speed * BASE_MOVE_SPEED * GRAVITY);
+                jumpImpulseInput = CalculateJumpImpulse(speed);
                 jumpTimer = FLUCTUATION_TIME;
             }
         }
+        public float CalculateJumpImpulse(float speed) => Mathf.Sqrt(2 * speed * BASE_MOVE_SPEED * GRAVITY);
+        public float CalculateMoveImpulse(Vector2 direction, float speed) => Mathf.Clamp(direction.x, -1, 1) * BASE_MOVE_SPEED * speed;
 
         public void GetKickOff(float force)
         {

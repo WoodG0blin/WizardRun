@@ -80,7 +80,8 @@ namespace WizardsPlatformer
             SetDrawingGrid();
             SetJointsAndLevelObjects();
 
-            LocalStartPosition = new Vector2Int(1, _elements[0].Height + 2);
+            LocalStartPosition = new Vector2Int(1, _elements[0].Height + 3);
+            Debug.Log($"grounds start position {LocalStartPosition}");
         }
 
         private void Generate()

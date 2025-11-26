@@ -8,9 +8,9 @@ namespace WizardsPlatformer
     {
         [SerializeField] public string Message;
 
-        private Transform _visualBody;
+        [SerializeField] private Transform _visualBody;
         private ContactsPuller3D _contacts;
-        private AnimationController _animator;
+        [SerializeField] private AnimationController _animator;
 
         private Action _onUpdateAction;
 
@@ -21,7 +21,7 @@ namespace WizardsPlatformer
         public IInteractionResponder InteractionResponder { get; set; }
         public Action<IInteractionResponder> OnInteraction { get; set; }
 
-        [field: SerializeField] public Vector3 Position => transform.position;
+        public Vector2 Position => transform.position;
         public float XDirection { get; protected set; }
         //public float XDirection { get => Mathf.Sign(transform.right.x); }
 
@@ -52,9 +52,13 @@ namespace WizardsPlatformer
         }
 
 
-        public void Draw(Vector3 position)
+        public void SetPosition(Vector2 position)
         {
-            transform.position = position;
+            CharacterController c;
+            if (transform.TryGetComponent<CharacterController>(out c)) c.enabled = false;
+            transform.localPosition = position;
+            if(c != null) c.enabled = true;
+            transform.rotation = Quaternion.identity;
             SetActive(true);
         }
         public void SetActive(bool active) => gameObject.SetActive(active);
@@ -82,7 +86,7 @@ namespace WizardsPlatformer
         protected virtual void OnInitiation() { }
 
 
-        public virtual void SetTargetDirection(Vector3 direction) => XDirection = (direction - Position).x > 0 ? 1 : -1;
+        public virtual void SetTargetPoint(Vector2 direction) => XDirection = (direction - Position).x > 0 ? 1 : -1;
 
         
         private void Update()
@@ -127,7 +131,6 @@ namespace WizardsPlatformer
 
         protected virtual void OnCollision(IInteractionResponder interactor) => OnInteraction?.Invoke(interactor);
         protected virtual void OnAnyContact(Transform collided) { }
-
 
         public void Destroy() => GameObject.Destroy(gameObject);
     }

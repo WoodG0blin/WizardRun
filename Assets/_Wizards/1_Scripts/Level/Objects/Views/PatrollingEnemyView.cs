@@ -12,78 +12,83 @@ namespace WizardsPlatformer
         public bool hasGap;
         [field: SerializeField] public Vector2 PatrolOffset { get; protected set; }
         
-        private LayerMask _groundsLayerMask;
-        [SerializeField] private Vector2 _patrolPoint2;
-        [SerializeField] private Vector2 _patrolPoint1;
+        protected LayerMask _groundsLayerMask;
+        [SerializeField] protected Vector2 _patrolPoint2;
+        [SerializeField] protected Vector2 _patrolPoint1;
+        [SerializeField] protected Vector2 _position;
 
-        [field: SerializeField] public Vector2 NextPatrolPoint { get; private set; }
+        [field: SerializeField] public Vector2 NextPatrolPoint { get; protected set; }
 
-        protected override void OnInitiation()
+        protected override sealed void OnInitiation()
         {
             base.OnInitiation();
 
-            Vector3 offset = new(PatrolOffset.x, PatrolOffset.y, 0);
-            _patrolPoint1 = (Vector2)(Position + offset);
-            _patrolPoint2 = Position - offset;
+            _patrolPoint1 = Position + PatrolOffset;
+            _patrolPoint2 = Position - PatrolOffset;
             NextPatrolPoint = _patrolPoint1;
 
             _groundsLayerMask = LayerMask.GetMask("Background");
         }
 
-        protected override void OnUpdate()
+        protected override sealed void OnUpdate()
         {
             //animator.UpdateValues(rigidbody.velocity);
+            _position = Position;
         }
 
-        public void SwitchPatrolPoint() => NextPatrolPoint = NextPatrolPoint == _patrolPoint1 ? _patrolPoint2 : _patrolPoint1;
+        public virtual void SwitchPatrolPoint() => NextPatrolPoint = NextPatrolPoint == _patrolPoint1 ? _patrolPoint2 : _patrolPoint1;
 
-        public bool TryMoveTo(Vector2 direction, float speed)
+        public virtual bool TryMoveTo(Vector2 targetPoint, float speed)
         {
-            CheckStepText = $"dir {direction}. {CheckStep(direction, Position)}";
-            if (CheckApproach(direction) || !CheckStep(direction, Position)) return false;
+            CheckStepText = $"to {targetPoint}. {CheckStep(targetPoint, Position)}";
+            if (CheckApproach(targetPoint, Position) || !CheckStep(targetPoint - Position, Position)) return false;
             else
             {
-                Mover?.SetInput(direction, speed);
+                Mover?.SetInput(targetPoint, speed);
                 return true;
             }
         }
 
-        protected virtual bool CheckApproach(Vector2 direction)
+        protected virtual bool CheckApproach(Vector2 point, Vector2 origin)
         {
-            return Mathf.Abs(direction.x) < 0.05f;
+            return Mathf.Abs(point.x - origin.x) < 0.05f;
         }
 
-        protected virtual bool CheckStep(Vector2 direction, Vector3 origin)
+        protected virtual bool CheckStep(Vector2 direction, Vector2 origin)
         {
-            Vector3 checkDirection = new(direction.x, direction.y, 0);
-            checkDirection.Normalize();
             bool res = true;
+            Vector2 directionNormalized = new(direction.x > 0 ? 1 : -1, 0);
 
-            hasObstacle = Physics.Raycast(origin, new(checkDirection.x, 0, 0), 0.5f);
-            hasGap = !Physics.Raycast(origin, new(checkDirection.x, -0.5f, 0), 1.2f, _groundsLayerMask);
+            hasObstacle = Physics.Raycast(origin, directionNormalized, 0.5f);
+            hasGap = !Physics.Raycast(origin + directionNormalized, Vector3.down, 1.5f, _groundsLayerMask);
 
             if (hasObstacle || hasGap) res = false;
             return res;
         }
 
-        public virtual bool IsPointAccessable(Vector2 direction)
+        public virtual bool IsPointAccessable(Vector2 point)
         {
             float sensitivity = 0.5f;
-            Vector3 step = direction.normalized * sensitivity;
+            Vector2 checkPos = Position;
+            Vector2 direction = point - checkPos;
+            Vector2 step = direction.normalized * sensitivity;
             int steps = Mathf.RoundToInt(direction.magnitude / sensitivity);
 
             bool res = true;
-            for(int i = 1; i < steps; i++)
-                if(!CheckStep(direction, Position + step*i))
+            for (int i = 1; i < steps; i++)
+            {
+                if (!CheckStep(checkPos + step, checkPos))
                 {
                     res = false;
                     break;
                 }
+                checkPos += step;
+            }
 
             return res;
         }
 
-        public override void SetTargetDirection(Vector3 direction)
+        public override sealed void SetTargetPoint(Vector2 direction)
         {
             XDirection = visualBody.right.x;
         }

@@ -62,12 +62,12 @@ namespace WizardsPlatformer
                 var dist = TargetDirection;
                 float closeCoeff = dist.magnitude / _closingDistance;
                 if (closeCoeff > 1) dist *= closeCoeff;
-                return dist;
+                return dist + (Vector2)currentPlayerPosition;
             }
         }
-        Vector2 IMovingStateContext.NextPatrolDirection => view.NextPatrolPoint - (Vector2)view.Position;
+        Vector2 IMovingStateContext.NextPatrolPoint => view.NextPatrolPoint;
         void IMovingStateContext.SwitchPatrolPoint() => view.SwitchPatrolPoint();
-        bool IMovingStateContext.IsTargetInSight => TargetDirection.magnitude < _sensingDistance && view.IsPointAccessable(TargetDirection);
+        bool IMovingStateContext.IsTargetInSight => TargetDirection.magnitude < _sensingDistance && view.IsPointAccessable(currentPlayerPosition);
         bool IMovingStateContext.TryMove(Vector2 target) => view.TryMoveTo(target, Stats.Speed);
 
         void IMovingStateContext.FlipDirection() => view.Mover.SetInput(new(-LookDirection * 0.01f, 0));
@@ -98,7 +98,7 @@ namespace WizardsPlatformer
 
         bool IsTargetInSight { get; }
         Vector2 TargetApproachDirection { get; }
-        Vector2 NextPatrolDirection { get; }
+        Vector2 NextPatrolPoint { get; }
 
 
         bool TryMove(Vector2 target);
@@ -157,7 +157,7 @@ namespace WizardsPlatformer
             if (context.IsTargetInSight)
                 context.SetNewState(MovingStates.Pursuing);
             else
-                if (!context.TryMove(context.NextPatrolDirection))
+                if (!context.TryMove(context.NextPatrolPoint))
                 {
                     context.SwitchPatrolPoint();
                     context.SetNewState(MovingStates.Idle);

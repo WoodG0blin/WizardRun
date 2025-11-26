@@ -33,6 +33,7 @@ namespace WizardsPlatformer
         {
             if(!gameObject.TryGetComponent<LevelObjectView>(out view))
                 view = SetView(gameObject);
+            view.SetPosition(LocalPosition);
 
             OnInitiateView();
 
@@ -51,13 +52,13 @@ namespace WizardsPlatformer
         public new GameObject Prefab => null;
 
         public StubObject(Vector2 position) : base(config: null, position) { }
-        protected override LevelObjectView SetView(GameObject gameObject) => null;
+        protected override LevelObjectView SetView(GameObject gameObject) => gameObject.AddComponent<LevelObjectView>();
     }
 
     internal class SimpleObject : LevelObject
     {
         public SimpleObject(LevelObjectConfig config, Vector2 position) : base(config, position) { }
-        protected override LevelObjectView SetView(GameObject gameObject) => null;
+        protected override LevelObjectView SetView(GameObject gameObject) => gameObject.AddComponent<LevelObjectView>();
     }
 
     internal abstract class InteractableObject : LevelObject
@@ -84,7 +85,7 @@ namespace WizardsPlatformer
 
         public Transform Barrel { get; protected set; }
 
-        protected Vector3 currentPlayerPosition;
+        protected Vector2 currentPlayerPosition;
         protected Action<int> OnReceiveDamage;
         protected Action<Bonus> OnBonusCollect;
 
@@ -158,7 +159,7 @@ namespace WizardsPlatformer
 
         protected virtual void ActionsOnUpdate()
         {
-            view.SetTargetDirection(currentPlayerPosition);
+            view.SetTargetPoint(currentPlayerPosition);
             LookDirection = view.XDirection;
             TargetDirection = (currentPlayerPosition - view.Position);
 

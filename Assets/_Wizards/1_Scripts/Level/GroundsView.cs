@@ -76,8 +76,8 @@ namespace WizardsPlatformer
 
         public void DrawGrounds(SquaresGrid grid, IReadOnlyList<LevelObject> levelObjects)
         {
-            _screenOffset = new Vector2(transform.localPosition.x +0.5f, transform.localPosition.y+0.5f);
-            Vector3 screenOffset = new Vector3(_screenOffset.x, _screenOffset.y + 0.5f, -0.5f);
+            //_screenOffset = new Vector2(transform.localPosition.x +0.5f, transform.localPosition.y+0.5f);
+            //Vector3 screenOffset = new Vector3(_screenOffset.x, _screenOffset.y + 0.5f, -0.5f);
 
             for (int i = 0; i < grid.GetLength(0); i++)
                 for (int j = 0; j < grid.GetLength(1); j++)
@@ -85,19 +85,21 @@ namespace WizardsPlatformer
                     if (grid[i, j].Active)
                     {
                         var temp = grid[i, j].HasBottomBlock ? _groundBlocks.GetFill() : _groundBlocks.GetConnection(grid[i, j].BottomLeft, grid[i, j].BottomRight);
-                        temp.transform.position = new Vector3Int(i, j, 0) + screenOffset;
+                        //temp.transform.position = new Vector3Int(i, j, 0) + screenOffset;
+                        temp.transform.localPosition = new Vector3Int(i, j, 0);
                     }
                 }
 
             _levelObjectViews = new();
-            Vector3 prefabPosition;
+            //Vector3 prefabPosition;
 
             foreach (LevelObject levelObject in levelObjects)
             {
-                prefabPosition = new Vector3((float)levelObject.LocalPosition.x, (float)levelObject.LocalPosition.y, 0) + screenOffset;
+                //prefabPosition = new Vector3((float)levelObject.LocalPosition.x, (float)levelObject.LocalPosition.y, 0) + screenOffset;
 
-                ILevelObjectView view = levelObject.InitiateView(GameObject.Instantiate(levelObject.Prefab, prefabPosition, Quaternion.identity, transform));
-
+                //ILevelObjectView view = levelObject.InitiateView(GameObject.Instantiate(levelObject.Prefab, prefabPosition, Quaternion.identity, transform));
+                var temp = GameObject.Instantiate(levelObject.Prefab, transform);
+                ILevelObjectView view = levelObject.InitiateView(temp);
                 if (view != null) _levelObjectViews.Add(view);
             }
 
