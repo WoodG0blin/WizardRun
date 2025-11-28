@@ -56,15 +56,15 @@ namespace WizardsPlatformer
             view.StateText = state.ToString();
         }
 
-        Vector2 IMovingStateContext.TargetApproachDirection
-        { get
-            {
-                var dist = TargetDirection;
-                float closeCoeff = dist.magnitude / _closingDistance;
-                if (closeCoeff > 1) dist *= closeCoeff;
-                return dist + (Vector2)currentPlayerPosition;
-            }
+        Vector2 IMovingStateContext.TargetApproachDirection => CalculateNextStep();
+        protected virtual Vector2 CalculateNextStep()
+        {
+            var dist = TargetDirection;
+            float closeCoeff = dist.magnitude / _closingDistance;
+            if (closeCoeff > 1) dist *= closeCoeff;
+            return dist + currentPlayerPosition;
         }
+
         Vector2 IMovingStateContext.NextPatrolPoint => view.NextPatrolPoint;
         void IMovingStateContext.SwitchPatrolPoint() => view.SwitchPatrolPoint();
         bool IMovingStateContext.IsTargetInSight => TargetDirection.magnitude < _sensingDistance && view.IsPointAccessable(currentPlayerPosition);
