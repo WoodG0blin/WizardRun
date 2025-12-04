@@ -10,25 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f316a2f5f5c19a2498b17e61a93a296a, type: 3}
-  m_Name: Bonus
+  m_Name: FlyingEnemy
   m_EditorClassIdentifier: 
-  nameTag: Bonus
-  <Type>k__BackingField: 0
-  <Prefab>k__BackingField: {fileID: 6176215044522108244, guid: 379d21930524d754ba000030bbf2f133, type: 3}
-  <MaxHealth>k__BackingField: 0
+  nameTag: Demon
+  <Type>k__BackingField: 20
+  <Prefab>k__BackingField: {fileID: 1510662696951145146, guid: 6f1dac85c75b8e646aac5a07472dd9f0, type: 3}
+  <MaxHealth>k__BackingField: 30
   <SpeedModifier>k__BackingField: 0
   <Defence>k__BackingField: 0
-  <Damage>k__BackingField: 0
+  <Damage>k__BackingField: 10
   <WeaponConfig>k__BackingField:
-    <ActivatorType>k__BackingField: 0
+    <ActivatorType>k__BackingField: 10
     <ExecutionType>k__BackingField: 0
     <TargetParameter>k__BackingField: 0
-    <ActionValue>k__BackingField: 0
-    <CoolDown>k__BackingField: 0
+    <ActionValue>k__BackingField: 20
+    <CoolDown>k__BackingField: 1
     <NameTag>k__BackingField: 
     <AmmoReference>k__BackingField: 
-  <Ammo>k__BackingField: {fileID: 0}
+  <Ammo>k__BackingField: {fileID: 11400000, guid: 199174bd406448342814b86f3f5ef213, type: 2}
   <DifficultyLevel>k__BackingField: 0
   <BonusesOnKill>k__BackingField:
-  - Type: 0
+  - Type: 5
     Value: 1
+  - Type: 0
+    Value: 0

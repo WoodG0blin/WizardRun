@@ -7,7 +7,7 @@ namespace WizardsPlatformer
 {
     public interface ILevelEventAccounter
     {
-        Action<Vector3> OnPlayerPositionChange { get; set; }
+        Action<Vector2> OnPlayerPositionChange { get; set; }
         Action OnExitAvailable { get; set; }
         void AccountForBonus(Bonus bonus);
         void AccountForDamage(int damage);
@@ -32,7 +32,7 @@ namespace WizardsPlatformer
         public Action<float> OnLevelClearanceChanged { get; set; }
         public Action OnExitAvailable { get; set; }
 
-        public Action<Vector3> OnPlayerPositionChange { get; set; }
+        public Action<Vector2> OnPlayerPositionChange { get; set; }
 
         public Action<BonusType, int> OnBonusCollected { get; set; }
 

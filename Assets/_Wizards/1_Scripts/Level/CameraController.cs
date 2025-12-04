@@ -14,7 +14,7 @@ namespace WizardsPlatformer
             _camera.InitBackGrounds(backGroundSprites, Screen.height / camera.orthographicSize);
         }
 
-        public void UpdateToPlayerPosition(Vector3 newPosition)
+        public void UpdateToPlayerPosition(Vector2 newPosition)
         {
             float targetX = newPosition.x;
             float targetY = Mathf.Clamp(newPosition.y, -1f, newPosition.y);

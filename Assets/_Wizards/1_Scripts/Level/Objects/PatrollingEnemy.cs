@@ -6,22 +6,21 @@ using UnityEngine;
 
 namespace WizardsPlatformer
 {
-
     internal class PatrollingEnemy : StandingEnemy, IMovingStateContext
     {
         private new PatrollingEnemyView view;
 
-        private BaseMovingState _currentState;
+        protected BaseMovingState currentState;
 
-        private float _sensingDistance;
-        private float _closingDistance;
+        protected float sensingDistance;
+        protected float closingDistance;
 
         public PatrollingEnemy(LevelObjectConfig config, Vector2Int gridPosition) : base(config, gridPosition)
         {
-            _currentState = new IdleState(this);
+            currentState = new IdleState(this);
 
-            _closingDistance = this.config.Ammo.ActionRange;
-            _sensingDistance = _closingDistance * 5;
+            closingDistance = this.config.Ammo.ActionRange;
+            sensingDistance = closingDistance * 5;
         }
 
         protected override LevelObjectView SetView(GameObject gameObject) =>
@@ -30,13 +29,13 @@ namespace WizardsPlatformer
         protected override void OnInitiateView()
         {
             base.OnInitiateView();
-            view = base.view as PatrollingEnemyView;
+            if (base.view is PatrollingEnemyView v) view = v;
         }
 
         protected override void ActionsOnUpdate()
         {
             base.ActionsOnUpdate();
-            _currentState.Act();
+            currentState.Act();
             view.Message = $"Direction: {TargetDirection}. Weapon check: {Weapon.CheckAction(TargetDirection)}";
         }
         protected override void ExecuteAttackAction()
@@ -46,7 +45,7 @@ namespace WizardsPlatformer
 
         void IMovingStateContext.SetNewState(MovingStates state)
         {
-            _currentState = (view == null ? MovingStates.None : state) switch
+            currentState = (view == null ? MovingStates.None : state) switch
             {
                 MovingStates.Idle => new IdleState(this),
                 MovingStates.Patrolling => new PatrollingState(this),
@@ -60,14 +59,14 @@ namespace WizardsPlatformer
         protected virtual Vector2 CalculateNextStep()
         {
             var dist = TargetDirection;
-            float closeCoeff = dist.magnitude / _closingDistance;
+            float closeCoeff = dist.magnitude / closingDistance;
             if (closeCoeff > 1) dist *= closeCoeff;
             return dist + currentPlayerPosition;
         }
 
         Vector2 IMovingStateContext.NextPatrolPoint => view.NextPatrolPoint;
         void IMovingStateContext.SwitchPatrolPoint() => view.SwitchPatrolPoint();
-        bool IMovingStateContext.IsTargetInSight => TargetDirection.magnitude < _sensingDistance && view.IsPointAccessable(currentPlayerPosition);
+        bool IMovingStateContext.IsTargetInSight => TargetDirection.magnitude < sensingDistance && view.IsPointAccessable(currentPlayerPosition);
         bool IMovingStateContext.TryMove(Vector2 target) => view.TryMoveTo(target, Stats.Speed);
 
         void IMovingStateContext.FlipDirection() => view.Mover.SetInput(new(-LookDirection * 0.01f, 0));

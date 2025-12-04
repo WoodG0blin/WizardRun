@@ -44,9 +44,11 @@ namespace WizardsPlatformer
         public Square this[int x, int y] => _grid[x+1,y+1];
         public int GetLength(byte index) => _grid.GetLength(index)-2;
 
-        public Stack<Vector2Int> GetPath(Vector2Int origin, Vector2Int target, int maxPathCost = 1000)
+        public Stack<Vector2> GetPath(Vector2 origin, Vector2 target, int maxPathCost = 1000)
         {
-            return _pathFinder.CalculatePath(origin, target, _grid, maxPathCost);
+            Vector2Int start = new(Mathf.FloorToInt(origin.x), Mathf.FloorToInt(origin.y));
+            Vector2Int finish = new(Mathf.FloorToInt(target.x), Mathf.FloorToInt(target.y));
+            return _pathFinder.CalculatePath(start, finish, _grid, maxPathCost);
         }
 
         public SquaresGrid Clone() => new(this);
@@ -111,7 +113,7 @@ namespace WizardsPlatformer
 
     internal class PathFinder
     {
-        public Stack<Vector2Int> CalculatePath(Vector2Int origin, Vector2Int target, IPathFinderTile[,] grid, int maxPassableCost = 1000)
+        public Stack<Vector2> CalculatePath(Vector2Int origin, Vector2Int target, IPathFinderTile[,] grid, int maxPassableCost = 1000)
         {
             List<IPathFinderTile> _tilesToCheck = new();
             List<IPathFinderTile> _visited = new();
@@ -151,9 +153,9 @@ namespace WizardsPlatformer
             return SetPath(startTile, startTile);
         }
 
-        private Stack<Vector2Int> SetPath(IPathFinderTile origin, IPathFinderTile target)
+        private Stack<Vector2> SetPath(IPathFinderTile origin, IPathFinderTile target)
         {
-            Stack<Vector2Int> path = new();
+            Stack<Vector2> path = new();
             IPathFinderTile previous = target;
             while (previous != null && previous != origin)
             {

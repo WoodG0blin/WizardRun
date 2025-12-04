@@ -122,10 +122,12 @@ namespace WizardsPlatformer
 
         public override void SetSubscriptions(ILevelEventAccounter subscriber)
         {
-            subscriber.OnPlayerPositionChange += p => currentPlayerPosition = p;
+            subscriber.OnPlayerPositionChange += UpdatePlayerPosition;
             OnBonusCollect = subscriber.AccountForBonus;
             OnReceiveDamage += subscriber.AccountForDamage;
         }
+
+        protected virtual void UpdatePlayerPosition(Vector2 playerPosition) => currentPlayerPosition = playerPosition;
 
         public void ReceiveDamage(int damage)
         {

@@ -110,7 +110,7 @@ namespace WizardsPlatformer
         private void AddDropCollider(float xSize, float ySize)
         {
             var dropCollider = gameObject.AddComponent<CapsuleCollider>();
-            dropCollider.center = new Vector3(transform.position.x + xSize / 2, transform.position.y - 4, -0.5f);
+            dropCollider.center = new Vector3(transform.position.x + xSize / 2, transform.position.y - 4, 0);
             dropCollider.direction = 0;
             dropCollider.height = xSize + 8;
             dropCollider.radius = 0.1f;
