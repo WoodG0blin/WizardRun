@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -171,5 +172,7 @@ namespace WizardsPlatformer
             }
             return _elements[_elements.Count - 1];
         }
+
+        public SquaresGrid GetGridClone() => _grid.Clone();
     }
 }

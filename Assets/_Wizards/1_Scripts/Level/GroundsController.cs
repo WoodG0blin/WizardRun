@@ -12,6 +12,7 @@ namespace WizardsPlatformer
         void AccountForBonus(Bonus bonus);
         void AccountForDamage(int damage);
         void SetLevelCleared();
+        SquaresGrid CopyGrid();
     }
 
     internal class GroundsController : ILevelEventAccounter
@@ -84,5 +85,7 @@ namespace WizardsPlatformer
         }
 
         void ILevelEventAccounter.SetLevelCleared() => onLevelCleared?.Invoke();
+
+        public SquaresGrid CopyGrid() => _groundsModel.GetGridClone();
     }
 }
