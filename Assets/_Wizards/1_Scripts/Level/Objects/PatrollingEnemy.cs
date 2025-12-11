@@ -52,11 +52,15 @@ namespace WizardsPlatformer
                 MovingStates.Pursuing => new PursuingState(this),
                 _ => new StubMovingState(this),
             };
+            OnNewState(state);
+        }
+        protected virtual void OnNewState(MovingStates state)
+        {
             view.StateText = state.ToString();
         }
 
-        Vector2 IMovingStateContext.TargetApproachDirection => CalculateNextStep();
-        protected virtual Vector2 CalculateNextStep()
+        Vector2 IMovingStateContext.TargetApproachDirection => SetTargetApproachDirection();
+        protected virtual Vector2 SetTargetApproachDirection()
         {
             var dist = TargetDirection;
             float closeCoeff = dist.magnitude / closingDistance;
@@ -67,7 +71,8 @@ namespace WizardsPlatformer
         Vector2 IMovingStateContext.NextPatrolPoint => view.NextPatrolPoint;
         void IMovingStateContext.SwitchPatrolPoint() => view.SwitchPatrolPoint();
         bool IMovingStateContext.IsTargetInSight => TargetDirection.magnitude < sensingDistance && view.IsPointAccessable(currentPlayerPosition);
-        bool IMovingStateContext.TryMove(Vector2 target) => view.TryMoveTo(target, Stats.Speed);
+        bool IMovingStateContext.TryMove(Vector2 target) => view.TryMoveTo(CalculateNextStep(target), Stats.Speed);
+        protected virtual Vector2 CalculateNextStep(Vector2 targetPoint) => targetPoint;
 
         void IMovingStateContext.FlipDirection() => view.Mover.SetInput(new(-LookDirection * 0.01f, 0));
 
