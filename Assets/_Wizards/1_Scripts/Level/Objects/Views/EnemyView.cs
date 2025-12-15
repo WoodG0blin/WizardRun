@@ -15,10 +15,10 @@ namespace WizardsPlatformer
             SetMover(_movementType);
         }
 
-        public override void SetTargetPoint(Vector2 direction)
-        {
-            base.SetTargetPoint(direction);
-            BarrelRadius.right = (direction - Position).normalized;
-        }
+        //public override void SetLookDirection(Vector2 direction)
+        //{
+        //    base.SetLookDirection(direction);
+        //    BarrelRadius.right = (direction - Position).normalized;
+        //}
     }
 }

@@ -1937,9 +1937,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a4da78b21ed1664ea2ef08cb6b45e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelFactory: {fileID: 7910444846382188182}
+  _levelFactory: {fileID: 1575243304}
   _inputConfig: {fileID: 11400000, guid: c99220445b1f29a4a8745e314b8d6465, type: 2}
-  _groundsView: {fileID: 7910444846382188180}
+  _groundsView: {fileID: 1575243305}
   _levelUI: {fileID: 1438782819}
 --- !u!114 &519420036
 MonoBehaviour:
@@ -3275,7 +3275,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36.85
+  m_fontSize: 31.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4468,6 +4468,65 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1575243303
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1575243306}
+  - component: {fileID: 1575243305}
+  - component: {fileID: 1575243304}
+  m_Layer: 0
+  m_Name: Grounds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1575243304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575243303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 291030d7d5b28724f8020395ba49a6ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bonus: {fileID: 11400000, guid: 4d974c7306952a54a9a52604a7f08307, type: 2}
+  _bossGrounds: {fileID: 11400000, guid: b8f49277938abe2498152fcece1084d8, type: 2}
+--- !u!114 &1575243305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575243303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45d2264a68d5eb94997bda2110bd8ebe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1575243306
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575243303}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1576824657
 GameObject:
   m_ObjectHideFlags: 0
@@ -6436,39 +6495,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &907993919578669106
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 907993919578669116}
-  - component: {fileID: 7910444846382188180}
-  - component: {fileID: 7910444846382188182}
-  m_Layer: 0
-  m_Name: Grounds
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &907993919578669116
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 907993919578669106}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -6, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1064336006436957946
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8100,32 +8126,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7910444846382188180
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 907993919578669106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28b9834fb420f2a49adc58d78c2b00d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7910444846382188182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 907993919578669106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 291030d7d5b28724f8020395ba49a6ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bonus: {fileID: 11400000, guid: 4d974c7306952a54a9a52604a7f08307, type: 2}
-  _bossGrounds: {fileID: 11400000, guid: b8f49277938abe2498152fcece1084d8, type: 2}
 --- !u!114 &8008673532164924080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8413,7 +8413,7 @@ SceneRoots:
   - {fileID: 581524172}
   - {fileID: 1733137090}
   - {fileID: 758124955}
-  - {fileID: 907993919578669116}
+  - {fileID: 1575243306}
   - {fileID: 502760475}
   - {fileID: 2055185945}
   - {fileID: 1438782823}

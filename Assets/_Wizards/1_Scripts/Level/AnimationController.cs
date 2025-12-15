@@ -6,13 +6,13 @@ namespace WizardsPlatformer
 {
     public class AnimationController : MonoBehaviour
     {
-        private Animator _animator;
+        [SerializeField] private Animator _animator;
         private bool _isAnimated;
 
        
         internal void Init()
         {
-            _animator = transform.GetComponent<Animator>();
+            _animator ??= transform.GetComponent<Animator>();
             _isAnimated = _animator != null;
         }
 

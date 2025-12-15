@@ -17,5 +17,15 @@ namespace WizardsPlatformer
             Barrel = view.Barrel;
             base.OnInitiateView();
         }
+
+        protected override void ActionsOnUpdate()
+        {
+            base.ActionsOnUpdate();
+            view.SetLookDirection(currentPlayerPosition);
+
+            if (Weapon != null && Weapon.CheckAction(TargetDirection * view.XDirection))
+                ExecuteAttackAction();
+
+        }
     }
 }

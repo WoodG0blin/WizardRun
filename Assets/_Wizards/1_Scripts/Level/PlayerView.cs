@@ -18,7 +18,7 @@ namespace WizardsPlatformer
 
         protected override void OnInitiation()
         {
-            Mover = new ViewMover(visualBody);
+            SetMover(MovementType.Simple);
         }
 
         protected override void OnUpdate()
@@ -33,19 +33,15 @@ namespace WizardsPlatformer
         {
             var port = GameObject.Instantiate(_portal, Position + offset, Quaternion.identity, null);
             port.SetActive(true);
-            port.OnInteraction += interactor =>
-            {
-                if (interactor.IsPlayer)
+
+            if (onEnter == null)
+                StartCoroutine(ClosePortal(port));
+            else
+                port.OnInteraction += interactor =>
                 {
-                    if (onEnter == null)
-                        StartCoroutine(ClosePortal(port));
-                    else
-                    {
-                        port.SetActive(false);
-                        onEnter.Invoke();
-                    }
-                }
-            };
+                    port.SetActive(false);
+                    onEnter.Invoke();
+                };
         }
 
         private IEnumerator ClosePortal(LevelObjectView port)

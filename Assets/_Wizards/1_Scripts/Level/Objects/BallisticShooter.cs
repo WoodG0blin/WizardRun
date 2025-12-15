@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 namespace WizardsPlatformer
 {
-    internal class BallisticShooter : ActiveObject
+    internal class BallisticShooter : StandingEnemy
     {
         private new EnemyView view;
 
@@ -17,11 +17,8 @@ namespace WizardsPlatformer
 
         protected override void OnInitiateView()
         {
-            view = base.view as EnemyView;
-
-            Barrel = view.Barrel;
-
             base.OnInitiateView();
+            view = base.view as EnemyView;
         }
     }
 }

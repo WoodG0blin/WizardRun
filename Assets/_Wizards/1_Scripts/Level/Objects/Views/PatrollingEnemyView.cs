@@ -88,10 +88,10 @@ namespace WizardsPlatformer
             return res;
         }
 
-        public override sealed void SetTargetPoint(Vector2 direction)
-        {
-            XDirection = visualBody.right.x;
-        }
+        //public override sealed void SetLookDirection(Vector2 direction)
+        //{
+        //    XDirection = visualBody.right.x;
+        //}
 
         public void DisplayAttack(Action onAttackPositionReady) =>
             animator.TriggerAnimation(ActionState.Attack, () => onAttackPositionReady());

@@ -9,7 +9,6 @@ namespace WizardsPlatformer
         [SerializeField] public string Message;
 
         [SerializeField] private Transform _visualBody;
-        private ContactsPuller3D _contacts;
         [SerializeField] private AnimationController _animator;
 
         private Action _onUpdateAction;
@@ -33,8 +32,8 @@ namespace WizardsPlatformer
                 {
                     _animator = transform.GetComponentInChildren<AnimationController>();
                     if (_animator == null) _animator = transform.AddComponent<AnimationController>();
-                    _animator.Init();
                 }
+                _animator.Init();
                 return _animator;
             }
         }
@@ -77,8 +76,8 @@ namespace WizardsPlatformer
         {
             Mover = type switch
             {
-                MovementType.Simple => new ViewMover(visualBody),
-                MovementType.Flying => new FlyingViewMover(visualBody),
+                MovementType.Simple => new ViewMover(transform, SetTransformDirection),
+                MovementType.Flying => new FlyingViewMover(transform, SetTransformDirection),
                 _ => null
             };
             if (Mover != null) Mover.OnRequestReset = SetMover;
@@ -86,7 +85,16 @@ namespace WizardsPlatformer
         protected virtual void OnInitiation() { }
 
 
-        public virtual void SetTargetPoint(Vector2 direction) => XDirection = (direction - Position).x > 0 ? 1 : -1;
+        public virtual void SetLookDirection(Vector2 direction)
+        {
+            if (Mover == null) SetTransformDirection(direction - Position);
+        }
+
+        protected void SetTransformDirection(Vector2 direction)
+        {
+            visualBody.right = direction.normalized;
+            XDirection = visualBody.right.x > 0 ? 1 : -1;
+        }
 
         
         private void Update()
@@ -99,14 +107,6 @@ namespace WizardsPlatformer
             }
         }
         protected virtual void OnUpdate() { }
-
-
-        public IContactsPuller AccessContacts()
-        {
-            _contacts ??= new ContactsPuller3D(visualBody);
-            _contacts.Update();
-            return _contacts;
-        }
 
 
         private void OnCollisionEnter(Collision collision)

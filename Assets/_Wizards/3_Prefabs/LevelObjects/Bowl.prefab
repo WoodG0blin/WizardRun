@@ -329,5 +329,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e42d12a156ea926429f71481f1392657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Message: 
+  _visualBody: {fileID: 1226976853930686982}
+  _animator: {fileID: 0}
   <Barrel>k__BackingField: {fileID: 4476576660310561174}
   <BarrelRadius>k__BackingField: {fileID: 1226976853930686982}
+  _movementType: 0

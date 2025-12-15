@@ -90,7 +90,6 @@ namespace WizardsPlatformer
         protected Action<Bonus> OnBonusCollect;
 
         public bool IsPlayer { get; protected set; }
-        public float LookDirection { get; protected set; }
         public Vector2 TargetDirection { get; protected set; }
         public IViewMover Mover => view.Mover;
 
@@ -161,12 +160,7 @@ namespace WizardsPlatformer
 
         protected virtual void ActionsOnUpdate()
         {
-            view.SetTargetPoint(currentPlayerPosition);
-            LookDirection = view.XDirection;
             TargetDirection = (currentPlayerPosition - view.Position);
-
-            if (Weapon != null && Weapon.CheckAction(TargetDirection * LookDirection))
-                ExecuteAttackAction();
         }
         protected virtual void ExecuteAttackAction() => Weapon.Use(this);
 

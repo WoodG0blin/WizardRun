@@ -49,8 +49,8 @@ namespace WizardsPlatformer
         protected Vector2 moveInput;
         protected float jumpImpulseInput;
 
-        protected Transform _transform;
-
+        protected Transform transform;
+        protected Action<Vector2> setLook;
         public bool IsGrounded => groundedTimer > 0;
         public bool IsExecutingJump => moveInput.y > MOVE_THRESHOLD;
         public Vector2 Velocity => moveInput;
@@ -58,12 +58,13 @@ namespace WizardsPlatformer
         public Action<MovementType> OnRequestReset { get; set; }
         public MovementType Type { get; protected set; }
 
-        internal ViewMover(Transform levelObject)
+        internal ViewMover(Transform levelObject, Action<Vector2> onLookChange)
         {
-            _transform = levelObject;
+            transform = levelObject;
+            setLook = onLookChange;
             Type = MovementType.Simple;
 
-            if (!_transform.TryGetComponent<CharacterController>(out characterController)) characterController = _transform.AddComponent<CharacterController>();
+            if (!transform.TryGetComponent<CharacterController>(out characterController)) characterController = transform.AddComponent<CharacterController>();
         }
 
         public virtual void Update(float deltaTime)
@@ -82,7 +83,7 @@ namespace WizardsPlatformer
 
             //FaceForward if not in uncontrolled kickOff & with enough movement force
             if (isControlled && Mathf.Abs(moveInput.x) > MOVE_THRESHOLD)
-                _transform.forward = (Vector3.forward * moveInput.x).normalized;
+                setLook((new Vector2(moveInput.x, 0)).normalized);
 
             if (jumpTimer > 0)
             {
@@ -134,7 +135,7 @@ namespace WizardsPlatformer
 
     public class FlyingViewMover : ViewMover
     {
-        public FlyingViewMover(Transform levelObject) : base(levelObject) { Type = MovementType.Flying; }
+        public FlyingViewMover(Transform levelObject, Action<Vector2> onLookChange) : base(levelObject, onLookChange) { Type = MovementType.Flying; }
 
         public override void Update(float deltaTime)
         {
@@ -150,7 +151,8 @@ namespace WizardsPlatformer
 
             //FaceForward if not in uncontrolled kickOff & with enough movement force
             if (isControlled && Mathf.Abs(moveInput.x) > MOVE_THRESHOLD)
-                _transform.forward = (Vector3.forward * moveInput.x).normalized;
+                setLook((new Vector2(moveInput.x, 0)).normalized);
+                //setLook(moveInput.normalized);
 
 
             characterController.Move(new Vector3(moveInput.x, moveInput.y, 0) * deltaTime);

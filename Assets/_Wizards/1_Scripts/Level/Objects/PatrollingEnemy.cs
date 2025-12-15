@@ -74,7 +74,6 @@ namespace WizardsPlatformer
         bool IMovingStateContext.TryMove(Vector2 target) => view.TryMoveTo(CalculateNextStep(target), Stats.Speed);
         protected virtual Vector2 CalculateNextStep(Vector2 targetPoint) => targetPoint;
 
-        void IMovingStateContext.FlipDirection() => view.Mover.SetInput(new(-LookDirection * 0.01f, 0));
 
         void IMovingStateContext.SetWait(float time, Action onFinish) => 
             view.StartCoroutine(Wait(time, onFinish));
@@ -107,7 +106,6 @@ namespace WizardsPlatformer
 
         bool TryMove(Vector2 target);
         void SwitchPatrolPoint();
-        void FlipDirection();
     }
 
 
@@ -146,7 +144,6 @@ namespace WizardsPlatformer
 
         private void OnFinishIdle()
         {
-            context.FlipDirection();
             context.SetNewState(context.IsTargetInSight ? MovingStates.Pursuing : MovingStates.Patrolling);
             _idling = false;
         }

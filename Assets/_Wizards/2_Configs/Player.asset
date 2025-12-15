@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameTag: player
   <Type>k__BackingField: 0
-  <Prefab>k__BackingField: {fileID: 712456408780077035, guid: b1d31c8adf74feb459de6ad5df8ca0de, type: 3}
+  <Prefab>k__BackingField: {fileID: 3918359173992967653, guid: f5cd342c2a6b2564fabf8e9058653b07, type: 3}
   <MaxHealth>k__BackingField: 300
   <SpeedModifier>k__BackingField: 0
   <Defence>k__BackingField: 0

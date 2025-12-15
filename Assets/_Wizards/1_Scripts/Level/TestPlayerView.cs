@@ -8,7 +8,7 @@ namespace WizardsPlatformer
 
         private void Start()
         {
-            mover = new(transform);
+            mover = new(transform, v => { });
         }
 
         private void Update()

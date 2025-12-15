@@ -330,6 +330,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Message: 
+  _visualBody: {fileID: 1226976853930686982}
+  _animator: {fileID: 0}
   <Barrel>k__BackingField: {fileID: 4476576660310561174}
   <BarrelRadius>k__BackingField: {fileID: 1226976853930686982}
   _movementType: 0
